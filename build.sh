@@ -1,0 +1,3 @@
+ninja -t clean
+ninja
+

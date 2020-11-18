@@ -1,0 +1,50 @@
+cflags = -O0 $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags freetype2) -g
+lflags = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew) $$(pkg-config --libs freetype2)
+
+rule cc
+  command = c++ -c $in -o $out $cflags
+
+rule lnk
+  command = c++ -o out $in $lflags
+
+
+
+build main.o: cc main.cpp
+build inputmanager.o: cc InputManager.cpp
+build button.o: cc Button.cpp
+build inputbox.o: cc InputBox.cpp
+build player.o: cc Player.cpp
+build chunk.o: cc Chunk.cpp
+build shader.o: cc Shader.cpp
+build model.o: cc Model.cpp
+build modelshader.o: cc ModelShader.cpp
+build utils.o: cc Utils.cpp
+build transform.o: cc Transform.cpp
+build objloader.o: cc OBJLoader.cpp
+build chunkshader.o: cc ChunkShader.cpp
+build game.o: cc Game.cpp
+build window.o: cc Window.cpp
+build camera.o: cc Camera.cpp
+build world.o: cc World.cpp
+build cubemap.o: cc CubeMap.cpp
+build cubemaprenderer.o: cc CubeMapRenderer.cpp
+build cubemapshader.o: cc CubeMapShader.cpp
+build cubemaptexture.o: cc CubeMapTexture.cpp
+build modelrenderer.o: cc ModelRenderer.cpp
+build particlerenderer.o: cc ParticleRenderer.cpp
+build particle.o: cc Particle.cpp
+build particlequad.o: cc ParticleQuad.cpp
+build particleshader.o: cc ParticleShader.cpp
+build guibutton.o: cc GUIButton.cpp
+build guifont.o: cc GUIFont.cpp
+build guifontrenderer.o: cc GUIFontRenderer.cpp
+build guifontshader.o: cc GUIFontShader.cpp
+build guihandler.o: cc GUIHandler.cpp
+build guirenderer.o: cc GUIRenderer.cpp
+build guishader.o: cc GUIShader.cpp
+build pausemenu.o: cc PauseMenu.cpp
+build image.o: cc Image.cpp
+build checkbox.o: cc GUICheckbox.cpp
+build slider.o: cc GUISlider.cpp
+
+build out: lnk main.o inputmanager.o button.o inputbox.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o image.o checkbox.o slider.o

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DeathSwap" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/DeathSwap" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/DeathSwap" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Button.cpp" />
+		<Unit filename="Button.hpp" />
+		<Unit filename="Camera.cpp" />
+		<Unit filename="Camera.hpp" />
+		<Unit filename="Chunk.cpp" />
+		<Unit filename="Chunk.hpp" />
+		<Unit filename="ChunkShader.cpp" />
+		<Unit filename="ChunkShader.hpp" />
+		<Unit filename="Constants.hpp" />
+		<Unit filename="CubeMap.cpp" />
+		<Unit filename="CubeMap.hpp" />
+		<Unit filename="CubeMapRenderer.cpp" />
+		<Unit filename="CubeMapRenderer.hpp" />
+		<Unit filename="CubeMapShader.cpp" />
+		<Unit filename="CubeMapShader.hpp" />
+		<Unit filename="CubeMapTexture.cpp" />
+		<Unit filename="CubeMapTexture.hpp" />
+		<Unit filename="GUIButton.cpp" />
+		<Unit filename="GUIButton.hpp" />
+		<Unit filename="GUICheckbox.cpp" />
+		<Unit filename="GUICheckbox.hpp" />
+		<Unit filename="GUIFont.cpp" />
+		<Unit filename="GUIFont.hpp" />
+		<Unit filename="GUIFontRenderer.cpp" />
+		<Unit filename="GUIFontRenderer.hpp" />
+		<Unit filename="GUIFontShader.cpp" />
+		<Unit filename="GUIFontShader.hpp" />
+		<Unit filename="GUIHandler.cpp" />
+		<Unit filename="GUIHandler.hpp" />
+		<Unit filename="GUIRenderer.cpp" />
+		<Unit filename="GUIRenderer.hpp" />
+		<Unit filename="GUIShader.cpp" />
+		<Unit filename="GUIShader.hpp" />
+		<Unit filename="GUISlider.cpp" />
+		<Unit filename="GUISlider.hpp" />
+		<Unit filename="Game.cpp" />
+		<Unit filename="Game.hpp" />
+		<Unit filename="GameStates.hpp" />
+		<Unit filename="Image.cpp" />
+		<Unit filename="Image.hpp" />
+		<Unit filename="InputBox.cpp" />
+		<Unit filename="InputBox.hpp" />
+		<Unit filename="InputManager.cpp" />
+		<Unit filename="InputManager.hpp" />
+		<Unit filename="Model.cpp" />
+		<Unit filename="Model.hpp" />
+		<Unit filename="ModelRenderer.cpp" />
+		<Unit filename="ModelRenderer.hpp" />
+		<Unit filename="ModelShader.cpp" />
+		<Unit filename="ModelShader.hpp" />
+		<Unit filename="OBJLoader.cpp" />
+		<Unit filename="OBJLoader.hpp" />
+		<Unit filename="Particle.cpp" />
+		<Unit filename="Particle.hpp" />
+		<Unit filename="ParticleQuad.cpp" />
+		<Unit filename="ParticleQuad.hpp" />
+		<Unit filename="ParticleRenderer.cpp" />
+		<Unit filename="ParticleRenderer.hpp" />
+		<Unit filename="ParticleShader.cpp" />
+		<Unit filename="ParticleShader.hpp" />
+		<Unit filename="PauseMenu.cpp" />
+		<Unit filename="PauseMenu.hpp" />
+		<Unit filename="Player.cpp" />
+		<Unit filename="Player.hpp" />
+		<Unit filename="Settings.hpp" />
+		<Unit filename="Shader.cpp" />
+		<Unit filename="Shader.hpp" />
+		<Unit filename="Transform.cpp" />
+		<Unit filename="Transform.hpp" />
+		<Unit filename="Utils.cpp" />
+		<Unit filename="Utils.hpp" />
+		<Unit filename="Vertex.hpp" />
+		<Unit filename="Window.cpp" />
+		<Unit filename="Window.hpp" />
+		<Unit filename="World.cpp" />
+		<Unit filename="World.hpp" />
+		<Unit filename="main.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

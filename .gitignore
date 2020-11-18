@@ -1,0 +1,6 @@
+.build.ninja.swp
+.ninja_deps
+.ninja_log
+.vscode/
+*.o
+out
