@@ -20,6 +20,12 @@ int main(){
 	}
 	*/
 
+	//Primitive Variables
+	float deltaTime;
+
+	//SFML Variables
+	sf::Clock clock;
+
 	//Program Variables
 	Game game;
 	Window window;
@@ -27,15 +33,14 @@ int main(){
 	InputManager manager;
 	GUIFont font;
 	GameStates state;
-	sf::Clock clock;
-	float deltaTime;
+	Settings settings;
 
 	//Initializing objects
 	window.init();
 	clock.restart();
 	font.init("res/fonts/thinfont-thin.ttf");
 	game.init(&font);
-	pause.init(&font);
+	pause.init(&font, settings);
 	state = GameStates::PLAY;
 
 	while(state != GameStates::EXIT){
@@ -48,13 +53,13 @@ int main(){
 			deltaTime = clock.restart().asSeconds();
 
 			game.update(window.window, manager, deltaTime, state);
-			game.render(deltaTime);
+			game.render(settings, deltaTime);
 
 			break;
 			case GameStates::PAUSE:
 
-			pause.update(window.window, manager, state);
-			game.render(deltaTime);
+			pause.update(window.window, manager, state, settings);
+			game.render(settings, deltaTime);
 			pause.render();
 
 			break;

@@ -12,6 +12,7 @@
 #include "ModelRenderer.hpp"
 #include "ParticleRenderer.hpp"
 #include "GameStates.hpp"
+#include "Settings.hpp"
 #include "GUIHandler.hpp"
 
 class Game {
@@ -19,7 +20,7 @@ public:
 
      void init(GUIFont* font);
      void update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state);
-     void render(float deltaTime);
+     void render(Settings& settings, float deltaTime);
      void destroy();
 
      //Game functions
@@ -31,7 +32,7 @@ private:
 
      //Game functions
      void calcFps();
-     
+
      //Engine Variables
      World m_world;
      Player m_player;

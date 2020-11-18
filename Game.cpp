@@ -23,9 +23,9 @@ void Game::update(sf::Window& window, InputManager& manager, float deltaTime, Ga
 	if(manager.isKeyPressed(sf::Keyboard::Escape)){
 		window.setMouseCursorGrabbed(false);
 	     window.setMouseCursorVisible(true);
-		state = GameStates::PAUSE;	
+		state = GameStates::PAUSE;
 	}
-	
+
 	m_player.update(window, m_colors, m_particleRenderer, manager, m_world, deltaTime);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
@@ -33,7 +33,7 @@ void Game::update(sf::Window& window, InputManager& manager, float deltaTime, Ga
 	m_handler.update(window, manager);
 }
 
-void Game::render(float deltaTime){
+void Game::render(Settings& settings, float deltaTime){
 	m_cubeMap.render(m_player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_player.camera.getViewMatrix())));
 	m_world.render(m_player.camera, m_colors);
 	m_particleRenderer.render(m_colors[113], m_player.camera);
@@ -45,7 +45,7 @@ void Game::render(float deltaTime){
 	m_handler.render();
 
 	//Rendering FPS
-	m_handler.renderFont(m_fpsString.c_str(), 200, 200, 1.0f, ColorRGBA8(255, 255, 255, 255));
+	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 200, 200, 1.0f, ColorRGBA8(255, 255, 255, 255));
 
 }
 

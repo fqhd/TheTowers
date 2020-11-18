@@ -1,10 +1,11 @@
 #include "GUICheckbox.hpp"
 #include "Constants.hpp"
 
-GUICheckbox::GUICheckbox(const glm::vec4& destRect, const ColorRGBA8& onColor, const ColorRGBA8& offColor){
+GUICheckbox::GUICheckbox(const glm::vec4& destRect, const ColorRGBA8& onColor, const ColorRGBA8& offColor, bool isChecked){
      m_destRect = destRect;
      m_onColor = onColor;
      m_offColor = offColor;
+	m_isChecked = isChecked;
 }
 
 void GUICheckbox::update(sf::Window& window, InputManager& manager){
