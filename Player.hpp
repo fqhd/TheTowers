@@ -19,7 +19,7 @@ public:
 private:
 
 
-     float m_speed = 3.5f;
+     float m_speed = 5.5f;
      char m_selectedBlock = 96;
 
 };

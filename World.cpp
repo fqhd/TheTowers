@@ -131,6 +131,24 @@ void World::setBlock(int x, int y, int z, char block){
 
           chunks[posZ][posX].needsUpdate = true;
 
+		if(x % CHUNK_WIDTH == 0){
+			Chunk* chunk = getChunk(posX - 1, posZ);
+			if(chunk) chunk->needsUpdate = true;
+		}
+		if((x + 1) % CHUNK_WIDTH == 0){
+			Chunk* chunk = getChunk(posX + 1, posZ);
+			if(chunk) chunk->needsUpdate = true;
+		}
+		if(z % CHUNK_WIDTH == 0){
+			Chunk* chunk = getChunk(posX, posZ - 1);
+			if(chunk) chunk->needsUpdate = true;
+		}
+		if((z + 1) % CHUNK_WIDTH == 0){
+			Chunk* chunk = getChunk(posX, posZ + 1);
+			if(chunk) chunk->needsUpdate = true;
+		}
+
+
 
      }
 
