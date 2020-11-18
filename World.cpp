@@ -117,7 +117,7 @@ char World::getBlock(int x, int y, int z){
 		return m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x];
 	}
 
-	return 0;
+	return 1;
 }
 
 void World::setBlock(int x, int y, int z, char block){
