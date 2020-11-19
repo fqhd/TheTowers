@@ -1,24 +1,25 @@
 #include "GUIFont.hpp"
+#include <stdio.h>
 
 void GUIFont::init(const char* path){
 
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 	{
-		Utils::log(CONSOLE, "Failed to init true type font");
+		printf("Failed to init true type font");
 	}
 
 	FT_Face face;
 	if (FT_New_Face(ft, path, 0, &face))
 	{
-		Utils::log(CONSOLE, "Failed to create new face");
+		printf("Failed to create new face");
 	}
 
 	FT_Set_Pixel_Sizes(face, 0, 48);
 
 	if (FT_Load_Char(face, 'X', FT_LOAD_RENDER))
 	{
-		Utils::log(CONSOLE, "Failed to load in char");
+		printf("Failed to load char");
 	}
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -26,7 +27,7 @@ void GUIFont::init(const char* path){
 	for (unsigned char c = 0; c < 128; c++){
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
 		{
-			Utils::log(CONSOLE, "Failed to load in character");
+			printf("Failed to load in character");
 			continue;
 		}
 		unsigned int texture;

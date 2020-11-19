@@ -9,12 +9,11 @@ void Player::init(){
     position = glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2);
 }
 
-void Player::update(sf::Window& window, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime){
-
+void Player::update(sf::Window& window, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID){
 
 	movement(deltaTime);
 	calculateCameraVectors(window);
-	breakBlocks(colors, renderer, manager, world);
+	breakBlocks(colors, renderer, manager, world, blockID);
 
 }
 
@@ -77,18 +76,18 @@ void Player::movement(float deltaTime){
 
 }
 
-void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world){
+void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, uint8_t b){
 
      //Breaking blocks
      if(manager.isKeyPressed(sf::Mouse::Left)){
           glm::vec3 rayPosition = camera.m_position;
           for(unsigned int i = 0; i < PRECISION; i++){
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);
-               char blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
+               uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
                if(blockID){
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
                     for(unsigned int j = 0; j < 100; j++){
-                         renderer.particles.push_back(Particle(colors[blockID - 1], glm::vec3((int)rayPosition.x, (int)rayPosition.y,
+                         renderer.particles.push_back(Particle(colors[blockID], glm::vec3((int)rayPosition.x, (int)rayPosition.y,
                          (int)rayPosition.z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10,
                          (rand()%10) - 5) * 0.20f, 1.25f, 1.0f, 0.0f, 0.125f));
                     }
@@ -103,7 +102,7 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);
                if(world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z)){
                     rayPosition -= camera.m_forward * (DISTANCE / (float)PRECISION);
-                    world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, m_selectedBlock);
+                    world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, b);
                     break;
 
                }

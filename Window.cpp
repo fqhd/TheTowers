@@ -10,7 +10,7 @@ void Window::init(){
 	window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Window", sf::Style::Titlebar | sf::Style::Close, settings);
 	glewInit();
 	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width / 2) - window.getSize().x/2, (sf::VideoMode::getDesktopMode().height / 2) - window.getSize().y/2));
-	window.setVerticalSyncEnabled(true);
+	window.setVerticalSyncEnabled(false);
 	window.setMouseCursorGrabbed(true);
 	window.setMouseCursorVisible(false);
 	sf::Mouse::setPosition(sf::Vector2i(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), window);

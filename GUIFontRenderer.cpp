@@ -18,6 +18,8 @@ void GUIFontRenderer::render(GUIFont& font, const std::string& text, float x, fl
 {
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(m_vaoID);
+    glDisable(GL_DEPTH_TEST);
+    glCullFace(GL_FALSE);
 
     // iterate through all characters
     std::string::const_iterator c;
@@ -25,8 +27,8 @@ void GUIFontRenderer::render(GUIFont& font, const std::string& text, float x, fl
     {
         Character ch = font.characters[*c];
 
-        float xpos = x * scale;
-        float ypos = y - (ch.size.y - ch.bearing.y) * scale;
+        float xpos = x;
+        float ypos = y - (ch.size.y - ch.bearing.y);
 
         float w = ch.size.x * scale;
         float h = ch.size.y * scale;
@@ -47,6 +49,8 @@ void GUIFontRenderer::render(GUIFont& font, const std::string& text, float x, fl
         x += (ch.advance >> 6) * scale;
     }
 
+    glEnable(GL_DEPTH_TEST);
+    glCullFace(GL_TRUE);
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }

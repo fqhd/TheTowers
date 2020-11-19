@@ -1,8 +1,9 @@
 #include "World.hpp"
+#include <iostream>
 
 void World::init(){
 
-    m_data = new char[CHUNK_SIZE * WORLD_SIZE * WORLD_SIZE];
+    m_data = new uint8_t[CHUNK_SIZE * WORLD_SIZE * WORLD_SIZE];
 
     generateWorld();
 
@@ -69,16 +70,16 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk& chunk){
 
             for(unsigned int x = 0; x < CHUNK_WIDTH; x++){
 
-                char block = getBlock(chunk.getX() + x, y, chunk.getZ() + z);
+                uint8_t block = getBlock(chunk.getX() + x, y, chunk.getZ() + z);
 
-				if(block){
-					addTopFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block - 1], m_vertices);
-					addBottomFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block - 1], m_vertices);
-					addLeftFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block - 1], m_vertices);
-					addRightFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block - 1], m_vertices);
-					addFrontFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block - 1], m_vertices);
-					addBackFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block - 1], m_vertices);
-				}
+			if(block){
+				addTopFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block], m_vertices);
+				addBottomFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block], m_vertices);
+				addLeftFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block], m_vertices);
+				addRightFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block], m_vertices);
+				addFrontFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block], m_vertices);
+				addBackFace(chunk.getX() + x, y, chunk.getZ() + z, colors[block], m_vertices);
+			}
             }
         }
     }
@@ -102,7 +103,7 @@ void World::generateWorld(){
 			int height = CHUNK_WIDTH * percentage;
 
 			for(unsigned int y = 0; y < height; y++){
-				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = y + 100;
+				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = 180;
 			}
 
 		}
@@ -111,7 +112,7 @@ void World::generateWorld(){
 
 }
 
-char World::getBlock(int x, int y, int z){
+uint8_t World::getBlock(int x, int y, int z){
 
 	if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH || z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
 		return m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x];
@@ -120,7 +121,7 @@ char World::getBlock(int x, int y, int z){
 	return 1;
 }
 
-void World::setBlock(int x, int y, int z, char block){
+void World::setBlock(int x, int y, int z, uint8_t block){
 
      if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH || z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
 

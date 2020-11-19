@@ -7,8 +7,8 @@
 class PauseMenu {
 public:
 
-     void init(GUIFont* font, Settings& settings);
-     void update(sf::Window& window, InputManager& manager, GameStates& state, Settings& settings);
+     void init(sf::Window& window, GUIFont* font, Settings& settings);
+     void update(sf::Window& window, InputManager& manager, GameStates& state, Settings& settings, uint8_t& blockID);
      void render();
      void destroy();
 
@@ -19,7 +19,6 @@ public:
 private:
 
      GUIHandler m_handler;
-
 
 
 };

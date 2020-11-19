@@ -2,10 +2,10 @@ cflags = -O0 $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags freetype2) 
 lflags = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew) $$(pkg-config --libs freetype2)
 
 rule cc
-  command = c++ -c $in -o $out $cflags
+  command = clang++ -c $in -o $out $cflags
 
 rule lnk
-  command = c++ -o out $in $lflags
+  command = clang++ -o out $in $lflags
 
 
 

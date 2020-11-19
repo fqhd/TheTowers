@@ -17,7 +17,7 @@ void ParticleRenderer::update(float deltaTime){
     }
 }
 
-void ParticleRenderer::render(const vec3& color, const Camera& camera){
+void ParticleRenderer::render(const Camera& camera){
 
 
     std::vector<glm::mat4> matrices;

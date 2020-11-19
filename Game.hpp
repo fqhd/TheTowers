@@ -19,7 +19,7 @@ class Game {
 public:
 
      void init(GUIFont* font);
-     void update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state);
+     void update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state, char blockID);
      void render(Settings& settings, float deltaTime);
      void destroy();
 
@@ -48,6 +48,7 @@ private:
      std::string m_fpsString;
      unsigned int m_fps;
      sf::Clock m_fpsClock;
+     sf::Clock m_clock;
 
 
 

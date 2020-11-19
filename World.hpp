@@ -4,17 +4,18 @@
 #include "Constants.hpp"
 #include "ChunkShader.hpp"
 #include <glm/gtc/noise.hpp>
+#include <cstdint>
 
 class World{
 public:
 
 
-    void init();
-    void render(Camera& camera, const std::vector<vec3>& colors);
-    void destroy();
+     void init();
+     void render(Camera& camera, const std::vector<vec3>& colors);
+     void destroy();
 
-    char getBlock(int x, int y, int z);
-	void setBlock(int x, int y, int z, char block);
+     uint8_t getBlock(int x, int y, int z);
+     void setBlock(int x, int y, int z, uint8_t block);
 
 private:
 
@@ -31,7 +32,7 @@ private:
 
      std::vector<Vertex> m_vertices;
 
-     char* m_data = nullptr;
+     uint8_t* m_data = nullptr;
      Chunk chunks[WORLD_SIZE][WORLD_SIZE];
      ChunkShader m_chunkShader;
 

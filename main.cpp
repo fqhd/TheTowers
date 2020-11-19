@@ -22,6 +22,7 @@ int main(){
 
 	//Primitive Variables
 	float deltaTime;
+	uint8_t blockID = 0;
 
 	//SFML Variables
 	sf::Clock clock;
@@ -35,12 +36,13 @@ int main(){
 	GameStates state;
 	Settings settings;
 
+
 	//Initializing objects
 	window.init();
 	clock.restart();
 	font.init("res/fonts/thinfont-thin.ttf");
 	game.init(&font);
-	pause.init(&font, settings);
+	pause.init(window.window, &font, settings);
 	state = GameStates::PLAY;
 
 	while(state != GameStates::EXIT){
@@ -52,13 +54,13 @@ int main(){
 
 			deltaTime = clock.restart().asSeconds();
 
-			game.update(window.window, manager, deltaTime, state);
+			game.update(window.window, manager, deltaTime, state, blockID);
 			game.render(settings, deltaTime);
 
 			break;
 			case GameStates::PAUSE:
 
-			pause.update(window.window, manager, state, settings);
+			pause.update(window.window, manager, state, settings, blockID);
 			game.render(settings, deltaTime);
 			pause.render();
 

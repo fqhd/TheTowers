@@ -3,12 +3,13 @@
 #include "Constants.hpp"
 #include <iostream>
 
-GUISlider::GUISlider(const glm::vec2& position, float size, const ColorRGBA8& lineColor, const ColorRGBA8& buttonColor){
+GUISlider::GUISlider(const glm::vec2& position, float size, const ColorRGBA8& lineColor, const ColorRGBA8& buttonColor, float value){
      m_position = position;
      m_size = size;
      m_lineColor = lineColor;
      m_buttonColor = m_buttonColor;
      m_buttonRect = glm::vec4(position.x, position.y - SLIDER_BUTTON_HEIGHT / 2, SLIDER_BUTTON_WIDTH, SLIDER_BUTTON_HEIGHT + 1);
+     m_buttonRect.x += value;
 
 }
 
