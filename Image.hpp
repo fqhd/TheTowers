@@ -7,14 +7,13 @@ class Image {
 public:
 
 
-     Image(const glm::vec4& destRect, const ColorRGBA8& color);
+     Image(const glm::vec4& d, const ColorRGBA8& c);
      void render(GUIRenderer& renderer);
 
-
+     glm::vec4 destRect;
+     ColorRGBA8 color;
 
 private:
 
-     glm::vec4 m_destRect;
-     ColorRGBA8 m_color;
 
 };

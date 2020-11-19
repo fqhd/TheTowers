@@ -11,6 +11,7 @@ void Game::init(GUIFont* font){
 	m_handler.init(font);
 
 	//Adding GUI
+	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 4, SCREEN_HEIGHT / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
 	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 3, SCREEN_HEIGHT / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 
 
@@ -20,7 +21,7 @@ void Game::init(GUIFont* font){
 
 }
 
-void Game::update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state, char blockID){
+void Game::update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
 	if(manager.isKeyPressed(sf::Keyboard::Escape)){
 		window.setMouseCursorGrabbed(false);
 	     window.setMouseCursorVisible(true);
@@ -32,6 +33,8 @@ void Game::update(sf::Window& window, InputManager& manager, float deltaTime, Ga
 	m_particleRenderer.update(deltaTime);
 	//Updating GUI
 	m_handler.update(window, manager);
+
+	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
 }
 
 void Game::render(Settings& settings, float deltaTime){

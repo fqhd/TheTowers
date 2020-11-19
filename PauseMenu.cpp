@@ -15,9 +15,12 @@ void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
      m_handler.images.push_back(Image(glm::vec4(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), ColorRGBA8(0, 0, 0, 150)));
      m_handler.images.push_back(Image(glm::vec4(SCREEN_WIDTH / 2 - MENU_BG_WIDTH / 2, SCREEN_HEIGHT / 2.0f - MENU_BG_HEIGHT / 2.0f, MENU_BG_WIDTH, MENU_BG_HEIGHT), ColorRGBA8(50, 50, 50, 255)));
      m_handler.images.push_back(Image(glm::vec4(SCREEN_WIDTH / 2 - MENU_WIDTH / 2, SCREEN_HEIGHT / 2.0f - MENU_HEIGHT / 2.0f, MENU_WIDTH, MENU_HEIGHT), ColorRGBA8(20, 20, 20, 255)));
+     m_handler.images.push_back(Image(glm::vec4(600, 190, 128, 128), ColorRGBA8(0, 0, 0, 255)));
+
      m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(SCREEN_WIDTH / 2 - MENU_WIDTH / 2 + 50,
           SCREEN_HEIGHT / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255),
           ColorRGBA8(90, 90, 90, 255), settings.showFPS));
+
 
      m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(SCREEN_WIDTH / 2 - MENU_WIDTH / 2 + 50,
           SCREEN_HEIGHT / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255),
@@ -55,6 +58,7 @@ void PauseMenu::update(sf::Window& window, InputManager& manager, GameStates& st
 		writeSettingsToDisk(settings);
      }
 
+     m_handler.images[3].color = ColorRGBA8(m_handler.sliders[1].getValue() * 255, m_handler.sliders[2].getValue() * 255, m_handler.sliders[3].getValue() * 255, 255);
 
      m_handler.update(window, manager);
 }
@@ -62,7 +66,7 @@ void PauseMenu::update(sf::Window& window, InputManager& manager, GameStates& st
 void PauseMenu::render(){
      m_handler.render();
 
-     m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * 1000.0f)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * 1000.0f) <= 0 ? 1 : (int)(m_handler.sliders[0].getValue() * 1000.0f)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
      m_handler.renderFont("R: " + std::to_string((int)(m_handler.sliders[1].getValue() * 216)), 220, 200, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("G: " + std::to_string((int)(m_handler.sliders[2].getValue() * 216)), 220, 250, 0.5f, ColorRGBA8(255, 255, 255, 255));
