@@ -67,6 +67,9 @@ void PauseMenu::render(){
 
      m_handler.render();
 
+     m_handler.renderFont("Show FPS", 280, 510, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Vertical Sync", 280, 460, 0.5f, ColorRGBA8(255, 255, 255, 255));
+
      m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * 1000.0f) <= 0 ? 1 : (int)(m_handler.sliders[0].getValue() * 1000.0f)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
      m_handler.renderFont("R: " + std::to_string((int)(m_handler.sliders[1].getValue() * 216)), 220, 200, 0.5f, ColorRGBA8(255, 255, 255, 255));

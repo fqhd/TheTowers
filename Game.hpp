@@ -14,6 +14,7 @@
 #include "GameStates.hpp"
 #include "Settings.hpp"
 #include "GUIHandler.hpp"
+#include "Assets.hpp"
 
 class Game {
 public:
@@ -40,6 +41,7 @@ private:
      CubeMap m_cubeMap;
      ParticleRenderer m_particleRenderer;
      GUIHandler m_handler;
+     Assets m_assets;
 
 
 

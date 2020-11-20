@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Model.hpp"
+#include "Entity.hpp"
 #include "ModelShader.hpp"
 #include "Camera.hpp"
 
@@ -11,7 +11,7 @@ public:
     void render(Camera& camera);
     void destroy();
 
-    std::vector<Model> models;
+    std::vector<Entity> entities;
 
 private:
 

@@ -30,6 +30,6 @@ public:
 private:
 
 
-     float m_speed = 5.5f;
+     float m_speed = 25.5f;
 
 };

@@ -9,6 +9,7 @@ void Game::init(GUIFont* font){
 	m_player.init();
 	m_particleRenderer.init();
 	m_handler.init(font);
+	m_assets.init();
 
 	//Adding GUI
 	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 4, SCREEN_HEIGHT / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
@@ -40,6 +41,7 @@ void Game::update(sf::Window& window, InputManager& manager, float deltaTime, Ga
 void Game::render(Settings& settings, float deltaTime){
 	m_cubeMap.render(m_player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_player.camera.getViewMatrix())));
 	m_world.render(m_player.camera, m_colors);
+	m_modelRenderer.render(m_player.camera);
 	m_particleRenderer.render(m_player.camera);
 
 	//Calculating FPS
@@ -55,7 +57,7 @@ void Game::render(Settings& settings, float deltaTime){
 	if(!settings.vsync){
 		float waitTime = 1.0f / settings.maxFps;
 		while(m_clock.getElapsedTime().asSeconds() < waitTime){
-			
+
 		}
 		m_clock.restart();
 	}
@@ -92,6 +94,5 @@ void Game::generateColorVector(std::vector<vec3>& colors){
 }
 
 void Game::addModels(){
-	m_modelRenderer.models.push_back(Model(Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), "res/models/model.obj"));
-	m_modelRenderer.models.push_back(Model(Transform(glm::vec3(20, 50, 20), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), "res/models/model.obj"));
+	m_modelRenderer.entities.push_back(Entity(Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey()));
 }

@@ -1,20 +1,16 @@
 #pragma once
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-#include "Transform.hpp"
 #include "OBJLoader.hpp"
 
 
 class Model {
 public:
 
-	Model(const Transform& t, const char* path);
+	void init(const char* path);
 	void render();
 	void destroy();
 
-
-
-	Transform transform;
 
 private:
 

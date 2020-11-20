@@ -46,5 +46,9 @@ build pausemenu.o: cc PauseMenu.cpp
 build image.o: cc Image.cpp
 build checkbox.o: cc GUICheckbox.cpp
 build slider.o: cc GUISlider.cpp
+build entity.o: cc Entity.cpp
+build assets.o: cc Assets.cpp
 
-build out: lnk main.o inputmanager.o button.o inputbox.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o image.o checkbox.o slider.o
+build out: lnk main.o inputmanager.o button.o inputbox.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o image.o checkbox.o slider.o entity.o assets.o
+
+

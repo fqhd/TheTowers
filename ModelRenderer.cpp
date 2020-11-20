@@ -13,7 +13,7 @@ void ModelRenderer::render(Camera& camera){
     m_shader.loadProjection(camera.getProjectionMatrix());
     m_shader.loadView(camera.getViewMatrix());
 
-    for(auto& i : models){
+    for(auto& i : entities){
         m_shader.loadModel(i.transform.getMatrix());
         i.render();
     }
@@ -23,9 +23,5 @@ void ModelRenderer::render(Camera& camera){
 }
 
 void ModelRenderer::destroy(){
-    for(auto& i : models){
-        m_shader.loadModel(i.transform.getMatrix());
-        i.destroy();
-    }
     m_shader.destroy();
 }

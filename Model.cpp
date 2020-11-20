@@ -1,6 +1,6 @@
 #include "Model.hpp"
 
-Model::Model(const Transform& t, const char* path){
+void Model::init(const char* path){
 
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
@@ -27,7 +27,6 @@ Model::Model(const Transform& t, const char* path){
 	glBindVertexArray(0);
 
 	m_numVertices = model.indices.size();
-	transform = t;
 
 }
 
