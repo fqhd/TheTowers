@@ -9,7 +9,7 @@ GUISlider::GUISlider(const glm::vec2& position, float size, const ColorRGBA8& li
      m_lineColor = lineColor;
      m_buttonColor = buttonColor;
      m_buttonRect = glm::vec4(position.x, position.y - SLIDER_BUTTON_HEIGHT / 2, SLIDER_BUTTON_WIDTH, SLIDER_BUTTON_HEIGHT + 1);
-     m_buttonRect.x += value;
+     m_buttonRect.x += value * size;
 
 }
 

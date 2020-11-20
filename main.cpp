@@ -10,8 +10,9 @@
 bool getIP(sf::IpAddress& ip);
 void game();
 
-
 int main(){
+
+	srand(time(0));
 
 	/*
 	sf::IpAddress ip;

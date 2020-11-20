@@ -1,5 +1,4 @@
 #include "World.hpp"
-#include <iostream>
 
 void World::init(){
 
@@ -91,23 +90,26 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk& chunk){
 
 void World::generateWorld(){
 
+     unsigned int xOffset = abs(rand()%3000);
+     unsigned int zOffset = abs(rand()%3000);
+
     for(unsigned int i = 0; i < CHUNK_SIZE * WORLD_SIZE * WORLD_SIZE; i++){
 		m_data[i] = 0;
 	}
 
-	for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
-		for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
+	for(int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
+		for(int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
 
-			float percentage = (glm::perlin(glm::vec2(x * 0.25f / CHUNK_WIDTH * WORLD_SIZE, z * 0.25f / CHUNK_WIDTH * WORLD_SIZE)) + 1) / 2.0f;
-
+			float percentage = (glm::perlin(glm::vec2((xOffset + x) * 0.1 / (float)CHUNK_WIDTH * WORLD_SIZE, (zOffset + z) * 0.1 / (float)CHUNK_WIDTH * WORLD_SIZE)) + 1) / 2.0f;
 			int height = CHUNK_WIDTH * percentage;
 
 			for(unsigned int y = 0; y < height; y++){
-				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = 180;
+				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = y + 100;
 			}
 
 		}
 	}
+
 
 
 }

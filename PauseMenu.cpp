@@ -1,6 +1,5 @@
 #include "PauseMenu.hpp"
 #include "Constants.hpp"
-#include <iostream>
 
 void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
 
@@ -26,7 +25,7 @@ void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
           SCREEN_HEIGHT / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255),
           ColorRGBA8(90, 90, 90, 255), settings.vsync));
 
-     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), (settings.maxFps/1000.0f) * 250.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.maxFps/1000.0f));
 
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 0.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 0.0f));
@@ -61,9 +60,11 @@ void PauseMenu::update(sf::Window& window, InputManager& manager, GameStates& st
      m_handler.images[3].color = ColorRGBA8(m_handler.sliders[1].getValue() * 255, m_handler.sliders[2].getValue() * 255, m_handler.sliders[3].getValue() * 255, 255);
 
      m_handler.update(window, manager);
+
 }
 
 void PauseMenu::render(){
+
      m_handler.render();
 
      m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * 1000.0f) <= 0 ? 1 : (int)(m_handler.sliders[0].getValue() * 1000.0f)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));

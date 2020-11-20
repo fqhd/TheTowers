@@ -4,6 +4,7 @@
 #include <iostream>
 
 
+
 void Player::init(){
     camera.init(glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2));
     position = glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2);
@@ -42,6 +43,9 @@ void Player::calculateCameraVectors(sf::Window& window){
 
      camera.m_position = glm::vec3(position.x + PLAYER_WIDTH / 2.0f, position.y + PLAYER_HEIGHT - 0.25f, position.z + PLAYER_WIDTH / 2.0f);
      camera.update(window);
+
+
+
 }
 
 void Player::movement(float deltaTime){
@@ -85,6 +89,19 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);
                uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
                if(blockID){
+
+                    //Getting m_position
+                    glm::vec3 blockPosition = glm::vec3((int)rayPosition.x, (int)rayPosition.x, (int)rayPosition.z);
+                    glm::vec3 cameraPosition = camera.m_position;
+
+                    glm::vec3 toCameraVector = cameraPosition - blockPosition;
+
+                    Face f = getFace(toCameraVector.x, toCameraVector.y, toCameraVector.z);
+                    if(f == FACE_0){
+                         std::cout << "destroyed" << std::endl;
+                    }
+
+
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
                     for(unsigned int j = 0; j < 100; j++){
                          renderer.particles.push_back(Particle(colors[blockID], glm::vec3((int)rayPosition.x, (int)rayPosition.y,
@@ -95,6 +112,7 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                }
           }
     }
+
     //Placing blocks
     if(manager.isKeyPressed(sf::Mouse::Right)){
           glm::vec3 rayPosition = camera.m_position;
@@ -109,4 +127,10 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
           }
     }
 
+}
+
+Face Player::getFace(float x, float y, float z){
+     return (Face)((FACE_0 + (x > 0)) * (fabs(x) > fabs(y) && fabs(x) > fabs(z))
+  + (FACE_2 + (y > 0)) * (fabs(y) > fabs(x) && fabs(y) > fabs(z))
+  + (FACE_4 + (z > 0)) * (fabs(z) > fabs(x) && fabs(z) > fabs(y)));
 }

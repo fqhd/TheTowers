@@ -49,13 +49,13 @@ void Game::render(Settings& settings, float deltaTime){
 	m_handler.render();
 
 	//Rendering FPS
-	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 200, 200, 1.0f, ColorRGBA8(255, 255, 255, 255));
+	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 20, SCREEN_HEIGHT - 48, 1.0f, ColorRGBA8(255, 255, 255, 255));
 
 	//Capping FPS
 	if(!settings.vsync){
 		float waitTime = 1.0f / settings.maxFps;
 		while(m_clock.getElapsedTime().asSeconds() < waitTime){
-
+			
 		}
 		m_clock.restart();
 	}
