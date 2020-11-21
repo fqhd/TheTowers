@@ -1,0 +1,3 @@
+ShowFPS: 1
+vsync: 1
+maxFps: 334
