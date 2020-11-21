@@ -20,7 +20,7 @@ class Game {
 public:
 
      void init(GUIFont* font);
-     void update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID);
+     void update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID);
      void render(Settings& settings, float deltaTime);
      void destroy();
 

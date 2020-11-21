@@ -22,14 +22,14 @@ void Game::init(GUIFont* font){
 
 }
 
-void Game::update(sf::Window& window, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
+void Game::update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
 	if(manager.isKeyPressed(sf::Keyboard::Escape)){
 		window.setMouseCursorGrabbed(false);
 	     window.setMouseCursorVisible(true);
 		state = GameStates::PAUSE;
 	}
 
-	m_player.update(window, m_colors, m_particleRenderer, manager, m_world, deltaTime, blockID);
+	m_player.update(window, settings, m_colors, m_particleRenderer, manager, m_world, deltaTime, blockID);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
 	//Updating GUI

@@ -1,5 +1,6 @@
 #include "PauseMenu.hpp"
 #include "Constants.hpp"
+#include <iostream>
 
 void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
 
@@ -27,9 +28,11 @@ void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
 
      m_handler.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.maxFps/1000.0f));
 
-     m_handler.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 0.0f));
-     m_handler.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 0.0f));
-     m_handler.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 0.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / 100.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / 25.0f));
 
 
 }
@@ -54,6 +57,10 @@ void PauseMenu::update(sf::Window& window, InputManager& manager, GameStates& st
           unsigned int redValue = (int)(m_handler.sliders[1].getValue() * 5);
 
           blockID = blueValue + greenValue + redValue;
+
+          settings.mouseSensibility = m_handler.sliders[4].getValue() * 100;
+          settings.playerSpeed = m_handler.sliders[5].getValue() * 25;
+
 		writeSettingsToDisk(settings);
      }
 
@@ -72,9 +79,11 @@ void PauseMenu::render(){
 
      m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * 1000.0f) <= 0 ? 1 : (int)(m_handler.sliders[0].getValue() * 1000.0f)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
-     m_handler.renderFont("R: " + std::to_string((int)(m_handler.sliders[1].getValue() * 216)), 220, 200, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("G: " + std::to_string((int)(m_handler.sliders[2].getValue() * 216)), 220, 250, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("B: " + std::to_string((int)(m_handler.sliders[3].getValue() * 216)), 220, 300, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("R: " + std::to_string((int)(m_handler.sliders[1].getValue() * 255)), 220, 200, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("G: " + std::to_string((int)(m_handler.sliders[2].getValue() * 255)), 220, 250, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("B: " + std::to_string((int)(m_handler.sliders[3].getValue() * 255)), 220, 300, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Mouse Sensibility: " + std::to_string((int)(m_handler.sliders[4].getValue() * 100)), 220, 150, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Player Speed: " + std::to_string((int)(m_handler.sliders[5].getValue() * 25)), 220, 100, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
 }
 
@@ -85,6 +94,8 @@ void PauseMenu::writeSettingsToDisk(Settings& settings){
      os << "ShowFPS: " << settings.showFPS << std::endl;
      os << "vsync: " << settings.vsync << std::endl;
      os << "maxFps: " << settings.maxFps << std::endl;
+     os << "PlayerSpeed: " << settings.playerSpeed << std::endl;
+     os << "MouseSensibility: " << settings.mouseSensibility << std::endl;
 
 	os.close();
 }
@@ -100,6 +111,10 @@ void PauseMenu::loadSettingsFromDisk(Settings& settings){
                is >> settings.maxFps;
           }else if(t == "vsync:"){
                is >> settings.vsync;
+          }else if(t == "PlayerSpeed:"){
+               is >> settings.playerSpeed;
+          }else if(t == "MouseSensibility:"){
+               is >> settings.mouseSensibility;
           }
 
 	}

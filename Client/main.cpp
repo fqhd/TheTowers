@@ -23,7 +23,7 @@ int main(){
 
 	//Primitive Variables
 	float deltaTime;
-	uint8_t blockID = 0;
+	uint8_t blockID = 215;
 
 	//SFML Variables
 	sf::Clock clock;
@@ -55,7 +55,7 @@ int main(){
 
 			deltaTime = clock.restart().asSeconds();
 
-			game.update(window.window, manager, deltaTime, state, blockID);
+			game.update(window.window, settings, manager, deltaTime, state, blockID);
 			game.render(settings, deltaTime);
 
 			break;
