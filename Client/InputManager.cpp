@@ -1,5 +1,4 @@
 #include "InputManager.hpp"
-#include <iostream>
 
 void InputManager::processInput(sf::Window& window){
 
@@ -12,7 +11,6 @@ void InputManager::processInput(sf::Window& window){
 			m_isCloseRequested = true;
 		break;
 		case sf::Event::KeyPressed:
-			m_character = m_event.key.code;
 			keyPressed(m_event.key.code);
 		break;
 		case sf::Event::KeyReleased:
@@ -23,6 +21,9 @@ void InputManager::processInput(sf::Window& window){
 		break;
 		case sf::Event::MouseButtonReleased:
 			keyReleased(m_event.mouseButton.button);
+		break;
+		case sf::Event::TextEntered:
+			m_character = static_cast<char>(m_event.text.unicode);
 		break;
 		}
 	}

@@ -14,12 +14,10 @@ int main(){
 
 	srand(time(0));
 
-	/*
 	sf::IpAddress ip;
 	if(!getIP(ip)){
 		return 0;
 	}
-	*/
 
 	//Primitive Variables
 	float deltaTime;
@@ -42,7 +40,7 @@ int main(){
 	window.init();
 	clock.restart();
 	font.init("res/fonts/thinfont-thin.ttf");
-	game.init(&font);
+	game.init(&font, ip);
 	pause.init(window.window, &font, settings);
 	state = GameStates::PLAY;
 

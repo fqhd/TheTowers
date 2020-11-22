@@ -1,22 +1,19 @@
 #include "World.hpp"
 
-void World::init(){
+void World::init(uint8_t* d){
 
-    m_data = new uint8_t[CHUNK_SIZE * WORLD_SIZE * WORLD_SIZE];
+     data = d;
 
-    generateWorld();
+     for(unsigned int z = 0; z < WORLD_SIZE; z++){
+          for(unsigned int x = 0; x < WORLD_SIZE; x++){
 
-    for(unsigned int z = 0; z < WORLD_SIZE; z++){
-        for(unsigned int x = 0; x < WORLD_SIZE; x++){
+               chunks[z][x].init(x * CHUNK_WIDTH, z * CHUNK_WIDTH);
 
-            chunks[z][x].init(x * CHUNK_WIDTH, z * CHUNK_WIDTH);
+          }
+     }
 
-        }
-    }
-
-	m_chunkShader.loadShader("res/shaders/chunkVertex.glsl", "res/shaders/chunkFragment.glsl");
-	m_chunkShader.getUniformLocations();
-
+     m_chunkShader.loadShader("res/shaders/chunkVertex.glsl", "res/shaders/chunkFragment.glsl");
+     m_chunkShader.getUniformLocations();
 }
 
 void World::render(Camera& camera, const std::vector<vec3>& colors){
@@ -87,37 +84,10 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk& chunk){
 
 }
 
-
-void World::generateWorld(){
-
-     unsigned int xOffset = rand()%WORLD_SIZE * CHUNK_WIDTH;
-     unsigned int zOffset = rand()%WORLD_SIZE * CHUNK_WIDTH;
-
-    for(unsigned int i = 0; i < CHUNK_SIZE * WORLD_SIZE * WORLD_SIZE; i++){
-		m_data[i] = 0;
-	}
-
-	for(int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
-		for(int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
-
-			float percentage = (glm::perlin(glm::vec2((xOffset + x) * 0.05 / (float)CHUNK_WIDTH * WORLD_SIZE, (zOffset + z) * 0.05 / (float)CHUNK_WIDTH * WORLD_SIZE)) + 1) / 2.0f;
-			int height = CHUNK_WIDTH * percentage;
-
-			for(unsigned int y = 0; y < height; y++){
-				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = y + 100;
-			}
-
-		}
-	}
-
-
-
-}
-
 uint8_t World::getBlock(int x, int y, int z){
 
 	if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH || z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
-		return m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x];
+		return data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x];
 	}
 
 	return 1;
@@ -127,7 +97,7 @@ void World::setBlock(int x, int y, int z, uint8_t block){
 
      if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH || z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
 
-          m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = block;
+          data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = block;
 
           unsigned int posX = x / CHUNK_WIDTH;
           unsigned int posZ = z / CHUNK_WIDTH;

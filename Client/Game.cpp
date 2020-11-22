@@ -2,8 +2,29 @@
 #include "Constants.hpp"
 #include <iostream>
 
-void Game::init(GUIFont* font){
-	m_world.init();
+void Game::init(GUIFont* font, sf::IpAddress ip){
+
+	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * CHUNK_SIZE];
+
+	generateLocalWorld();
+
+	sf::Socket::Status status = m_socket.connect(ip, 2000);
+
+	if(status != sf::Socket::Status::Done){
+		std::cout << "failed to connect to server" << std::endl;
+	}else{
+		std::cout << "connected to server" << std::endl;
+	}
+
+	std::size_t received;
+	char buffer[6];
+
+	m_socket.receive(buffer, 6, received);
+
+	std::cout << "recieved: " << received << std::endl;
+	std::cout << buffer << std::endl;
+
+	m_world.init(m_data);
 	m_modelRenderer.init();
 	m_cubeMap.init();
 	m_player.init();
@@ -17,7 +38,7 @@ void Game::init(GUIFont* font){
 
 
 	//Game Functions
-	addModels(); // Note to self: This needs optimization. Loading in 1 vao per model. unacceptable.
+	addModels();
 	generateColorVector(m_colors);
 
 }
@@ -36,6 +57,18 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 	m_handler.update(window, manager);
 
 	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
+}
+
+void Game::generateLocalWorld(){
+	for(unsigned int y = 0; y < CHUNK_WIDTH; y++){
+		for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
+			for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
+
+				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = (y == 5 ? 215 : 0);
+
+			}
+		}
+	}
 }
 
 void Game::render(Settings& settings, float deltaTime){

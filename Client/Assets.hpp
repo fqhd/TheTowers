@@ -7,7 +7,6 @@ public:
 	void init();
 	Model* getMonkey();
 
-
 private:
 
 	Model m_monkey;

@@ -12,7 +12,7 @@ void InputBox::init(const sf::FloatRect& box, sf::Font* font){
 	m_text.setFont(*font);
 
 	m_text.setPosition(sf::Vector2f(box.left, box.top));
-	
+
 
 }
 
@@ -22,11 +22,11 @@ void InputBox::update(InputManager& manager, sf::RenderWindow& window){
 
 		std::string string = m_text.getString();
 
-		if(manager.getLastKeyPressed() == sf::Keyboard::BackSpace && !string.empty()){
+		if(manager.getLastKeyPressed() == 8 && !string.empty()){
 			string.pop_back();
 		}else{
 			if(manager.getLastKeyPressed() != sf::Keyboard::BackSpace)
-				string += manager.getLastKeyPressed() + 65;
+				string += manager.getLastKeyPressed();
 		}
 
 		m_text.setString(string);

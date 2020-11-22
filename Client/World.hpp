@@ -10,16 +10,18 @@ class World{
 public:
 
 
-     void init();
+     void init(uint8_t* d);
      void render(Camera& camera, const std::vector<vec3>& colors);
      void destroy();
 
      uint8_t getBlock(int x, int y, int z);
      void setBlock(int x, int y, int z, uint8_t block);
 
+
+     uint8_t* data = nullptr;
+
 private:
 
-     void generateWorld();
      void generateMesh(const std::vector<vec3>& colors, Chunk& chunk);
      Chunk* getChunk(int x, int z);
 
@@ -32,7 +34,6 @@ private:
 
      std::vector<Vertex> m_vertices;
 
-     uint8_t* m_data = nullptr;
      Chunk chunks[WORLD_SIZE][WORLD_SIZE];
      ChunkShader m_chunkShader;
 

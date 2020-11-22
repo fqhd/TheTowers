@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include <GL/glew.h>
 #include <glm/gtc/noise.hpp>
 #include "InputManager.hpp"
@@ -19,7 +20,7 @@
 class Game {
 public:
 
-     void init(GUIFont* font);
+     void init(GUIFont* font, sf::IpAddress ip);
      void update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID);
      void render(Settings& settings, float deltaTime);
      void destroy();
@@ -27,6 +28,7 @@ public:
      //Game functions
      void addModels();
      void generateColorVector(std::vector<vec3>& colors);
+     void generateLocalWorld();
 
 
 private:
@@ -51,6 +53,8 @@ private:
      unsigned int m_fps;
      sf::Clock m_fpsClock;
      sf::Clock m_clock;
+     sf::TcpSocket m_socket;
+     uint8_t* m_data = nullptr;
 
 
 
