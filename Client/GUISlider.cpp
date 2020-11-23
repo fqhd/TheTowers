@@ -16,8 +16,9 @@ GUISlider::GUISlider(const glm::vec2& position, float size, const ColorRGBA8& li
 void GUISlider::update(sf::Window& window, InputManager& manager){
 
      glm::vec2 mousePos = glm::vec2(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-
 	mousePos.y = SCREEN_HEIGHT - mousePos.y;
+     m_currentColor = m_buttonColor;
+
 
      if(Utils::isInside(mousePos, m_buttonRect)){
           m_currentColor = ColorRGBA8(m_buttonColor.r * 0.6f, m_buttonColor.g * 0.6f, m_buttonColor.b * 0.6f, 255);
@@ -26,13 +27,15 @@ void GUISlider::update(sf::Window& window, InputManager& manager){
                m_currentColor = ColorRGBA8(m_buttonColor.r * 0.4f, m_buttonColor.g * 0.4f, m_buttonColor.b * 0.4f, 255);
           }
      }
+
      if(!manager.isKeyDown(sf::Mouse::Left)){
           m_isSelected = false;
-          m_currentColor = m_buttonColor;
      }
+
 
      if(m_isSelected){
           m_buttonRect.x = mousePos.x - SLIDER_BUTTON_WIDTH / 2.0f;
+          m_currentColor = ColorRGBA8(m_buttonColor.r * 0.4f, m_buttonColor.g * 0.4f, m_buttonColor.b * 0.4f, 255);
      }
 
      if(m_buttonRect.x < m_position.x){
