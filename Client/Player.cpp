@@ -10,11 +10,12 @@ void Player::init(){
     position = glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2);
 }
 
-void Player::update(sf::Window& window, const Settings& settings, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID){
+void Player::update(sf::Window& window, const Settings& settings, const std::vector<vec3>& colors,
+     ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID, sf::TcpSocket& socket){
 
 	movement(deltaTime, settings, manager);
 	calculateCameraVectors(window, settings.mouseSensibility/100.0f);
-	breakBlocks(colors, renderer, manager, world, blockID);
+	breakBlocks(colors, renderer, manager, world, blockID, socket);
 
 }
 
@@ -81,7 +82,7 @@ void Player::movement(float deltaTime, const Settings& settings, InputManager& m
 
 }
 
-void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, uint8_t b){
+void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, uint8_t b, sf::TcpSocket& socket){
 
      //Breaking blocks
      if(manager.isKeyPressed(sf::Mouse::Left)){
@@ -102,6 +103,17 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                          std::cout << "destroyed" << std::endl;
                     }
 
+                    uint8_t buffer[4];
+                    buffer[0] = (uint8_t)rayPosition.x;
+                    buffer[1] = (uint8_t)rayPosition.y;
+                    buffer[2] = (uint8_t)rayPosition.z;
+                    buffer[3] = 0;
+                    socket.send(buffer, 4);
+
+                    std::cout << "X: " << (unsigned int)buffer[0] << std::endl;
+                    std::cout << "Y: " << (unsigned int)buffer[1] << std::endl;
+                    std::cout << "Z: " << (unsigned int)buffer[2] << std::endl;
+                    std::cout << "B: " << (unsigned int)buffer[3] << std::endl;
 
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
                     for(unsigned int j = 0; j < 100; j++){
@@ -121,7 +133,21 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);
                if(world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z)){
                     rayPosition -= camera.m_forward * (DISTANCE / (float)PRECISION);
+
+                    uint8_t buffer[4];
+                    buffer[0] = (uint8_t)rayPosition.x;
+                    buffer[1] = (uint8_t)rayPosition.y;
+                    buffer[2] = (uint8_t)rayPosition.z;
+                    buffer[3] = b;
+                    socket.send(buffer, 4);
+
+                    std::cout << "X: " << (unsigned int)buffer[0] << std::endl;
+                    std::cout << "Y: " << (unsigned int)buffer[1] << std::endl;
+                    std::cout << "Z: " << (unsigned int)buffer[2] << std::endl;
+                    std::cout << "B: " << (unsigned int)buffer[3] << std::endl;
+
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, b);
+
                     break;
 
                }

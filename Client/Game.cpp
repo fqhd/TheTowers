@@ -16,13 +16,9 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 		std::cout << "connected to server" << std::endl;
 	}
 
-	std::size_t received;
-	char buffer[6];
+	m_socket.setBlocking(false);
 
-	m_socket.receive(buffer, 6, received);
 
-	std::cout << "recieved: " << received << std::endl;
-	std::cout << buffer << std::endl;
 
 	m_world.init(m_data);
 	m_modelRenderer.init();
@@ -44,13 +40,22 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 }
 
 void Game::update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
+
+	uint8_t buffer[4];
+	size_t received;
+
+	if(m_socket.receive(buffer, 4, received) == sf::Socket::Done){
+		m_world.setBlock((int)buffer[0], (int)buffer[1], (int)buffer[2], buffer[3]);
+		std::cout << "got something" << std::endl;
+	}
+
 	if(manager.isKeyPressed(sf::Keyboard::Escape)){
 		window.setMouseCursorGrabbed(false);
 	     window.setMouseCursorVisible(true);
 		state = GameStates::PAUSE;
 	}
 
-	m_player.update(window, settings, m_colors, m_particleRenderer, manager, m_world, deltaTime, blockID);
+	m_player.update(window, settings, m_colors, m_particleRenderer, manager, m_world, deltaTime, blockID, m_socket);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
 	//Updating GUI
