@@ -18,9 +18,9 @@ class Player {
 public:
 
      void init();
-     void update(sf::Window& window, Settings& settings, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID);
+     void update(sf::Window& window, const Settings& settings, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID);
 
-	void movement(float deltaTime, float speed);
+	void movement(float deltaTime, const Settings& settings, InputManager& manager);
      void calculateCameraVectors(sf::Window& window, float sensibility);
      void breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, uint8_t b);
      Face getFace(float x, float y, float z);

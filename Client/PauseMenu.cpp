@@ -34,7 +34,7 @@ void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
      m_handler.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / 100.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / 25.0f));
 
-     m_handler.boxes.push_back(GUISelectbox(glm::vec4(850, 425, 200, 30), ColorRGBA8(255, 255, 255, 255), 5));
+     m_handler.boxes.push_back(GUISelectbox(glm::vec4(850, 425, 200, 30), ColorRGBA8(255, 255, 255, 255), 3));
 
 
 }
@@ -87,6 +87,10 @@ void PauseMenu::render(){
      m_handler.renderFont("Mouse Sensibility: " + std::to_string((int)(m_handler.sliders[4].getValue() * 100)), 220, 150, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("Player Speed: " + std::to_string((int)(m_handler.sliders[5].getValue() * 25)), 220, 100, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
+     m_handler.renderFont("Fullscreen", 870, 430, 0.5f, ColorRGBA8(0, 0, 0, 255));
+     m_handler.renderFont("Borderless", 870, 460, 0.5f, ColorRGBA8(0, 0, 0, 255));
+     m_handler.renderFont("Windowed", 870, 490, 0.5f, ColorRGBA8(0, 0, 0, 255));
+
 }
 
 void PauseMenu::writeSettingsToDisk(Settings& settings){
@@ -98,6 +102,12 @@ void PauseMenu::writeSettingsToDisk(Settings& settings){
      os << "maxFps: " << settings.maxFps << std::endl;
      os << "PlayerSpeed: " << settings.playerSpeed << std::endl;
      os << "MouseSensibility: " << settings.mouseSensibility << std::endl;
+     os << "Front: " << settings.front << std::endl;
+     os << "Back: " << settings.back << std::endl;
+     os << "Up: " << settings.up << std::endl;
+     os << "Down: " << settings.down << std::endl;
+     os << "Left: " << settings.left << std::endl;
+     os << "Right: " << settings.right << std::endl;
 
 	os.close();
 }
@@ -117,6 +127,18 @@ void PauseMenu::loadSettingsFromDisk(Settings& settings){
                is >> settings.playerSpeed;
           }else if(t == "MouseSensibility:"){
                is >> settings.mouseSensibility;
+          }else if(t == "Front:"){
+               is >> settings.front;
+          }else if(t == "Back:"){
+               is >> settings.back;
+          }else if(t == "Up:"){
+               is >> settings.up;
+          }else if(t == "Down:"){
+               is >> settings.down;
+          }else if(t == "Left:"){
+               is >> settings.left;
+          }else if(t == "Right:"){
+               is >> settings.right;
           }
 
 	}

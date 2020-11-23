@@ -10,9 +10,9 @@ void Player::init(){
     position = glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2);
 }
 
-void Player::update(sf::Window& window, Settings& settings, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID){
+void Player::update(sf::Window& window, const Settings& settings, const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID){
 
-	movement(deltaTime, settings.playerSpeed);
+	movement(deltaTime, settings, manager);
 	calculateCameraVectors(window, settings.mouseSensibility/100.0f);
 	breakBlocks(colors, renderer, manager, world, blockID);
 
@@ -48,34 +48,35 @@ void Player::calculateCameraVectors(sf::Window& window, float sensibility){
 
 }
 
-void Player::movement(float deltaTime, float speed){
+void Player::movement(float deltaTime, const Settings& settings, InputManager& manager){
 
 
      glm::vec3 forward = glm::normalize(glm::vec3(camera.m_forward.x, 0.0f, camera.m_forward.z));
      glm::vec3 side = glm::normalize(glm::cross(camera.m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)){
-          position += forward * speed * deltaTime;
+     if(manager.isKeyDown(settings.front)){
+          position += forward * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){
-          position -= side * speed * deltaTime;
+     if(manager.isKeyDown(settings.back)){
+          position -= forward * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-          position -= forward * speed * deltaTime;
+     if(manager.isKeyDown(settings.left)){
+          position -= side * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-          position += side * speed * deltaTime;
+
+     if(manager.isKeyDown(settings.right)){
+          position += side * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)){
-          position.y -= speed * deltaTime;
+     if(manager.isKeyDown(settings.down)){
+          position.y -= (float)settings.playerSpeed * deltaTime;
      }
 
-     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-          position.y += speed * deltaTime;
+     if(manager.isKeyDown(settings.up)){
+          position.y += (float)settings.playerSpeed * deltaTime;
      }
 
 }
