@@ -15,11 +15,11 @@ public:
 
 private:
 
-     float m_value;
+     float m_value = 0.0f;
      bool m_isSelected = false;
      glm::vec4 m_buttonRect;
      glm::vec2 m_position;
-     float m_size;
+     float m_size = 0.0f;
      ColorRGBA8 m_lineColor;
      ColorRGBA8 m_buttonColor;
      ColorRGBA8 m_currentColor;

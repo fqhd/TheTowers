@@ -42,6 +42,10 @@ void GUIHandler::update(sf::Window& window, InputManager& manager){
 		i.update(manager);
 	}
 
+	for(auto& i : keyboxes){
+		i.update(manager, keyboxes);
+	}
+
 }
 
 void GUIHandler::render(){
@@ -70,6 +74,10 @@ void GUIHandler::render(){
 	}
 
 	for(auto& i : boxes){
+		i.render(m_renderer);
+	}
+
+	for(auto& i : keyboxes){
 		i.render(m_renderer);
 	}
 

@@ -3,7 +3,8 @@
 void InputManager::processInput(sf::Window& window){
 
 	m_previousKeyMap = m_keymap;
-	m_character = 0;
+	m_lastKeyTyped = 0;
+	m_lastKeyPressed = -1;
 
 	while(window.pollEvent(m_event)){
 		switch(m_event.type){
@@ -11,6 +12,7 @@ void InputManager::processInput(sf::Window& window){
 			m_isCloseRequested = true;
 		break;
 		case sf::Event::KeyPressed:
+			m_lastKeyPressed = m_event.key.code;
 			keyPressed(m_event.key.code);
 		break;
 		case sf::Event::KeyReleased:
@@ -23,7 +25,7 @@ void InputManager::processInput(sf::Window& window){
 			keyReleased(m_event.mouseButton.button);
 		break;
 		case sf::Event::TextEntered:
-			m_character = static_cast<char>(m_event.text.unicode);
+			m_lastKeyTyped = static_cast<char>(m_event.text.unicode);
 		break;
 		case sf::Event::MouseMoved:
 			m_mousePosition = glm::vec2(m_event.mouseMove.x, window.getSize().y - m_event.mouseMove.y);
@@ -76,5 +78,9 @@ void InputManager::keyReleased(unsigned int keyID){
 }
 
 char InputManager::getLastKeyPressed(){
-	return m_character;
+	return m_lastKeyPressed;
+}
+
+char InputManager::getLastKeyTyped(){
+	return m_lastKeyTyped;
 }

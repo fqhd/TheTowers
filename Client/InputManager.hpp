@@ -18,6 +18,7 @@ public:
 	bool isCloseRequested();
 
 	char getLastKeyPressed();
+	char getLastKeyTyped();
 
 
 
@@ -32,6 +33,7 @@ private:
 
 	glm::vec2 m_mousePosition;
 	bool m_isCloseRequested = false;
-	char m_character;
+	char m_lastKeyPressed = 0;
+	char m_lastKeyTyped = 0;
 
 };

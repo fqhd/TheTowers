@@ -45,7 +45,7 @@ void GUISlider::update(sf::Window& window, InputManager& manager){
           m_buttonRect.x = m_position.x + m_size - SLIDER_BUTTON_WIDTH;
      }
 
-     m_value = (m_buttonRect.x - m_position.x) / ((m_position.x + m_size - SLIDER_BUTTON_WIDTH) - m_position.x);
+     m_value = ((m_buttonRect.x - m_position.x)) / ((m_position.x + m_size - SLIDER_BUTTON_WIDTH) - m_position.x);
 
 }
 

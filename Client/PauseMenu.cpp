@@ -36,6 +36,13 @@ void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
 
      m_handler.boxes.push_back(GUISelectbox(glm::vec4(850, 425, 200, 30), ColorRGBA8(255, 255, 255, 255), 3));
 
+     m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.front));
+     m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.back));
+     m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.left));
+     m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.right));
+     m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.up));
+     m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.down));
+
 
 }
 
@@ -62,6 +69,13 @@ void PauseMenu::update(sf::Window& window, InputManager& manager, GameStates& st
 
           settings.mouseSensibility = m_handler.sliders[4].getValue() * 100;
           settings.playerSpeed = m_handler.sliders[5].getValue() * 25;
+
+          settings.front = m_handler.keyboxes[0].getValue();
+          settings.back = m_handler.keyboxes[1].getValue();
+          settings.left = m_handler.keyboxes[2].getValue();
+          settings.right = m_handler.keyboxes[3].getValue();
+          settings.up = m_handler.keyboxes[4].getValue();
+          settings.down = m_handler.keyboxes[5].getValue();
 
 		writeSettingsToDisk(settings);
      }
@@ -90,6 +104,14 @@ void PauseMenu::render(){
      m_handler.renderFont("Fullscreen", 870, 430, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("Borderless", 870, 460, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("Windowed", 870, 490, 0.5f, ColorRGBA8(0, 0, 0, 255));
+
+
+     m_handler.renderFont("Front: ", 220, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Back: ", 220, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Left: ", 420, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Right: ", 420, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Up: ", 620, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Down: ", 620, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
 }
 

@@ -18,7 +18,7 @@ void InputBox::init(const sf::FloatRect& box, sf::Font* font){
 
 void InputBox::update(InputManager& manager, sf::RenderWindow& window){
 
-	if(manager.getLastKeyPressed() != 0){
+	if(manager.getLastKeyTyped() != 0){
 
 		std::string string = m_text.getString();
 
@@ -26,7 +26,7 @@ void InputBox::update(InputManager& manager, sf::RenderWindow& window){
 			string.pop_back();
 		}else{
 			if(manager.getLastKeyPressed() != sf::Keyboard::BackSpace)
-				string += manager.getLastKeyPressed();
+				string += manager.getLastKeyTyped();
 		}
 
 		m_text.setString(string);

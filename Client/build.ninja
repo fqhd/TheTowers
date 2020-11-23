@@ -50,7 +50,8 @@ build entity.o: cc Entity.cpp
 build assets.o: cc Assets.cpp
 build guiselectbox.o: cc GUISelectbox.cpp
 build guicomponent.o: cc GUIComponent.cpp
+build guikeybox.o: cc GUIKeybox.cpp
 
-build out: lnk main.o inputmanager.o button.o inputbox.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o image.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o
+build out: lnk main.o inputmanager.o button.o inputbox.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o image.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o guikeybox.o
 
 

@@ -12,6 +12,7 @@
 #include "GUICheckbox.hpp"
 #include "GUISlider.hpp"
 #include "GUISelectbox.hpp"
+#include "GUIKeybox.hpp"
 
 class GUIHandler {
 public:
@@ -27,6 +28,7 @@ public:
 	std::vector<GUICheckbox> checkboxes;
 	std::vector<GUISlider> sliders;
 	std::vector<GUISelectbox> boxes;
+	std::vector<GUIKeybox> keyboxes;
 
 
 private:
