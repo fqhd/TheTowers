@@ -11,6 +11,7 @@
 #include "Image.hpp"
 #include "GUICheckbox.hpp"
 #include "GUISlider.hpp"
+#include "GUISelectbox.hpp"
 
 class GUIHandler {
 public:
@@ -25,6 +26,7 @@ public:
 	std::vector<Image> images;
 	std::vector<GUICheckbox> checkboxes;
 	std::vector<GUISlider> sliders;
+	std::vector<GUISelectbox> boxes;
 
 
 private:

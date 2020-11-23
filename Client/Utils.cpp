@@ -15,6 +15,6 @@ std::string Utils::loadShader(const char* shaderName){
 	return shaderCode;
 }
 
-bool Utils::isInside(const glm::vec2& mousePos, const glm::vec4& destRect){
-    return (mousePos.x >= destRect.x && mousePos.x <= destRect.x + destRect.z && mousePos.y >= destRect.y && mousePos.y <= destRect.y + destRect.w);
+bool Utils::isInside(const glm::vec2& pos, const glm::vec4& destRect){
+    return (pos.x >= destRect.x && pos.x <= destRect.x + destRect.z && pos.y >= destRect.y && pos.y <= destRect.y + destRect.w);
 }

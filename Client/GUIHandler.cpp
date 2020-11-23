@@ -27,7 +27,7 @@ void GUIHandler::init(GUIFont* font){
 void GUIHandler::update(sf::Window& window, InputManager& manager){
 
 	for(auto& i : buttons){
-		i.update(window, manager);
+		i.update(manager);
 	}
 
 	for(auto& i : checkboxes){
@@ -36,6 +36,10 @@ void GUIHandler::update(sf::Window& window, InputManager& manager){
 
 	for(auto& i : sliders){
 		i.update(window, manager);
+	}
+
+	for(auto& i : boxes){
+		i.update(manager);
 	}
 
 }
@@ -62,6 +66,10 @@ void GUIHandler::render(){
 	}
 
 	for(auto& i : sliders){
+		i.render(m_renderer);
+	}
+
+	for(auto& i : boxes){
 		i.render(m_renderer);
 	}
 

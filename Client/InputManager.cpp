@@ -25,9 +25,16 @@ void InputManager::processInput(sf::Window& window){
 		case sf::Event::TextEntered:
 			m_character = static_cast<char>(m_event.text.unicode);
 		break;
+		case sf::Event::MouseMoved:
+			m_mousePosition = glm::vec2(m_event.mouseMove.x, window.getSize().y - m_event.mouseMove.y);
+		break;
 		}
 	}
 
+}
+
+const glm::vec2& InputManager::getMousePosition(){
+	return m_mousePosition;
 }
 
 bool InputManager::isCloseRequested(){
