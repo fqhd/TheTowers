@@ -1,6 +1,5 @@
 #include "Game.hpp"
 #include "Constants.hpp"
-#include "Info.hpp"
 #include <iostream>
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
@@ -49,8 +48,11 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t y;
 		uint8_t z;
 		uint8_t b;
+		glm::vec3 position;
 
-		packet >> x >> y  >> z >> b;
+		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
+
+		m_modelRenderer.entities[0].transform.setPosition(position);
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 		std::cout << "got something" << std::endl;
@@ -68,7 +70,19 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 	//Updating GUI
 	m_handler.update(window, manager);
 
-	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
+	if(m_networkBufferClock.getElapsedTime().asSeconds() >= 0.2f){
+		packet.clear();
+
+		packet << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << m_player.position.x << m_player.position.y << m_player.position.z;
+
+		m_socket.send(packet);
+
+		m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
+
+		m_networkBufferClock.restart();
+	}
+
+
 }
 
 void Game::generateLocalWorld(){

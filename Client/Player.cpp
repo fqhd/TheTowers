@@ -1,7 +1,6 @@
 #include "Player.hpp"
 #include "Constants.hpp"
 #include "Utils.hpp"
-#include "Info.hpp"
 #include <iostream>
 
 
@@ -99,22 +98,12 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
 
                     glm::vec3 toCameraVector = cameraPosition - blockPosition;
 
-                    Face f = getFace(toCameraVector.x, toCameraVector.y, toCameraVector.z);
-                    if(f == FACE_0){
-                         std::cout << "destroyed" << std::endl;
-                    }
-
                     sf::Packet packet;
 
-                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << (uint8_t)0;
-
-                    std::cout << "X: " << (unsigned int)rayPosition.x << std::endl;
-                    std::cout << "Y: " << (unsigned int)rayPosition.y << std::endl;
-                    std::cout << "Z: " << (unsigned int)rayPosition.z << std::endl;
-                    std::cout << "B: " << (unsigned int)b << std::endl;
+                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << (uint8_t)0 << position.x << position.y << position.z;
 
                     socket.send(packet);
-                    
+
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
                     for(unsigned int j = 0; j < 100; j++){
                          renderer.particles.push_back(Particle(colors[blockID], glm::vec3((int)rayPosition.x, (int)rayPosition.y,
@@ -136,12 +125,7 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
 
                     sf::Packet packet;
 
-                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << b;
-
-                    std::cout << "X: " << (unsigned int)rayPosition.x << std::endl;
-                    std::cout << "Y: " << (unsigned int)rayPosition.y << std::endl;
-                    std::cout << "Z: " << (unsigned int)rayPosition.z << std::endl;
-                    std::cout << "B: " << (unsigned int)b << std::endl;
+                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << b << position.x << position.y << position.z;
 
                     socket.send(packet);
 
@@ -153,10 +137,4 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
           }
     }
 
-}
-
-Face Player::getFace(float x, float y, float z){
-     return (Face)((FACE_0 + (x > 0)) * (fabs(x) > fabs(y) && fabs(x) > fabs(z))
-  + (FACE_2 + (y > 0)) * (fabs(y) > fabs(x) && fabs(y) > fabs(z))
-  + (FACE_4 + (z > 0)) * (fabs(z) > fabs(x) && fabs(z) > fabs(y)));
 }
