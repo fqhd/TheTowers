@@ -53,7 +53,6 @@ private:
      unsigned int m_fps;
      sf::Clock m_fpsClock;
      sf::Clock m_clock;
-     sf::Clock m_networkBufferClock;
      sf::TcpSocket m_socket;
      uint8_t* m_data = nullptr;
 
