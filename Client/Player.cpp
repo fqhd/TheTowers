@@ -1,6 +1,7 @@
 #include "Player.hpp"
 #include "Constants.hpp"
 #include "Utils.hpp"
+#include "Info.hpp"
 #include <iostream>
 
 
@@ -103,18 +104,17 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                          std::cout << "destroyed" << std::endl;
                     }
 
-                    uint8_t buffer[4];
-                    buffer[0] = (uint8_t)rayPosition.x;
-                    buffer[1] = (uint8_t)rayPosition.y;
-                    buffer[2] = (uint8_t)rayPosition.z;
-                    buffer[3] = 0;
-                    socket.send(buffer, 4);
+                    sf::Packet packet;
 
-                    std::cout << "X: " << (unsigned int)buffer[0] << std::endl;
-                    std::cout << "Y: " << (unsigned int)buffer[1] << std::endl;
-                    std::cout << "Z: " << (unsigned int)buffer[2] << std::endl;
-                    std::cout << "B: " << (unsigned int)buffer[3] << std::endl;
+                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << (uint8_t)0;
 
+                    std::cout << "X: " << (unsigned int)rayPosition.x << std::endl;
+                    std::cout << "Y: " << (unsigned int)rayPosition.y << std::endl;
+                    std::cout << "Z: " << (unsigned int)rayPosition.z << std::endl;
+                    std::cout << "B: " << (unsigned int)b << std::endl;
+
+                    socket.send(packet);
+                    
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
                     for(unsigned int j = 0; j < 100; j++){
                          renderer.particles.push_back(Particle(colors[blockID], glm::vec3((int)rayPosition.x, (int)rayPosition.y,
@@ -134,17 +134,16 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                if(world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z)){
                     rayPosition -= camera.m_forward * (DISTANCE / (float)PRECISION);
 
-                    uint8_t buffer[4];
-                    buffer[0] = (uint8_t)rayPosition.x;
-                    buffer[1] = (uint8_t)rayPosition.y;
-                    buffer[2] = (uint8_t)rayPosition.z;
-                    buffer[3] = b;
-                    socket.send(buffer, 4);
+                    sf::Packet packet;
 
-                    std::cout << "X: " << (unsigned int)buffer[0] << std::endl;
-                    std::cout << "Y: " << (unsigned int)buffer[1] << std::endl;
-                    std::cout << "Z: " << (unsigned int)buffer[2] << std::endl;
-                    std::cout << "B: " << (unsigned int)buffer[3] << std::endl;
+                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << b;
+
+                    std::cout << "X: " << (unsigned int)rayPosition.x << std::endl;
+                    std::cout << "Y: " << (unsigned int)rayPosition.y << std::endl;
+                    std::cout << "Z: " << (unsigned int)rayPosition.z << std::endl;
+                    std::cout << "B: " << (unsigned int)b << std::endl;
+
+                    socket.send(packet);
 
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, b);
 

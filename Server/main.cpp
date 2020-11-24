@@ -1,31 +1,45 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+#include <vector>
 #include <iostream>
-#include <string>
 
 int main(){
 
-     sf::TcpListener listener;
-     sf::TcpSocket socket;
+	sf::TcpListener listener;
+	sf::SocketSelector selector;
+	std::vector<sf::TcpSocket*> sockets;
 
-     uint8_t* data = new uint8_t[128*128*32];
+	std::cout << "Listening for connection" << std::endl;
+	listener.listen(2000);
+	selector.add(listener);
 
-     for(unsigned int y = 0; y < 32; y++){
-		for(unsigned int z = 0; z < 32 * 4; z++){
-			for(unsigned int x = 0; x < 32 * 4; x++){
+	while(true){
 
-				data[(y * 32 * 4 * 32 * 4) + (z * 32 * 4) + x] = (y == 5 ? 50 : 0);
-
+		if(selector.wait()){
+			if(selector.isReady(listener)){
+				sf::TcpSocket* socket = new sf::TcpSocket();
+				listener.accept(*socket);
+				sockets.push_back(socket);
+				selector.add(*socket);
+			}else{
+				for(unsigned int i = 0; i < sockets.size(); i++){
+					if(selector.isReady(*sockets[i])){
+						sf::Packet packet;
+						if(sockets[i]->receive(packet) == sf::Socket::Done){
+							for(unsigned int j = 0; j < sockets.size(); j++){
+								if(i != j){
+									sockets[j]->send(packet);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
+
 	}
 
-     std::cout << "Listening for connection" << std::endl;
-     listener.listen(2000);
-     listener.accept(socket);
-     std::cout << "Connected to Client" << std::endl;
 
-     socket.send("Hello", 6);
 
      return 0;
 }

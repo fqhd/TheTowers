@@ -1,7 +1,7 @@
 ShowFPS: 1
 vsync: 1
 maxFps: 1000
-PlayerSpeed: 7
+PlayerSpeed: 11
 MouseSensibility: 24
 Front: 25
 Back: 18

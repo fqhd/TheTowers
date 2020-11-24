@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "Constants.hpp"
+#include "Info.hpp"
 #include <iostream>
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
@@ -32,7 +33,6 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 4, SCREEN_HEIGHT / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
 	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 3, SCREEN_HEIGHT / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 
-
 	//Game Functions
 	addModels();
 	generateColorVector(m_colors);
@@ -41,11 +41,18 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 
 void Game::update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
 
-	uint8_t buffer[4];
-	size_t received;
+	sf::Packet packet;
 
-	if(m_socket.receive(buffer, 4, received) == sf::Socket::Done){
-		m_world.setBlock((int)buffer[0], (int)buffer[1], (int)buffer[2], buffer[3]);
+	if(m_socket.receive(packet) == sf::Socket::Done){
+
+		uint8_t x;
+		uint8_t y;
+		uint8_t z;
+		uint8_t b;
+
+		packet >> x >> y  >> z >> b;
+
+		m_world.setBlock((int)x, (int)y, (int)z, b);
 		std::cout << "got something" << std::endl;
 	}
 
