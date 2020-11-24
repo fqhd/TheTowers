@@ -40,17 +40,22 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 
 void Game::update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
 
-	char buffer[4];
-	size_t size;
+	sf::Packet packet;
 
-	if(m_socket.receive(buffer, sizeof(buffer), size) == sf::Socket::Done){
+	if(m_socket.receive(packet) == sf::Socket::Done){
 
-		uint8_t x = buffer[0];
-		uint8_t y = buffer[1];
-		uint8_t z = buffer[2];
-		uint8_t b = buffer[3];
+		uint8_t x;
+		uint8_t y;
+		uint8_t z;
+		uint8_t b;
+		glm::vec3 position;
+
+		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
+
+		m_modelRenderer.entities[0].transform.setPosition(position);
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
+		std::cout << "got something" << std::endl;
 	}
 
 	if(manager.isKeyPressed(sf::Keyboard::Escape)){
@@ -65,7 +70,15 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 	//Updating GUI
 	m_handler.update(window, manager);
 
-	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
+	if(m_networkBufferClock.getElapsedTime().asSeconds() >= 0.2f){
+		packet.clear();
+
+		packet << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << m_player.position.x << m_player.position.y << m_player.position.z;
+
+		m_socket.send(packet);
+
+		m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
+	}
 
 
 }

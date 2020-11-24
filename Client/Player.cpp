@@ -98,14 +98,11 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
 
                     glm::vec3 toCameraVector = cameraPosition - blockPosition;
 
-                    char buffer[4];
+                    sf::Packet packet;
 
-                    buffer[0] = (uint8_t)rayPosition.x;
-                    buffer[1] = (uint8_t)rayPosition.y;
-                    buffer[2] = (uint8_t)rayPosition.z;
-                    buffer[3] = 0;
+                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << (uint8_t)0 << position.x << position.y << position.z;
 
-                    socket.send(buffer, sizeof(buffer));
+                    socket.send(packet);
 
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
                     for(unsigned int j = 0; j < 100; j++){
@@ -126,14 +123,11 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
                if(world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z)){
                     rayPosition -= camera.m_forward * (DISTANCE / (float)PRECISION);
 
-                    char buffer[4];
+                    sf::Packet packet;
 
-                    buffer[0] = (uint8_t)rayPosition.x;
-                    buffer[1] = (uint8_t)rayPosition.y;
-                    buffer[2] = (uint8_t)rayPosition.z;
-                    buffer[3] = b;
+                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << b << position.x << position.y << position.z;
 
-                    socket.send(buffer, sizeof(buffer));
+                    socket.send(packet);
 
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, b);
 
