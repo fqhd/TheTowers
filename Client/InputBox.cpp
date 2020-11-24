@@ -13,7 +13,6 @@ void InputBox::init(const sf::FloatRect& box, sf::Font* font){
 
 	m_text.setPosition(sf::Vector2f(box.left, box.top));
 
-
 }
 
 void InputBox::update(InputManager& manager, sf::RenderWindow& window){

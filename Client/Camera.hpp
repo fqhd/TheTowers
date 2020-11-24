@@ -17,6 +17,7 @@ public:
 
 	const glm::mat4& getProjectionMatrix() const;
 	const glm::mat4& getViewMatrix() const;
+	const glm::vec3& getPosition() const;
 
 
 

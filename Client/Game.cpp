@@ -5,7 +5,7 @@
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
-	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_SIZE * CHUNK_SIZE];
+	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
 
 	generateLocalWorld();
 
@@ -86,9 +86,9 @@ void Game::generateLocalWorld(){
 	for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
 		for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
 
-			float height = (glm::perlin(glm::vec2(x / (float)CHUNK_WIDTH, z / (float)CHUNK_WIDTH)) + 1) / 2.0f;
+			float height = (glm::perlin(glm::vec2(x / (float)CHUNK_WIDTH * WORLD_SIZE, z / (float)CHUNK_WIDTH * WORLD_SIZE)) + 1) / 2.0f;
 
-			for(unsigned int i = 0; i < height * CHUNK_WIDTH; i++){
+			for(unsigned int i = 0; i < height * CHUNK_WIDTH * WORLD_HEIGHT; i++){
 				m_data[(i * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = i + 100;
 			}
 
@@ -99,7 +99,7 @@ void Game::generateLocalWorld(){
 
 void Game::render(Settings& settings, float deltaTime){
 	m_cubeMap.render(m_player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_player.camera.getViewMatrix())));
-	m_world.render(m_player.camera, m_colors);
+	m_world.render(m_player.camera, m_colors, settings.range);
 	m_modelRenderer.render(m_player.camera);
 	m_particleRenderer.render(m_player.camera);
 

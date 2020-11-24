@@ -33,6 +33,8 @@ void PauseMenu::init(sf::Window& window, GUIFont* font, Settings& settings){
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / 100.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / 25.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.range / 512.0f));
+
 
      m_handler.boxes.push_back(GUISelectbox(glm::vec4(850, 425, 200, 30), ColorRGBA8(255, 255, 255, 255), 3));
 
@@ -77,6 +79,8 @@ void PauseMenu::update(sf::Window& window, InputManager& manager, GameStates& st
           settings.up = m_handler.keyboxes[4].getValue();
           settings.down = m_handler.keyboxes[5].getValue();
 
+          settings.range = m_handler.sliders[6].getValue() * 512;
+
 		writeSettingsToDisk(settings);
      }
 
@@ -104,6 +108,8 @@ void PauseMenu::render(){
      m_handler.renderFont("Fullscreen", 870, 430, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("Borderless", 870, 460, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("Windowed", 870, 490, 0.5f, ColorRGBA8(0, 0, 0, 255));
+     m_handler.renderFont("RenderDistance", 850, 110, 0.5f, ColorRGBA8(255, 255, 255, 255));
+
 
 
      m_handler.renderFont("Front: ", 220, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
@@ -130,6 +136,7 @@ void PauseMenu::writeSettingsToDisk(Settings& settings){
      os << "Down: " << settings.down << std::endl;
      os << "Left: " << settings.left << std::endl;
      os << "Right: " << settings.right << std::endl;
+     os << "RenderDistance: " << settings.range << std::endl;
 
 	os.close();
 }
@@ -161,6 +168,8 @@ void PauseMenu::loadSettingsFromDisk(Settings& settings){
                is >> settings.left;
           }else if(t == "Right:"){
                is >> settings.right;
+          }else if(t == "RenderDistance:"){
+               is >> settings.range;
           }
 
 	}

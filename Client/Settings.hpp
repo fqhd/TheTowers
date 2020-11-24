@@ -12,5 +12,6 @@ struct Settings {
      unsigned int down = 0;
      unsigned int left = 0;
      unsigned int right = 0;
+     float range = 0.0f;
 
 };

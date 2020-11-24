@@ -4,7 +4,7 @@ void World::init(uint8_t* d){
 
      data = d;
 
-     for(unsigned int y = 0; y < WORLD_SIZE; y++){
+     for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
           for(unsigned int z = 0; z < WORLD_SIZE; z++){
                for(unsigned int x = 0; x < WORLD_SIZE; x++){
 
@@ -18,12 +18,12 @@ void World::init(uint8_t* d){
      m_chunkShader.getUniformLocations();
 }
 
-void World::render(Camera& camera, const std::vector<vec3>& colors){
+void World::render(Camera& camera, const std::vector<vec3>& colors, float range){
 
      m_chunkShader.bind();
      m_chunkShader.loadMatrix(camera.getProjectionMatrix() * camera.getViewMatrix());
 
-     for(unsigned int i = 0; i < WORLD_SIZE; i++){
+     for(unsigned int i = 0; i < WORLD_HEIGHT; i++){
           for(unsigned int j = 0; j < WORLD_SIZE; j++){
                for(unsigned int k = 0; k < WORLD_SIZE; k++){
 
@@ -32,7 +32,13 @@ void World::render(Camera& camera, const std::vector<vec3>& colors){
                          chunks[i][j][k].needsUpdate = false;
                     }
 
-                    chunks[i][j][k].render();
+
+
+                    if(Utils::isInRange(camera.getPosition(), glm::vec3(chunks[i][j][k].getX() + CHUNK_WIDTH / 2,
+                    chunks[i][j][k].getY() + CHUNK_WIDTH / 2, chunks[i][j][k].getZ() + CHUNK_WIDTH / 2), range) && chunks[i][j][k].getNumVertices()) {
+                         chunks[i][j][k].render();
+                    }
+
                }
           }
      }
@@ -45,7 +51,7 @@ void World::render(Camera& camera, const std::vector<vec3>& colors){
 
 void World::destroy(){
 
-    for(unsigned int i = 0; i < WORLD_SIZE; i++){
+    for(unsigned int i = 0; i < WORLD_HEIGHT; i++){
         for(unsigned int j = 0; j < WORLD_SIZE; j++){
              for(unsigned int k = 0; k < WORLD_SIZE; k++){
                   chunks[i][j][k].destroy();
@@ -88,16 +94,16 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk& chunk){
 
 uint8_t World::getBlock(int x, int y, int z){
 
-	if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH * WORLD_SIZE|| z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
+	if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH * WORLD_HEIGHT || z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
 		return data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x];
 	}
 
 	return 1;
 }
 
-void World::setBlock(int x, int y, int z, uint8_t block){
+void World::setBlock(int x, int y, int z, uint8_t block) {
 
-     if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH * CHUNK_WIDTH|| z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
+     if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH * WORLD_HEIGHT|| z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
 
           data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = block;
 
@@ -115,12 +121,20 @@ void World::setBlock(int x, int y, int z, uint8_t block){
 			Chunk* chunk = getChunk(posX + 1, posY, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
-		if(z % CHUNK_WIDTH == 0){
+          if(z % CHUNK_WIDTH == 0){
 			Chunk* chunk = getChunk(posX, posY, posZ - 1);
 			if(chunk) chunk->needsUpdate = true;
 		}
 		if((z + 1) % CHUNK_WIDTH == 0){
 			Chunk* chunk = getChunk(posX, posY, posZ + 1);
+			if(chunk) chunk->needsUpdate = true;
+		}
+          if(y % CHUNK_WIDTH == 0){
+			Chunk* chunk = getChunk(posX, posY - 1, posZ);
+			if(chunk) chunk->needsUpdate = true;
+		}
+		if((y + 1) % CHUNK_WIDTH == 0){
+			Chunk* chunk = getChunk(posX, posY + 1, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
 
@@ -132,7 +146,7 @@ void World::setBlock(int x, int y, int z, uint8_t block){
 }
 
 Chunk* World::getChunk(int x, int y, int z){
-     if(!(x < 0 || x >= WORLD_SIZE || z < 0 || z >= WORLD_SIZE || y < 0 || y >= WORLD_SIZE))
+     if(!(x < 0 || x >= WORLD_SIZE || z < 0 || z >= WORLD_SIZE || y < 0 || y >= WORLD_HEIGHT))
           return &chunks[y][z][x];
 
      return nullptr;

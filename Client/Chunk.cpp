@@ -26,6 +26,9 @@ void Chunk::init(unsigned int x, unsigned int y, unsigned int z){
 
 }
 
+unsigned int Chunk::getNumVertices(){
+	return m_numVertices;
+}
 
 
 void Chunk::pushData(const std::vector<Vertex>& vertices){

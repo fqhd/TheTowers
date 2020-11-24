@@ -18,6 +18,7 @@ public:
 	unsigned int getX();
 	unsigned int getY();
 	unsigned int getZ();
+	unsigned int getNumVertices();
 
 	bool needsUpdate = true;
 

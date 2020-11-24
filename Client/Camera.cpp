@@ -22,3 +22,7 @@ const glm::mat4& Camera::getProjectionMatrix() const {
 void Camera::update(sf::Window& window){
 	m_viewMatrix = glm::lookAt(m_position, m_position + m_forward, glm::vec3(0.0f, 1.0f, 0.0f));
 }
+
+const glm::vec3& Camera::getPosition() const {
+	return m_position;
+}
