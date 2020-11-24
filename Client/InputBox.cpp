@@ -22,10 +22,10 @@ void InputBox::update(InputManager& manager, sf::RenderWindow& window){
 
 		std::string string = m_text.getString();
 
-		if(manager.getLastKeyPressed() == 8 && !string.empty()){
+		if(manager.getLastKeyTyped() == 8 && !string.empty()){
 			string.pop_back();
 		}else{
-			if(manager.getLastKeyPressed() != sf::Keyboard::BackSpace)
+			if(manager.getLastKeyTyped() != 8)
 				string += manager.getLastKeyTyped();
 		}
 

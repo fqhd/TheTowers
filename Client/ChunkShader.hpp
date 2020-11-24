@@ -12,7 +12,7 @@ public:
 
 	void loadMatrix(const glm::mat4& shader);
 	void getUniformLocations();
-	
+
 
 private:
 

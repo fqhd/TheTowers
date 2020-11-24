@@ -35,11 +35,11 @@ struct ColorRGBA8 {
 };
 
 struct Vertex{
-	Vertex(const vec3& p, const vec3& c){
+	Vertex(const glm::vec3& p, const vec3& c){
 		position = p;
 		color = c;
 	}
-	vec3 position;
+	glm::vec3 position;
 	vec3 color;
 };
 

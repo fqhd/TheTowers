@@ -1,4 +1,5 @@
 #include "ChunkShader.hpp"
+#include <iostream>
 
 void ChunkShader::getUniformLocations(){
 	bind();

@@ -1,10 +1,11 @@
 #include "Game.hpp"
 #include "Constants.hpp"
 #include <iostream>
+#include <glm/gtc/noise.hpp>
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
-	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * CHUNK_SIZE];
+	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_SIZE * CHUNK_SIZE];
 
 	generateLocalWorld();
 
@@ -17,8 +18,6 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	}
 
 	m_socket.setBlocking(false);
-
-
 
 	m_world.init(m_data);
 	m_modelRenderer.init();
@@ -84,13 +83,16 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 }
 
 void Game::generateLocalWorld(){
-	for(unsigned int y = 0; y < CHUNK_WIDTH; y++){
-		for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
-			for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
+	for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
+		for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
 
-				m_data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = (y == 5 ? 215 : 0);
+			float height = (glm::perlin(glm::vec2(x / (float)CHUNK_WIDTH, z / (float)CHUNK_WIDTH)) + 1) / 2.0f;
 
+			for(unsigned int i = 0; i < height * CHUNK_WIDTH; i++){
+				m_data[(i * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = i + 100;
 			}
+
+
 		}
 	}
 }

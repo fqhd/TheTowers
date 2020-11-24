@@ -9,13 +9,14 @@
 class Chunk {
 public:
 
-	void init(unsigned int x, unsigned int z);
+	void init(unsigned int x, unsigned int y, unsigned int z);
 
 	void render();
 	void destroy();
 	void pushData(const std::vector<Vertex>& vertices);
 
 	unsigned int getX();
+	unsigned int getY();
 	unsigned int getZ();
 
 	bool needsUpdate = true;
@@ -27,6 +28,7 @@ private:
 	GLuint m_vboID = 0;
 	GLuint m_numVertices = 0;
 	unsigned int m_x = 0;
+	unsigned int m_y = 0;
 	unsigned int m_z = 0;
 
 };

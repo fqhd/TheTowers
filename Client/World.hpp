@@ -23,7 +23,7 @@ public:
 private:
 
      void generateMesh(const std::vector<vec3>& colors, Chunk& chunk);
-     Chunk* getChunk(int x, int z);
+     Chunk* getChunk(int x, int y, int z);
 
      void addTopFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
      void addBottomFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
@@ -34,7 +34,7 @@ private:
 
      std::vector<Vertex> m_vertices;
 
-     Chunk chunks[WORLD_SIZE][WORLD_SIZE];
+     Chunk chunks[WORLD_SIZE][WORLD_SIZE][WORLD_SIZE];
      ChunkShader m_chunkShader;
 
 
