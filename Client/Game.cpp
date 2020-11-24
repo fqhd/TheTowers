@@ -50,7 +50,7 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t b;
 		glm::vec3 position;
 
-		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
+		packet >> x >> y >> z >> b >> position.x >> position.y >> position.z;
 
 		m_modelRenderer.entities[0].transform.setPosition(position);
 
@@ -70,10 +70,11 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 	//Updating GUI
 	m_handler.update(window, manager);
 
+	/*
 	if(m_networkBufferClock.getElapsedTime().asSeconds() >= 0.2f){
 		packet.clear();
 
-		packet << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << m_player.position.x << m_player.position.y << m_player.position.z;
+		packet << m_player.position.z;
 
 		m_socket.send(packet);
 
@@ -81,6 +82,7 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 
 		m_networkBufferClock.restart();
 	}
+	*/
 
 
 }
