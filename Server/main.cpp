@@ -60,19 +60,20 @@ int main(){
 						sf::Packet packet;
 						if(sockets[i]->receive(packet) == sf::Socket::Done){
 
-							sf::Uint8 blockX = 0;
-							sf::Uint8 blockY = 0;
-							sf::Uint8 blockZ = 0;
-							sf::Uint8 blockID = 0;
-							float playerX = 0.0f;
-							float playerY = 0.0f;
-							float playerZ = 0.0f;
-
-							packet >> blockX >> blockY >> blockZ >> blockID >> playerX >> playerY >> playerZ;
-
-							data[(blockY * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (blockZ * CHUNK_WIDTH * WORLD_SIZE) + blockX] = blockID;
-
-							packet << blockX << blockY << blockZ << blockID << playerX << playerY << playerZ << (sf::Uint8)(i + 1);
+							// sf::Uint8 blockX = 0;
+							// sf::Uint8 blockY = 0;
+							// sf::Uint8 blockZ = 0;
+							// sf::Uint8 blockID = 0;
+							// float playerX = 0.0f;
+							// float playerY = 0.0f;
+							// float playerZ = 0.0f;
+							//
+							// packet >> blockX >> blockY >> blockZ >> blockID >> playerX >> playerY >> playerZ;
+							//
+							// data[(blockY * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (blockZ * CHUNK_WIDTH * WORLD_SIZE) + blockX] = blockID;
+							//
+							// packet << blockX << blockY << blockZ << blockID << playerX << playerY << playerZ << (sf::Uint8)(i + 1);
+							packet << (sf::Uint8)(i + 1);
 
 
 							for(unsigned int j = 0; j < sockets.size(); j++){
