@@ -74,7 +74,7 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t b;
 		glm::vec3 position;
 		uint8_t id;
-		packet >> id >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
+		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
 
 		std::cout << (unsigned int)id << std::endl;
 
