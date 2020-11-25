@@ -56,10 +56,14 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t id;
 		packet >> id >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
 
-		if(id > m_modelRenderer.entities.size()){
+		std::cout << id << std::endl;
+
+/*
+		while(id > m_modelRenderer.entities.size()){
 			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
 		}
 		m_modelRenderer.entities[id].transform.setPosition(position);
+*/
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 	}
