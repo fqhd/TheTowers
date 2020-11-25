@@ -26,9 +26,9 @@ public:
      void destroy();
 
      //Game functions
-     void addModels();
      void generateColorVector(std::vector<vec3>& colors);
      void generateLocalWorld();
+     void generateEntityColors();
 
 
 private:
@@ -49,6 +49,7 @@ private:
 
      //Game Variables
      std::vector<vec3> m_colors;
+     std::vector<ColorRGBA8> m_entityColors;
      std::string m_fpsString;
      unsigned int m_fps;
      sf::Clock m_fpsClock;

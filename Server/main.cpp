@@ -2,8 +2,11 @@
 #include <SFML/Network.hpp>
 #include <vector>
 #include <iostream>
+#include "../Client/Constants.hpp"
 
 int main(){
+
+
 
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
@@ -26,6 +29,7 @@ int main(){
 					if(selector.isReady(*sockets[i])){
 						sf::Packet packet;
 						if(sockets[i]->receive(packet) == sf::Socket::Done){
+							packet << (uint8_t)(i + 1);
 							for(unsigned int j = 0; j < sockets.size(); j++){
 								if(i != j){
 									sockets[j]->send(packet);

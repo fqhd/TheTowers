@@ -15,6 +15,7 @@ void ModelRenderer::render(Camera& camera){
 
     for(auto& i : entities){
         m_shader.loadModel(i.transform.getMatrix());
+        m_shader.loadColor(i.getColor());
         i.render();
     }
 

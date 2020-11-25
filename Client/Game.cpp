@@ -32,9 +32,14 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 3, SCREEN_HEIGHT / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 
 	//Game Functions
-	addModels();
 	generateColorVector(m_colors);
+	generateEntityColors();
+}
 
+void Game::generateEntityColors(){
+	for(unsigned int i = 0; i < 16; i++){
+		m_entityColors.push_back(ColorRGBA8(i * 16, 0, 255 - i * 16, 255));
+	}
 }
 
 void Game::update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
@@ -48,10 +53,14 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t z;
 		uint8_t b;
 		glm::vec3 position;
+		uint8_t id;
+		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
 
-		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
-
-		m_modelRenderer.entities[0].transform.setPosition(position);
+		if(id > m_modelRenderer.entities.size()){
+			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
+		}else{
+			m_modelRenderer.entities[id].transform.setPosition(position);
+		}
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 		std::cout << "got something" << std::endl;
@@ -150,8 +159,4 @@ void Game::generateColorVector(std::vector<vec3>& colors){
 		}
 	}
 
-}
-
-void Game::addModels(){
-	m_modelRenderer.entities.push_back(Entity(Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey()));
 }

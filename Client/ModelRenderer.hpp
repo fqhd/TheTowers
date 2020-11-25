@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include "ModelShader.hpp"
 #include "Camera.hpp"
+#include "Vertex.hpp"
 
 class ModelRenderer {
 public:

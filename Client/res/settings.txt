@@ -2,11 +2,11 @@ ShowFPS: 1
 vsync: 1
 maxFps: 1000
 PlayerSpeed: 5
-MouseSensibility: 40
+MouseSensibility: 41
 Front: 25
 Back: 18
 Up: 57
 Down: 38
 Left: 16
 Right: 3
-RenderDistance: 358.445
+RenderDistance: 370.294
