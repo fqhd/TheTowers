@@ -1,4 +1,4 @@
-ShowFPS: 1
+ShowFPS: 0
 vsync: 1
 maxFps: 1000
 PlayerSpeed: 25
@@ -9,4 +9,4 @@ Up: 57
 Down: 38
 Left: 16
 Right: 3
-RenderDistance: 175.603
+RenderDistance: 99.438
