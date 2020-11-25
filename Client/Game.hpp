@@ -16,6 +16,7 @@
 #include "Settings.hpp"
 #include "GUIHandler.hpp"
 #include "Assets.hpp"
+#include <unordered_map>
 
 class Game {
 public:
@@ -48,6 +49,7 @@ private:
 
 
      //Game Variables
+     std::unordered_map<unsigned int, unsigned int> m_clients;
      std::vector<vec3> m_colors;
      std::vector<ColorRGBA8> m_entityColors;
      std::string m_fpsString;
