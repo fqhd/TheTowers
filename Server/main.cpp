@@ -2,6 +2,7 @@
 #include <SFML/Network.hpp>
 #include <vector>
 #include <iostream>
+#include <glm/gtc/noise.hpp>
 #include "../Client/Constants.hpp"
 
 int main(){
@@ -12,10 +13,21 @@ int main(){
 		for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
 			for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
 				data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = 0;
-				if(y <= 5){
-					data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = 215;
-				}
 			}
+		}
+	}
+
+	for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
+		for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
+
+			float p = (glm::perlin(glm::vec2(x * 0.1f / (float)CHUNK_WIDTH * WORLD_SIZE, z * 0.1f / (float)CHUNK_WIDTH * WORLD_SIZE)) + 1.0f) / 2.0f;
+
+			uint32_t height = CHUNK_WIDTH * p;
+
+			for(uint32_t y = 0; y < height; y++){
+				data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = y + 100;
+			}
+
 		}
 	}
 
@@ -60,21 +72,19 @@ int main(){
 						sf::Packet packet;
 						if(sockets[i]->receive(packet) == sf::Socket::Done){
 
-							// sf::Uint8 blockX = 0;
-							// sf::Uint8 blockY = 0;
-							// sf::Uint8 blockZ = 0;
-							// sf::Uint8 blockID = 0;
-							// float playerX = 0.0f;
-							// float playerY = 0.0f;
-							// float playerZ = 0.0f;
-							//
-							// packet >> blockX >> blockY >> blockZ >> blockID >> playerX >> playerY >> playerZ;
-							//
-							// data[(blockY * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (blockZ * CHUNK_WIDTH * WORLD_SIZE) + blockX] = blockID;
-							//
-							// packet << blockX << blockY << blockZ << blockID << playerX << playerY << playerZ << (sf::Uint8)(i + 1);
-							packet << (sf::Uint8)(i + 1);
+							sf::Uint8 blockX = 0;
+							sf::Uint8 blockY = 0;
+							sf::Uint8 blockZ = 0;
+							sf::Uint8 blockID = 0;
+							float playerX = 0.0f;
+							float playerY = 0.0f;
+							float playerZ = 0.0f;
 
+							packet >> blockX >> blockY >> blockZ >> blockID >> playerX >> playerY >> playerZ;
+
+							data[(blockY * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (blockZ * CHUNK_WIDTH * WORLD_SIZE) + blockX] = blockID;
+
+							packet << (sf::Uint8)(i + 1);
 
 							for(unsigned int j = 0; j < sockets.size(); j++){
 								if(i != j){
