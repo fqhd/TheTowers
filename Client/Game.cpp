@@ -74,7 +74,8 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t b;
 		glm::vec3 position;
 		uint8_t id;
-		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
+		packet >> id >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
+
 		std::cout << (unsigned int)id << std::endl;
 
 		auto it = m_clients.find(id);
