@@ -20,7 +20,7 @@ void GUIKeybox::update(InputManager& manager, std::vector<GUIKeybox>& keyboxes){
 
      if(Utils::isInside(manager.getMousePosition(), m_destRect)){
           m_currentColor = ColorRGBA8(m_baseColor.r * 0.6f, m_baseColor.g * 0.6f, m_baseColor.b * 0.6f, 255);
-          if(manager.isKeyDown(sf::Mouse::Left)){
+          if(manager.isMouseDown(sf::Mouse::Left)){
                for(auto& i : keyboxes){
                     i.m_isSelected = false;
                }

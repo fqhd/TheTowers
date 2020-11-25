@@ -18,9 +18,9 @@ void GUICheckbox::update(sf::Window& window, InputManager& manager){
      m_currentColor = color;
      if(Utils::isInside(mousePos, m_destRect)){
           m_currentColor = ColorRGBA8(color.r * 0.6f, color.g * 0.6f, color.b * 0.6f, color.a);
-          if(manager.isKeyDown(sf::Mouse::Left)){
+          if(manager.isMouseDown(sf::Mouse::Left)){
                m_currentColor = ColorRGBA8(color.r * 0.3f, color.g * 0.3f, color.b * 0.3f, color.a);
-          }else if(manager.isKeyReleased(sf::Mouse::Left)){
+          }else if(manager.isMouseReleased(sf::Mouse::Left)){
                m_isChecked = !m_isChecked;
           }
      }

@@ -3,6 +3,7 @@
 void InputManager::processInput(sf::Window& window){
 
 	m_previousKeyMap = m_keymap;
+	m_previousMouseMap = m_mousemap;
 	m_lastKeyTyped = 0;
 	m_lastKeyPressed = -1;
 
@@ -19,10 +20,10 @@ void InputManager::processInput(sf::Window& window){
 			keyReleased(m_event.key.code);
 		break;
 		case sf::Event::MouseButtonPressed:
-			keyPressed(m_event.mouseButton.button);
+			mousePressed(m_event.mouseButton.button);
 		break;
 		case sf::Event::MouseButtonReleased:
-			keyReleased(m_event.mouseButton.button);
+			mouseReleased(m_event.mouseButton.button);
 		break;
 		case sf::Event::TextEntered:
 			m_lastKeyTyped = static_cast<char>(m_event.text.unicode);
@@ -51,6 +52,15 @@ bool InputManager::isKeyReleased(unsigned int keyID){
 	return (!isKeyDown(keyID) && wasKeyDown(keyID));
 }
 
+bool InputManager::isMousePressed(unsigned int keyID){
+	return (isMouseDown(keyID) && !wasMouseDown(keyID));
+}
+
+bool InputManager::isMouseReleased(unsigned int keyID){
+	return (!isMouseDown(keyID) && wasMouseDown(keyID));
+}
+
+
 bool InputManager::isKeyDown(unsigned int keyID){
 	auto it = m_keymap.find(keyID);
 	if(it != m_keymap.end()){
@@ -59,14 +69,36 @@ bool InputManager::isKeyDown(unsigned int keyID){
 	return false;
 }
 
-bool InputManager::wasKeyDown(unsigned int keyID){
-	auto it = m_previousKeyMap.find(keyID);
+bool InputManager::isMouseDown(unsigned int buttonID){
+	auto it = m_mousemap.find(buttonID);
+	if(it != m_mousemap.end()){
+		return it->second;
+	}
+	return false;
+}
+
+bool InputManager::wasKeyDown(unsigned int buttonID){
+	auto it = m_previousKeyMap.find(buttonID);
 	if(it != m_previousKeyMap.end()){
 		return it->second;
 	}
-
-
 	return false;
+}
+
+bool InputManager::wasMouseDown(unsigned int buttonID){
+	auto it = m_previousMouseMap.find(buttonID);
+	if(it != m_previousMouseMap.end()){
+		return it->second;
+	}
+	return false;
+}
+
+void InputManager::mousePressed(unsigned int buttonID){
+	m_mousemap[buttonID] = true;
+}
+
+void InputManager::mouseReleased(unsigned int buttonID){
+	m_mousemap[buttonID] = false;
 }
 
 void InputManager::keyPressed(unsigned int keyID){

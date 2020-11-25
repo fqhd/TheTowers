@@ -85,7 +85,7 @@ void Player::movement(float deltaTime, const Settings& settings, InputManager& m
 void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, uint8_t b, sf::TcpSocket& socket){
 
      //Breaking blocks
-     if(manager.isKeyPressed(sf::Mouse::Left)){
+     if(manager.isMousePressed(sf::Mouse::Left)){
           glm::vec3 rayPosition = camera.m_position;
           for(unsigned int i = 0; i < PRECISION; i++){
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);
@@ -116,7 +116,7 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
     }
 
     //Placing blocks
-    if(manager.isKeyPressed(sf::Mouse::Right)){
+    if(manager.isMousePressed(sf::Mouse::Right)){
           glm::vec3 rayPosition = camera.m_position;
           for(unsigned int i = 0; i < PRECISION; i++){
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);

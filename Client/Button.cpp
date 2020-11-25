@@ -24,9 +24,9 @@ void Button::update(InputManager& manager, sf::RenderWindow& window){
 
 	if(m_rect.getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y))){
 		m_rect.setFillColor(sf::Color(80, 100, 170));
-		if(manager.isKeyDown(sf::Mouse::Left)){
+		if(manager.isMouseDown(sf::Mouse::Left)){
 			m_rect.setFillColor(sf::Color(50, 70, 150));
-		}else if(manager.isKeyReleased(sf::Mouse::Left)) {
+		}else if(manager.isMouseReleased(sf::Mouse::Left)) {
 			m_isPressed = true;
 		}
 	}
