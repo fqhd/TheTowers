@@ -33,10 +33,10 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	while(packet >> blockID){
 		sf::Uint64 numBlocks = 0;
 		packet >> numBlocks;
-		for(sf::Uint64 i = pointer; i < numBlocks; i++){
+		for(sf::Uint64 i = 0; i < numBlocks; i++){
 			m_data[pointer + i] = blockID;
 		}
-		pointer = numBlocks - 1;
+		pointer += numBlocks - 1;
 	}
 
 	m_world.init(m_data);
