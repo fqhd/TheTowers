@@ -49,7 +49,7 @@ private:
 
 
      //Game Variables
-     std::unordered_map<unsigned int, unsigned int> m_clients;
+     std::unordered_map<uint8_t, uint8_t> m_clients;
      std::vector<vec3> m_colors;
      std::vector<ColorRGBA8> m_entityColors;
      std::string m_fpsString;
