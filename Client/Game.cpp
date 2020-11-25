@@ -54,16 +54,20 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t b;
 		glm::vec3 position;
 		uint8_t id;
-		packet >> id >> x >> y  >> z >> b >> position.x >> position.y >> position.z;
+		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
 
-		std::cout << id << std::endl;
+		std::cout << "ID: " << (unsigned int)id << std::endl;
+		std::cout << "bX: " << (unsigned int)x << std::endl;
+		std::cout << "bY: " << (unsigned int)y << std::endl;
+		std::cout << "bZ: " << (unsigned int)z << std::endl;
+		std::cout << "X: " << position.x << std::endl;
+		std::cout << "Y: " << position.y << std::endl;
+		std::cout << "Z: " << position.z << std::endl;
 
-/*
 		while(id > m_modelRenderer.entities.size()){
 			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
 		}
-		m_modelRenderer.entities[id].transform.setPosition(position);
-*/
+		m_modelRenderer.entities[id - 1].transform.setPosition(position);
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 	}
