@@ -8,7 +8,6 @@
 #include <SFML/Network.hpp>
 
 bool getIP(sf::IpAddress& ip);
-void game();
 
 int main(){
 

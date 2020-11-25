@@ -63,7 +63,6 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		}
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
-		std::cout << "got something" << std::endl;
 	}
 
 	if(manager.isKeyPressed(sf::Keyboard::Escape)){
