@@ -1,13 +1,12 @@
 #include "Game.hpp"
 #include "Constants.hpp"
 #include <iostream>
+#include <cstring>
 #include <glm/gtc/noise.hpp>
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
 	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
-
-	generateLocalWorld();
 
 	sf::Socket::Status status = m_socket.connect(ip, 2000);
 
@@ -17,7 +16,28 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 		std::cout << "connected to server" << std::endl;
 	}
 
+
+	sf::Packet packet;
+
+	m_socket.setBlocking(true);
+	m_socket.receive(packet);
 	m_socket.setBlocking(false);
+
+	sf::Uint64 size = packet.getDataSize();
+
+	std::cout << "Packet Size Received: " << packet.getDataSize() << std::endl;
+	std::cout << "U64 Size: " << size << std::endl;
+
+	sf::Uint8 blockID = 0;
+	sf::Uint64 pointer = 0;
+	while(packet >> blockID){
+		sf::Uint64 numBlocks = 0;
+		packet >> numBlocks;
+		for(sf::Uint64 i = pointer; i < numBlocks; i++){
+			m_data[pointer + i] = blockID;
+		}
+		pointer = numBlocks - 1;
+	}
 
 	m_world.init(m_data);
 	m_modelRenderer.init();
@@ -55,14 +75,6 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		glm::vec3 position;
 		uint8_t id;
 		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
-
-		std::cout << "ID: " << (unsigned int)id << std::endl;
-		std::cout << "bX: " << (unsigned int)x << std::endl;
-		std::cout << "bY: " << (unsigned int)y << std::endl;
-		std::cout << "bZ: " << (unsigned int)z << std::endl;
-		std::cout << "X: " << position.x << std::endl;
-		std::cout << "Y: " << position.y << std::endl;
-		std::cout << "Z: " << position.z << std::endl;
 
 		while (id > m_modelRenderer.entities.size()){
 			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
