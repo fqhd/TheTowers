@@ -85,6 +85,7 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		m_socket.send(packet);
 
 		m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
+		m_networkBufferClock.restart();
 	}
 
 
