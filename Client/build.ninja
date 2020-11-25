@@ -1,4 +1,4 @@
-cflags = -O3 $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags freetype2) -fdiagnostics-color=always -g
+cflags = -O0 $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags freetype2) -fdiagnostics-color=always -g
 lflags = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew) $$(pkg-config --libs freetype2)
 
 rule cc

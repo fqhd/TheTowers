@@ -58,9 +58,8 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 
 		if(id > m_modelRenderer.entities.size()){
 			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
-		}else{
-			m_modelRenderer.entities[id].transform.setPosition(position);
 		}
+		m_modelRenderer.entities[id - 1].transform.setPosition(position);
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 	}
@@ -84,10 +83,10 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 
 		m_socket.send(packet);
 
-		m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
 		m_networkBufferClock.restart();
 	}
 
+	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
 
 }
 
