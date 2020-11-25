@@ -1,4 +1,5 @@
 #include "ModelRenderer.hpp"
+#include "Utils.hpp"
 
 void ModelRenderer::init(){
 
@@ -7,16 +8,18 @@ void ModelRenderer::init(){
 
 }
 
-void ModelRenderer::render(Camera& camera){
+void ModelRenderer::render(Camera& camera, float range){
 
     m_shader.bind();
     m_shader.loadProjection(camera.getProjectionMatrix());
     m_shader.loadView(camera.getViewMatrix());
 
     for(auto& i : entities){
-        m_shader.loadModel(i.transform.getMatrix());
-        m_shader.loadColor(i.getColor());
-        i.render();
+         if(Utils::isInRange(camera.getPosition(), i.transform.getPosition(), range)){
+              m_shader.loadModel(i.transform.getMatrix());
+             m_shader.loadColor(i.getColor());
+             i.render();
+         }
     }
 
     m_shader.unbind();

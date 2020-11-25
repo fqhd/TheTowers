@@ -36,7 +36,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 		for(sf::Uint64 i = 0; i < numBlocks; i++){
 			m_data[pointer + i] = blockID;
 		}
-		pointer += numBlocks - 1;
+		pointer += numBlocks;
 	}
 
 	m_world.init(m_data);
@@ -114,6 +114,12 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 
 	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
 
+	if(manager.isKeyPressed(sf::Keyboard::R)){
+		for(auto& i : m_modelRenderer.entities){
+			i.transform.setPosition(glm::vec3(0, 1000000000, 0));
+		}
+	}
+
 }
 
 void Game::generateLocalWorld(){
@@ -134,7 +140,7 @@ void Game::generateLocalWorld(){
 void Game::render(Settings& settings, float deltaTime){
 	m_cubeMap.render(m_player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_player.camera.getViewMatrix())));
 	m_world.render(m_player.camera, m_colors, settings.range);
-	m_modelRenderer.render(m_player.camera);
+	m_modelRenderer.render(m_player.camera, settings.range);
 	m_particleRenderer.render(m_player.camera);
 
 	//Calculating FPS

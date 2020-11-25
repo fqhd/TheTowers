@@ -9,7 +9,7 @@ class ModelRenderer {
 public:
 
     void init();
-    void render(Camera& camera);
+    void render(Camera& camera, float range);
     void destroy();
 
     std::vector<Entity> entities;
