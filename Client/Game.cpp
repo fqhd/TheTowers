@@ -74,13 +74,15 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		uint8_t b;
 		glm::vec3 position;
 		uint8_t id;
+		std::cout << (unsigned int)id << std::endl;
 		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
 
-		if(m_clients.find(id) == m_clients.end()){
-			m_clients[id] = m_modelRenderer.entities.size();
-			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
+		auto it = m_clients.find(id);
+		if(it != m_clients.end()){
+			m_modelRenderer.entities[it->first].transform.setPosition(position);
 		}else{
-			m_modelRenderer.entities[m_clients[id]].transform.setPosition(position);
+			m_clients[m_modelRenderer.entities.size()] = id;
+			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
 		}
 
 
