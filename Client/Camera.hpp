@@ -1,8 +1,9 @@
 #pragma once
+
 #include <glm/gtx/transform.hpp>
 #include <glm/glm.hpp>
-#include <SFML/Graphics.hpp>
 #include <GL/glew.h>
+
 #include "Chunk.hpp"
 #include "InputManager.hpp"
 
@@ -13,7 +14,7 @@ public:
 	friend class Player;
 
 	void init(const glm::vec3& pos);
-	void update(sf::Window& window);
+	void update();
 
 	const glm::mat4& getProjectionMatrix() const;
 	const glm::mat4& getViewMatrix() const;

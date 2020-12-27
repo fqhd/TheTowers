@@ -7,7 +7,7 @@ class GUIKeybox {
 public:
 
      GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int value);
-     void update(InputManager& manager, std::vector<GUIKeybox>& keyboxes);
+     void update(std::vector<GUIKeybox>& keyboxes);
      void render(GUIRenderer& renderer);
 
      unsigned int getValue();

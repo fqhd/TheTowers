@@ -5,7 +5,7 @@ class GUISelectbox {
 public:
 
      GUISelectbox(const glm::vec4& quad, const ColorRGBA8& color, unsigned int numComponents);
-     void update(InputManager& manager);
+     void update();
      void render(GUIRenderer& renderer);
 
      std::vector<GUIComponent> components;

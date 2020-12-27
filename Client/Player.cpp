@@ -1,8 +1,8 @@
 #include "Player.hpp"
 #include "Constants.hpp"
 #include "Utils.hpp"
-#include <iostream>
 
+#include <iostream>
 
 
 void Player::init(){
@@ -10,26 +10,19 @@ void Player::init(){
     position = glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2);
 }
 
-void Player::update(sf::Window& window, const Settings& settings, const std::vector<vec3>& colors,
-     ParticleRenderer& renderer, InputManager& manager, World& world, float deltaTime, uint8_t blockID, sf::TcpSocket& socket){
+void Player::update(const Settings& settings, const std::vector<vec3>& colors,
+     ParticleRenderer& renderer, World& world, float deltaTime, uint8_t blockID, sf::TcpSocket& socket){
 
-	movement(deltaTime, settings, manager);
-	calculateCameraVectors(window, settings.mouseSensibility/100.0f);
-	breakBlocks(colors, renderer, manager, world, blockID, socket);
+	movement(deltaTime, settings);
+	calculateCameraVectors(settings.mouseSensibility/100.0f);
+	breakBlocks(colors, renderer, world, blockID, socket);
 
 }
 
-void Player::calculateCameraVectors(sf::Window& window, float sensibility){
+void Player::calculateCameraVectors(float sensibility){
 
-
-     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
-     sf::Mouse::setPosition(sf::Vector2i(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), window);
-
-     sf::Vector2i newPos = sf::Vector2i(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
-     camera.m_pitch -= (mousePos.y - newPos.y) * sensibility;
-     camera.m_yaw += (mousePos.x - newPos.x) * sensibility;
+     camera.m_pitch -= InputManager::getDeltaMousePosition().y * sensibility;
+     camera.m_yaw += InputManager::getDeltaMousePosition().x * sensibility;
 
      if(camera.m_pitch >= 90.0f){
           camera.m_pitch = 89.0f;
@@ -43,49 +36,49 @@ void Player::calculateCameraVectors(sf::Window& window, float sensibility){
      camera.m_forward.z = sin(glm::radians(camera.m_yaw)) * cos(glm::radians(camera.m_pitch));
 
      camera.m_position = glm::vec3(position.x + PLAYER_WIDTH / 2.0f, position.y + PLAYER_HEIGHT - 0.25f, position.z + PLAYER_WIDTH / 2.0f);
-     camera.update(window);
+     camera.update();
 
 
 
 }
 
-void Player::movement(float deltaTime, const Settings& settings, InputManager& manager){
+void Player::movement(float deltaTime, const Settings& settings){
 
 
      glm::vec3 forward = glm::normalize(glm::vec3(camera.m_forward.x, 0.0f, camera.m_forward.z));
      glm::vec3 side = glm::normalize(glm::cross(camera.m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-     if(manager.isKeyDown(settings.front)){
+     if(InputManager::isKeyDown(settings.front)){
           position += forward * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(manager.isKeyDown(settings.back)){
+     if(InputManager::isKeyDown(settings.back)){
           position -= forward * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(manager.isKeyDown(settings.left)){
+     if(InputManager::isKeyDown(settings.left)){
           position -= side * (float)settings.playerSpeed * deltaTime;
      }
 
 
-     if(manager.isKeyDown(settings.right)){
+     if(InputManager::isKeyDown(settings.right)){
           position += side * (float)settings.playerSpeed * deltaTime;
      }
 
-     if(manager.isKeyDown(settings.down)){
+     if(InputManager::isKeyDown(settings.down)){
           position.y -= (float)settings.playerSpeed * deltaTime;
      }
 
-     if(manager.isKeyDown(settings.up)){
+     if(InputManager::isKeyDown(settings.up)){
           position.y += (float)settings.playerSpeed * deltaTime;
      }
 
 }
 
-void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, InputManager& manager, World& world, uint8_t b, sf::TcpSocket& socket){
+void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, uint8_t b, sf::TcpSocket& socket){
 
      //Breaking blocks
-     if(manager.isMousePressed(sf::Mouse::Left)){
+     if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
           glm::vec3 rayPosition = camera.m_position;
           for(unsigned int i = 0; i < PRECISION; i++){
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);
@@ -116,7 +109,7 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
     }
 
     //Placing blocks
-    if(manager.isMousePressed(sf::Mouse::Right)){
+    if(InputManager::isButtonPressed(sf::Mouse::Right)){
           glm::vec3 rayPosition = camera.m_position;
           for(unsigned int i = 0; i < PRECISION; i++){
                rayPosition += camera.m_forward * (DISTANCE / (float)PRECISION);

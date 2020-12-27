@@ -4,6 +4,7 @@
 #include <cstring>
 #include <glm/gtc/noise.hpp>
 
+
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
 	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
@@ -62,7 +63,7 @@ void Game::generateEntityColors(){
 	}
 }
 
-void Game::update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID){
+void Game::update(Settings& settings, float deltaTime, GameStates& state, uint8_t blockID){
 
 	sf::Packet packet;
 
@@ -88,17 +89,16 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 	}
 
-	if(manager.isKeyPressed(sf::Keyboard::Escape)){
-		window.setMouseCursorGrabbed(false);
-	     window.setMouseCursorVisible(true);
+	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
+		Window::setMouseCursorGrabbed(false);
 		state = GameStates::PAUSE;
 	}
 
-	m_player.update(window, settings, m_colors, m_particleRenderer, manager, m_world, deltaTime, blockID, m_socket);
+	m_player.update(settings, m_colors, m_particleRenderer, m_world, deltaTime, blockID, m_socket);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
 	//Updating GUI
-	m_handler.update(window, manager);
+	m_handler.update();
 
 	if(m_networkBufferClock.getElapsedTime().asSeconds() >= 0.2f){
 		packet.clear();
@@ -112,7 +112,7 @@ void Game::update(sf::Window& window, Settings& settings, InputManager& manager,
 
 	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
 
-	if(manager.isKeyPressed(sf::Keyboard::R)){
+	if(InputManager::isKeyPressed(sf::Keyboard::R)){
 		for(auto& i : m_modelRenderer.entities){
 			i.transform.setPosition(glm::vec3(0, 1000000000, 0));
 		}

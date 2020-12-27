@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "GUIRenderer.hpp"
 #include "GUIFontRenderer.hpp"
 #include "InputManager.hpp"
@@ -8,7 +7,7 @@ class GUISlider {
 public:
 
      GUISlider(const glm::vec2& position, float size, const ColorRGBA8& lineColor, const ColorRGBA8& buttonColor, float value);
-     void update(sf::Window& window, InputManager& manager);
+     void update();
      void render(GUIRenderer& renderer);
 
      float getValue();

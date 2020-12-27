@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <GL/glew.h>
 #include <glm/gtc/noise.hpp>
@@ -16,13 +15,14 @@
 #include "Settings.hpp"
 #include "GUIHandler.hpp"
 #include "Assets.hpp"
-#include <unordered_map>
+#include "Window.hpp"
+
 
 class Game {
 public:
 
      void init(GUIFont* font, sf::IpAddress ip);
-     void update(sf::Window& window, Settings& settings, InputManager& manager, float deltaTime, GameStates& state, uint8_t blockID);
+     void update(Settings& settings, float deltaTime, GameStates& state, uint8_t blockID);
      void render(Settings& settings, float deltaTime);
      void destroy();
 

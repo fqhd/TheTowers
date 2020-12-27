@@ -1,9 +1,9 @@
-#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <vector>
 #include <iostream>
 #include <glm/gtc/noise.hpp>
 #include "../Client/Constants.hpp"
+
 
 int main(){
 

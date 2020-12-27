@@ -1,50 +1,56 @@
-#pragma once
+#ifndef INPUT_MANAGER_H
+#define INPUT_MANAGER_H
+
 #include <unordered_map>
-#include <SFML/Graphics.hpp>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-class InputManager{
+
+class InputManager {
 public:
 
-	void processInput(sf::Window& window);
+	static void init(GLFWwindow* window);
+	static bool processInput(GLFWwindow* window);
 
-	bool isKeyPressed(unsigned int keyID);
-	bool isKeyReleased(unsigned int keyID);
-	bool isKeyDown(unsigned int keyID);
-	bool wasKeyDown(unsigned int keyID);
+	static bool isKeyPressed(unsigned int keyID);
+	static bool isKeyReleased(unsigned int keyID);
+	static bool isKeyDown(unsigned int keyID);
+	static bool wasKeyDown(unsigned int keyID);
 
-	bool isMousePressed(unsigned int keyID);
-	bool isMouseReleased(unsigned int keyID);
-	bool isMouseDown(unsigned int keyID);
-	bool wasMouseDown(unsigned int keyID);
+	static bool isButtonPressed(unsigned int keyID);
+	static bool isButtonReleased(unsigned int keyID);
+	static bool isButtonDown(unsigned int keyID);
+	static bool wasButtonDown(unsigned int keyID);
 
-	const glm::vec2& getMousePosition();
+	static const glm::vec2& getDeltaMousePosition();
+	static float getDeltaMouseWheel();
+	static const glm::vec2& getMousePosition();
+	static int getLastKeyPressed();
 
-	bool isCloseRequested();
-
-	char getLastKeyPressed();
-	char getLastKeyTyped();
-
+	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
+	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 
 private:
 
-	void keyPressed(unsigned int keyID);
-	void keyReleased(unsigned int keyID);
-	void mousePressed(unsigned int buttonID);
-	void mouseReleased(unsigned int buttonID);
+	static void keyPressed(unsigned int keyID);
+	static void keyReleased(unsigned int keyID);
+	static void buttonPressed(unsigned int buttonID);
+	static void buttonReleased(unsigned int buttonID);
 
-	sf::Event m_event;
-	std::unordered_map<unsigned int, bool> m_keymap;
-	std::unordered_map<unsigned int, bool> m_previousKeyMap;
+	static std::unordered_map<unsigned int, bool> m_keymap;
+	static std::unordered_map<unsigned int, bool> m_previousKeyMap;
 
-	std::unordered_map<unsigned int, bool> m_mousemap;
-	std::unordered_map<unsigned int, bool> m_previousMouseMap;
+	static std::unordered_map<unsigned int, bool> m_mousemap;
+	static std::unordered_map<unsigned int, bool> m_previousMouseMap;
 
-
-	glm::vec2 m_mousePosition;
-	bool m_isCloseRequested = false;
-	char m_lastKeyPressed = 0;
-	char m_lastKeyTyped = 0;
+	static glm::vec2 m_mousePosition;
+	static glm::vec2 m_deltaMousePosition;
+	static float m_deltaMouseWheel;
+	static int m_lastKeyPressed;
 
 };
+#endif

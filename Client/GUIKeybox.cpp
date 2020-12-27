@@ -1,5 +1,6 @@
 #include "GUIKeybox.hpp"
-#include <iostream>
+#include "Window.hpp"
+
 
 GUIKeybox::GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int value){
      m_destRect = destRect;
@@ -7,20 +8,19 @@ GUIKeybox::GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigne
      m_value = value;
 }
 
-void GUIKeybox::update(InputManager& manager, std::vector<GUIKeybox>& keyboxes){
+void GUIKeybox::update(std::vector<GUIKeybox>& keyboxes){
 
      m_currentColor = m_baseColor;
 
-     if(manager.getLastKeyPressed() != -1 && m_isSelected){
+     if(InputManager::getLastKeyPressed() != -1 && m_isSelected){
           m_isSelected = false;
           m_currentColor = m_baseColor;
-          m_value = manager.getLastKeyPressed();
-          std::cout << m_value << std::endl;
+          m_value = InputManager::getLastKeyPressed();
      }
 
-     if(Utils::isInside(manager.getMousePosition(), m_destRect)){
+     if(Utils::isInside(Utils::flipCoords(InputManager::getMousePosition(), Window::getHeight()), m_destRect)){
           m_currentColor = ColorRGBA8(m_baseColor.r * 0.6f, m_baseColor.g * 0.6f, m_baseColor.b * 0.6f, 255);
-          if(manager.isMouseDown(sf::Mouse::Left)){
+          if(InputManager::isButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
                for(auto& i : keyboxes){
                     i.m_isSelected = false;
                }

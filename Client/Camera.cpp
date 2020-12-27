@@ -19,7 +19,7 @@ const glm::mat4& Camera::getProjectionMatrix() const {
 	return m_projectionMatrix;
 }
 
-void Camera::update(sf::Window& window){
+void Camera::update(){
 	m_viewMatrix = glm::lookAt(m_position, m_position + m_forward, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 

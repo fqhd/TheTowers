@@ -8,7 +8,7 @@ class GUIComponent {
 public:
 
      GUIComponent(const glm::vec4& destRect, const ColorRGBA8& color);
-     void update(InputManager& manager, std::vector<GUIComponent>& components);
+     void update(std::vector<GUIComponent>& components);
      void render(GUIRenderer& renderer);
      bool isSelected();
 

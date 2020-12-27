@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "GUIRenderer.hpp"
 #include "InputManager.hpp"
 
@@ -7,7 +6,7 @@ class GUICheckbox {
 public:
 
      GUICheckbox(const glm::vec4& destRect, const ColorRGBA8& onColor, const ColorRGBA8& offColor, bool isChecked);
-     void update(sf::Window& window, InputManager& manager);
+     void update();
      void render(GUIRenderer& renderer);
 
      bool isChecked();

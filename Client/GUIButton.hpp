@@ -6,7 +6,7 @@ class GUIButton{
 public:
 
 	GUIButton(const glm::vec4& destRect, const ColorRGBA8& color);
-	void update(InputManager& manager);
+	void update();
 	void render(GUIRenderer& renderer);
 	bool isPressed();
 

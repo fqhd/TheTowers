@@ -6,8 +6,8 @@ void Shader::loadShader(const char* vs, const char* fs){
 	m_vertexID = glCreateShader(GL_VERTEX_SHADER);
 	m_fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 
-	std::string vsCode = Utils::loadShader(vs);
-	std::string fsCode = Utils::loadShader(fs);
+	std::string vsCode = Utils::readFileToString(vs);
+	std::string fsCode = Utils::readFileToString(fs);
 
 	const char* vs_pointer = vsCode.c_str();
 	const char* fs_pointer = fsCode.c_str();

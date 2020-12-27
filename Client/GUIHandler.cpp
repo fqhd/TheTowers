@@ -24,26 +24,26 @@ void GUIHandler::init(GUIFont* font){
 
 
 
-void GUIHandler::update(sf::Window& window, InputManager& manager){
+void GUIHandler::update(){
 
 	for(auto& i : buttons){
-		i.update(manager);
+		i.update();
 	}
 
 	for(auto& i : checkboxes){
-		i.update(window, manager);
+		i.update();
 	}
 
 	for(auto& i : sliders){
-		i.update(window, manager);
+		i.update();
 	}
 
 	for(auto& i : boxes){
-		i.update(manager);
+		i.update();
 	}
 
 	for(auto& i : keyboxes){
-		i.update(manager, keyboxes);
+		i.update(keyboxes);
 	}
 
 }

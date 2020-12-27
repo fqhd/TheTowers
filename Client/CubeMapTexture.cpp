@@ -1,5 +1,5 @@
 #include "CubeMapTexture.hpp"
-#include <SFML/Graphics.hpp>
+#include "Image.hpp"
 
 void CubeMapTexture::init(const std::vector<std::string>& locations) {
 
@@ -8,11 +8,12 @@ void CubeMapTexture::init(const std::vector<std::string>& locations) {
 
     unsigned char* data = nullptr;
     for(unsigned int i = 0; i < locations.size(); i++){
-        sf::Image image;
+         Image image;
+         image.loadFromFile(locations[i]);
 
-        image.loadFromFile(locations[i]);
-        
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
+
+        image.free();
     }
 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

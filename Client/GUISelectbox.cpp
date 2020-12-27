@@ -12,10 +12,10 @@ GUISelectbox::GUISelectbox(const glm::vec4& quad, const ColorRGBA8& color, unsig
 
 }
 
-void GUISelectbox::update(InputManager& manager){
+void GUISelectbox::update(){
 
      for(auto& i : components){
-          i.update(manager, components);
+          i.update(components);
      }
 
 }

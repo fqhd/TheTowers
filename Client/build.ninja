@@ -1,18 +1,16 @@
-cflags = -std=c++17 -O3 $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags freetype2) -fdiagnostics-color=always -g
-lflags = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew) $$(pkg-config --libs freetype2)
+cflags = -std=c++17 -O3 $$(pkg-config --cflags freetype2) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g
+lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glew) $$(pkg-config --libs freetype2) $$(pkg-config --libs glfw3)
 
 rule cc
   command = clang++ -c $in -o $out $cflags
 
 rule lnk
-  command = clang++ -o out $in $lflags -framework OpenGL
+  command = clang++ -o out $in $lflags
 
 
 
 build main.o: cc main.cpp
 build inputmanager.o: cc InputManager.cpp
-build button.o: cc Button.cpp
-build inputbox.o: cc InputBox.cpp
 build player.o: cc Player.cpp
 build chunk.o: cc Chunk.cpp
 build shader.o: cc Shader.cpp
@@ -43,15 +41,16 @@ build guihandler.o: cc GUIHandler.cpp
 build guirenderer.o: cc GUIRenderer.cpp
 build guishader.o: cc GUIShader.cpp
 build pausemenu.o: cc PauseMenu.cpp
-build image.o: cc Image.cpp
+build guiimage.o: cc GUIImage.cpp
 build checkbox.o: cc GUICheckbox.cpp
 build slider.o: cc GUISlider.cpp
 build entity.o: cc Entity.cpp
 build assets.o: cc Assets.cpp
 build guiselectbox.o: cc GUISelectbox.cpp
 build guicomponent.o: cc GUIComponent.cpp
+build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
 
-build out: lnk main.o inputmanager.o button.o inputbox.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o image.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o guikeybox.o
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o guikeybox.o image.o
 
 

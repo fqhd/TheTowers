@@ -2,13 +2,12 @@
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "InputManager.hpp"
 #include "GUIButton.hpp"
 #include "GUIShader.hpp"
 #include "GUIFont.hpp"
 #include "GUIFontShader.hpp"
 #include "GUIFontRenderer.hpp"
-#include "Image.hpp"
+#include "GUIImage.hpp"
 #include "GUICheckbox.hpp"
 #include "GUISlider.hpp"
 #include "GUISelectbox.hpp"
@@ -18,13 +17,13 @@ class GUIHandler {
 public:
 
 	void init(GUIFont* font);
-	void update(sf::Window& window, InputManager& manager);
+	void update();
 	void renderFont(const std::string& text, float x, float y, float scale, const ColorRGBA8& color);
 	void render();
 	void destroy();
 
 	std::vector<GUIButton> buttons;
-	std::vector<Image> images;
+	std::vector<GUIImage> images;
 	std::vector<GUICheckbox> checkboxes;
 	std::vector<GUISlider> sliders;
 	std::vector<GUISelectbox> boxes;
