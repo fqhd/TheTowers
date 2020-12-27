@@ -1,9 +1,11 @@
-#version 330 core
+#version 410 core
 
 in vec3 textureCoords;
+
+out vec4 color;
 
 uniform samplerCube skybox;
 
 void main(){ 
-    gl_FragColor = texture(skybox, textureCoords);
+    color = texture(skybox, textureCoords);
 }

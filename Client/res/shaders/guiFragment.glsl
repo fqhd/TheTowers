@@ -1,4 +1,4 @@
-#version 130
+#version 410 core
 
 in vec4 pass_color;
 
