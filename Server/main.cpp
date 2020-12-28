@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <glm/gtc/noise.hpp>
-#include <../Client/Constants.hpp>
+#include "../Client/Constants.hpp"
 
 
 void generateWorld(uint8_t* data);
@@ -39,7 +39,7 @@ int main(){
 
 				//Compressing the world
 				sf::Uint64 numBlocks = 1;
-				for(sf::Uint64 i = 0; i < WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE; i++){
+				for(sf::Uint64 i = 1; i < WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE; i++){
 					if(data[i - 1] != data[i]){
 						packet << (sf::Uint8)data[i - 1] << numBlocks;
 						numBlocks = 1;
@@ -47,7 +47,6 @@ int main(){
 						numBlocks++;
 					}
 				}
-				//Storing the compressed world in the packet
 				packet << (sf::Uint8)data[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE - 1] << numBlocks;
 
 				//Sending the packet containing the compressed world to the newly connected person
@@ -57,7 +56,7 @@ int main(){
 				for(unsigned int i = 0; i < sockets.size(); i++){
 					if(selector.isReady(*sockets[i])){
 						sf::Packet packet;
-						sf::Status status = sockets[i].receive(packet);
+						sf::Socket::Status status = sockets[i]->receive(packet);
 						if(status == sf::Socket::Done){
 							for(unsigned int j = 0; j < sockets.size(); j++){
 								if(i != j){
@@ -65,7 +64,8 @@ int main(){
 								}
 							}
 						}else if(status == sf::Socket::Disconnected){
-							std::cout << "This client is disconnected" << std::endl;
+							sockets[i] = sockets.back();
+							sockets.pop_back();
 						}
 					}
 				}
@@ -80,7 +80,6 @@ int main(){
 }
 
 void generateWorld(uint8_t* data){
-	uint8_t* data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
 	for(unsigned int y = 0; y < CHUNK_WIDTH * WORLD_HEIGHT; y++){
 		for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
 			for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){

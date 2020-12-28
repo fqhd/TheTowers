@@ -1,8 +1,8 @@
 ShowFPS: 1
-vsync: 0
-maxFps: 0.264795
+vsync: 1
+maxFps: 0.273548
 PlayerSpeed: 1
-MouseSensibility: 0.328229
+MouseSensibility: 0.0413223
 Front: 87
 Back: 83
 Up: 32
