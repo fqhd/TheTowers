@@ -64,6 +64,7 @@ int main(){
 								}
 							}
 						}else if(status == sf::Socket::Disconnected){
+							Utils::log("Client disconnected");
 							sockets[i] = sockets.back();
 							sockets.pop_back();
 						}
