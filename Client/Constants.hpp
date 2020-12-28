@@ -24,7 +24,7 @@ const float SLIDER_BUTTON_HEIGHT = 18.0f;
 const float MAX_RANGE = 64.0;
 const float MAX_SPEED = 50.0f;
 const float MAX_FPS = 1000.0f;
-const float MAX_SENSIBILITY = 5.0f;
+const float MAX_SENSIBILITY = 2.5f;
 const float MAX_VELOCITY = -12.0f;
 
 #endif

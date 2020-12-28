@@ -94,20 +94,18 @@ void PauseMenu::render(){
      m_handler.renderFont("Show FPS", 280, 510, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("Vertical Sync", 280, 460, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
-     m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * 1000.0f) <= 0 ? 1 : (int)(m_handler.sliders[0].getValue() * 1000.0f)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont(std::to_string((int)(m_handler.sliders[0].getValue() * MAX_FPS)), 920, 316, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
      m_handler.renderFont("R: " + std::to_string((int)(m_handler.sliders[1].getValue() * 255)), 220, 200, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("G: " + std::to_string((int)(m_handler.sliders[2].getValue() * 255)), 220, 250, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("B: " + std::to_string((int)(m_handler.sliders[3].getValue() * 255)), 220, 300, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Mouse Sensibility: " + std::to_string((int)(m_handler.sliders[4].getValue() * 100)), 220, 150, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Player Speed: " + std::to_string((int)(m_handler.sliders[5].getValue() * 25)), 220, 100, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Mouse Sensibility: " + std::to_string((int)(m_handler.sliders[4].getValue() * MAX_SENSIBILITY)), 220, 150, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Player Speed: " + std::to_string((int)(m_handler.sliders[5].getValue() * MAX_SPEED)), 220, 100, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
      m_handler.renderFont("Fullscreen", 870, 430, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("Borderless", 870, 460, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("Windowed", 870, 490, 0.5f, ColorRGBA8(0, 0, 0, 255));
      m_handler.renderFont("RenderDistance", 850, 110, 0.5f, ColorRGBA8(255, 255, 255, 255));
-
-
 
      m_handler.renderFont("Front: ", 220, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("Back: ", 220, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));

@@ -57,12 +57,15 @@ int main(){
 				for(unsigned int i = 0; i < sockets.size(); i++){
 					if(selector.isReady(*sockets[i])){
 						sf::Packet packet;
-						if(sockets[i]->receive(packet) == sf::Socket::Done){
+						sf::Status status = sockets[i].receive(packet);
+						if(status == sf::Socket::Done){
 							for(unsigned int j = 0; j < sockets.size(); j++){
 								if(i != j){
 									sockets[j]->send(packet);
 								}
 							}
+						}else if(status == sf::Socket::Disconnected){
+							std::cout << "This client is disconnected" << std::endl;
 						}
 					}
 				}
