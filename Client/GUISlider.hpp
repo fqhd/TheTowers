@@ -1,7 +1,9 @@
-#pragma once
+#ifndef GUI_SLIDER_H
+#define GUI_SLIDER_H
 #include "GUIRenderer.hpp"
 #include "GUIFontRenderer.hpp"
 #include "InputManager.hpp"
+
 
 class GUISlider {
 public:
@@ -24,3 +26,5 @@ private:
      ColorRGBA8 m_currentColor;
 
 };
+
+#endif

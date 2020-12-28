@@ -1,10 +1,12 @@
-#pragma once
+#ifndef CHUNK_H
+#define CHUNK_H
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
 #include <cstddef>
 #include <SFML/Graphics.hpp>
 #include "Vertex.hpp"
+
 
 class Chunk {
 public:
@@ -33,3 +35,5 @@ private:
 	unsigned int m_z = 0;
 
 };
+
+#endif

@@ -1,8 +1,10 @@
-#pragma once
+#ifndef GUI_COMPONENT_H
+#define GUI_COMPONENT_H
 #include <glm/glm.hpp>
 #include "Vertex.hpp"
 #include "InputManager.hpp"
 #include "GUIRenderer.hpp"
+
 
 class GUIComponent {
 public:
@@ -20,3 +22,5 @@ private:
      bool m_isSelected = false;
 
 };
+
+#endif

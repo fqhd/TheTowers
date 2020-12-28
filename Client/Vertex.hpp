@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VERTEX_H
+#define VERTEX_H
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -51,3 +52,5 @@ struct GUIVertex{
 	glm::vec2 position;
 	ColorRGBA8 color;
 };
+
+#endif

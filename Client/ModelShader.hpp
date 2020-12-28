@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MODEL_SHADER_H
+#define MODEL_SHADER_H
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "Shader.hpp"
@@ -26,5 +27,6 @@ private:
 	GLint m_colorLocation = 0;
 
 
-
 };
+
+#endif

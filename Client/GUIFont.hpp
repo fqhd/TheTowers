@@ -1,9 +1,11 @@
-#pragma once
+#ifndef GUI_FONT_H
+#define GUI_FONT_H
 #include "GUIRenderer.hpp"
 #include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 #include <freetype/freetype.h>
 #include <map>
+
 
 struct Character {
      unsigned int textureID;
@@ -18,3 +20,5 @@ public:
 
      std::map<char, Character> characters;
 };
+
+#endif

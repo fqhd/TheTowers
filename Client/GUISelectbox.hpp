@@ -1,5 +1,7 @@
-#pragma once
+#ifndef GUI_SELECTBOX_H
+#define GUI_SELECTBOX_H
 #include "GUIComponent.hpp"
+
 
 class GUISelectbox {
 public:
@@ -15,3 +17,5 @@ private:
 
 
 };
+
+#endif

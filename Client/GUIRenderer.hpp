@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef GUI_RENDERER_H
+#define GUI_RENDERER_H
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
@@ -29,3 +29,5 @@ private:
 
     std::vector<GUIVertex> m_vertices;
 };
+
+#endif

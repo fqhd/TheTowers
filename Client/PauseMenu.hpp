@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PAUSE_MENU_H
+#define PAUSE_MENU_H
 #include "GUIHandler.hpp"
 #include "GameStates.hpp"
 #include "Settings.hpp"
@@ -25,3 +26,5 @@ private:
 
 
 };
+
+#endif

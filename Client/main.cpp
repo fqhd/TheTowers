@@ -1,11 +1,11 @@
 #include <SFML/Network.hpp>
-#include <iostream>
-
 #include "Game.hpp"
 #include "Window.hpp"
 #include "GameStates.hpp"
 #include "PauseMenu.hpp"
 #include "GUIFont.hpp"
+#include <iostream>
+
 
 bool getIP(sf::IpAddress& ip);
 
@@ -19,11 +19,8 @@ int main() {
 	}
 
 	//Primitive Variables
-	float deltaTime;
-	uint8_t blockID = 215;
+	uint8_t currentBlockID = 215;
 
-	//SFML Variables
-	sf::Clock clock;
 
 	//Program Variables
 	Game game;
@@ -31,47 +28,48 @@ int main() {
 	GUIFont font;
 	GameStates state;
 	Settings settings;
-
+	sf::Clock clock;
 
 	//Initializing objects
 	Window::create(1280, 720, "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
-	clock.restart();
 	font.init("res/fonts/thinfont-thin.ttf");
 	game.init(&font, ip);
 	pause.init(&font, settings);
 	state = GameStates::PLAY;
 
+	clock.restart();
 	while(state != GameStates::EXIT){
-		Window::clear();
 
-		switch(state) {
-			case GameStates::PLAY:
+		while(state == GameStates::PLAY){
+			Window::clear();
 
-			deltaTime = clock.restart().asSeconds();
+			game.update(settings, clock.getElapsedTime().asSeconds(), state, currentBlockID);
+			game.render(settings, clock.getElapsedTime().asSeconds());
 
-			game.update(settings, deltaTime, state, blockID);
-			game.render(settings, deltaTime);
+			clock.restart();
+			Window::update();
+			if(Window::isCloseRequested()) state = GameStates::EXIT;
+		}
 
-			break;
-			case GameStates::PAUSE:
+		while(state == GameStates::PAUSE){
+			Window::clear();
 
-			pause.update(state, settings, blockID);
-			game.render(settings, deltaTime);
+			pause.update(state, settings, currentBlockID);
+			game.render(settings, clock.getElapsedTime().asSeconds());
 			pause.render();
 
-			break;
+			clock.restart();
+			Window::update();
+			if(Window::isCloseRequested()) state = GameStates::EXIT;
+
 		}
-
-
-
-		if(Window::isCloseRequested()){
-			state = GameStates::EXIT;
-		}
-		Window::update();
 
 	}
+
+	game.destroy();
+	pause.destroy();
 
 	Window::close();
 

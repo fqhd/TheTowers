@@ -1,5 +1,7 @@
-#pragma once
+#ifndef ASSETS_H
+#define ASSETS_H
 #include "Model.hpp"
+
 
 class Assets {
 public:
@@ -13,3 +15,5 @@ private:
 
 
 };
+
+#endif

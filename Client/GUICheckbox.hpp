@@ -1,6 +1,8 @@
-#pragma once
+#ifndef GUI_CHECKBOX_H
+#define GUI_CHECKBOX_H
 #include "GUIRenderer.hpp"
 #include "InputManager.hpp"
+
 
 class GUICheckbox {
 public:
@@ -20,3 +22,5 @@ private:
      ColorRGBA8 m_currentColor;
 
 };
+
+#endif

@@ -1,6 +1,8 @@
-#pragma once
+#ifndef GUI_SHADER_H
+#define GUI_SHADER_H
 #include "Shader.hpp"
 #include <glm/glm.hpp>
+
 
 class GUIShader : public Shader {
 public:
@@ -17,3 +19,5 @@ private:
 
 
 };
+
+#endif

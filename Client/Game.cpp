@@ -1,22 +1,47 @@
 #include "Game.hpp"
 #include "Constants.hpp"
-#include <iostream>
 #include <cstring>
 #include <glm/gtc/noise.hpp>
 
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
+	connectToServer(ip);
+	receiveAndDecompressWorld();
+	m_world.init(m_data);
+	m_modelRenderer.init();
+	m_cubeMap.init();
+	m_player.init();
+	m_particleRenderer.init();
+	m_handler.init(font);
+	m_assets.init();
+	initGUI();
+	generateColorVector(m_colors);
+	generateEntityColors();
+}
 
-	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
+void Game::generateEntityColors(){
+	for(unsigned int i = 0; i < 16; i++){
+		m_entityColors.push_back(ColorRGBA8(i * 16, 0, 255 - i * 16, 255));
+	}
+}
 
+void Game::initGUI(){
+	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 4, SCREEN_HEIGHT / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
+	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 3, SCREEN_HEIGHT / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
+}
+
+void Game::connectToServer(sf::IpAddress& ip){
 	sf::Socket::Status status = m_socket.connect(ip, 2000);
 
 	if(status != sf::Socket::Status::Done){
-		std::cout << "failed to connect to server" << std::endl;
+		Utils::log("Game: Failed to connect to server");
 	}else{
-		std::cout << "connected to server" << std::endl;
+		Utils::log("Game: Connected to server");
 	}
+}
 
+void Game::receiveAndDecompressWorld(){
+	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
 
 	sf::Packet packet;
 
@@ -26,8 +51,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 
 	sf::Uint64 size = packet.getDataSize();
 
-	std::cout << "Packet Size Received: " << packet.getDataSize() << std::endl;
-	std::cout << "U64 Size: " << size << std::endl;
+	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
 
 	sf::Uint8 blockID = 0;
 	sf::Uint64 pointer = 0;
@@ -39,32 +63,29 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 		}
 		pointer += numBlocks;
 	}
-
-	m_world.init(m_data);
-	m_modelRenderer.init();
-	m_cubeMap.init();
-	m_player.init();
-	m_particleRenderer.init();
-	m_handler.init(font);
-	m_assets.init();
-
-	//Adding GUI
-	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 4, SCREEN_HEIGHT / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
-	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 3, SCREEN_HEIGHT / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
-
-	//Game Functions
-	generateColorVector(m_colors);
-	generateEntityColors();
 }
 
-void Game::generateEntityColors(){
-	for(unsigned int i = 0; i < 16; i++){
-		m_entityColors.push_back(ColorRGBA8(i * 16, 0, 255 - i * 16, 255));
-	}
-}
 
 void Game::update(Settings& settings, float deltaTime, GameStates& state, uint8_t blockID){
+	//Switch state if key has been pressed
+	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
+		Window::setMouseCursorGrabbed(false);
+		state = GameStates::PAUSE;
+	}
 
+	receivePacketAndUpdateEntities();
+	m_player.update(settings, m_colors, m_particleRenderer, m_world, deltaTime, blockID, m_socket);
+	m_cubeMap.update();
+	m_particleRenderer.update(deltaTime);
+	m_handler.update();
+	sendInfoToServer();
+
+
+	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255); //< Updating GUI color
+
+}
+
+void Game::receivePacketAndUpdateEntities(){
 	sf::Packet packet;
 
 	if(m_socket.receive(packet) == sf::Socket::Done){
@@ -88,36 +109,20 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, uint8_
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
 	}
+}
 
-	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
-		Window::setMouseCursorGrabbed(false);
-		state = GameStates::PAUSE;
-	}
-
-	m_player.update(settings, m_colors, m_particleRenderer, m_world, deltaTime, blockID, m_socket);
-	m_cubeMap.update();
-	m_particleRenderer.update(deltaTime);
-	//Updating GUI
-	m_handler.update();
-
+void Game::sendInfoToServer(){
 	if(m_networkBufferClock.getElapsedTime().asSeconds() >= 0.2f){
-		packet.clear();
+
+		sf::Packet packet;
 
 		packet << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << m_player.position.x << m_player.position.y << m_player.position.z;
 
 		m_socket.send(packet);
 
 		m_networkBufferClock.restart();
+
 	}
-
-	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255);
-
-	if(InputManager::isKeyPressed(sf::Keyboard::R)){
-		for(auto& i : m_modelRenderer.entities){
-			i.transform.setPosition(glm::vec3(0, 1000000000, 0));
-		}
-	}
-
 }
 
 void Game::generateLocalWorld(){

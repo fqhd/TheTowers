@@ -25,7 +25,7 @@ build window.o: cc Window.cpp
 build camera.o: cc Camera.cpp
 build world.o: cc World.cpp
 build cubemap.o: cc CubeMap.cpp
-build cubemaprenderer.o: cc CubeMapRenderer.cpp
+build cube.o: cc Cube.cpp
 build cubemapshader.o: cc CubeMapShader.cpp
 build cubemaptexture.o: cc CubeMapTexture.cpp
 build modelrenderer.o: cc ModelRenderer.cpp
@@ -51,6 +51,6 @@ build guicomponent.o: cc GUIComponent.cpp
 build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cubemaprenderer.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o guikeybox.o image.o
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o guikeybox.o image.o
 
 

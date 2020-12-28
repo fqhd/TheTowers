@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 #include <SFML/Network.hpp>
 #include <GL/glew.h>
 #include <glm/gtc/noise.hpp>
@@ -35,6 +36,11 @@ public:
 private:
 
      //Game functions
+     void connectToServer(sf::IpAddress& ip);
+     void receiveAndDecompressWorld();
+     void receivePacketAndUpdateEntities();
+     void sendInfoToServer();
+     void initGUI();
      void calcFps();
 
      //Engine Variables
@@ -61,6 +67,6 @@ private:
      sf::TcpSocket m_socket;
      uint8_t* m_data = nullptr;
 
-
-
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MODEL_RENDERER_H
+#define MODEL_RENDERER_H
 #include <vector>
 #include "Entity.hpp"
 #include "ModelShader.hpp"
@@ -19,3 +20,4 @@ private:
     ModelShader m_shader;
 
 };
+#endif

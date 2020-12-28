@@ -1,11 +1,11 @@
 #pragma once
-#include "CubeMapRenderer.hpp"
+#include "Cube.hpp"
 #include "CubeMapTexture.hpp"
 #include "CubeMapShader.hpp"
 
 class CubeMap {
 public:
-     
+
     void init();
     void update();
     void render(const glm::mat4& projection, const glm::mat4& view);
@@ -15,7 +15,7 @@ private:
 
 
     CubeMapTexture m_dayTexture;
-    CubeMapRenderer m_cube;
+    Cube m_cube;
     CubeMapShader m_shader;
 
 

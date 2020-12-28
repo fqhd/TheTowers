@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARTICLE_H
+#define PARTICLE_H
 #include <glm/glm.hpp>
 #include "Vertex.hpp"
 
@@ -30,3 +31,5 @@ private:
         float m_elapsedTime = 0.0f;
 
 };
+
+#endif

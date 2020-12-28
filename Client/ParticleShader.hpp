@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARTICLE_SHADER_H
+#define PARTICLE_SHADER_H
 #include "Shader.hpp"
 #include <glm/glm.hpp>
 
@@ -13,3 +14,5 @@ private:
     GLint m_projectionLocation = 0;
 
 };
+
+#endif

@@ -1,9 +1,8 @@
-#pragma once
-
+#ifndef CAMERA_H
+#define CAMERA_H
 #include <glm/gtx/transform.hpp>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
-
 #include "Chunk.hpp"
 #include "InputManager.hpp"
 
@@ -36,3 +35,5 @@ private:
 
 
 };
+
+#endif

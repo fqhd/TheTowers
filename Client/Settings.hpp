@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
 struct Settings {
      bool showFPS = false;
@@ -15,3 +16,5 @@ struct Settings {
      float range = 0.0f;
 
 };
+
+#endif

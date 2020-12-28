@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARTICLE_RENDERER_H
+#define PARTICLE_RENDERER_H
 #include "ParticleQuad.hpp"
 #include "ParticleShader.hpp"
 #include "Particle.hpp"
@@ -22,3 +23,5 @@ private:
     ParticleShader m_shader;
 
 };
+
+#endif

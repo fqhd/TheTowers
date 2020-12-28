@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHADER_H
+#define SHADER_H
 #include <GL/glew.h>
 #include <string>
 #include <fstream>
@@ -14,7 +15,10 @@ public:
 
 protected:
 
-	GLuint m_programID;
-	GLuint m_vertexID;
-	GLuint m_fragmentID;
+	GLuint m_programID = 0;
+	GLuint m_vertexID = 0;
+	GLuint m_fragmentID = 0;
+
 };
+
+#endif

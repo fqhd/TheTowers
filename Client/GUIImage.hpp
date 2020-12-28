@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GUI_IMAGE_H
+#define GUI_IMAGE_H
 #include "Vertex.hpp"
 #include "GUIRenderer.hpp"
 #include <glm/glm.hpp>
@@ -17,3 +18,5 @@ private:
 
 
 };
+
+#endif

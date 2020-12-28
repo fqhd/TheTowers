@@ -1,7 +1,7 @@
-#pragma once
+#ifndef GUI_HANDLER_H
+#define GUI_HANDLER_H
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include "GUIButton.hpp"
 #include "GUIShader.hpp"
 #include "GUIFont.hpp"
@@ -42,5 +42,6 @@ private:
 	glm::mat4 m_matrix;
 
 
-
 };
+
+#endif

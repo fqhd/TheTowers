@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MODEL_H
+#define MODEL_H
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "OBJLoader.hpp"
@@ -19,5 +20,6 @@ private:
 	GLuint m_vboID = 0;
 	GLuint m_eboID = 0;
 
-
 };
+
+#endif

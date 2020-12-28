@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WORLD_H
+#define WORLD_H
 #include "Chunk.hpp"
 #include "Camera.hpp"
 #include "Constants.hpp"
@@ -8,7 +9,6 @@
 
 class World{
 public:
-
 
      void init(uint8_t* d);
      void render(Camera& camera, const std::vector<vec3>& colors, float range);
@@ -39,3 +39,6 @@ private:
 
 
 };
+
+
+#endif

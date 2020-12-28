@@ -1,6 +1,8 @@
-#pragma once
+#ifndef GUI_BUTTON_H
+#define GUI_BUTTON_H
 #include "GUIRenderer.hpp"
 #include "InputManager.hpp"
+
 
 class GUIButton{
 public:
@@ -19,3 +21,5 @@ private:
 	std::string m_string;
 
 };
+
+#endif

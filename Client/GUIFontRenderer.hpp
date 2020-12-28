@@ -1,6 +1,8 @@
-#pragma once
+#ifndef GUI_FONT_RENDERER_H
+#define GUI_FONT_RENDERER_H
 #include <GL/glew.h>
 #include "GUIFont.hpp"
+
 
 class GUIFontRenderer{
 public:
@@ -19,3 +21,5 @@ private:
 
 
 };
+
+#endif

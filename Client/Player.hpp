@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYER_H
+#define PLAYER_H
 #include "Camera.hpp"
 #include "World.hpp"
 #include "ParticleRenderer.hpp"
@@ -23,3 +24,5 @@ private:
 
 
 };
+
+#endif

@@ -1,7 +1,9 @@
-#pragma once
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "Model.hpp"
 #include "Transform.hpp"
 #include "Vertex.hpp"
+
 
 class Entity {
 public:
@@ -19,3 +21,5 @@ private:
 	Model* m_model;
 
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 #include <glm/gtx/transform.hpp>
 
 class Transform{
@@ -6,7 +7,7 @@ public:
 
 	Transform(){}
 	Transform(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
-	
+
 	//Setters
 	void setPosition(const glm::vec3& position);
 	void setRotation(const glm::vec3& rotation);
@@ -27,6 +28,8 @@ private:
 	glm::vec3 m_position;
 	glm::vec3 m_scale;
 	glm::mat4 m_matrix;
-	
+
 
 };
+
+#endif

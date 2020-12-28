@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CUBEMAP_SHADER_H
+#define CUBEMAP_SHADER_H
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "Shader.hpp"
@@ -21,3 +22,5 @@ private:
 
 
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GUI_FONT_SHADER_H
+#define GUI_FONT_SHADER_H
 #include "Shader.hpp"
 #include <glm/glm.hpp>
 #include "Vertex.hpp"
@@ -12,7 +13,7 @@ public:
 	void loadColor(const ColorRGBA8& color);
 
 	void getUniformLocations();
-	
+
 
 private:
 
@@ -24,3 +25,5 @@ private:
 	GLint m_colorLocation;
 
 };
+
+#endif

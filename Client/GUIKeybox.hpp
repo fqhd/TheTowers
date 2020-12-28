@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GUI_KEYBOX_H
+#define GUI_KEYBOX_H
 #include "Vertex.hpp"
 #include "InputManager.hpp"
 #include "GUIRenderer.hpp"
@@ -21,5 +22,6 @@ private:
      unsigned int m_value = 0;
 
 
-
 };
+
+#endif

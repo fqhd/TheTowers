@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CUBEMAP_TEXTURE_H
+#define CUBEMAP_TEXTURE_H
 #include <GL/glew.h>
 #include <vector>
 #include <string>
@@ -16,3 +17,5 @@ private:
     GLuint m_textureID;
 
 };
+
+#endif
