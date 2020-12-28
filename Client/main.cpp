@@ -45,7 +45,6 @@ int main() {
 
 	while(state != GameStates::EXIT){
 		Window::clear();
-		InputManager::processInput(Window::window);
 
 		switch(state) {
 			case GameStates::PLAY:
