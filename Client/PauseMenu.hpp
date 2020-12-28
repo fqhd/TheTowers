@@ -4,7 +4,7 @@
 #include "GameStates.hpp"
 #include "Settings.hpp"
 #include "Window.hpp"
-
+#include "Player.hpp"
 #include <fstream>
 
 
@@ -12,7 +12,7 @@ class PauseMenu {
 public:
 
      void init(GUIFont* font, Settings& settings);
-     void update(GameStates& state, Settings& settings, uint8_t& blockID);
+     void update(GameStates& state, Settings& settings, Player& player);
      void render();
      void destroy();
 

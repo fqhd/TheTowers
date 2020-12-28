@@ -5,7 +5,7 @@ rule cc
   command = clang++ -c $in -o $out $cflags
 
 rule lnk
-  command = clang++ -o out $in $lflags
+  command = clang++ -o out $in $lflags -framework OpenGL
 
 
 
@@ -14,11 +14,7 @@ build inputmanager.o: cc InputManager.cpp
 build player.o: cc Player.cpp
 build chunk.o: cc Chunk.cpp
 build shader.o: cc Shader.cpp
-build model.o: cc Model.cpp
-build modelshader.o: cc ModelShader.cpp
 build utils.o: cc Utils.cpp
-build transform.o: cc Transform.cpp
-build objloader.o: cc OBJLoader.cpp
 build chunkshader.o: cc ChunkShader.cpp
 build game.o: cc Game.cpp
 build window.o: cc Window.cpp
@@ -28,7 +24,6 @@ build cubemap.o: cc CubeMap.cpp
 build cube.o: cc Cube.cpp
 build cubemapshader.o: cc CubeMapShader.cpp
 build cubemaptexture.o: cc CubeMapTexture.cpp
-build modelrenderer.o: cc ModelRenderer.cpp
 build particlerenderer.o: cc ParticleRenderer.cpp
 build particle.o: cc Particle.cpp
 build particlequad.o: cc ParticleQuad.cpp
@@ -44,13 +39,11 @@ build pausemenu.o: cc PauseMenu.cpp
 build guiimage.o: cc GUIImage.cpp
 build checkbox.o: cc GUICheckbox.cpp
 build slider.o: cc GUISlider.cpp
-build entity.o: cc Entity.cpp
-build assets.o: cc Assets.cpp
 build guiselectbox.o: cc GUISelectbox.cpp
 build guicomponent.o: cc GUIComponent.cpp
 build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o transform.o utils.o modelshader.o model.o objloader.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o modelrenderer.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o entity.o assets.o guiselectbox.o guicomponent.o guikeybox.o image.o
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o transform.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o
 
 

@@ -26,14 +26,14 @@ void PauseMenu::init(GUIFont* font, Settings& settings){
           SCREEN_HEIGHT / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255),
           ColorRGBA8(90, 90, 90, 255), settings.vsync));
 
-     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.maxFps/1000.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.maxFps));
 
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-     m_handler.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / 100.0f));
-     m_handler.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / 25.0f));
-     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.range / 512.0f));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.range));
 
 
      m_handler.boxes.push_back(GUISelectbox(glm::vec4(850, 425, 200, 30), ColorRGBA8(255, 255, 255, 255), 3));
@@ -48,7 +48,7 @@ void PauseMenu::init(GUIFont* font, Settings& settings){
 
 }
 
-void PauseMenu::update(GameStates& state, Settings& settings, uint8_t& blockID){
+void PauseMenu::update(GameStates& state, Settings& settings, Player& player){
      if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
           Window::setMouseCursorGrabbed(true);
           state = GameStates::PLAY;
@@ -59,16 +59,16 @@ void PauseMenu::update(GameStates& state, Settings& settings, uint8_t& blockID){
                Window::setVerticalSyncEnabled(true);
           else
                Window::setVerticalSyncEnabled(false);
-          settings.maxFps = (int)(m_handler.sliders[0].getValue() * 1000.0f) <= 0 ? 1 : (int)(m_handler.sliders[0].getValue() * 1000.0f);
+          settings.maxFps = m_handler.sliders[0].getValue();
 
           unsigned int blueValue = ((int)(m_handler.sliders[3].getValue() * 5)) * 36;
           unsigned int greenValue = ((int)(m_handler.sliders[2].getValue() * 5)) * 6;
           unsigned int redValue = (int)(m_handler.sliders[1].getValue() * 5);
 
-          blockID = blueValue + greenValue + redValue;
+          player.selectedBlock = blueValue + greenValue + redValue;
 
-          settings.mouseSensibility = m_handler.sliders[4].getValue() * 100;
-          settings.playerSpeed = m_handler.sliders[5].getValue() * 25;
+          settings.mouseSensibility = m_handler.sliders[4].getValue();
+          settings.playerSpeed = m_handler.sliders[5].getValue();
 
           settings.front = m_handler.keyboxes[0].getValue();
           settings.back = m_handler.keyboxes[1].getValue();
@@ -76,8 +76,7 @@ void PauseMenu::update(GameStates& state, Settings& settings, uint8_t& blockID){
           settings.right = m_handler.keyboxes[3].getValue();
           settings.up = m_handler.keyboxes[4].getValue();
           settings.down = m_handler.keyboxes[5].getValue();
-
-          settings.range = m_handler.sliders[6].getValue() * 512;
+          settings.range = m_handler.sliders[6].getValue();
 
 		writeSettingsToDisk(settings);
      }

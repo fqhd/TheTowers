@@ -12,7 +12,7 @@ class ChunkShader : public Shader {
 public:
 
 
-	void loadMatrix(const glm::mat4& shader);
+	void loadMatrix(const glm::mat4& matrix);
 	void getUniformLocations();
 
 

@@ -11,7 +11,7 @@ public:
 
     void init();
     void update(float deltaTime);
-    void render(const Camera& camera);
+    void render(Camera& camera);
     void destroy();
 
     std::vector<Particle> particles;

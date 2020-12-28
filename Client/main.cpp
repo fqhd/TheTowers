@@ -18,11 +18,9 @@ int main() {
 		return 0;
 	}
 
-	//Primitive Variables
-	uint8_t currentBlockID = 215;
-
 
 	//Program Variables
+	Player player;
 	Game game;
 	PauseMenu pause;
 	GUIFont font;
@@ -34,6 +32,7 @@ int main() {
 	Window::create(1280, 720, "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
+	player.init();
 	font.init("res/fonts/thinfont-thin.ttf");
 	game.init(&font, ip);
 	pause.init(&font, settings);
@@ -45,8 +44,8 @@ int main() {
 		while(state == GameStates::PLAY){
 			Window::clear();
 
-			game.update(settings, clock.getElapsedTime().asSeconds(), state, currentBlockID);
-			game.render(settings, clock.getElapsedTime().asSeconds());
+			game.update(settings, clock.getElapsedTime().asSeconds(), state, player);
+			game.render(settings, player, clock.getElapsedTime().asSeconds());
 
 			clock.restart();
 			Window::update();
@@ -56,8 +55,8 @@ int main() {
 		while(state == GameStates::PAUSE){
 			Window::clear();
 
-			pause.update(state, settings, currentBlockID);
-			game.render(settings, clock.getElapsedTime().asSeconds());
+			pause.update(state, settings, player);
+			game.render(settings, player, clock.getElapsedTime().asSeconds());
 			pause.render();
 
 			clock.restart();

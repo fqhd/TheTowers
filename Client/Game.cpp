@@ -8,21 +8,11 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	connectToServer(ip);
 	receiveAndDecompressWorld();
 	m_world.init(m_data);
-	m_modelRenderer.init();
 	m_cubeMap.init();
-	m_player.init();
 	m_particleRenderer.init();
 	m_handler.init(font);
-	m_assets.init();
 	initGUI();
 	generateColorVector(m_colors);
-	generateEntityColors();
-}
-
-void Game::generateEntityColors(){
-	for(unsigned int i = 0; i < 16; i++){
-		m_entityColors.push_back(ColorRGBA8(i * 16, 0, 255 - i * 16, 255));
-	}
 }
 
 void Game::initGUI(){
@@ -66,26 +56,24 @@ void Game::receiveAndDecompressWorld(){
 }
 
 
-void Game::update(Settings& settings, float deltaTime, GameStates& state, uint8_t blockID){
+void Game::update(Settings& settings, float deltaTime, GameStates& state, Player& player){
+
 	//Switch state if key has been pressed
 	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
 		Window::setMouseCursorGrabbed(false);
 		state = GameStates::PAUSE;
 	}
-
-	receivePacketAndUpdateEntities();
-	m_player.update(settings, m_colors, m_particleRenderer, m_world, deltaTime, blockID, m_socket);
+	receivePacket();
+	player.update(settings, m_colors, m_particleRenderer, m_world, deltaTime, m_socket);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
 	m_handler.update();
-	sendInfoToServer();
 
-
-	m_handler.images[1].color = ColorRGBA8(m_colors[blockID].r, m_colors[blockID].g, m_colors[blockID].b, 255); //< Updating GUI color
+	m_handler.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255); //< Updating GUI color
 
 }
 
-void Game::receivePacketAndUpdateEntities(){
+void Game::receivePacket(){
 	sf::Packet packet;
 
 	if(m_socket.receive(packet) == sf::Socket::Done){
@@ -94,33 +82,9 @@ void Game::receivePacketAndUpdateEntities(){
 		uint8_t y;
 		uint8_t z;
 		uint8_t b;
-		glm::vec3 position;
-		uint8_t id;
-		packet >> x >> y  >> z >> b >> position.x >> position.y >> position.z >> id;
-
-		auto it = m_clients.find(id);
-		if(it != m_clients.end()){
-			m_modelRenderer.entities[it->first].transform.setPosition(position);
-		}else{
-			m_clients[m_modelRenderer.entities.size()] = id;
-			m_modelRenderer.entities.push_back(Entity(Transform(position, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)), m_assets.getMonkey(), m_entityColors[id]));
-		}
-
+		packet >> x >> y  >> z >> b;
 
 		m_world.setBlock((int)x, (int)y, (int)z, b);
-	}
-}
-
-void Game::sendInfoToServer(){
-	if(m_networkBufferClock.getElapsedTime().asSeconds() >= 0.2f){
-
-		sf::Packet packet;
-
-		packet << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << (uint8_t)0 << m_player.position.x << m_player.position.y << m_player.position.z;
-
-		m_socket.send(packet);
-
-		m_networkBufferClock.restart();
 
 	}
 }
@@ -140,11 +104,10 @@ void Game::generateLocalWorld(){
 	}
 }
 
-void Game::render(Settings& settings, float deltaTime){
-	m_cubeMap.render(m_player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_player.camera.getViewMatrix())));
-	m_world.render(m_player.camera, m_colors, settings.range);
-	m_modelRenderer.render(m_player.camera, settings.range);
-	m_particleRenderer.render(m_player.camera);
+void Game::render(Settings& settings, Player& player, float deltaTime){
+	m_cubeMap.render(player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(player.camera.getViewMatrix())));
+	m_world.render(player.camera, m_colors, settings.range * MAX_RANGE);
+	m_particleRenderer.render(player.camera);
 
 	//Calculating FPS
 	calcFps();
@@ -157,7 +120,7 @@ void Game::render(Settings& settings, float deltaTime){
 
 	//Capping FPS
 	if(!settings.vsync){
-		float waitTime = 1.0f / settings.maxFps;
+		float waitTime = 1.0f / (settings.maxFps * MAX_FPS);
 		while(m_clock.getElapsedTime().asSeconds() < waitTime){
 
 		}
@@ -169,7 +132,6 @@ void Game::render(Settings& settings, float deltaTime){
 
 void Game::destroy(){
 	m_world.destroy();
-	m_modelRenderer.destroy();
 	m_cubeMap.destroy();
 	m_particleRenderer.destroy();
 }
