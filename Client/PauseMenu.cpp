@@ -76,11 +76,11 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player){
           settings.right = m_handler.keyboxes[3].getValue();
           settings.up = m_handler.keyboxes[4].getValue();
           settings.down = m_handler.keyboxes[5].getValue();
-          settings.renderDistance = m_handler.sliders[6].getValue() * Constants::getMaxRenderDistance();
+          settings.renderDistance = m_handler.sliders[5].getValue() * Constants::getMaxRenderDistance();
 
      }
 
-     m_handler.images[3].color = ColorRGBA8(m_handler.sliders[1].getValue() * 255, m_handler.sliders[2].getValue() * 255, m_handler.sliders[3].getValue() * 255, 255);
+     m_handler.images[3].color = ColorRGBA8(m_handler.sliders[0].getValue() * 255, m_handler.sliders[2].getValue() * 255, m_handler.sliders[2].getValue() * 255, 255);
 
      m_handler.update();
 

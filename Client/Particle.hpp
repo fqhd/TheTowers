@@ -6,7 +6,7 @@
 class Particle {
 public:
 
-    Particle(const vec3& color, const glm::vec3& position, const glm::vec3& velocity, float gFactor, float lifelength, float rotation, float scale);
+    Particle(const vec3& color, const glm::vec3& position, const glm::vec3& velocity, float lifelength, float rotation, float scale);
 
     bool update(float deltaTime);
 
@@ -24,7 +24,6 @@ private:
         vec3 m_color;
         glm::vec3 m_position;
         glm::vec3 m_velocity;
-        float m_gFactor = 0.0f;
         float m_lifeLength = 0.0f;
         float m_rotation = 0.0f;
         float m_scale = 0.0f;

@@ -9,7 +9,7 @@ unsigned int Constants::getScreenHeight() {
 }
 
 float Constants::getGravity() {
-     return 0.5f;
+     return 12.0f;
 }
 
 float Constants::getMaxPlayerSpeed(){

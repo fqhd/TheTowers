@@ -72,6 +72,7 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 	receivePacket();
+	m_camera.update(settings, deltaTime);
 	player.update(m_camera, settings, m_colors, m_particleRenderer, m_world, deltaTime, m_socket);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
@@ -110,7 +111,6 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 	//Rendering FPS
 	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 20, Constants::getScreenHeight() - 48, 1.0f, ColorRGBA8(255, 255, 255, 255));
-
 
 }
 

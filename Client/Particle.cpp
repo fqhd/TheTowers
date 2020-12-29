@@ -1,11 +1,10 @@
 #include "Particle.hpp"
 #include "Constants.hpp"
 
-Particle::Particle(const vec3& color, const glm::vec3& position, const glm::vec3& velocity, float gFactor, float lifelength, float rotation, float scale){
+Particle::Particle(const vec3& color, const glm::vec3& position, const glm::vec3& velocity, float lifelength, float rotation, float scale){
         m_color = color;
         m_position = position;
         m_velocity = velocity;
-        m_gFactor = gFactor;
         m_lifeLength = lifelength;
         m_rotation = rotation;
         m_scale = scale;
@@ -32,7 +31,7 @@ float Particle::getElapsedTime() const {
 }
 
 bool Particle::update(float deltaTime){
-        m_velocity.y += Constants::getGravity() * m_gFactor * deltaTime;
+        m_velocity.y -= Constants::getGravity() * deltaTime;
         m_position += m_velocity * deltaTime;
         m_elapsedTime += deltaTime;
         return m_elapsedTime < m_lifeLength;

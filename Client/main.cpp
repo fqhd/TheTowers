@@ -1,5 +1,6 @@
 #include <SFML/Network.hpp>
 #include "Game.hpp"
+#include "Constants.hpp"
 #include "Window.hpp"
 #include "GameStates.hpp"
 #include "PauseMenu.hpp"
@@ -29,14 +30,14 @@ int main() {
 	sf::Clock clock;
 
 	//Initializing objects
-	Window::create(1280, 720, "Game", false, true);
+	settings.readFromFile();
+	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
 	font.init("res/fonts/thinfont-thin.ttf");
 	game.init(&font, ip);
 	pause.init(&font, settings);
 	state = GameStates::PLAY;
-	settings.readFromFile();
 
 	clock.restart();
 	while(state != GameStates::EXIT){

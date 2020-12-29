@@ -13,8 +13,6 @@ void World::init(uint8_t* d){
 
                     getChunk(x, y, z)->init(x * Constants::getChunkWidth(), y * Constants::getChunkWidth(), z * Constants::getChunkWidth());
 
-                    Utils::log("hi");
-
                }
           }
      }
