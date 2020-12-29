@@ -7,17 +7,17 @@
 void Game::init(GUIFont* font, sf::IpAddress ip){
 	connectToServer(ip);
 	receiveAndDecompressWorld();
-	m_world.init(m_data);
 	m_cubeMap.init();
 	m_particleRenderer.init();
 	m_handler.init(font);
+	m_camera.init(glm::vec3((Constants::getWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getWorldWidth() * Constants::getChunkWidth()) / 2));
 	initGUI();
 	generateColorVector(m_colors);
 }
 
 void Game::initGUI(){
-	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 4, SCREEN_HEIGHT / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
-	m_handler.images.emplace_back(glm::vec4(SCREEN_WIDTH / 2 - 3, SCREEN_HEIGHT / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
+	m_handler.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 4, Constants::getScreenHeight() / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
+	m_handler.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 }
 
 void Game::connectToServer(sf::IpAddress& ip){
@@ -31,28 +31,36 @@ void Game::connectToServer(sf::IpAddress& ip){
 }
 
 void Game::receiveAndDecompressWorld(){
-	m_data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
+
+	//Allocating memory for the world
+	uint8_t* data = new uint8_t[Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize()];
 
 	sf::Packet packet;
 
+	//Receiving the world in a packet
 	m_socket.setBlocking(true);
 	m_socket.receive(packet);
 	m_socket.setBlocking(false);
 
 	sf::Uint64 size = packet.getDataSize();
-
 	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
 
+	//Decompressing the world into allocated memory
 	sf::Uint8 blockID = 0;
 	sf::Uint64 pointer = 0;
 	while(packet >> blockID){
 		sf::Uint64 numBlocks = 0;
 		packet >> numBlocks;
 		for(sf::Uint64 i = 0; i < numBlocks; i++){
-			m_data[pointer + i] = blockID;
+			data[pointer + i] = blockID;
 		}
 		pointer += numBlocks;
 	}
+
+	//Initializing the world with decompressed data
+	m_world.init(data);
+
+
 }
 
 
@@ -64,7 +72,7 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 	receivePacket();
-	player.update(settings, m_colors, m_particleRenderer, m_world, deltaTime, m_socket);
+	player.update(m_camera, settings, m_colors, m_particleRenderer, m_world, deltaTime, m_socket);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
 	m_handler.update();
@@ -89,25 +97,10 @@ void Game::receivePacket(){
 	}
 }
 
-void Game::generateLocalWorld(){
-	for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
-		for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
-
-			float height = (glm::perlin(glm::vec2(x / (float)CHUNK_WIDTH * WORLD_SIZE, z / (float)CHUNK_WIDTH * WORLD_SIZE)) + 1) / 2.0f;
-
-			for(unsigned int i = 0; i < height * CHUNK_WIDTH * WORLD_HEIGHT; i++){
-				m_data[(i * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = i + 100;
-			}
-
-
-		}
-	}
-}
-
 void Game::render(Settings& settings, Player& player, float deltaTime){
-	m_cubeMap.render(player.camera.getProjectionMatrix(), glm::mat4(glm::mat3(player.camera.getViewMatrix())));
-	m_world.render(player.camera, m_colors, settings.range * MAX_RANGE);
-	m_particleRenderer.render(player.camera);
+	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
+	m_world.render(m_camera, m_colors, settings.renderDistance);
+	m_particleRenderer.render(m_camera);
 
 	//Calculating FPS
 	calcFps();
@@ -116,16 +109,7 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 	m_handler.render();
 
 	//Rendering FPS
-	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 20, SCREEN_HEIGHT - 48, 1.0f, ColorRGBA8(255, 255, 255, 255));
-
-	//Capping FPS
-	if(!settings.vsync){
-		float waitTime = 1.0f / (settings.maxFps * MAX_FPS);
-		while(m_clock.getElapsedTime().asSeconds() < waitTime){
-
-		}
-		m_clock.restart();
-	}
+	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 20, Constants::getScreenHeight() - 48, 1.0f, ColorRGBA8(255, 255, 255, 255));
 
 
 }

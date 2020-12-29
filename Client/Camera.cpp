@@ -1,12 +1,13 @@
 #include "Camera.hpp"
 #include "Constants.hpp"
 
+
 void Camera::init(const glm::vec3& pos){
 
 	m_position = pos;
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	m_projectionMatrix = glm::perspective(glm::radians(FOV), SCREEN_WIDTH/(float)SCREEN_HEIGHT, 0.1f, 1000.0f);
+	m_projectionMatrix = glm::perspective(glm::radians(90.0f), Constants::getScreenWidth()/(float)Constants::getScreenHeight(), 0.1f, 1000.0f);
 
 }
 
@@ -16,28 +17,28 @@ void Camera::movement(float deltaTime, Settings& settings){
      glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
      if(InputManager::isKeyDown(settings.front)){
-          m_position += forward * (float)settings.playerSpeed * MAX_SPEED * deltaTime;
+          m_position += forward * (float)settings.playerSpeed * deltaTime;
      }
 
      if(InputManager::isKeyDown(settings.back)){
-          m_position -= forward * (float)settings.playerSpeed * MAX_SPEED * deltaTime;
+          m_position -= forward * (float)settings.playerSpeed * deltaTime;
      }
 
      if(InputManager::isKeyDown(settings.left)){
-          m_position -= side * (float)settings.playerSpeed * MAX_SPEED * deltaTime;
+          m_position -= side * (float)settings.playerSpeed * deltaTime;
      }
 
 
      if(InputManager::isKeyDown(settings.right)){
-          m_position += side * (float)settings.playerSpeed * MAX_SPEED * deltaTime;
+          m_position += side * (float)settings.playerSpeed * deltaTime;
      }
 
      if(InputManager::isKeyDown(settings.down)){
-          m_position.y -= (float)settings.playerSpeed * MAX_SPEED * deltaTime;
+          m_position.y -= (float)settings.playerSpeed * deltaTime;
      }
 
      if(InputManager::isKeyDown(settings.up)){
-          m_position.y += (float)settings.playerSpeed * MAX_SPEED * deltaTime;
+          m_position.y += (float)settings.playerSpeed * deltaTime;
      }
 
 }
@@ -47,7 +48,7 @@ void Camera::movement(float deltaTime, Settings& settings){
 void Camera::update(Settings& settings, float deltaTime){
 
 	movement(deltaTime, settings);
-	calculateCameraVectors(settings.mouseSensibility * MAX_SENSIBILITY);
+	calculateCameraVectors(settings.mouseSensibility);
 	updateViewMatrix();
 
 }

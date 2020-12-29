@@ -20,10 +20,9 @@ int main(){
 	sf::SocketSelector selector;
 	std::vector<sf::TcpSocket*> sockets;
 
-	std::cout << "Listening for connection" << std::endl;
+	std::cout << "Listening for connection..." << std::endl;
 	listener.listen(2000);
 	selector.add(listener);
-
 
 	while(true){
 

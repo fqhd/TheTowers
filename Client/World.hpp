@@ -2,10 +2,10 @@
 #define WORLD_H
 #include "Chunk.hpp"
 #include "Camera.hpp"
-#include "Constants.hpp"
 #include "ChunkShader.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
+
 
 class World{
 public:
@@ -22,7 +22,7 @@ public:
 
 private:
 
-     void generateMesh(const std::vector<vec3>& colors, Chunk& chunk);
+     void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
      Chunk* getChunk(int x, int y, int z);
 
      void addTopFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
@@ -34,7 +34,7 @@ private:
 
      std::vector<Vertex> m_vertices;
 
-     Chunk chunks[WORLD_SIZE][WORLD_SIZE][WORLD_SIZE];
+     Chunk* m_chunks;
      ChunkShader m_chunkShader;
 
 

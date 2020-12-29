@@ -32,7 +32,7 @@ float Particle::getElapsedTime() const {
 }
 
 bool Particle::update(float deltaTime){
-        m_velocity.y += GRAVITY * m_gFactor * deltaTime;
+        m_velocity.y += Constants::getGravity() * m_gFactor * deltaTime;
         m_position += m_velocity * deltaTime;
         m_elapsedTime += deltaTime;
         return m_elapsedTime < m_lifeLength;

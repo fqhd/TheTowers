@@ -3,6 +3,8 @@
 #include "Constants.hpp"
 #include "Window.hpp"
 
+const float SLIDER_BUTTON_WIDTH = 8.0f;
+const float SLIDER_BUTTON_HEIGHT = 18.0f;
 
 GUISlider::GUISlider(const glm::vec2& position, float size, const ColorRGBA8& lineColor, const ColorRGBA8& buttonColor, float value){
      m_position = position;

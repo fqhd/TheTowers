@@ -16,10 +16,6 @@ public:
      void render();
      void destroy();
 
-	void writeSettingsToDisk(Settings& settings);
-	void loadSettingsFromDisk(Settings& settings);
-
-
 private:
 
      GUIHandler m_handler;

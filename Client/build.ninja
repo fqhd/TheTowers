@@ -7,10 +7,10 @@ rule cc
 rule lnk
   command = clang++ -o out $in $lflags
 
-
-
 build main.o: cc main.cpp
 build inputmanager.o: cc InputManager.cpp
+build constants.o: cc Constants.cpp
+build settings.o: cc Settings.cpp
 build player.o: cc Player.cpp
 build chunk.o: cc Chunk.cpp
 build shader.o: cc Shader.cpp
@@ -44,6 +44,5 @@ build guicomponent.o: cc GUIComponent.cpp
 build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o
-
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o constants.o settings.o
 

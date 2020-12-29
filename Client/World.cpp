@@ -1,14 +1,19 @@
 #include "World.hpp"
+#include "Constants.hpp"
+
 
 void World::init(uint8_t* d){
 
      data = d;
+     m_chunks = new Chunk[Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight()];
 
-     for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
-          for(unsigned int z = 0; z < WORLD_SIZE; z++){
-               for(unsigned int x = 0; x < WORLD_SIZE; x++){
+     for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
+          for(unsigned int z = 0; z < Constants::getWorldWidth(); z++){
+               for(unsigned int x = 0; x < Constants::getWorldWidth(); x++){
 
-                    chunks[y][z][x].init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH);
+                    getChunk(x, y, z)->init(x * Constants::getChunkWidth(), y * Constants::getChunkWidth(), z * Constants::getChunkWidth());
+
+                    Utils::log("hi");
 
                }
           }
@@ -23,20 +28,19 @@ void World::render(Camera& camera, const std::vector<vec3>& colors, float range)
      m_chunkShader.bind();
      m_chunkShader.loadMatrix(camera.getProjectionMatrix() * camera.getViewMatrix());
 
-     for(unsigned int i = 0; i < WORLD_HEIGHT; i++){
-          for(unsigned int j = 0; j < WORLD_SIZE; j++){
-               for(unsigned int k = 0; k < WORLD_SIZE; k++){
+     for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
+          for(unsigned int z = 0; z < Constants::getWorldWidth(); z++){
+               for(unsigned int x = 0; x < Constants::getWorldWidth(); x++){
 
-                    if(chunks[i][j][k].needsUpdate){
-                         generateMesh(colors, chunks[i][j][k]);
-                         chunks[i][j][k].needsUpdate = false;
+                    if(getChunk(x, y, z)->needsUpdate){
+                         generateMesh(colors, getChunk(x, y, z));
+                         getChunk(x, y, z)->needsUpdate = false;
                     }
 
 
-
-                    if(Utils::isInRange(camera.getPosition(), glm::vec3(chunks[i][j][k].getX() + CHUNK_WIDTH / 2,
-                    chunks[i][j][k].getY() + CHUNK_WIDTH / 2, chunks[i][j][k].getZ() + CHUNK_WIDTH / 2), range) && chunks[i][j][k].getNumVertices()) {
-                         chunks[i][j][k].render();
+                    if(Utils::isInRange(camera.getPosition(), glm::vec3(getChunk(x, y, z)->getX() + Constants::getChunkWidth() / 2,
+                    getChunk(x, y, z)->getY() + Constants::getChunkWidth() / 2, getChunk(x, y, z)->getZ() + Constants::getChunkWidth() / 2), range) && getChunk(x, y, z)->getNumVertices()) {
+                         getChunk(x, y, z)->render();
                     }
 
                }
@@ -51,10 +55,13 @@ void World::render(Camera& camera, const std::vector<vec3>& colors, float range)
 
 void World::destroy(){
 
-    for(unsigned int i = 0; i < WORLD_HEIGHT; i++){
-        for(unsigned int j = 0; j < WORLD_SIZE; j++){
-             for(unsigned int k = 0; k < WORLD_SIZE; k++){
-                  chunks[i][j][k].destroy();
+
+    for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
+        for(unsigned int z = 0; z < Constants::getWorldWidth(); z++){
+             for(unsigned int x = 0; x < Constants::getWorldWidth(); x++){
+
+                  getChunk(x, y, z)->destroy();
+
              }
         }
     }
@@ -64,38 +71,38 @@ void World::destroy(){
 }
 
 
-void World::generateMesh(const std::vector<vec3>& colors, Chunk& chunk){
+void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
 
      m_vertices.clear();
 
-     for(unsigned int y = 0; y < CHUNK_WIDTH; y++){
+     for(unsigned int y = 0; y < Constants::getChunkWidth(); y++){
 
-          for(unsigned int z = 0; z < CHUNK_WIDTH; z++){
+          for(unsigned int z = 0; z < Constants::getChunkWidth(); z++){
 
-               for(unsigned int x = 0; x < CHUNK_WIDTH; x++){
+               for(unsigned int x = 0; x < Constants::getChunkWidth(); x++){
 
-                    uint8_t block = getBlock(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z);
+                    uint8_t block = getBlock(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z);
 
                     if(block){
-                         addTopFace(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z, colors[block], m_vertices);
-                         addBottomFace(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z, colors[block], m_vertices);
-                         addLeftFace(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z, colors[block], m_vertices);
-                         addRightFace(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z, colors[block], m_vertices);
-                         addFrontFace(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z, colors[block], m_vertices);
-                         addBackFace(chunk.getX() + x, chunk.getY() + y, chunk.getZ() + z, colors[block], m_vertices);
+                         addTopFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
+                         addBottomFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
+                         addLeftFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
+                         addRightFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
+                         addFrontFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
+                         addBackFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
                     }
                }
           }
      }
 
-     chunk.pushData(m_vertices);
+     chunk->pushData(m_vertices);
 }
 
 uint8_t World::getBlock(int x, int y, int z){
 
-	if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH * WORLD_HEIGHT || z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
-		return data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x];
+	if(!(x < 0 || x >= Constants::getChunkWidth() * Constants::getWorldWidth() || y < 0 || y >= Constants::getChunkWidth() * Constants::getWorldHeight() || z < 0 || z >= Constants::getChunkWidth() * Constants::getWorldWidth())){
+		return data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x];
 	}
 
 	return 1;
@@ -103,37 +110,37 @@ uint8_t World::getBlock(int x, int y, int z){
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
 
-     if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_SIZE || y < 0 || y >= CHUNK_WIDTH * WORLD_HEIGHT|| z < 0 || z >= CHUNK_WIDTH * WORLD_SIZE)){
+     if(!(x < 0 || x >= Constants::getChunkWidth() * Constants::getWorldWidth() || y < 0 || y >= Constants::getChunkWidth() * Constants::getWorldHeight()|| z < 0 || z >= Constants::getChunkWidth() * Constants::getWorldWidth())){
 
-          data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = block;
+          data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x] = block;
 
-          unsigned int posX = x / CHUNK_WIDTH;
-          unsigned int posY = y / CHUNK_WIDTH;
-          unsigned int posZ = z / CHUNK_WIDTH;
+          unsigned int posX = x / Constants::getChunkWidth();
+          unsigned int posY = y / Constants::getChunkWidth();
+          unsigned int posZ = z / Constants::getChunkWidth();
 
-          chunks[posY][posZ][posX].needsUpdate = true;
+          getChunk(posX, posY, posZ)->needsUpdate = true;
 
-		if(x % CHUNK_WIDTH == 0){
+		if(x % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX - 1, posY, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
-		if((x + 1) % CHUNK_WIDTH == 0){
+		if((x + 1) % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX + 1, posY, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
-          if(z % CHUNK_WIDTH == 0){
+          if(z % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX, posY, posZ - 1);
 			if(chunk) chunk->needsUpdate = true;
 		}
-		if((z + 1) % CHUNK_WIDTH == 0){
+		if((z + 1) % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX, posY, posZ + 1);
 			if(chunk) chunk->needsUpdate = true;
 		}
-          if(y % CHUNK_WIDTH == 0){
+          if(y % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX, posY - 1, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
-		if((y + 1) % CHUNK_WIDTH == 0){
+		if((y + 1) % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX, posY + 1, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
@@ -146,8 +153,8 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 }
 
 Chunk* World::getChunk(int x, int y, int z){
-     if(!(x < 0 || x >= WORLD_SIZE || z < 0 || z >= WORLD_SIZE || y < 0 || y >= WORLD_HEIGHT))
-          return &chunks[y][z][x];
+     if(!(x < 0 || x >= Constants::getWorldWidth() || z < 0 || z >= Constants::getWorldWidth() || y < 0 || y >= Constants::getWorldHeight()))
+          return &m_chunks[(y * Constants::getWorldWidth() * Constants::getWorldWidth()) + (z * Constants::getWorldWidth()) + x];
 
      return nullptr;
 }
@@ -158,22 +165,22 @@ void World::addTopFace(int x, int y, int z, const vec3& color, std::vector<Verte
 
 	float of = 1.0f;
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x, y + 1, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x, y + 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -183,22 +190,22 @@ void World::addBottomFace(int x, int y, int z, const vec3& color, std::vector<Ve
 
 	float of = 1.0f;
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y- 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y- 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y- 1, z) || getBlock(x - 1, y- 1, z + 1) || getBlock(x, y- 1, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y- 1, z) || getBlock(x - 1, y- 1, z + 1) || getBlock(x, y- 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -208,22 +215,22 @@ void World::addRightFace(int x, int y, int z, const vec3& color, std::vector<Ver
 
 	float of = 1.0f;
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x - 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x - 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x - 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x - 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x - 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -233,22 +240,22 @@ void World::addLeftFace(int x, int  y, int z, const vec3& color, std::vector<Ver
 
 	float of = 1.0f;
 
-	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y + 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y + 1, z) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x + 1, y + 1, z) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y + 1, z) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x + 1, y + 1, z) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y - 1, z)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x + 1, y, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -258,22 +265,22 @@ void World::addFrontFace(int x, int y, int z, const vec3& color, std::vector<Ver
 
 	float of = 1.0f;
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x, y - 1, z - 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x, y - 1, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x, y + 1, z - 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x, y + 1, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y, z - 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x, y - 1, z - 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x, y - 1, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y, z - 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y, z - 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 }
 
@@ -282,22 +289,22 @@ void World::addBackFace(int x, int y, int z, const vec3& color, std::vector<Vert
 
 	float of = 1.0f;
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x, y - 1, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x, y - 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y + 1, z + 1) || getBlock(x, y + 1, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y + 1, z + 1) || getBlock(x, y + 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x, y - 1, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x, y - 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? OCCLUSION_FACTOR : 1.0f;
+	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 

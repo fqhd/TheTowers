@@ -13,6 +13,7 @@
 #include "Settings.hpp"
 #include "GUIHandler.hpp"
 #include "Window.hpp"
+#include "Camera.hpp"
 
 
 class Game {
@@ -42,7 +43,7 @@ private:
      CubeMap m_cubeMap;
      ParticleRenderer m_particleRenderer;
      GUIHandler m_handler;
-
+     Camera m_camera;
 
 
      //Game Variables
@@ -55,7 +56,6 @@ private:
      sf::Clock m_networkBufferClock;
      sf::Clock m_despawnClock;
      sf::TcpSocket m_socket;
-     uint8_t* m_data = nullptr;
 
 };
 

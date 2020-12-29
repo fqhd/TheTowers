@@ -9,16 +9,15 @@
 class Player {
 public:
 
-     void init();
-     void update(Settings& settings, std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, float deltaTime, sf::TcpSocket& socket);
+     void update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, float deltaTime, sf::TcpSocket& socket);
 
-     void breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket);
-     void placeBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket);
-     Camera camera;
+
      uint8_t selectedBlock = 0;
 
 private:
-
+     
+     void breakBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket);
+     void placeBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket);
 
 };
 

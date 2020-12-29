@@ -12,7 +12,7 @@ void GUIHandler::init(GUIFont* font){
 	m_fShader.getUniformLocations();
 	m_fRenderer.init();
 
-	m_matrix = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);
+	m_matrix = glm::ortho(0.0f, (float)Constants::getScreenWidth(), 0.0f, (float)Constants::getScreenHeight());
 
 	//Loading matrix and colors
 	m_fShader.bind();

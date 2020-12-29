@@ -2,28 +2,21 @@
 #include "Constants.hpp"
 #include "Utils.hpp"
 
-#include <iostream>
 
+void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, float deltaTime, sf::TcpSocket& socket){
 
-void Player::init(){
-    camera.init(glm::vec3((WORLD_SIZE * CHUNK_WIDTH) / 2, CHUNK_WIDTH, (WORLD_SIZE * CHUNK_WIDTH) / 2));
-}
-
-void Player::update(Settings& settings, std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, float deltaTime, sf::TcpSocket& socket){
-
-     breakBlocks(colors, renderer, world, socket);
-     placeBlocks(colors, renderer, world, socket);
-     camera.update(settings, deltaTime);
+     breakBlocks(camera, colors, renderer, world, socket);
+     placeBlocks(camera, colors, renderer, world, socket);
 
 }
 
-void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
+void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
 
      //Breaking blocks
      if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
           glm::vec3 rayPosition = camera.getPosition();
-          for(unsigned int i = 0; i < PRECISION; i++){
-               rayPosition += camera.getForward() * (DISTANCE / (float)PRECISION);
+          for(unsigned int i = 0; i < Constants::getPrecision(); i++){
+               rayPosition += camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
                uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
                if(blockID){
 
@@ -45,16 +38,16 @@ void Player::breakBlocks(const std::vector<vec3>& colors, ParticleRenderer& rend
     }
 }
 
-void Player::placeBlocks(const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
+void Player::placeBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
 
      //Placing blocks
     if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
           glm::vec3 rayPosition = camera.getPosition();
-          for(unsigned int i = 0; i < PRECISION; i++){
-               rayPosition += camera.getForward() * (DISTANCE / (float)PRECISION);
+          for(unsigned int i = 0; i < Constants::getPrecision(); i++){
+               rayPosition += camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
                uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
                if(blockID){
-                    rayPosition -= camera.getForward() * (DISTANCE / (float)PRECISION);
+                    rayPosition -= camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
 
                     //Sending block update information to server
                     sf::Packet packet;
