@@ -33,7 +33,7 @@ int main(){
 				listener.accept(*socket);
 				sockets.push_back(socket);
 				selector.add(*socket);
-				std::cout << "New client connected: " << sockets.size() << std::endl;
+				std::cout << "New client connected with ID: " << sockets.size() << std::endl;
 
 				sf::Packet packet;
 
@@ -64,7 +64,7 @@ int main(){
 								}
 							}
 						}else if(status == sf::Socket::Disconnected){
-							Utils::log("Client disconnected");
+							std::cout << "Client " << i + 1 << " disconnected" << std::endl;
 							sockets[i] = sockets.back();
 							sockets.pop_back();
 						}

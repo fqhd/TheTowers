@@ -79,6 +79,7 @@ int main() {
 bool getIP(sf::IpAddress& ip){
 
 	std::string s;
+	std::cout << "Enter server IP: ";
 	std::cin >> s;
 	ip = s;
 	if(s.empty()){
