@@ -20,6 +20,7 @@ public:
 
      uint8_t* data = nullptr;
 
+
 private:
 
      void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);

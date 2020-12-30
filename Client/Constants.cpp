@@ -1,53 +1,106 @@
 #include "Constants.hpp"
+#include <fstream>
+
+unsigned int Constants::m_screenWidth;
+unsigned int Constants::m_screenHeight;
+unsigned int Constants::m_chunkWidth;
+unsigned int Constants::m_chunkSize;
+unsigned int Constants::m_worldWidth;
+unsigned int Constants::m_worldHeight;
+float Constants::m_playerReachDistance;
+float Constants::m_occlusionFactor;
+unsigned int Constants::m_precision;
+float Constants::m_maxPlayerSpeed;
+float Constants::m_gravity;
+unsigned int Constants::m_maxRenderDistance;
+float Constants::m_maxMouseSensibility;
+
+void Constants::loadFromFile(){
+
+     std::ifstream is;
+     std::string s;
+     is.open("../constants.donotchange");
+
+     while(is >> s){
+          if(s == "ScreenWidth:"){
+               is >> m_screenWidth;
+          }else if(s == "ScreenHeight:"){
+               is >> m_screenHeight;
+          }else if(s == "ChunkWidth:"){
+               is >> m_chunkWidth;
+          }else if(s == "WorldWidth:"){
+               is >> m_worldWidth;
+          }else if(s == "WorldHeight:"){
+               is >> m_worldHeight;
+          }else if(s == "PlayerReachDistance:"){
+               is >> m_playerReachDistance;
+          }else if(s == "OcclusionFactor:"){
+               is >> m_occlusionFactor;
+          }else if(s == "Precision:"){
+               is >> m_precision;
+          }else if(s == "MaxPlayerSpeed:"){
+               is >> m_maxPlayerSpeed;
+          }else if(s == "Gravity:"){
+               is >> m_gravity;
+          }else if(s == "MaxRenderDistance:"){
+               is >> m_maxRenderDistance;
+          }else if(s == "MaxMouseSensibility:"){
+               is >> m_maxMouseSensibility;
+          }
+     }
+
+     is.close();
+
+}
 
 unsigned int Constants::getScreenWidth() {
-     return 1280;
+     return m_screenWidth;
 }
 
 unsigned int Constants::getScreenHeight() {
-     return 720;
+     return m_screenHeight;
 }
 
 float Constants::getGravity() {
-     return 12.0f;
+     return m_gravity;
 }
 
 float Constants::getMaxPlayerSpeed(){
-     return 50.0f;
+     return m_maxPlayerSpeed;
 }
 
 unsigned int Constants::getChunkWidth() {
-     return 32;
+     return m_chunkWidth;
 }
 
 float Constants::getMaxMouseSensibility(){
-     return 5.0f;
+     return m_maxMouseSensibility;
 }
 
 unsigned int Constants::getMaxRenderDistance(){
-     return 64.0f;
+     return m_maxRenderDistance;
 }
 
 unsigned int Constants::getChunkSize() {
-     return 32 * 32 * 32;
+     return m_chunkWidth * m_chunkWidth * m_chunkWidth;
 }
 
 unsigned int Constants::getWorldWidth() {
-     return 4;
+     return m_worldWidth;
 }
 
 unsigned int Constants::getWorldHeight() {
-     return 2;
+     return m_worldHeight;
 }
 
 float Constants::getPlayerReachDistance() {
-     return 5.0f;
+     return m_playerReachDistance;
 }
 
 float Constants::getOcclusionFactor() {
-     return 0.8f;
+     return m_occlusionFactor;
 }
 
 unsigned int Constants::getPrecision(){
-     return 50;
+     return m_precision;
 }

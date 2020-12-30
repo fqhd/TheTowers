@@ -1,2 +1,2 @@
-clang++ main.cpp $(pkg-config --libs sfml-all) -o out
+clang++ main.cpp -o out $(pkg-config --libs sfml-all)
 

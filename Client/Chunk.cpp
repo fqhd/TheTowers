@@ -65,7 +65,7 @@ void Chunk::setX(unsigned int x){
 	m_x = x;
 }
 
-void Chunk::setY(unsigned int y{
+void Chunk::setY(unsigned int y) {
 	m_y = y;
 }
 

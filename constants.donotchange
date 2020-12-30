@@ -1,0 +1,13 @@
+ScreenWidth: 1280
+ScreenHeight: 720
+Gravity: 12.0
+MaxPlayerSpeed: 50.0
+ChunkWidth: 32
+MaxMouseSensibility: 5.0
+MaxRenderDistance: 64.0
+WorldWidth: 4
+WorldHeight: 2
+PlayerReachDistance: 5.0
+OcclusionFactor: 0.8
+Precision: 50
+

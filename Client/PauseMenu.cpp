@@ -67,8 +67,8 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player){
 
           player.selectedBlock = blueValue + greenValue + redValue;
 
-          settings.mouseSensibility = m_handler.sliders[3].getValue();
-          settings.playerSpeed = m_handler.sliders[4].getValue();
+          settings.mouseSensibility = m_handler.sliders[3].getValue() * Constants::getMaxMouseSensibility();
+          settings.playerSpeed = m_handler.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
 
           settings.front = m_handler.keyboxes[0].getValue();
           settings.back = m_handler.keyboxes[1].getValue();

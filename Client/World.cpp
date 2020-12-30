@@ -54,12 +54,21 @@ void World::render(Camera& camera, const std::vector<vec3>& colors, float range)
 void World::moveFront(){
 
      //Only fist level movement for now, we'll add in the height later
+     //Moving the back row of chunks to the front
      for(unsigned int i = 0; i < Constants::getWorldWidth(); i++){
           Chunk* currentChunk = getChunk(i, 0, 0);
           currentChunk->setX(i * Constants::getChunkWidth());
           currentChunk->setY(0);
           currentChunk->setZ(currentChunk->getZ() + Constants::getWorldWidth() * Constants::getChunkWidth());
      }
+
+     //Shifting the positinos of the chunks in the array
+     for(unsigned int y = Constants::getWorldWidth(); y < Constants::getWorldWidth(); y++) {
+          for(unsigned int x = 0; x < Constants::getWorldWidth(); x++){
+               swapChunks(getChunk(x, 0, y), getChunk(x, 0, (y + 1) % Constants::getWorldWidth()));
+          }
+     }
+
 
 }
 

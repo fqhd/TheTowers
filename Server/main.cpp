@@ -2,18 +2,27 @@
 #include <vector>
 #include <iostream>
 #include <glm/gtc/noise.hpp>
-#include "../Client/Constants.hpp"
+#include <fstream>
 
 
-void generateWorld(uint8_t* data);
+void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsigned int* chunkWidth);
+void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWidth, unsigned int worldHeight);
 
 int main(){
 
+	//Varaibles
+	unsigned int worldWidth = 0;
+	unsigned int worldHeight = 0;
+	unsigned int chunkWidth = 0;
+	getConstantData(&worldWidth, &worldHeight, &chunkWidth);
+	unsigned int chunkSize = chunkWidth * chunkWidth * chunkWidth;
+
+
 	//Allocating memory for world data
-	uint8_t* data = new uint8_t[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE];
+	uint8_t* data = new uint8_t[worldWidth * worldWidth * worldHeight * chunkSize];
 
 	//Populating the world data buffer
-	generateWorld(data);
+	generateWorld(data, chunkWidth, worldWidth, worldHeight);
 
 
 	sf::TcpListener listener;
@@ -38,7 +47,7 @@ int main(){
 
 				//Compressing the world
 				sf::Uint64 numBlocks = 1;
-				for(sf::Uint64 i = 1; i < WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE; i++){
+				for(sf::Uint64 i = 1; i < worldWidth * worldWidth * worldHeight * chunkSize; i++){
 					if(data[i - 1] != data[i]){
 						packet << (sf::Uint8)data[i - 1] << numBlocks;
 						numBlocks = 1;
@@ -46,7 +55,7 @@ int main(){
 						numBlocks++;
 					}
 				}
-				packet << (sf::Uint8)data[WORLD_SIZE * WORLD_SIZE * WORLD_HEIGHT * CHUNK_SIZE - 1] << numBlocks;
+				packet << (sf::Uint8)data[worldWidth * worldWidth * worldHeight * chunkSize - 1] << numBlocks;
 
 				//Sending the packet containing the compressed world to the newly connected person
 				socket->send(packet);
@@ -79,26 +88,46 @@ int main(){
      return 0;
 }
 
-void generateWorld(uint8_t* data){
-	for(unsigned int y = 0; y < CHUNK_WIDTH * WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
-			for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
-				data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = 0;
+void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWidth, unsigned int worldHeight){
+	for(unsigned int y = 0; y < chunkWidth * worldHeight; y++){
+		for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
+			for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
+				data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = 0;
 			}
 		}
 	}
 
-	for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_SIZE; z++){
-		for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_SIZE; x++){
+	for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
+		for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
 
-			float p = (glm::perlin(glm::vec2(x * 0.1f / (float)CHUNK_WIDTH * WORLD_SIZE, z * 0.1f / (float)CHUNK_WIDTH * WORLD_SIZE)) + 1.0f) / 2.0f;
+			float p = (glm::perlin(glm::vec2(x * 0.1f / (float)chunkWidth * worldWidth, z * 0.1f / (float)chunkWidth * worldWidth)) + 1.0f) / 2.0f;
 
-			uint32_t height = CHUNK_WIDTH * p;
+			uint32_t height = chunkWidth * p;
 
 			for(uint32_t y = 0; y < height; y++){
-				data[(y * CHUNK_WIDTH * WORLD_SIZE * CHUNK_WIDTH * WORLD_SIZE) + (z * CHUNK_WIDTH * WORLD_SIZE) + x] = y + 100;
+				data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = y + 100;
 			}
 
 		}
 	}
+}
+
+void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsigned int* chunkWidth){
+
+	std::ifstream is;
+     std::string s;
+     is.open("../constants.donotchange");
+
+     while(is >> s){
+          if(s == "ChunkWidth:"){
+               is >> *chunkWidth;
+          }else if(s == "WorldWidth:"){
+               is >> *worldWidth;
+          }else if(s == "WorldHeight:"){
+               is >> *worldHeight;
+          }
+     }
+
+     is.close();
+
 }

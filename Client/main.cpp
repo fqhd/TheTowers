@@ -30,6 +30,7 @@ int main() {
 	sf::Clock clock;
 
 	//Initializing objects
+	Constants::loadFromFile();
 	settings.readFromFile();
 	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
