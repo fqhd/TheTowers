@@ -61,6 +61,17 @@ unsigned int Chunk::getZ(){
 }
 
 
+void Chunk::setX(unsigned int x){
+	m_x = x;
+}
+
+void Chunk::setY(unsigned int y{
+	m_y = y;
+}
+
+void Chunk::setZ(unsigned int z){
+	m_z = z;
+}
 
 
 void Chunk::destroy(){

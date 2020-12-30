@@ -17,6 +17,10 @@ public:
 	void destroy();
 	void pushData(const std::vector<Vertex>& vertices);
 
+	void setX(unsigned int x);
+	void setY(unsigned int y;
+	void setZ(unsigned int z);
+
 	unsigned int getX();
 	unsigned int getY();
 	unsigned int getZ();

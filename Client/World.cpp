@@ -51,6 +51,31 @@ void World::render(Camera& camera, const std::vector<vec3>& colors, float range)
 
 }
 
+void World::moveFront(){
+
+     //Only fist level movement for now, we'll add in the height later
+     for(unsigned int i = 0; i < Constants::getWorldWidth(); i++){
+          Chunk* currentChunk = getChunk(i, 0, 0);
+          currentChunk->setX(i * Constants::getChunkWidth());
+          currentChunk->setY(0);
+          currentChunk->setZ(currentChunk->getZ() + Constants::getWorldWidth() * Constants::getChunkWidth());
+     }
+
+}
+
+void World::moveRight(){
+
+}
+
+void World::moveLeft(){
+
+}
+
+void World::moveBack(){
+
+}
+
+
 void World::destroy(){
 
 
@@ -95,6 +120,12 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
      }
 
      chunk->pushData(m_vertices);
+}
+
+void World::swapChunks(Chunk* a, Chunk* b){
+	Chunk* temp = a;
+	a = b;
+	b = temp;
 }
 
 uint8_t World::getBlock(int x, int y, int z){
