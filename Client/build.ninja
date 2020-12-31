@@ -1,4 +1,4 @@
-cflags = -std=c++17 -O3 $$(pkg-config --cflags freetype2) $$(pkg-config --cflags glfw3) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g
+cflags = -std=c++17 -O0 $$(pkg-config --cflags freetype2) $$(pkg-config --cflags glfw3) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g
 lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glew) $$(pkg-config --libs freetype2) $$(pkg-config --libs glfw3)
 
 rule cc

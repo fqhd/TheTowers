@@ -5,13 +5,17 @@ class Constants {
 public:
 
      static void loadFromFile();
+     static void printDebugMessage();
 
      static unsigned int getScreenWidth();
      static unsigned int getScreenHeight();
      static unsigned int getChunkWidth();
      static unsigned int getChunkSize();
+     static unsigned int getLocalWorldWidth();
+     static unsigned int getLocalWorldHeight();
      static unsigned int getWorldWidth();
      static unsigned int getWorldHeight();
+     static unsigned int getNumParticles();
      static float getPlayerReachDistance();
      static float getOcclusionFactor();
      static unsigned int getPrecision();
@@ -19,15 +23,18 @@ public:
      static float getGravity();
      static unsigned int getMaxRenderDistance();
      static float getMaxMouseSensibility();
+     static unsigned int getNumParticles();
 
 private:
 
      static unsigned int m_screenWidth;
      static unsigned int m_screenHeight;
      static unsigned int m_chunkWidth;
-     static unsigned int m_chunkSize;
+     static unsigned int m_localWorldWidth;
+     static unsigned int m_localWorldHeight;
      static unsigned int m_worldWidth;
      static unsigned int m_worldHeight;
+     static unsigned int m_numParticles;
      static float m_playerReachDistance;
      static float m_occlusionFactor;
      static unsigned int m_precision;

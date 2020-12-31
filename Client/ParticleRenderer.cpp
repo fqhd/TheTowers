@@ -1,4 +1,6 @@
 #include "ParticleRenderer.hpp"
+#include "Constants.hpp"
+
 
 void ParticleRenderer::init(){
     m_quad.init();
@@ -8,11 +10,9 @@ void ParticleRenderer::init(){
 
 void ParticleRenderer::update(float deltaTime){
     for(auto& i : particles){
-        i.update(deltaTime);
-
-        if(i.getElapsedTime() > i.getLifeLength()){
-            i = particles.back();
-            particles.pop_back();
+        if(i.update(deltaTime)){
+             i = particles.back();
+             particles.pop_back();
         }
     }
 }
@@ -61,6 +61,13 @@ void ParticleRenderer::render(Camera& camera){
     m_shader.unbind();
 
 }
+
+void ParticleRenderer::placeParticlesAroundBlock(int x, int y, int z, const vec3& color){
+     for(unsigned int j = 0; j < Constants::getNumParticles(); j++){
+          particles.emplace_back(colors[blockID], glm::vec3(x, y, z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
+     }
+}
+
 
 void ParticleRenderer::destroy(){
 

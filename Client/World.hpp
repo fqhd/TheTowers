@@ -11,6 +11,7 @@ class World{
 public:
 
      void init(uint8_t* d);
+     void update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition);
      void render(Camera& camera, const std::vector<vec3>& colors, float range);
      void destroy();
 
@@ -27,11 +28,11 @@ private:
      Chunk* getChunk(int x, int y, int z);
      void swapChunks(Chunk* a, Chunk* b);
 
-     //Moving functions
+     //World movement functions
      void moveFront();
+     void moveBack();
      void moveRight();
      void moveLeft();
-     void moveBack();
 
      //Mesh generation functions
      void addTopFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
@@ -46,6 +47,10 @@ private:
 
      Chunk* m_chunks;
      ChunkShader m_chunkShader;
+     unsigned int m_chunkOffsetX = 0;
+     unsigned int m_chunkOffsetZ = 0;
+
+
 
 
 };

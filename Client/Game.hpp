@@ -37,6 +37,7 @@ private:
      void receivePacket();
      void initGUI();
      void calcFps();
+     void updateCameraAndWorld(Settings& settings, float deltaTime);
 
      //Engine Variables
      World m_world;

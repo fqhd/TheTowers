@@ -31,6 +31,7 @@ int main() {
 
 	//Initializing objects
 	Constants::loadFromFile();
+	Constants::printDebugMessage();
 	settings.readFromFile();
 	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
@@ -46,10 +47,11 @@ int main() {
 		while(state == GameStates::PLAY){
 			Window::clear();
 
-			game.update(settings, clock.getElapsedTime().asSeconds(), state, player);
-			game.render(settings, player, clock.getElapsedTime().asSeconds());
+			float deltaTime = clock.restart().asSeconds();
 
-			clock.restart();
+			game.update(settings, deltaTime, state, player);
+			game.render(settings, player, deltaTime);
+
 			Window::update();
 			if(Window::isCloseRequested()) state = GameStates::EXIT;
 		}

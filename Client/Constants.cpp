@@ -1,12 +1,16 @@
 #include "Constants.hpp"
+#include "Utils.hpp"
 #include <fstream>
+
 
 unsigned int Constants::m_screenWidth;
 unsigned int Constants::m_screenHeight;
 unsigned int Constants::m_chunkWidth;
-unsigned int Constants::m_chunkSize;
 unsigned int Constants::m_worldWidth;
 unsigned int Constants::m_worldHeight;
+unsigned int Constants::m_localWorldWidth;
+unsigned int Constants::m_localWorldHeight;
+unsigned int Constants::m_numParticles;
 float Constants::m_playerReachDistance;
 float Constants::m_occlusionFactor;
 unsigned int Constants::m_precision;
@@ -14,6 +18,7 @@ float Constants::m_maxPlayerSpeed;
 float Constants::m_gravity;
 unsigned int Constants::m_maxRenderDistance;
 float Constants::m_maxMouseSensibility;
+
 
 void Constants::loadFromFile(){
 
@@ -32,6 +37,10 @@ void Constants::loadFromFile(){
                is >> m_worldWidth;
           }else if(s == "WorldHeight:"){
                is >> m_worldHeight;
+          }else if(s == "LocalWorldWidth:"){
+               is >> m_localWorldWidth;
+          }else if(s == "LocalWorldHeight:"){
+               is >> m_localWorldHeight;
           }else if(s == "PlayerReachDistance:"){
                is >> m_playerReachDistance;
           }else if(s == "OcclusionFactor:"){
@@ -46,11 +55,29 @@ void Constants::loadFromFile(){
                is >> m_maxRenderDistance;
           }else if(s == "MaxMouseSensibility:"){
                is >> m_maxMouseSensibility;
+          }else if(s == "LocalWorldWidth:"){
+               is >> m_localWorldWidth;
+          }else if(s == "LocalWorldHeight:"){
+               is >> m_localWorldHeight;
+          }else if(s == "NumParticles:"){
+               is >> m_numParticles;
           }
      }
 
      is.close();
 
+}
+
+unsigned int Constants::getNumParticles(){
+     return m_numParticles;
+}
+
+unsigned int Constants::getLocalWorldWidth(){
+     return m_localWorldWidth;
+}
+
+unsigned int Constants::getLocalWorldHeight(){
+     return m_localWorldHeight;
 }
 
 unsigned int Constants::getScreenWidth() {
@@ -103,4 +130,23 @@ float Constants::getOcclusionFactor() {
 
 unsigned int Constants::getPrecision(){
      return m_precision;
+}
+
+void Constants::printDebugMessage() {
+     Utils::log("ScreenWidth: " + std::to_string(m_screenWidth));
+     Utils::log("ScreenHeight: " + std::to_string(m_screenHeight));
+     Utils::log("ChunkWidth: " + std::to_string(m_chunkWidth));
+     Utils::log("ChunkSize: " + std::to_string(m_chunkWidth * m_chunkWidth * m_chunkWidth));
+     Utils::log("LocalWorldWidth: " + std::to_string(m_localWorldWidth));
+     Utils::log("LocalWorldHeight: " + std::to_string(m_localWorldHeight));
+     Utils::log("WorldWidth: " + std::to_string(m_worldWidth));
+     Utils::log("WorldHeight: " + std::to_string(m_worldHeight));
+     Utils::log("PlayerReachDistance: " + std::to_string(m_playerReachDistance));
+     Utils::log("OcclusionFactor: " + std::to_string(m_occlusionFactor));
+     Utils::log("Precision: " + std::to_string(m_precision));
+     Utils::log("MaxPlayerSpeed: " + std::to_string(m_maxPlayerSpeed));
+     Utils::log("Gravity: " + std::to_string(m_gravity));
+     Utils::log("MaxRenderDistance: " + std::to_string(m_maxRenderDistance));
+     Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
+
 }

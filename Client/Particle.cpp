@@ -31,10 +31,10 @@ float Particle::getElapsedTime() const {
 }
 
 bool Particle::update(float deltaTime){
-        m_velocity.y -= Constants::getGravity() * deltaTime;
+        m_velocity.y -= Constants::getGravity();
         m_position += m_velocity * deltaTime;
         m_elapsedTime += deltaTime;
-        return m_elapsedTime < m_lifeLength;
+        return m_elapsedTime > m_lifeLength;
 }
 
 const vec3& Particle::getColor(){

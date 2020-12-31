@@ -21,6 +21,8 @@ int main(){
 	//Allocating memory for world data
 	uint8_t* data = new uint8_t[worldWidth * worldWidth * worldHeight * chunkSize];
 
+	std::cout << "World Size(bytes): " << worldWidth * worldWidth * worldHeight * chunkSize << std::endl;
+
 	//Populating the world data buffer
 	generateWorld(data, chunkWidth, worldWidth, worldHeight);
 
@@ -100,7 +102,7 @@ void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWid
 	for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
 		for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
 
-			float p = (glm::perlin(glm::vec2(x * 0.1f / (float)chunkWidth * worldWidth, z * 0.1f / (float)chunkWidth * worldWidth)) + 1.0f) / 2.0f;
+			float p = (glm::perlin(glm::vec2(x * 0.01f / (float)chunkWidth * worldWidth, z * 0.01f / (float)chunkWidth * worldWidth)) + 1.0f) / 2.0f;
 
 			uint32_t height = chunkWidth * p;
 

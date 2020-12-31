@@ -12,7 +12,6 @@ void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& color
 
 void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
 
-     //Breaking blocks
      if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
           glm::vec3 rayPosition = camera.getPosition();
           for(unsigned int i = 0; i < Constants::getPrecision(); i++){
@@ -26,12 +25,9 @@ void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, Partic
                     socket.send(packet);
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
 
-                    //Adding particles
-                    for(unsigned int j = 0; j < 100; j++){
-                         renderer.particles.emplace_back(colors[blockID], glm::vec3((int)rayPosition.x, (int)rayPosition.y,
-                         (int)rayPosition.z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10,
-                         (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
-                    }
+                    renderer.placeParticlesAroundBlock((int)rayPosition.x, (int)rayPosition.y, (int)rayPosition.z, colors[blockID]);
+
+
                     break;
                }
           }
@@ -40,7 +36,6 @@ void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, Partic
 
 void Player::placeBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
 
-     //Placing blocks
     if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
           glm::vec3 rayPosition = camera.getPosition();
           for(unsigned int i = 0; i < Constants::getPrecision(); i++){

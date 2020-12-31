@@ -19,7 +19,7 @@ public:
      //Runtime Settings(not going to be written to disk)
      float renderDistance = 64.0f;
      float mouseSensibility = 0.3f;
-     float playerSpeed = 5.0f;
+     float playerSpeed = 30.0f;
 
 
 

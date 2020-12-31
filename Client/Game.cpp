@@ -3,16 +3,17 @@
 #include <cstring>
 #include <glm/gtc/noise.hpp>
 
-
 void Game::init(GUIFont* font, sf::IpAddress ip){
+
 	connectToServer(ip);
 	receiveAndDecompressWorld();
 	m_cubeMap.init();
 	m_particleRenderer.init();
 	m_handler.init(font);
-	m_camera.init(glm::vec3((Constants::getWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getWorldWidth() * Constants::getChunkWidth()) / 2));
+	m_camera.init(glm::vec3((Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2));
 	initGUI();
 	generateColorVector(m_colors);
+
 }
 
 void Game::initGUI(){
@@ -44,6 +45,7 @@ void Game::receiveAndDecompressWorld(){
 
 	sf::Uint64 size = packet.getDataSize();
 	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
+	Utils::log("World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize())) * 100.0f) + "%");
 
 	//Decompressing the world into allocated memory
 	sf::Uint8 blockID = 0;
@@ -71,8 +73,9 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		Window::setMouseCursorGrabbed(false);
 		state = GameStates::PAUSE;
 	}
+
 	receivePacket();
-	m_camera.update(settings, deltaTime);
+	updateCameraAndWorld(settings, deltaTime);
 	player.update(m_camera, settings, m_colors, m_particleRenderer, m_world, deltaTime, m_socket);
 	m_cubeMap.update();
 	m_particleRenderer.update(deltaTime);
@@ -99,6 +102,7 @@ void Game::receivePacket(){
 }
 
 void Game::render(Settings& settings, Player& player, float deltaTime){
+
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 	m_world.render(m_camera, m_colors, settings.renderDistance);
 	m_particleRenderer.render(m_camera);
@@ -127,6 +131,13 @@ void Game::calcFps(){
 		m_fps = 0;
 		m_fpsClock.restart();
 	}
+}
+
+void Game::updateCameraAndWorld(Settings& settings, float deltaTime){
+	glm::vec3 previousCameraPosition = m_camera.getPosition();
+	m_camera.update(settings, deltaTime);
+	glm::vec3 currentCameraPosition = m_camera.getPosition();
+	m_world.update(previousCameraPosition, currentCameraPosition);
 }
 
 void Game::generateColorVector(std::vector<vec3>& colors){
