@@ -7,15 +7,16 @@
 class GUIShader : public Shader {
 public:
 
-	//Loading Uniforms
+	void init();
+
 	void loadMatrix(const glm::mat4& matrix);
 
-	void getUniformLocations();
 
 private:
 
+	void getUniformLocations();
 	//Uniforms
-	GLint m_matrix;
+	GLint m_matrix = 0;
 
 
 };

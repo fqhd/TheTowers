@@ -6,12 +6,14 @@
 class ParticleShader : public Shader {
 public:
 
-    void getUniformLocations();
-    void loadProjection(const glm::mat4& matrix);
+     void init();
+
+     void loadProjection(const glm::mat4& matrix);
 
 private:
 
-    GLint m_projectionLocation = 0;
+     void getUniformLocations();
+     GLint m_projectionLocation = 0;
 
 };
 

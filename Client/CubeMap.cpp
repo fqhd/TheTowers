@@ -4,17 +4,16 @@ void CubeMap::init(){
 
     std::vector<std::string> locations;
 
-    locations.push_back("res/textures/cubemap/right.jpg");
-    locations.push_back("res/textures/cubemap/left.jpg");
-    locations.push_back("res/textures/cubemap/top.jpg");
-    locations.push_back("res/textures/cubemap/bottom.jpg");
-    locations.push_back("res/textures/cubemap/front.jpg");
-    locations.push_back("res/textures/cubemap/back.jpg");
+    locations.push_back("res/textures/cubemap/right.png");
+    locations.push_back("res/textures/cubemap/left.png");
+    locations.push_back("res/textures/cubemap/top.png");
+    locations.push_back("res/textures/cubemap/bottom.png");
+    locations.push_back("res/textures/cubemap/back.png");
+    locations.push_back("res/textures/cubemap/front.png");
 
     m_dayTexture.init(locations);
     m_cube.init();
-    m_shader.loadShader("res/shaders/cubemapVertex.glsl", "res/shaders/cubemapFragment.glsl");
-    m_shader.getUniformLocations();
+    m_shader.init();
 
 }
 

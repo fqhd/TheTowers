@@ -4,17 +4,19 @@
 #include <glm/glm.hpp>
 #include "Shader.hpp"
 
+
 class CubeMapShader : public Shader {
 public:
 
+     void init();
 
     //Loading Uniforms
     void loadProjection(const glm::mat4& matrix);
     void loadView(const glm::mat4& matrix);
-    void getUniformLocations();
 
 private:
 
+     void getUniformLocations();
 
     //Locations
     GLint m_projectionLocation = 0;

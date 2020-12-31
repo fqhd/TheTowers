@@ -5,11 +5,9 @@ void GUIHandler::init(GUIFont* font){
 
 	m_font = font;
 	m_renderer.init();
-	m_shader.loadShader("res/shaders/guiVertex.glsl", "res/shaders/guiFragment.glsl");
-	m_shader.getUniformLocations();
+	m_shader.init();
 
-	m_fShader.loadShader("res/shaders/fontVertex.glsl", "res/shaders/fontFragment.glsl");
-	m_fShader.getUniformLocations();
+	m_fShader.init();
 	m_fRenderer.init();
 
 	m_matrix = glm::ortho(0.0f, (float)Constants::getScreenWidth(), 0.0f, (float)Constants::getScreenHeight());

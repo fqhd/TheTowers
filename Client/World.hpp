@@ -46,7 +46,7 @@ private:
      std::vector<Vertex> m_vertices;
 
      Chunk* m_chunks;
-     ChunkShader m_chunkShader;
+     ChunkShader m_shader;
      unsigned int m_chunkOffsetX = 0;
      unsigned int m_chunkOffsetZ = 0;
 

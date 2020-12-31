@@ -3,9 +3,8 @@
 
 
 void ParticleRenderer::init(){
-    m_quad.init();
-    m_shader.loadShader("res/shaders/particleVertex.glsl", "res/shaders/particleFragment.glsl");
-    m_shader.getUniformLocations();
+     m_quad.init();
+     m_shader.init();
 }
 
 void ParticleRenderer::update(float deltaTime){

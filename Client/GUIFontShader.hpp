@@ -7,22 +7,23 @@
 class GUIFontShader : public Shader {
 public:
 
+	void init();
 
 	//Loading Functions
 	void loadMatrix(const glm::mat4& matrix);
 	void loadColor(const ColorRGBA8& color);
 
-	void getUniformLocations();
 
 
 private:
 
+	void getUniformLocations();
 
 
 
 	//Uniforms
-	GLint m_matrixLocation;
-	GLint m_colorLocation;
+	GLint m_matrixLocation = 0;
+	GLint m_colorLocation = 0;
 
 };
 

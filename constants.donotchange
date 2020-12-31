@@ -5,11 +5,11 @@ MaxPlayerSpeed: 50.0
 ChunkWidth: 16
 MaxMouseSensibility: 5.0
 MaxRenderDistance: 64.0
-WorldWidth: 32
+WorldWidth: 64
 WorldHeight: 2
 PlayerReachDistance: 5.0
 OcclusionFactor: 0.8
 Precision: 50
-LocalWorldWidth: 16
+LocalWorldWidth: 32
 LocalWorldHeight: 2
 NumParticles: 50

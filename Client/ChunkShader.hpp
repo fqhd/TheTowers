@@ -11,14 +11,17 @@
 class ChunkShader : public Shader {
 public:
 
+	void init();
 
-	void loadMatrix(const glm::mat4& matrix);
-	void getUniformLocations();
+	void loadProjectionMatrix(const glm::mat4& matrix);
+	void loadViewMatrix(const glm::mat4& matrix);
 
 
 private:
+	void getUniformLocations();
 
-	GLint m_matrixLocation = 0;
+	GLint m_viewMatrixLocation = 0;
+	GLint m_projectionMatrixLocation = 0;
 
 };
 

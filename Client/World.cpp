@@ -17,8 +17,8 @@ void World::init(uint8_t* d){
           }
      }
 
-     m_chunkShader.loadShader("res/shaders/chunkVertex.glsl", "res/shaders/chunkFragment.glsl");
-     m_chunkShader.getUniformLocations();
+     m_shader.init();
+
 }
 
 void World::update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition){
@@ -46,8 +46,10 @@ void World::update(const glm::vec3& previousCameraPosition, const glm::vec3& cur
 
 void World::render(Camera& camera, const std::vector<vec3>& colors, float range){
 
-     m_chunkShader.bind();
-     m_chunkShader.loadMatrix(camera.getProjectionMatrix() * camera.getViewMatrix());
+     m_shader.bind();
+
+     m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
+     m_shader.loadViewMatrix(camera.getViewMatrix());
 
      for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
           for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
@@ -70,7 +72,7 @@ void World::render(Camera& camera, const std::vector<vec3>& colors, float range)
 
 
 
-     m_chunkShader.unbind();
+     m_shader.unbind();
 
 }
 
@@ -144,7 +146,7 @@ void World::destroy(){
         }
     }
 
-	m_chunkShader.destroy();
+	m_shader.destroy();
 
 }
 
@@ -189,7 +191,15 @@ uint8_t World::getBlock(int x, int y, int z){
 		return data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x];
 	}
 
-	return 0;
+     if(y < 0 || y >= Constants::getChunkWidth() * Constants::getWorldHeight()){
+          return 0;
+     }
+
+     x = x % (Constants::getChunkWidth() * Constants::getWorldWidth());
+     z = z % (Constants::getChunkWidth() * Constants::getWorldWidth());
+
+     return data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x];
+
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
