@@ -6,10 +6,10 @@ ChunkWidth: 16
 MaxMouseSensibility: 5.0
 MaxRenderDistance: 64.0
 WorldWidth: 32
-WorldHeight: 1
+WorldHeight: 2
 PlayerReachDistance: 5.0
 OcclusionFactor: 0.8
 Precision: 50
 LocalWorldWidth: 16
-LocalWorldHeight: 1
+LocalWorldHeight: 2
 NumParticles: 50

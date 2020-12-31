@@ -76,12 +76,12 @@ void World::render(Camera& camera, const std::vector<vec3>& colors, float range)
 
 void World::moveFront(){
 
-     //Only fist level movement for now, we'll add in the height later
-     //Moving the back row of chunks to the front
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          Chunk* currentChunk = getChunk(i, 0, 0);
-          currentChunk->setZ(currentChunk->getZ() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
-          currentChunk->needsUpdate = true;
+          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+               Chunk* currentChunk = getChunk(i, y, 0);
+               currentChunk->setZ(currentChunk->getZ() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+               currentChunk->needsUpdate = true;
+          }
      }
      m_chunkOffsetZ++;
 
@@ -90,9 +90,11 @@ void World::moveFront(){
 void World::moveBack(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          Chunk* currentChunk = getChunk(i, 0, Constants::getLocalWorldWidth() - 1);
-          currentChunk->setZ(currentChunk->getZ() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
-          currentChunk->needsUpdate = true;
+          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+               Chunk* currentChunk = getChunk(i, y, Constants::getLocalWorldWidth() - 1);
+               currentChunk->setZ(currentChunk->getZ() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+               currentChunk->needsUpdate = true;
+          }
      }
 
      m_chunkOffsetZ--;
@@ -102,9 +104,11 @@ void World::moveBack(){
 void World::moveRight(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          Chunk* currentChunk = getChunk(0, 0, i);
-          currentChunk->setX(currentChunk->getX() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
-          currentChunk->needsUpdate = true;
+          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+               Chunk* currentChunk = getChunk(0, y, i);
+               currentChunk->setX(currentChunk->getX() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+               currentChunk->needsUpdate = true;
+          }
      }
 
      m_chunkOffsetX++;
@@ -114,9 +118,11 @@ void World::moveRight(){
 void World::moveLeft(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          Chunk* currentChunk = getChunk(Constants::getLocalWorldWidth() - 1, 0, i);
-          currentChunk->setX(currentChunk->getX() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
-          currentChunk->needsUpdate = true;
+          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+               Chunk* currentChunk = getChunk(Constants::getLocalWorldWidth() - 1, y, i);
+               currentChunk->setX(currentChunk->getX() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+               currentChunk->needsUpdate = true;
+          }
      }
 
      m_chunkOffsetX--;

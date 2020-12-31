@@ -27,9 +27,6 @@ void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, Partic
 
                     renderer.placeParticlesAroundBlock((int)rayPosition.x, (int)rayPosition.y, (int)rayPosition.z, colors[blockID]);
 
-                    Utils::log("block id: " + std::to_string(blockID));
-
-
                     break;
                }
           }
