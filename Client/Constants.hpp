@@ -23,7 +23,6 @@ public:
      static float getGravity();
      static unsigned int getMaxRenderDistance();
      static float getMaxMouseSensibility();
-     static unsigned int getNumParticles();
 
 private:
 

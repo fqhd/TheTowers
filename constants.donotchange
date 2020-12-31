@@ -12,3 +12,4 @@ OcclusionFactor: 0.8
 Precision: 50
 LocalWorldWidth: 16
 LocalWorldHeight: 1
+NumParticles: 50
