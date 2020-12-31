@@ -183,7 +183,7 @@ uint8_t World::getBlock(int x, int y, int z){
 		return data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x];
 	}
 
-	return 1;
+	return 0;
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
