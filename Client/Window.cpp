@@ -24,6 +24,7 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+     glfwWindowHint(GLFW_SAMPLES, 4);
      if (!resizable) glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
      if (!decorated) glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
@@ -66,6 +67,8 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
      glEnable(GL_CULL_FACE);
      glCullFace(GL_BACK);
 
+     //Enabling MSAA
+     glEnable(GL_MULTISAMPLE);
 
      InputManager::init(window);
 
