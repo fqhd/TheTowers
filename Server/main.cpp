@@ -69,6 +69,20 @@ int main(){
 					if(selector.isReady(*sockets[i])){
 						sf::Packet packet;
 						sf::Socket::Status status = sockets[i]->receive(packet);
+
+						int x;
+						int y;
+						int z;
+						uint8_t b;
+
+						packet >> x >> y >> z >> b;
+
+						if(!(x < 0 || x >= chunkWidth * worldWidth || y < 0 || y >= chunkWidth * worldHeight || z < 0 || z >= chunkWidth * worldWidth)){
+							data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = b;
+						}
+
+						packet << x << y << z << b;
+
 						if(status == sf::Socket::Done){
 							for(unsigned int j = 0; j < sockets.size(); j++){
 								if(i != j){

@@ -21,7 +21,7 @@ void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, Partic
 
                     //Sending block update information to server
                     sf::Packet packet;
-                    packet << (uint8_t)rayPosition.x << (uint8_t)rayPosition.y << (uint8_t)rayPosition.z << (uint8_t)0;
+                    packet << (int)rayPosition.x << (int)rayPosition.y << (int)rayPosition.z << (uint8_t)0;
                     socket.send(packet);
                     world.setBlock(rayPosition.x, rayPosition.y, rayPosition.z, 0);
 

@@ -104,13 +104,13 @@ void Game::receivePacket(){
 
 	if(m_socket.receive(packet) == sf::Socket::Done){
 
-		uint8_t x;
-		uint8_t y;
-		uint8_t z;
+          int x;
+		int y;
+		int z;
 		uint8_t b;
 		packet >> x >> y  >> z >> b;
 
-		world.setBlock((int)x, (int)y, (int)z, b);
+		world.setBlock(x, y, z, b);
           if(b){
                m_particleRenderer.placeParticlesAroundBlock(x, y, z, colors[b]);
           }
