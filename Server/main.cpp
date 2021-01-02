@@ -70,17 +70,21 @@ int main(){
 						sf::Packet packet;
 						sf::Socket::Status status = sockets[i]->receive(packet);
 
+						//Variables for received packet information
 						int x;
 						int y;
 						int z;
 						uint8_t b;
 
+						//Depackaging packet
 						packet >> x >> y >> z >> b;
 
+						//Updating world data based on sent packet
 						if(!(x < 0 || x >= chunkWidth * worldWidth || y < 0 || y >= chunkWidth * worldHeight || z < 0 || z >= chunkWidth * worldWidth)){
 							data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = b;
 						}
 
+						//Repackaging packet
 						packet << x << y << z << b;
 
 						if(status == sf::Socket::Done){
