@@ -3,6 +3,7 @@
 #include "Chunk.hpp"
 #include "Camera.hpp"
 #include "ChunkShader.hpp"
+#include "Settings.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
 
@@ -11,8 +12,9 @@ class World{
 public:
 
      void init(uint8_t* d);
-     void update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition);
-     void render(Camera& camera, const std::vector<vec3>& colors, float range);
+     void updateChunks(const std::vector<vec3>& colors);
+     void update(const std::vector<vec3>& colors, const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition);
+     void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
      void destroy();
 
      uint8_t getBlock(int x, int y, int z);

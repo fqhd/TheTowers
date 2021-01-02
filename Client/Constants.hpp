@@ -23,6 +23,8 @@ public:
      static float getGravity();
      static unsigned int getMaxRenderDistance();
      static float getMaxMouseSensibility();
+     static float getMaxGradient();
+     static float getMaxDensity();
 
 private:
 
@@ -41,6 +43,8 @@ private:
      static float m_gravity;
      static unsigned int m_maxRenderDistance;
      static float m_maxMouseSensibility;
+     static float m_maxGradient;
+     static float m_maxDensity;
 
 
 

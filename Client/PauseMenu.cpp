@@ -15,30 +15,27 @@ void PauseMenu::init(GUIFont* font, Settings& settings){
      else
           Window::setVerticalSyncEnabled(false);
 
+
+     //Images
      m_handler.images.push_back(GUIImage(glm::vec4(0, 0, Constants::getScreenWidth(), Constants::getScreenHeight()), ColorRGBA8(0, 0, 0, 150)));
      m_handler.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_BG_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_BG_HEIGHT / 2.0f, MENU_BG_WIDTH, MENU_BG_HEIGHT), ColorRGBA8(50, 50, 50, 255)));
      m_handler.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f, MENU_WIDTH, MENU_HEIGHT), ColorRGBA8(20, 20, 20, 255)));
      m_handler.images.push_back(GUIImage(glm::vec4(600, 190, 128, 128), ColorRGBA8(0, 0, 0, 255)));
 
-     m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50,
-          Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255),
-          ColorRGBA8(90, 90, 90, 255), settings.showFPS));
+     //Checkboxes
+     m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showFPS));
+     m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.vsync));
 
-
-     m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50,
-          Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255),
-          ColorRGBA8(90, 90, 90, 255), settings.vsync));
-
+     //Sliders
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / Constants::getMaxMouseSensibility()));
      m_handler.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / Constants::getMaxPlayerSpeed()));
-     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.renderDistance / Constants::getMaxRenderDistance()));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.density / Constants::getMaxDensity()));
+     m_handler.sliders.push_back(GUISlider(glm::vec2(800, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.gradient / Constants::getMaxGradient()));
 
-
-     m_handler.boxes.push_back(GUISelectbox(glm::vec4(850, 425, 200, 30), ColorRGBA8(255, 255, 255, 255), 3));
-
+     //Keyboxes
      m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.front));
      m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.back));
      m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.left));
@@ -56,10 +53,11 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player){
 
           settings.showFPS = m_handler.checkboxes[0].isChecked();
           settings.vsync = m_handler.checkboxes[1].isChecked();
-          if(settings.vsync)
+          if(settings.vsync){
                Window::setVerticalSyncEnabled(true);
-          else
+          } else {
                Window::setVerticalSyncEnabled(false);
+          }
 
           unsigned int blueValue = ((int)(m_handler.sliders[2].getValue() * 5)) * 36;
           unsigned int greenValue = ((int)(m_handler.sliders[1].getValue() * 5)) * 6;
@@ -67,23 +65,27 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player){
 
           player.selectedBlock = blueValue + greenValue + redValue;
 
-          settings.mouseSensibility = m_handler.sliders[3].getValue() * Constants::getMaxMouseSensibility();
-          settings.playerSpeed = m_handler.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
-
           settings.front = m_handler.keyboxes[0].getValue();
           settings.back = m_handler.keyboxes[1].getValue();
           settings.left = m_handler.keyboxes[2].getValue();
           settings.right = m_handler.keyboxes[3].getValue();
           settings.up = m_handler.keyboxes[4].getValue();
           settings.down = m_handler.keyboxes[5].getValue();
-          settings.renderDistance = m_handler.sliders[5].getValue() * Constants::getMaxRenderDistance();
 
      }
 
-     m_handler.images[3].color = ColorRGBA8(m_handler.sliders[0].getValue() * 255, m_handler.sliders[2].getValue() * 255, m_handler.sliders[2].getValue() * 255, 255);
+     m_handler.images[3].color = ColorRGBA8(m_handler.sliders[0].getValue() * 255, m_handler.sliders[1].getValue() * 255, m_handler.sliders[2].getValue() * 255, 255);
 
      m_handler.update();
+     updateValues(settings);
 
+}
+
+void PauseMenu::updateValues(Settings& settings){
+     settings.mouseSensibility = m_handler.sliders[3].getValue() * Constants::getMaxMouseSensibility();
+     settings.playerSpeed = m_handler.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
+     settings.density = m_handler.sliders[5].getValue() * Constants::getMaxDensity();
+     settings.gradient = m_handler.sliders[6].getValue() * Constants::getMaxGradient();
 }
 
 void PauseMenu::render(){
@@ -100,10 +102,8 @@ void PauseMenu::render(){
      m_handler.renderFont("Mouse Sensibility: " + std::to_string((int)(m_handler.sliders[3].getValue() * Constants::getMaxMouseSensibility())), 220, 150, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("Player Speed: " + std::to_string((int)(m_handler.sliders[4].getValue() * Constants::getMaxPlayerSpeed())), 220, 100, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
-     m_handler.renderFont("Fullscreen", 870, 430, 0.5f, ColorRGBA8(0, 0, 0, 255));
-     m_handler.renderFont("Borderless", 870, 460, 0.5f, ColorRGBA8(0, 0, 0, 255));
-     m_handler.renderFont("Windowed", 870, 490, 0.5f, ColorRGBA8(0, 0, 0, 255));
-     m_handler.renderFont("RenderDistance", 850, 110, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Density: " + std::to_string(m_handler.sliders[5].getValue() * Constants::getMaxDensity()), 870, 320, 0.5f, ColorRGBA8(255, 255, 255, 255));
+     m_handler.renderFont("Gradient: " + std::to_string(m_handler.sliders[6].getValue() * Constants::getMaxGradient()), 870, 220, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
      m_handler.renderFont("Front: ", 220, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
      m_handler.renderFont("Back: ", 220, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));

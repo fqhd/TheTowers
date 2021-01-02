@@ -14,6 +14,7 @@
 #include "GUIHandler.hpp"
 #include "Window.hpp"
 #include "Camera.hpp"
+#include <thread>
 
 
 class Game {
@@ -28,6 +29,8 @@ public:
      void generateColorVector(std::vector<vec3>& colors);
      void generateLocalWorld();
 
+     World world;
+     std::vector<vec3> colors;
 
 private:
 
@@ -40,7 +43,6 @@ private:
      void updateCameraAndWorld(Settings& settings, float deltaTime);
 
      //Engine Variables
-     World m_world;
      CubeMap m_cubeMap;
      ParticleRenderer m_particleRenderer;
      GUIHandler m_handler;
@@ -49,14 +51,11 @@ private:
 
      //Game Variables
      std::unordered_map<uint8_t, uint8_t> m_clients;
-     std::vector<vec3> m_colors;
      std::string m_fpsString;
      unsigned int m_fps;
      sf::Clock m_fpsClock;
-     sf::Clock m_clock;
-     sf::Clock m_networkBufferClock;
-     sf::Clock m_despawnClock;
      sf::TcpSocket m_socket;
+
 
 };
 

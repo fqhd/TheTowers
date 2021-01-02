@@ -13,6 +13,7 @@ public:
 
      void init(GUIFont* font, Settings& settings);
      void update(GameStates& state, Settings& settings, Player& player);
+     void updateValues(Settings& settings);
      void render();
      void destroy();
 

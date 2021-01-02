@@ -18,6 +18,8 @@ float Constants::m_maxPlayerSpeed;
 float Constants::m_gravity;
 unsigned int Constants::m_maxRenderDistance;
 float Constants::m_maxMouseSensibility;
+float Constants::m_maxDensity;
+float Constants::m_maxGradient;
 
 
 void Constants::loadFromFile(){
@@ -61,6 +63,10 @@ void Constants::loadFromFile(){
                is >> m_localWorldHeight;
           }else if(s == "NumParticles:"){
                is >> m_numParticles;
+          }else if(s == "MaxGradient:"){
+               is >> m_maxGradient;
+          }else if(s == "MaxDensity:"){
+               is >> m_maxDensity;
           }
      }
 
@@ -74,6 +80,14 @@ unsigned int Constants::getNumParticles(){
 
 unsigned int Constants::getLocalWorldWidth(){
      return m_localWorldWidth;
+}
+
+float Constants::getMaxGradient(){
+     return m_maxGradient;
+}
+
+float Constants::getMaxDensity(){
+     return m_maxDensity;
 }
 
 unsigned int Constants::getLocalWorldHeight(){
@@ -148,5 +162,4 @@ void Constants::printDebugMessage() {
      Utils::log("Gravity: " + std::to_string(m_gravity));
      Utils::log("MaxRenderDistance: " + std::to_string(m_maxRenderDistance));
      Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
-
 }

@@ -21,7 +21,7 @@ void World::init(uint8_t* d){
 
 }
 
-void World::update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition){
+void World::update(const std::vector<vec3>& colors, const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition){
 
      glm::uvec3 pGridPosition = glm::vec3(previousCameraPosition.x / Constants::getChunkWidth(), previousCameraPosition.y / Constants::getChunkWidth(), previousCameraPosition.z / Constants::getChunkWidth());
      glm::uvec3 cGridPosition = glm::vec3(currentCameraPosition.x / Constants::getChunkWidth(), currentCameraPosition.y / Constants::getChunkWidth(), currentCameraPosition.z / Constants::getChunkWidth());
@@ -41,30 +41,30 @@ void World::update(const glm::vec3& previousCameraPosition, const glm::vec3& cur
           moveFront();
      }
 
-
 }
 
-void World::render(Camera& camera, const std::vector<vec3>& colors, float range){
+
+
+void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
+
+     updateChunks(colors);
 
      m_shader.bind();
 
      m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
      m_shader.loadViewMatrix(camera.getViewMatrix());
+     m_shader.loadGradient(settings.gradient);
+     m_shader.loadDensity(settings.density);
 
      for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
           for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
                for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
-                    if(getChunk(x, y, z)->needsUpdate){
-                         generateMesh(colors, getChunk(x, y, z));
-                         getChunk(x, y, z)->needsUpdate = false;
+                    Chunk* c = getChunk(x, y, z);
+                    if(c->getNumVertices() && !c->needsUpdate){
+                         c->render();
                     }
 
-                    getChunk(x, y, z)->render();
-
-                    //if(Utils::isInRange(camera.getPosition(), glm::vec3(getChunk(x, y, z)->getX() + Constants::getChunkWidth() / 2,
-                    //getChunk(x, y, z)->getY() + Constants::getChunkWidth() / 2, getChunk(x, y, z)->getZ() + Constants::getChunkWidth() / 2), range) && getChunk(x, y, z)->getNumVertices()) {
-                    //}
 
                }
           }
@@ -135,7 +135,6 @@ void World::moveLeft(){
 
 void World::destroy(){
 
-
     for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
         for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
              for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
@@ -150,11 +149,38 @@ void World::destroy(){
 
 }
 
+void World::updateChunks(const std::vector<vec3>& colors) {
+
+     sf::Clock c;
+     bool print = false;
+
+     for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+
+          for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
+
+               for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
+
+                    Chunk* c = getChunk(x, y, z);
+
+                    if(c->needsUpdate){
+                         generateMesh(colors, c);
+                         c->needsUpdate = false;
+                         print = true;
+                    }
+
+               }
+          }
+     }
+
+     if(print) Utils::log("generated mesh in: " + std::to_string(c.getElapsedTime().asMilliseconds()));
+
+}
+
 
 void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
+     std::vector<Vertex> vertices;
 
-     m_vertices.clear();
 
      for(unsigned int y = 0; y < Constants::getChunkWidth(); y++){
 
@@ -165,18 +191,19 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
                     uint8_t block = getBlock(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z);
 
                     if(block){
-                         addTopFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
-                         addBottomFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
-                         addLeftFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
-                         addRightFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
-                         addFrontFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
-                         addBackFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], m_vertices);
+                         addTopFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], vertices);
+                         addBottomFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], vertices);
+                         addLeftFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], vertices);
+                         addRightFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], vertices);
+                         addFrontFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], vertices);
+                         addBackFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block], vertices);
                     }
                }
           }
      }
 
-     chunk->pushData(m_vertices);
+     chunk->pushData(vertices);
+
 }
 
 void World::swapChunks(Chunk* a, Chunk* b){

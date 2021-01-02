@@ -4,6 +4,16 @@
 #include "Utils.hpp"
 
 
+Settings::Settings(){
+
+     //We define the variables here so that they get updated every time we change & recompile the project
+     mouseSensibility = 0.3f;
+     playerSpeed = 12.0f;
+     gradient = 5.5f;
+     density = 0.007f;
+
+}
+
 void Settings::readFromFile(){
 
      std::ifstream is;
@@ -32,7 +42,10 @@ void Settings::readFromFile(){
           }else if(s == "Right:"){
                is >> right;
           }
+
+
      }
+
      is.close();
 
 }
@@ -45,6 +58,7 @@ void Settings::writeToFile(){
           os.close();
           return;
      }
+
      os << "ShowFPS: " << showFPS << std::endl;
      os << "Vsync: " << vsync << std::endl;
      os << "Front: " << front << std::endl;
@@ -53,6 +67,7 @@ void Settings::writeToFile(){
      os << "Down: " << down << std::endl;
      os << "Left: " << left << std::endl;
      os << "Right: " << right << std::endl;
+
      os.close();
 
 }

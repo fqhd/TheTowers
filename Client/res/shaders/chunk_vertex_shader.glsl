@@ -11,10 +11,8 @@ out float visibility;
 //Uniforms
 uniform mat4 view;
 uniform mat4 projection;
-
-//Constants
-const float density = 0.007;
-const float gradient = 5.5;
+uniform float density;
+uniform float gradient;
 
 void main(){
 

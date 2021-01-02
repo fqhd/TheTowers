@@ -1,14 +1,16 @@
 #include <SFML/Network.hpp>
 #include <vector>
 #include <iostream>
-#include <glm/gtc/noise.hpp>
 #include <fstream>
+#include "Perlin.hpp"
 
 
 void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsigned int* chunkWidth);
 void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWidth, unsigned int worldHeight);
 
 int main(){
+
+	srand(time(0));
 
 	//Varaibles
 	unsigned int worldWidth = 0;
@@ -91,6 +93,7 @@ int main(){
 }
 
 void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWidth, unsigned int worldHeight){
+	//Setting everything to zero to start
 	for(unsigned int y = 0; y < chunkWidth * worldHeight; y++){
 		for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
 			for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
@@ -99,19 +102,21 @@ void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWid
 		}
 	}
 
+	//Generating the world with perlin noise
+	Perlin perlin;
+	perlin.init(chunkWidth * worldWidth, 6, 0.5f);
 	for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
 		for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
 
-			float p = (glm::perlin(glm::vec2(x * 0.01f / (float)chunkWidth * worldWidth, z * 0.01f / (float)chunkWidth * worldWidth)) + 1.0f) / 2.0f;
+			unsigned int height = perlin.noise(x, z) * chunkWidth * worldHeight;
 
-			uint32_t height = chunkWidth * p;
-
-			for(uint32_t y = 0; y < height; y++){
+			for(unsigned int y = 0; y < height; y++){
 				data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = y + 100;
 			}
 
 		}
 	}
+	perlin.destroy();
 }
 
 void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsigned int* chunkWidth){

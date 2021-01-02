@@ -23,7 +23,6 @@ void Chunk::init(unsigned int x, unsigned int y, unsigned int z){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-
 }
 
 unsigned int Chunk::getNumVertices(){
