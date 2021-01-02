@@ -110,10 +110,10 @@ void Game::receivePacket(){
 		uint8_t b;
 		packet >> x >> y  >> z >> b;
 
-		world.setBlock(x, y, z, b);
-          if(b){
-               m_particleRenderer.placeParticlesAroundBlock(x, y, z, colors[b]);
+          if(!b){
+               m_particleRenderer.placeParticlesAroundBlock(x, y, z, colors[world.getBlock(x, y, z)]);
           }
+          world.setBlock(x, y, z, b);
 
 	}
 }
