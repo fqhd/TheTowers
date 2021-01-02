@@ -1,12 +1,12 @@
-#ifndef PARTICLE_RENDERER_H
-#define PARTICLE_RENDERER_H
+#ifndef PARTICLE_HANDLER_H
+#define PARTICLE_HANDLER_H
 #include "ParticleQuad.hpp"
 #include "ParticleShader.hpp"
 #include "Particle.hpp"
 #include "Camera.hpp"
 #include <vector>
 
-class ParticleRenderer {
+class ParticleHandler {
 public:
 
     void init();

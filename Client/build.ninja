@@ -1,5 +1,5 @@
 cflags = -std=c++17 -O3 $$(pkg-config --cflags freetype2) $$(pkg-config --cflags glfw3) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g
-lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glew) $$(pkg-config --libs freetype2) $$(pkg-config --libs glfw3) -pthread
+lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glew) $$(pkg-config --libs freetype2) $$(pkg-config --libs glfw3)
 
 rule cc
   command = clang++ -c $in -o $out $cflags
@@ -11,6 +11,11 @@ build main.o: cc main.cpp
 build inputmanager.o: cc InputManager.cpp
 build constants.o: cc Constants.cpp
 build settings.o: cc Settings.cpp
+build model.o: cc Model.cpp
+build modelshader.o: cc ModelShader.cpp
+build transform.o: cc Transform.cpp
+build entity.o: cc Entity.cpp
+build entityhandler.o: cc EntityHandler.cpp
 build player.o: cc Player.cpp
 build chunk.o: cc Chunk.cpp
 build shader.o: cc Shader.cpp
@@ -24,7 +29,7 @@ build cubemap.o: cc CubeMap.cpp
 build cube.o: cc Cube.cpp
 build cubemapshader.o: cc CubeMapShader.cpp
 build cubemaptexture.o: cc CubeMapTexture.cpp
-build particlerenderer.o: cc ParticleRenderer.cpp
+build particlehandler.o: cc ParticleHandler.cpp
 build particle.o: cc Particle.cpp
 build particlequad.o: cc ParticleQuad.cpp
 build particleshader.o: cc ParticleShader.cpp
@@ -43,7 +48,7 @@ build guiselectbox.o: cc GUISelectbox.cpp
 build guicomponent.o: cc GUIComponent.cpp
 build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
+build objloader.o: cc OBJLoader.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlerenderer.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o constants.o settings.o
-
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o
 

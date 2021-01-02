@@ -239,7 +239,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 
           getChunk(posX, posY, posZ)->needsUpdate = true;
 
-          //Update neighboring chunks if block is on the edge of a chunk
+          //Update neighboring chunks if block is on the edge of the current chunk
 		if(x % Constants::getChunkWidth() == 0){
 			Chunk* chunk = getChunk(posX - 1, posY, posZ);
 			if(chunk) chunk->needsUpdate = true;
@@ -272,7 +272,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 
 }
 
-//)/)/)/
+
 Chunk* World::getChunk(int x, int y, int z) {
 
      if(!(x < 0 || x >= Constants::getLocalWorldWidth() || z < 0 || z >= Constants::getLocalWorldWidth() || y < 0 || y >= Constants::getLocalWorldHeight())){

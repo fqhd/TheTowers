@@ -1,5 +1,6 @@
 #include "Model.hpp"
 #include "OBJLoader.hpp"
+#include "Utils.hpp"
 
 
 void Model::loadFromFile(const std::string& path){
@@ -13,17 +14,15 @@ void Model::loadFromFile(const std::string& path){
 
      glEnableVertexAttribArray(0);
      glEnableVertexAttribArray(1);
-     glEnableVertexAttribArray(2);
 
-     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, position));
+     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, normal));
 
      //Creating and sending data to VBO
      IndexedModel model = OBJModel(path).ToIndexedModel();
-     std::vector<Vertex> vertices;
+     std::vector<ModelVertex> vertices;
      for(unsigned int i = 0; i < model.positions.size(); i++){
-          vertices.emplace_back(model.positions[i], model.normals[i], model.texCoords[i]);
+          vertices.emplace_back(model.positions[i], model.normals[i]);
      }
 
      glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), vertices.data(), GL_STATIC_DRAW);
@@ -37,6 +36,8 @@ void Model::loadFromFile(const std::string& path){
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
      m_numVertices = model.indices.size();
+
+     Utils::log("Loaded model " + path + " with " + std::to_string(m_numVertices) + " vertices");
 
 }
 
@@ -54,6 +55,14 @@ GLuint Model::getVboID(){
 
 GLuint Model::getEboID(){
      return m_eboID;
+}
+
+void Model::render(){
+     glBindVertexArray(m_vaoID);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
+     glDrawElements(GL_TRIANGLES, m_numVertices, GL_UNSIGNED_INT, 0);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+     glBindVertexArray(0);
 }
 
 void Model::destroy(){

@@ -1,13 +1,13 @@
-#include "ParticleRenderer.hpp"
+#include "ParticleHandler.hpp"
 #include "Constants.hpp"
 
 
-void ParticleRenderer::init(){
+void ParticleHandler::init(){
      m_quad.init();
      m_shader.init();
 }
 
-void ParticleRenderer::update(float deltaTime){
+void ParticleHandler::update(float deltaTime){
     for(auto& i : particles){
         if(i.update(deltaTime)){
              i = particles.back();
@@ -16,7 +16,7 @@ void ParticleRenderer::update(float deltaTime){
     }
 }
 
-void ParticleRenderer::render(Camera& camera){
+void ParticleHandler::render(Camera& camera){
 
 
     std::vector<glm::mat4> matrices;
@@ -61,14 +61,14 @@ void ParticleRenderer::render(Camera& camera){
 
 }
 
-void ParticleRenderer::placeParticlesAroundBlock(int x, int y, int z, const vec3& color){
+void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, const vec3& color){
      for(unsigned int j = 0; j < Constants::getNumParticles(); j++){
           particles.emplace_back(color, glm::vec3(x, y, z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
      }
 }
 
 
-void ParticleRenderer::destroy(){
+void ParticleHandler::destroy(){
 
     particles.clear();
     m_quad.destroy();

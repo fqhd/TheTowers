@@ -8,13 +8,13 @@
 #include "ChunkShader.hpp"
 #include "World.hpp"
 #include "CubeMap.hpp"
-#include "ParticleRenderer.hpp"
+#include "ParticleHandler.hpp"
 #include "GameStates.hpp"
+#include "EntityHandler.hpp"
 #include "Settings.hpp"
 #include "GUIHandler.hpp"
 #include "Window.hpp"
 #include "Camera.hpp"
-#include <thread>
 
 
 class Game {
@@ -44,9 +44,10 @@ private:
 
      //Engine Variables
      CubeMap m_cubeMap;
-     ParticleRenderer m_particleRenderer;
+     ParticleHandler m_particleHandler;
      GUIHandler m_handler;
      Camera m_camera;
+     EntityHandler m_entityHandler;
 
 
      //Game Variables

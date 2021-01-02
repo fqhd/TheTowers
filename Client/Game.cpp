@@ -4,24 +4,20 @@
 #include <glm/gtc/noise.hpp>
 
 
-using namespace std::literals::chrono_literals;
-
-void myFunction(World* world, const std::vector<vec3>& colors){
-     Utils::log("updating the chunks");
-     world->updateChunks(colors);
-     std::this_thread::sleep_for(100ms);
-}
-
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
 	connectToServer(ip);
 	receiveAndDecompressWorld();
 	m_cubeMap.init();
-	m_particleRenderer.init();
+	m_particleHandler.init();
 	m_handler.init(font);
-	m_camera.init(glm::vec3((Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2));
+	//m_camera.init(glm::vec3((Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2));
+	m_camera.init(glm::vec3(0, 0, 0));
 	initGUI();
 	generateColorVector(colors);
+     m_entityHandler.init();
+
+	m_entityHandler.entities.emplace_back(vec3(255, 255, 255), Transform(glm::vec3(0, 0, 0), glm::vec3(20, 20, 20), glm::vec3(1, 1, 1)));
 
 }
 
@@ -86,11 +82,12 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	}
 
 
+     m_entityHandler.update();
 	receivePacket();
 	updateCameraAndWorld(settings, deltaTime);
-	player.update(m_camera, settings, colors, m_particleRenderer, world, deltaTime, m_socket);
+	player.update(m_camera, settings, colors, m_particleHandler, world, deltaTime, m_socket);
 	m_cubeMap.update();
-	m_particleRenderer.update(deltaTime);
+	m_particleHandler.update(deltaTime);
 	m_handler.update();
 
      //Updating GUI color
@@ -111,7 +108,7 @@ void Game::receivePacket(){
 		packet >> x >> y  >> z >> b;
 
           if(!b){
-               m_particleRenderer.placeParticlesAroundBlock(x, y, z, colors[world.getBlock(x, y, z)]);
+               m_particleHandler.placeParticlesAroundBlock(x, y, z, colors[world.getBlock(x, y, z)]);
           }
           world.setBlock(x, y, z, b);
 
@@ -122,7 +119,8 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 	world.render(settings, m_camera, colors);
-	m_particleRenderer.render(m_camera);
+	m_particleHandler.render(m_camera);
+     m_entityHandler.render(settings, m_camera);
 
 	//Calculating FPS
 	calcFps();
@@ -136,9 +134,10 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 }
 
 void Game::destroy(){
+	m_entityHandler.destroy();
 	world.destroy();
 	m_cubeMap.destroy();
-	m_particleRenderer.destroy();
+	m_particleHandler.destroy();
 }
 
 void Game::calcFps(){

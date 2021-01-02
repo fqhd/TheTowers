@@ -35,7 +35,16 @@ struct ColorRGBA8 {
 	GLubyte a;
 };
 
-struct Vertex{
+struct ModelVertex {
+	ModelVertex(const glm::vec3& p, const glm::vec3& n){
+		position = p;
+		normal = n;
+	}
+	glm::vec3 position;
+	glm::vec3 normal;
+};
+
+struct Vertex {
 	Vertex(const glm::vec3& p, const vec3& c){
 		position = p;
 		color = c;

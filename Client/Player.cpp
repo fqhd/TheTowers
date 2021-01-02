@@ -4,14 +4,14 @@
 #include <iostream>
 
 
-void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, float deltaTime, sf::TcpSocket& socket){
+void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleHandler& renderer, World& world, float deltaTime, sf::TcpSocket& socket){
 
      breakBlocks(camera, colors, renderer, world, socket);
      placeBlocks(camera, colors, renderer, world, socket);
 
 }
 
-void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
+void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleHandler& renderer, World& world, sf::TcpSocket& socket){
 
      if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
           glm::vec3 rayPosition = camera.getPosition();
@@ -34,7 +34,7 @@ void Player::breakBlocks(Camera& camera, const std::vector<vec3>& colors, Partic
     }
 }
 
-void Player::placeBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleRenderer& renderer, World& world, sf::TcpSocket& socket){
+void Player::placeBlocks(Camera& camera, const std::vector<vec3>& colors, ParticleHandler& renderer, World& world, sf::TcpSocket& socket){
 
     if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
           glm::vec3 rayPosition = camera.getPosition();
