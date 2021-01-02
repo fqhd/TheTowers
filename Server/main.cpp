@@ -51,7 +51,7 @@ int main(){
 
 				//Compressing the world
 				sf::Uint64 numBlocks = 1;
-				for(sf::Uint64 i = 1; i < worldWidth * worldWidth * worldHeight * chunkSize; i++){
+				for(sf::Uint64 i = 1; i < (worldWidth * worldWidth * worldHeight * chunkSize) - 1; i++){
 					if(data[i - 1] != data[i]){
 						packet << (sf::Uint8)data[i - 1] << numBlocks;
 						numBlocks = 1;

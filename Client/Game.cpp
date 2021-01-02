@@ -11,8 +11,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_handler.init(font);
-	//m_camera.init(glm::vec3((Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2));
-	m_camera.init(glm::vec3(0, 0, 0));
+	m_camera.init(glm::vec3((Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2));
 	initGUI();
 	generateColorVector(colors);
      m_entityHandler.init();
