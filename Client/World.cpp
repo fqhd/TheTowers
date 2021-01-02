@@ -151,8 +151,6 @@ void World::destroy(){
 
 void World::updateChunks(const std::vector<vec3>& colors) {
 
-     sf::Clock c;
-     bool print = false;
 
      for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
 
@@ -165,14 +163,11 @@ void World::updateChunks(const std::vector<vec3>& colors) {
                     if(c->needsUpdate){
                          generateMesh(colors, c);
                          c->needsUpdate = false;
-                         print = true;
                     }
 
                }
           }
      }
-
-     if(print) Utils::log("generated mesh in: " + std::to_string(c.getElapsedTime().asMilliseconds()));
 
 }
 

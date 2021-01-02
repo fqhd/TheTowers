@@ -12,7 +12,6 @@ class ChunkShader : public Shader {
 public:
 
 	void init();
-
 	void loadProjectionMatrix(const glm::mat4& matrix);
 	void loadViewMatrix(const glm::mat4& matrix);
 	void loadGradient(float gradient);
