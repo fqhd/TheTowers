@@ -116,11 +116,12 @@ void Game::receivePacket(){
 
 void Game::render(Settings& settings, Player& player, float deltaTime){
 
-	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 	world.render(settings, m_camera, colors);
 	m_particleHandler.render(m_camera);
      m_entityHandler.render(settings, m_camera);
 
+	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
+	
 	//Calculating FPS
 	calcFps();
 
