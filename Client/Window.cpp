@@ -5,6 +5,7 @@ GLFWwindow* Window::window;
 int Window::m_width;
 int Window::m_height;
 bool Window::m_closeRequested;
+bool Window::m_isResized;
 
 void Window::create(unsigned int width, unsigned int height, const std::string& name, bool resizable, bool decorated){
 
@@ -75,7 +76,12 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 
 }
 
+bool Window::isResized(){
+     return m_isResized;
+}
+
 void Window::windowResized(GLFWwindow* window, int width, int height){
+     m_isResized = true;
 	m_width = width;
 	m_height = height;
 }
@@ -110,6 +116,7 @@ void Window::clear(){
 }
 
 void Window::update(){
+     m_isResized = false;
      glfwSwapBuffers(window);
      m_closeRequested = InputManager::processInput(window);
 }

@@ -25,6 +25,7 @@ public:
 	static const glm::vec2& getDeltaMousePosition();
 	static float getDeltaMouseWheel();
 	static const glm::vec2& getMousePosition();
+	static glm::vec2 getPercentageMousePosition();
 	static int getLastKeyPressed();
 
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

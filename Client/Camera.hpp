@@ -13,6 +13,7 @@ public:
 
 	void init(const glm::vec3& pos);
 	void update(Settings& settings, float deltaTime);
+	void updateProjectionMatrix();
 
 
 	const glm::mat4& getProjectionMatrix();
@@ -26,9 +27,8 @@ private:
 
 	//Private Functions
 	void calculateCameraVectors(float deltaTime);
-	void updateViewMatrix();
 	void movement(float deltaTime, Settings& settings);
-
+	void updateViewMatrix();
 
 	float m_pitch = 0.0f;
 	float m_yaw = 90.0f;

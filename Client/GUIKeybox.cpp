@@ -1,5 +1,6 @@
 #include "GUIKeybox.hpp"
 #include "Window.hpp"
+#include "Constants.hpp"
 
 
 GUIKeybox::GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int value){
@@ -9,6 +10,7 @@ GUIKeybox::GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigne
 }
 
 void GUIKeybox::update(std::vector<GUIKeybox>& keyboxes){
+     glm::vec2 mousePos = Utils::mapPoint(InputManager::getMousePosition(), glm::vec2(Window::getWidth(), Window::getHeight()), glm::vec2(Constants::getScreenWidth(), Constants::getScreenHeight()));
 
      m_currentColor = m_baseColor;
 
@@ -18,7 +20,7 @@ void GUIKeybox::update(std::vector<GUIKeybox>& keyboxes){
           m_value = InputManager::getLastKeyPressed();
      }
 
-     if(Utils::isInside(Utils::flipCoords(InputManager::getMousePosition(), Window::getHeight()), m_destRect)){
+     if(Utils::isInside(Utils::flipCoords(mousePos, Constants::getScreenHeight()), m_destRect)){
           m_currentColor = ColorRGBA8(m_baseColor.r * 0.6f, m_baseColor.g * 0.6f, m_baseColor.b * 0.6f, 255);
           if(InputManager::isButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
                for(auto& i : keyboxes){

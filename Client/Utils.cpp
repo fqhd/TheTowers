@@ -34,3 +34,12 @@ void Utils::log(const std::string& message){
 glm::vec2 Utils::flipCoords(const glm::vec2& coords, float height){
 	return glm::vec2(coords.x, height - coords.y);
 }
+
+glm::vec2 Utils::mapPoint(const glm::vec2& point, const glm::vec2& pointDimensions, const glm::vec2& desiredDimensions){
+	glm::vec2 mappedPoint;
+	float xPercent = point.x / pointDimensions.x;
+	float yPercent = point.y / pointDimensions.y;
+	mappedPoint.x = xPercent * desiredDimensions.x;
+	mappedPoint.y = yPercent * desiredDimensions.y;
+	return mappedPoint;
+}

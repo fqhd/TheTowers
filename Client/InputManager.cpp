@@ -31,6 +31,10 @@ const glm::vec2& InputManager::getMousePosition(){
 	return m_mousePosition;
 }
 
+glm::vec2 InputManager::getPercentageMousePosition(){
+	return glm::vec2(m_mousePosition.x, m_mousePosition.y);
+}
+
 bool InputManager::processInput(GLFWwindow* window){
 	if(glfwWindowShouldClose(window)){
 		return true;

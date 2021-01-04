@@ -19,6 +19,7 @@ public:
      static void setMouseCursorGrabbed(bool grabbed);
      static int getWidth();
      static int getHeight();
+     static bool isResized();
 
      static bool isCloseRequested();
 
@@ -32,6 +33,7 @@ private:
      static int m_width;
      static int m_height;
 
+     static bool m_isResized;
      static bool m_closeRequested;
 
 

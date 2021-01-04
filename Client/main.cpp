@@ -52,6 +52,7 @@ int main() {
 
 			float deltaTime = clock.restart().asSeconds();
 
+			if(Window::isResized()) game.updateElementsBasedOnResize();
 			game.update(settings, deltaTime, state, player);
 			game.render(settings, player, deltaTime);
 
@@ -62,6 +63,8 @@ int main() {
 		while(state == GameStates::PAUSE){
 			Window::clear();
 
+
+			if(Window::isResized()) game.updateElementsBasedOnResize();
 			pause.update(state, settings, player);
 			game.render(settings, player, clock.getElapsedTime().asSeconds());
 			pause.render();

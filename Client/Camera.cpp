@@ -1,5 +1,6 @@
 #include "Camera.hpp"
 #include "Constants.hpp"
+#include "Window.hpp"
 
 
 void Camera::init(const glm::vec3& pos){
@@ -7,8 +8,12 @@ void Camera::init(const glm::vec3& pos){
 	m_position = pos;
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	m_projectionMatrix = glm::perspective(glm::radians(90.0f), Constants::getScreenWidth()/(float)Constants::getScreenHeight(), 0.1f, 1000.0f);
+	updateProjectionMatrix();
 
+}
+
+void Camera::updateProjectionMatrix(){
+	m_projectionMatrix = glm::perspective(glm::radians(90.0f), Window::getWidth()/(float)Window::getHeight(), 0.1f, 1000.0f);
 }
 
 void Camera::movement(float deltaTime, Settings& settings){

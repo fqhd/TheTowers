@@ -13,7 +13,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	m_handler.init(font);
 	m_camera.init(glm::vec3((Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2, Constants::getChunkWidth(), (Constants::getLocalWorldWidth() * Constants::getChunkWidth()) / 2));
 	initGUI();
-	generateColorVector(colors);
+	generateColorVector(m_colors);
      m_entityHandler.init();
 
 	m_entityHandler.entities.emplace_back(vec3(255, 255, 255), Transform(glm::vec3(0, 0, 0), glm::vec3(20, 20, 20), glm::vec3(1, 1, 1)));
@@ -66,7 +66,7 @@ void Game::receiveAndDecompressWorld(){
 	}
 
 	//Initializing the world with decompressed data
-	world.init(data);
+	m_world.init(data);
 
 
 }
@@ -80,17 +80,16 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 
-
      m_entityHandler.update();
 	receivePacket();
 	updateCameraAndWorld(settings, deltaTime);
-	player.update(m_camera, settings, colors, m_particleHandler, world, deltaTime, m_socket);
+	player.update(m_camera, settings, m_colors, m_particleHandler, m_world, deltaTime, m_socket);
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
 	m_handler.update();
 
      //Updating GUI color
-	m_handler.images[1].color = ColorRGBA8(colors[player.selectedBlock].r, colors[player.selectedBlock].g, colors[player.selectedBlock].b, 255);
+	m_handler.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
 
 
 }
@@ -107,21 +106,21 @@ void Game::receivePacket(){
 		packet >> x >> y  >> z >> b;
 
           if(!b){
-               m_particleHandler.placeParticlesAroundBlock(x, y, z, colors[world.getBlock(x, y, z)]);
+               m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
           }
-          world.setBlock(x, y, z, b);
+          m_world.setBlock(x, y, z, b);
 
 	}
 }
 
 void Game::render(Settings& settings, Player& player, float deltaTime){
 
-	world.render(settings, m_camera, colors);
+	m_world.render(settings, m_camera, m_colors);
 	m_particleHandler.render(m_camera);
      m_entityHandler.render(settings, m_camera);
 
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
-	
+
 	//Calculating FPS
 	calcFps();
 
@@ -135,7 +134,7 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 void Game::destroy(){
 	m_entityHandler.destroy();
-	world.destroy();
+	m_world.destroy();
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 }
@@ -153,15 +152,20 @@ void Game::updateCameraAndWorld(Settings& settings, float deltaTime){
 	glm::vec3 previousCameraPosition = m_camera.getPosition();
 	m_camera.update(settings, deltaTime);
 	glm::vec3 currentCameraPosition = m_camera.getPosition();
-	world.update(colors, previousCameraPosition, currentCameraPosition);
+	m_world.update(m_colors, previousCameraPosition, currentCameraPosition);
 }
 
-void Game::generateColorVector(std::vector<vec3>& colors){
+void Game::updateElementsBasedOnResize(){
+	glViewport(0, 0, Window::getWidth(), Window::getHeight());
+	m_camera.updateProjectionMatrix();
+}
+
+void Game::generateColorVector(std::vector<vec3>& m_colors){
 
 	for(unsigned int b = 0; b < 6; b++){
 		for(unsigned int g = 0; g < 6; g++){
 			for(unsigned int r = 0; r < 6; r++){
-				colors.push_back(vec3(r * 42, g * 42, b * 42));
+				m_colors.push_back(vec3(r * 42, g * 42, b * 42));
 			}
 		}
 	}

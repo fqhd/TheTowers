@@ -25,14 +25,15 @@ public:
      void render(Settings& settings, Player& player, float deltaTime);
      void destroy();
 
+
+     void updateElementsBasedOnResize();
+
+
+private:
+
      //Game functions
      void generateColorVector(std::vector<vec3>& colors);
      void generateLocalWorld();
-
-     World world;
-     std::vector<vec3> colors;
-
-private:
 
      //Game functions
      void connectToServer(sf::IpAddress& ip);
@@ -56,6 +57,8 @@ private:
      unsigned int m_fps;
      sf::Clock m_fpsClock;
      sf::TcpSocket m_socket;
+     World m_world;
+     std::vector<vec3> m_colors;
 
 
 };
