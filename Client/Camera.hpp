@@ -8,12 +8,22 @@
 #include "Settings.hpp"
 
 
+class Plane {
+public:
+	void setNormalAndPoint(const glm::vec3& normal, const glm::vec3& point){
+		n = normal;
+		d = point;
+	}
+	glm::vec3 n, d;
+};
+
 class Camera {
 public:
 
 	void init(const glm::vec3& pos);
 	void update(Settings& settings, float deltaTime);
 	void updateProjectionMatrix();
+	bool isInView(const glm::vec3& position, float radius);
 
 
 	const glm::mat4& getProjectionMatrix();
@@ -24,6 +34,8 @@ public:
 
 
 private:
+
+	Plane pl[6];
 
 	//Private Functions
 	void calculateCameraVectors(float deltaTime);

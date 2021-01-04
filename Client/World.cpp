@@ -56,19 +56,20 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
      m_shader.loadGradient(settings.gradient);
      m_shader.loadDensity(settings.density);
 
-     for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
-          for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
-               for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
+	for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
+			for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
-                    Chunk* c = getChunk(x, y, z);
-                    if(c->getNumVertices() && !c->needsUpdate){
-                         c->render();
+				Chunk* c = getChunk(x, y, z);
+				if(c->getNumVertices() && !c->needsUpdate){
+
+                         
+
                     }
-
-
                }
           }
      }
+}
 
 
 

@@ -46,7 +46,6 @@ int main() {
 
 	clock.restart();
 	while(state != GameStates::EXIT){
-
 		while(state == GameStates::PLAY){
 			Window::clear();
 
