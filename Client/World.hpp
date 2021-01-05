@@ -22,7 +22,6 @@ public:
      void setBlock(int x, int y, int z, uint8_t block);
 
 
-     uint8_t* data = nullptr;
 
 
 private:
@@ -51,6 +50,7 @@ private:
      ChunkShader m_shader;
      unsigned int m_chunkOffsetX = 0;
      unsigned int m_chunkOffsetZ = 0;
+     uint8_t* m_data = nullptr;
 
 
 

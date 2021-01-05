@@ -15,6 +15,7 @@
 #include "GUIHandler.hpp"
 #include "Window.hpp"
 #include "Camera.hpp"
+#include "BlockOutline.hpp"
 
 
 class Game {
@@ -49,6 +50,7 @@ private:
      GUIHandler m_handler;
      Camera m_camera;
      EntityHandler m_entityHandler;
+     BlockOutline m_blockOutline;
 
 
      //Game Variables

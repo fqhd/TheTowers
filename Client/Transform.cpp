@@ -12,6 +12,13 @@ Transform::Transform(const glm::vec3& position, const glm::vec3& rotation, const
      m_scale = scale;
 }
 
+void Transform::init(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale){
+     m_position = position;
+     m_rotation = rotation;
+     m_scale = scale;
+}
+
+
 const glm::mat4& Transform::getMatrix() {
      if(!m_needsUpdate)
           return m_matrix;

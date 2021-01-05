@@ -8,6 +8,9 @@ rule lnk
   command = clang++ -o out $in $lflags
 
 build main.o: cc main.cpp
+build blockoutline.o: cc BlockOutline.cpp
+build outlinerenderer.o: cc OutlineRenderer.cpp
+build blockoutlineshader.o: cc BlockOutlineShader.cpp
 build frustum.o: cc Frustum.cpp
 build inputmanager.o: cc InputManager.cpp
 build constants.o: cc Constants.cpp
@@ -51,5 +54,5 @@ build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
 build objloader.o: cc OBJLoader.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o frustum.o
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o frustum.o blockoutlineshader.o blockoutline.o outlinerenderer.o
 

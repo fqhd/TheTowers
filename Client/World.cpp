@@ -4,7 +4,7 @@
 
 void World::init(uint8_t* d){
 
-     data = d;
+     m_data = d;
      m_chunks = new Chunk[Constants::getLocalWorldWidth() * Constants::getLocalWorldWidth() * Constants::getLocalWorldHeight()];
 
      for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
@@ -152,6 +152,7 @@ void World::destroy(){
     }
 
 	m_shader.destroy();
+     delete[] m_data;
 
 }
 
@@ -208,33 +209,33 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
 uint8_t World::getBlock(int x, int y, int z){
 
-	if(!(x < 0 || x >= Constants::getChunkWidth() * Constants::getWorldWidth() || y < 0 || y >= Constants::getChunkWidth() * Constants::getWorldHeight() || z < 0 || z >= Constants::getChunkWidth() * Constants::getWorldWidth())){
-		return data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x];
+     unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
+     unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
+
+	if(!(x < 0 || x >= maxW ||
+          y < 0 || y >= maxH ||
+          z < 0 || z >= maxW )){
+             return m_data[(y * maxW * maxW) + (z * maxW) + x];
 	}
 
-     if(y < 0 || y >= Constants::getChunkWidth() * Constants::getWorldHeight()){
-          return 0;
-     }
-
-     x = x % (Constants::getChunkWidth() * Constants::getWorldWidth());
-     z = z % (Constants::getChunkWidth() * Constants::getWorldWidth());
-
-     return data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x];
+     return 0;
 
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
 
-     if(!(x < 0 || x >= Constants::getChunkWidth() * Constants::getWorldWidth() || y < 0 || y >= Constants::getChunkWidth() * Constants::getWorldHeight()|| z < 0 || z >= Constants::getChunkWidth() * Constants::getWorldWidth())){
+     unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
+     unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
-          data[(y * Constants::getChunkWidth() * Constants::getWorldWidth() * Constants::getChunkWidth() * Constants::getWorldWidth()) + (z * Constants::getChunkWidth() * Constants::getWorldWidth()) + x] = block;
+     if(!(x < 0 || x >= maxW ||
+          y < 0 || y >= maxH ||
+          z < 0 || z >= maxW )){
+
+               m_data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
 
           unsigned int posX = x / Constants::getChunkWidth();
           unsigned int posY = y / Constants::getChunkWidth();
           unsigned int posZ = z / Constants::getChunkWidth();
-
-          posX -= m_chunkOffsetX;
-          posZ -= m_chunkOffsetZ;
 
           getChunk(posX, posY, posZ)->needsUpdate = true;
 
@@ -263,25 +264,20 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 			Chunk* chunk = getChunk(posX, posY + 1, posZ);
 			if(chunk) chunk->needsUpdate = true;
 		}
-
-
-
      }
-
-
 }
 
 
 Chunk* World::getChunk(int x, int y, int z) {
 
-     if(!(x < 0 || x >= Constants::getLocalWorldWidth() || z < 0 || z >= Constants::getLocalWorldWidth() || y < 0 || y >= Constants::getLocalWorldHeight())){
-          z = (z + m_chunkOffsetZ) % Constants::getLocalWorldWidth();
-          x = (x + m_chunkOffsetX) % Constants::getLocalWorldWidth();
-          return &m_chunks[(y * Constants::getLocalWorldWidth() * Constants::getLocalWorldWidth()) + (z * Constants::getLocalWorldWidth()) + x];
+     unsigned int worldWidth = Constants::getLocalWorldWidth();
+     unsigned int worldHeight = Constants::getLocalWorldHeight();
 
-     }
+     z = (z + m_chunkOffsetZ) % worldWidth;
+     y = y % worldHeight;
+     x = (x + m_chunkOffsetX) % worldWidth;
+     return &m_chunks[(y * worldWidth * worldWidth) + (z * worldWidth) + x];
 
-     return nullptr;
 }
 
 void World::addTopFace(int x, int y, int z, const vec3& color){

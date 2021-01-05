@@ -15,6 +15,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	initGUI();
 	generateColorVector(m_colors);
      m_entityHandler.init();
+	m_blockOutline.init();
 
 	//Adding entities
 	m_entityHandler.entities.emplace_back(vec3(255, 255, 255), Transform(glm::vec3(0, 0, 0), glm::vec3(20, 20, 20), glm::vec3(1, 1, 1)));
@@ -120,9 +121,9 @@ void Game::receivePacket(){
 void Game::render(Settings& settings, Player& player, float deltaTime){
 
 	m_world.render(settings, m_camera, m_colors);
+	m_blockOutline.render(player, m_camera);
 	m_particleHandler.render(m_camera);
      m_entityHandler.render(settings, m_camera);
-
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 
 	//Calculating FPS
@@ -141,6 +142,7 @@ void Game::destroy(){
 	m_world.destroy();
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
+	m_blockOutline.destroy();
 }
 
 void Game::calcFps(){
