@@ -36,14 +36,14 @@ Frustum::Frustum(glm::mat4 m)
 	m_points[5] = intersection<Left,  Top,    Far>(crosses);
 	m_points[6] = intersection<Right, Bottom, Far>(crosses);
 	m_points[7] = intersection<Right, Top,    Far>(crosses);
+	
 
 }
 
 bool Frustum::IsBoxVisible(const glm::vec3& minp, const glm::vec3& maxp) const
 {
 	// check box outside/inside of frustum
-	for (int i = 0; i < Count; i++)
-	{
+	for (int i = 0; i < Count; i++) {
 		if ((glm::dot(m_planes[i], glm::vec4(minp.x, minp.y, minp.z, 1.0f)) < 0.0) &&
 			(glm::dot(m_planes[i], glm::vec4(maxp.x, minp.y, minp.z, 1.0f)) < 0.0) &&
 			(glm::dot(m_planes[i], glm::vec4(minp.x, maxp.y, minp.z, 1.0f)) < 0.0) &&
@@ -51,8 +51,7 @@ bool Frustum::IsBoxVisible(const glm::vec3& minp, const glm::vec3& maxp) const
 			(glm::dot(m_planes[i], glm::vec4(minp.x, minp.y, maxp.z, 1.0f)) < 0.0) &&
 			(glm::dot(m_planes[i], glm::vec4(maxp.x, minp.y, maxp.z, 1.0f)) < 0.0) &&
 			(glm::dot(m_planes[i], glm::vec4(minp.x, maxp.y, maxp.z, 1.0f)) < 0.0) &&
-			(glm::dot(m_planes[i], glm::vec4(maxp.x, maxp.y, maxp.z, 1.0f)) < 0.0))
-		{
+			(glm::dot(m_planes[i], glm::vec4(maxp.x, maxp.y, maxp.z, 1.0f)) < 0.0)) {
 			return false;
 		}
 	}
@@ -73,6 +72,6 @@ template<Frustum::Planes a, Frustum::Planes b, Frustum::Planes c>
 inline glm::vec3 Frustum::intersection(const glm::vec3* crosses) const {
 	float D = glm::dot(glm::vec3(m_planes[a]), crosses[ij2k<b, c>::k]);
 	glm::vec3 res = glm::mat3(crosses[ij2k<b, c>::k], -crosses[ij2k<a, c>::k], crosses[ij2k<a, b>::k]) *
-		glm::vec3(m_planes[a].w, m_planes[b].w, m_planes[c].w);
+	glm::vec3(m_planes[a].w, m_planes[b].w, m_planes[c].w);
 	return res * (-1.0f / D);
 }

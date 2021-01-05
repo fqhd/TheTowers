@@ -48,7 +48,6 @@ void World::update(const std::vector<vec3>& colors, const glm::vec3& previousCam
 void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
 
      Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
-     unsigned int numChunksRendered = 0;
 
      updateChunks(colors);
 
@@ -72,7 +71,6 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 
                          if(f.IsBoxVisible(min, max)){
                               c->render();
-                              numChunksRendered++;
                          }
 
                     }

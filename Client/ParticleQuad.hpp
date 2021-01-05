@@ -21,10 +21,10 @@ public:
 
 private:
 
-    GLuint m_vaoID;
-    GLuint m_vboID;
-    GLuint m_ivboID;
-    GLuint m_colorsVBOID;
+    GLuint m_vaoID = 0;
+    GLuint m_vboID = 0;
+    GLuint m_ivboID = 0;
+    GLuint m_colorsVBOID = 0;
 
 
 };
