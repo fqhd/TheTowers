@@ -1,6 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 #include "Chunk.hpp"
+#include "Frustum.hpp"
 #include "Camera.hpp"
 #include "ChunkShader.hpp"
 #include "Settings.hpp"

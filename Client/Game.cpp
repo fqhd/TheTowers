@@ -16,7 +16,11 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	generateColorVector(m_colors);
      m_entityHandler.init();
 
+	//Adding entities
 	m_entityHandler.entities.emplace_back(vec3(255, 255, 255), Transform(glm::vec3(0, 0, 0), glm::vec3(20, 20, 20), glm::vec3(1, 1, 1)));
+
+
+
 
 }
 
