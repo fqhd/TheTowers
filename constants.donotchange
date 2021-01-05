@@ -1,6 +1,6 @@
 ScreenWidth: 1280
 ScreenHeight: 720
-Gravity: 0.12
+Gravity: 12
 MaxPlayerSpeed: 64.0
 ChunkWidth: 16
 MaxMouseSensibility: 5.0

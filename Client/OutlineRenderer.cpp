@@ -54,7 +54,7 @@ void OutlineRenderer::renderFace(Face face){
 
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
 
-     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(face * 6));
+     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)((uint64_t)face * 6));
 
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
