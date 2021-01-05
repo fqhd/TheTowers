@@ -237,6 +237,11 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
           unsigned int posY = y / Constants::getChunkWidth();
           unsigned int posZ = z / Constants::getChunkWidth();
 
+          posX -= m_chunkOffsetX;
+          posZ -= m_chunkOffsetZ;
+
+
+
           getChunk(posX, posY, posZ)->needsUpdate = true;
 
           //Update neighboring chunks if block is on the edge of the current chunk
