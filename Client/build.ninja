@@ -5,7 +5,7 @@ rule cc
   command = clang++ -c $in -o $out $cflags
 
 rule lnk
-  command = clang++ -o out $in $lflags -framework OpenGL
+  command = clang++ -o out $in $lflags
 
 build main.o: cc main.cpp
 build blockoutline.o: cc BlockOutline.cpp

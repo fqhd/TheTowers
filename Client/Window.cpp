@@ -26,8 +26,8 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
      glfwWindowHint(GLFW_SAMPLES, 4);
-     if (!resizable) glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-     if (!decorated) glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+     glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE);
+     glfwWindowHint(GLFW_DECORATED, decorated ? GLFW_TRUE : GLFW_FALSE);
 
      m_width = width;
      m_height = height;
@@ -35,8 +35,6 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 #ifdef __APPLE__
      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-     if (!resizable) glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-     if (!decorated) glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
      //Creating the window
      window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
