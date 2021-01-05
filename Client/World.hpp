@@ -28,7 +28,6 @@ private:
 
      void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
      Chunk* getChunk(int x, int y, int z);
-     void swapChunks(Chunk* a, Chunk* b);
 
      //World movement functions
      void moveFront();
@@ -37,12 +36,12 @@ private:
      void moveLeft();
 
      //Mesh generation functions
-     void addTopFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
-     void addBottomFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
-     void addRightFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
-     void addLeftFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
-     void addFrontFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
-     void addBackFace(int x, int y, int z, const vec3& color, std::vector<Vertex>& vertices);
+     void addTopFace(int x, int y, int z, const vec3& color);
+     void addBottomFace(int x, int y, int z, const vec3& color);
+     void addRightFace(int x, int y, int z, const vec3& color);
+     void addLeftFace(int x, int y, int z, const vec3& color);
+     void addFrontFace(int x, int y, int z, const vec3& color);
+     void addBackFace(int x, int y, int z, const vec3& color);
 
      //We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
      std::vector<Vertex> m_vertices;
