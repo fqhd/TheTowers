@@ -12,14 +12,14 @@ void OutlineRenderer::init(){
      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
 
      float vertices[] = {
-          0.0f, 0.0f, 0.0f,
-          0.0f, 1.0f, 0.0f,
-          1.0f, 1.0f, 0.0f,
-          1.0f, 0.0f, 0.0f,
-          0.0f, 0.0f, 1.0f,
-          0.0f, 1.0f, 1.0f,
-          1.0f, 1.0f, 1.0f,
-          1.0f, 0.0f, 1.0f,
+          -0.001f, -0.001f, -0.001f,
+          -0.001f, 1.001f, -0.001f,
+          1.001f, 1.001f, -0.001f,
+          1.001f, -0.001f, -0.001f,
+          -0.001f, -0.001f, 1.001f,
+          -0.001f, 1.001f, 1.001f,
+          1.001f, 1.001f, 1.001f,
+          1.001f, 0.001f, 1.001f,
      };
 
      glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -48,19 +48,17 @@ void OutlineRenderer::init(){
 void OutlineRenderer::renderFace(Face face){
 
      glDisable(GL_CULL_FACE);
-     glDisable(GL_DEPTH_TEST);
 
      glBindVertexArray(m_vaoID);
 
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
 
-     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)((uint64_t)face * 6));
+     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)((uint64_t)face * 6 * 4));
 
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
      glBindVertexArray(0);
 
-     glEnable(GL_DEPTH_TEST);
      glEnable(GL_CULL_FACE);
 
 }

@@ -29,6 +29,8 @@ public:
 
      void updateElementsBasedOnResize();
 
+	World world;
+     std::vector<vec3> colors;
 
 private:
 
@@ -59,9 +61,6 @@ private:
      unsigned int m_fps;
      sf::Clock m_fpsClock;
      sf::TcpSocket m_socket;
-     World m_world;
-     std::vector<vec3> m_colors;
-
 
 };
 

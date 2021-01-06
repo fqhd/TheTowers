@@ -3,38 +3,50 @@
 void BlockOutline::init(){
      m_shader.init();
      m_renderer.init();
-     m_transform.init(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
 }
 
 void BlockOutline::render(Player& player, Camera& camera){
 
+	//Checking if the player is facing a block in order to draw an outline
      if(!player.visibleBlocks.lookingAtBlock) return;
 
-     //Calculate transform based on player viewable block
-     m_transform.setPosition(player.visibleBlocks.breakableBlock);
+	//Getting the face of the block that the player is facing
+     Face blockFace = getFace(player.visibleBlocks);
 
-     glm::vec3 blockPos = glm::vec3(player.visibleBlocks.breakableBlock.x, player.visibleBlocks.breakableBlock.y, player.visibleBlocks.breakableBlock.z);
-     glm::vec3 blockCenter = blockPos + glm::vec3(0.5f, 0.5f, 0.5f);
-
-     Face f = getFace(camera.getPosition() - blockCenter);
-
+	//Binding the shader, loading a couple uniforms and rendering a face based on the position of the block
      m_shader.bind();
      m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
      m_shader.loadViewMatrix(camera.getViewMatrix());
-     m_shader.loadModelMatrix(m_transform.getMatrix());
+	m_shader.loadBlockPosition(player.visibleBlocks.breakableBlock); //We send the position of the block to the vertex shader which will get added to the vertices and form a face
 
-     m_renderer.renderFace(f);
+     m_renderer.renderFace(blockFace); //This functions only renders a 1 of the 6 faces of a cube based on the parameter given
 
      m_shader.unbind();
 
 }
 
-Face BlockOutline::getFace(const glm::vec3& toCameraVector){
-     float x = toCameraVector.x;
-     float y = toCameraVector.y;
-     float z = toCameraVector.z;
+Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
 
-     return (Face)((FACE_0 + (x > 0)) * (fabs(x) > fabs(y) && fabs(x) > fabs(z)) + (FACE_2 + (y > 0)) * (fabs(y) > fabs(x) && fabs(y) > fabs(z)) + (FACE_4 + (z > 0)) * (fabs(z) > fabs(x) && fabs(z) > fabs(y)));
+	glm::vec3 deltaBlockFace = visibleBlocks.placeableBlock - visibleBlocks.breakableBlock;
+
+	if(deltaBlockFace.x == 1){
+		return FACE_4;
+	} else if(deltaBlockFace.x == -1){
+		return FACE_3;
+	}
+	if(deltaBlockFace.z == 1){
+		return FACE_2;
+	} else if(deltaBlockFace.z == -1){
+		return FACE_0;
+	}
+	if(deltaBlockFace.y == 1){
+		return FACE_1;
+	} else if(deltaBlockFace.y == -1){
+		return FACE_5;
+	}
+
+
+	return FACE_0;
 
 }
 

@@ -20,7 +20,7 @@ public:
 class Camera {
 public:
 
-	void init(const glm::vec3& pos);
+	void init();
 	void update(Settings& settings, float deltaTime);
 	void updateProjectionMatrix();
 	bool isInView(const glm::vec3& position, float radius);

@@ -8,9 +8,6 @@
 #include <iostream>
 
 
-
-
-
 bool getIP(sf::IpAddress& ip);
 
 int main() {
@@ -36,7 +33,7 @@ int main() {
 	Constants::loadFromFile();
 	Constants::printDebugMessage();
 	settings.readFromFile();
-	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", true, true);
+	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
 	font.init("res/fonts/thinfont-thin.ttf");

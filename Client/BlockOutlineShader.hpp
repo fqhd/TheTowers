@@ -14,7 +14,7 @@ public:
      //Uniform Loading Functions
      void loadProjectionMatrix(const glm::mat4& matrix);
      void loadViewMatrix(const glm::mat4& matrix);
-     void loadModelMatrix(const glm::mat4& matrix);
+		 void loadBlockPosition(const glm::vec3& position);
 
 private:
 
@@ -25,7 +25,7 @@ private:
      //OpenGL Variables
      GLint m_projectionMatrixLocation = 0;
      GLint m_viewMatrixLocation = 0;
-     GLint m_modelMatrixLocation = 0;
+     GLint m_blockPositionLocation = 0;
 
 };
 

@@ -4,8 +4,6 @@
 #include "OutlineRenderer.hpp"
 #include "BlockOutlineShader.hpp"
 #include "Player.hpp"
-#include "Transform.hpp"
-
 
 
 class BlockOutline {
@@ -18,12 +16,11 @@ public:
 private:
 
      //Private Utility Functions
-     Face getFace(const glm::vec3& toCameraVector);
+     Face getFace(VisibleBlocks& visibleBlocks);
 
      //Class objects
      OutlineRenderer m_renderer;
      BlockOutlineShader m_shader;
-     Transform m_transform;
 
 };
 

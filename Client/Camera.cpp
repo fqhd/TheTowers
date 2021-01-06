@@ -8,7 +8,9 @@ const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
 
 
-void Camera::init(const glm::vec3& pos){ m_position = pos;
+void Camera::init(){
+	unsigned int maxW = Constants::getLocalWorldWidth() * Constants::getChunkWidth();
+	m_position = glm::vec3(maxW / 2, 32, maxW / 2);
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	updateProjectionMatrix();
@@ -16,14 +18,14 @@ void Camera::init(const glm::vec3& pos){ m_position = pos;
 
 	float ratio = Window::getWidth()/(float)Window::getHeight();
 	float nh = 2.0f * glm::tan(FOV / 2.0f) * NEAR_DIST;
-	float nw = nh * ratio; 
+	float nw = nh * ratio;
 	float fh = 2.0f * glm::tan(FOV / 2.0f) * FAR_DIST;
 	float fw = fh * ratio;
 
 	glm::vec3 dir,nc,fc,X,Y,Z;
 
 	// compute the Z axis of camera
-	// this axis points in the opposite direction from 
+	// this axis points in the opposite direction from
 	// the looking direction
 	Z = glm::normalize(getForward());
 	Z = glm::normalize(Z);
@@ -53,7 +55,7 @@ void Camera::init(const glm::vec3& pos){ m_position = pos;
 	aux = glm::normalize(aux);
 	normal = X * aux;
 	pl[3].setNormalAndPoint(normal,nc-Y*nh);
-	
+
 	aux = (nc - X*nw) - getPosition();
 	aux = glm::normalize(aux);
 	normal = aux * Y;
@@ -141,7 +143,7 @@ bool Camera::isInView(const glm::vec3& position, float radius){
 			return true;
 		}
 	}
-	
+
 
 	return false;
 

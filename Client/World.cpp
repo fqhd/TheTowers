@@ -47,9 +47,9 @@ void World::update(const std::vector<vec3>& colors, const glm::vec3& previousCam
 
 void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
 
-     Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
+	updateChunks(colors);
 
-     updateChunks(colors);
+     Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
 
      m_shader.bind();
 
@@ -157,7 +157,6 @@ void World::destroy(){
 }
 
 void World::updateChunks(const std::vector<vec3>& colors) {
-
 
      for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
 
