@@ -20,7 +20,8 @@ unsigned int Constants::m_maxRenderDistance;
 float Constants::m_maxMouseSensibility;
 float Constants::m_maxDensity;
 float Constants::m_maxGradient;
-
+unsigned short Constants::m_tcpPort;
+unsigned short Constants::m_udpPort;
 
 void Constants::loadFromFile(){
 
@@ -67,7 +68,11 @@ void Constants::loadFromFile(){
                is >> m_maxGradient;
           }else if(s == "MaxDensity:"){
                is >> m_maxDensity;
-          }
+          }else if(s == "UdpPort:"){
+			is >> m_udpPort;
+		}else if(s == "TcpPort:"){
+			is >> m_tcpPort;
+		}
      }
 
      is.close();
@@ -80,6 +85,14 @@ unsigned int Constants::getNumParticles(){
 
 unsigned int Constants::getLocalWorldWidth(){
      return m_localWorldWidth;
+}
+
+unsigned short Constants::getTcpPort(){
+	return m_tcpPort;
+}
+
+unsigned short Constants::getUdpPort(){
+	return m_udpPort;
 }
 
 float Constants::getMaxGradient(){
@@ -162,4 +175,6 @@ void Constants::printDebugMessage() {
      Utils::log("Gravity: " + std::to_string(m_gravity));
      Utils::log("MaxRenderDistance: " + std::to_string(m_maxRenderDistance));
      Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
+	Utils::log("UdpPort: " + std::to_string(m_udpPort));
+	Utils::log("TcpPort: " + std::to_string(m_tcpPort));
 }

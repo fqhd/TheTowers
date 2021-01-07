@@ -7,13 +7,14 @@
 #include "Settings.hpp"
 #include "Model.hpp"
 #include <vector>
+#include <SFML/Network.hpp>
 
 
 class EntityHandler {
 public:
 
      void init();
-     void update();
+     void update(sf::UdpSocket& socket);
      void render(Settings& settings, Camera& camera);
      void destroy();
 
@@ -23,7 +24,7 @@ private:
 
      ModelShader m_shader;
      Model m_model;
-     
+
 };
 
 #endif

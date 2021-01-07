@@ -1,40 +1,82 @@
 #include <SFML/Network.hpp>
+#include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <thread>
+#include <map>
 #include "Perlin.hpp"
+#include "UtilityFunctions.hpp"
 
 
-void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsigned int* chunkWidth);
-void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWidth, unsigned int worldHeight);
+void udpThread(){
+
+	//Variables for algorithm
+	Constants constants = getConstants();
+	sf::UdpSocket socket;
+	socket.bind(constants.udpPort);
+	socket.setBlocking(false);
+
+	sf::Packet receivedPacket;
+	sf::IpAddress remoteIp;
+	unsigned short remotePort;
+	while(true){
+
+		if(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
+			std::cout << "received data" << std::endl;
+		}
+
+		//Depackaging and printing packet
+		glm::vec3 position;
+		glm::vec3 forward;
+		receivedPacket >> position.x >> position.y >> position.z;
+		receivedPacket >> forward.x >> forward.y >> forward.z;
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	}
+
+
+}
 
 int main(){
 
 	srand(time(0));
 
-	//Varaibles
-	unsigned int worldWidth = 0;
-	unsigned int worldHeight = 0;
-	unsigned int chunkWidth = 0;
-	getConstantData(&worldWidth, &worldHeight, &chunkWidth);
-	unsigned int chunkSize = chunkWidth * chunkWidth * chunkWidth;
+	//Getting constants
+	Constants constants = getConstants();
 
+	//Printing the constants for debug
+	std::cout << "ChunkWidth: " << constants.chunkWidth << std::endl;
+	std::cout << "WorldWidth: " << constants.worldWidth << std::endl;
+	std::cout << "WorldHeight: " << constants.worldHeight << std::endl;
+	std::cout << "TcpPort: " << constants.tcpPort << std::endl;
+	std::cout << "UdpPort: " << constants.udpPort << std::endl;
+
+
+	unsigned int ww = constants.worldWidth; //WorldWidth
+	unsigned int wh = constants.worldHeight; //WorldHeight
+	unsigned int cw = constants.chunkWidth; //ChunkWidth
+	unsigned int cs = cw * cw * cw; //ChunkSize
 
 	//Allocating memory for world data
-	uint8_t* data = new uint8_t[worldWidth * worldWidth * worldHeight * chunkSize];
+	uint8_t* data = new uint8_t[ww * ww * wh * cs];
 
-	std::cout << "World Size(bytes): " << worldWidth * worldWidth * worldHeight * chunkSize << std::endl;
+	std::cout << "World Size(bytes): " << ww * ww * wh * cs << std::endl;
 
 	//Populating the world data buffer
-	generateWorld(data, chunkWidth, worldWidth, worldHeight);
+	generateWorld(data, constants);
 
-
+	//Server variables
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
 	std::vector<sf::TcpSocket*> sockets;
 
+	//Starting packet position thread
+	std::thread positionUpdater(udpThread);
+
+	//Starting server
 	std::cout << "Listening for connection..." << std::endl;
-	listener.listen(2000);
+	listener.listen(constants.tcpPort);
 	selector.add(listener);
 
 	while(true){
@@ -51,7 +93,7 @@ int main(){
 
 				//Compressing the world
 				sf::Uint64 numBlocks = 1;
-				for(sf::Uint64 i = 1; i < (worldWidth * worldWidth * worldHeight * chunkSize) - 1; i++){
+				for(sf::Uint64 i = 1; i < (ww * ww * wh * cs) - 1; i++){
 					if(data[i - 1] != data[i]){
 						packet << (sf::Uint8)data[i - 1] << numBlocks;
 						numBlocks = 1;
@@ -59,7 +101,7 @@ int main(){
 						numBlocks++;
 					}
 				}
-				packet << (sf::Uint8)data[worldWidth * worldWidth * worldHeight * chunkSize - 1] << numBlocks;
+				packet << (sf::Uint8)data[ww * ww * wh * cs - 1] << numBlocks;
 
 				//Sending the packet containing the compressed world to the newly connected person
 				socket->send(packet);
@@ -80,8 +122,8 @@ int main(){
 						packet >> x >> y >> z >> b;
 
 						//Updating world data based on sent packet
-						if(!(x < 0 || x >= chunkWidth * worldWidth || y < 0 || y >= chunkWidth * worldHeight || z < 0 || z >= chunkWidth * worldWidth)){
-							data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = b;
+						if(!(x < 0 || x >= cw * ww || y < 0 || y >= cw * wh || z < 0 || z >= cw * ww)){
+							data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = b;
 						}
 
 						//Repackaging packet
@@ -110,26 +152,29 @@ int main(){
      return 0;
 }
 
-void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWidth, unsigned int worldHeight){
+void generateWorld(uint8_t* data, const Constants& constants){
 	//Setting everything to zero to start
-	for(unsigned int y = 0; y < chunkWidth * worldHeight; y++){
-		for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
-			for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
-				data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = 0;
+	unsigned int cw = constants.chunkWidth; //ChunkWidth
+	unsigned int ww = constants.worldWidth; //WorldWidth
+	unsigned int wh = constants.worldHeight; //WorldHeight
+	for(unsigned int y = 0; y < cw * wh; y++){
+		for(unsigned int z = 0; z < cw * ww; z++){
+			for(unsigned int x = 0; x < cw * ww; x++){
+				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = 0;
 			}
 		}
 	}
 
 	//Generating the world with perlin noise
 	Perlin perlin;
-	perlin.init(chunkWidth * worldWidth, 6, 0.5f);
-	for(unsigned int z = 0; z < chunkWidth * worldWidth; z++){
-		for(unsigned int x = 0; x < chunkWidth * worldWidth; x++){
+	perlin.init(cw * ww, 6, 0.5f);
+	for(unsigned int z = 0; z < cw * ww; z++){
+		for(unsigned int x = 0; x < cw * ww; x++){
 
-			unsigned int height = perlin.noise(x, z) * chunkWidth * worldHeight;
+			unsigned int height = perlin.noise(x, z) * cw * wh;
 
 			for(unsigned int y = 0; y < height; y++){
-				data[(y * chunkWidth * worldWidth * chunkWidth * worldWidth) + (z * chunkWidth * worldWidth) + x] = y + 100;
+				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = y + 100;
 			}
 
 		}
@@ -137,7 +182,9 @@ void generateWorld(uint8_t* data, unsigned int chunkWidth, unsigned int worldWid
 	perlin.destroy();
 }
 
-void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsigned int* chunkWidth){
+Constants getConstants(){
+
+	Constants constants;
 
 	std::ifstream is;
      std::string s;
@@ -145,14 +192,23 @@ void getConstantData(unsigned int* worldWidth, unsigned int* worldHeight, unsign
 
      while(is >> s){
           if(s == "ChunkWidth:"){
-               is >> *chunkWidth;
+               is >> constants.chunkWidth;
           }else if(s == "WorldWidth:"){
-               is >> *worldWidth;
+               is >> constants.worldWidth;
           }else if(s == "WorldHeight:"){
-               is >> *worldHeight;
-          }
+               is >> constants.worldHeight;
+          }else if(s == "TcpPort:"){
+			is >> constants.tcpPort;
+		}else if(s == "UdpPort:"){
+			is >> constants.udpPort;
+		}
      }
 
+
+
+
      is.close();
+
+	return constants;
 
 }

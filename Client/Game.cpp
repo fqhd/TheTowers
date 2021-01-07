@@ -7,19 +7,22 @@
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
-	connectToServer(ip);
+	m_serverIp = ip;
+	m_udpSocket.setBlocking(false);
+	connectToServer();
 	receiveAndDecompressWorld();
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_handler.init(font);
 	m_camera.init();
 	initGUI();
-	generateColorVector(colors);
+	generateColorVector(m_colors);
      m_entityHandler.init();
 	m_blockOutline.init();
 
 	//Adding entities
 	m_entityHandler.entities.emplace_back(vec3(255, 255, 255), Transform(glm::vec3(0, 0, 0), glm::vec3(20, 20, 20), glm::vec3(1, 1, 1)));
+	m_entityHandler.entities[0].setPosition(m_camera.getPosition() + m_camera.getForward());
 
 
 }
@@ -31,8 +34,8 @@ void Game::initGUI(){
 	m_handler.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 }
 
-void Game::connectToServer(sf::IpAddress& ip){
-	sf::Socket::Status status = m_socket.connect(ip, 2000);
+void Game::connectToServer(){
+	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, Constants::getTcpPort());
 
 	if(status != sf::Socket::Status::Done){
 		Utils::log("Game: Failed to connect to server");
@@ -49,9 +52,9 @@ void Game::receiveAndDecompressWorld(){
 	sf::Packet packet;
 
 	//Receiving the world in a packet
-	m_socket.setBlocking(true);
-	m_socket.receive(packet);
-	m_socket.setBlocking(false);
+	m_tcpSocket.setBlocking(true);
+	m_tcpSocket.receive(packet);
+	m_tcpSocket.setBlocking(false);
 
 	sf::Uint64 size = packet.getDataSize();
 	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
@@ -70,7 +73,7 @@ void Game::receiveAndDecompressWorld(){
 	}
 
 	//Initializing the world with decompressed data
-	world.init(data);
+	m_world.init(data);
 
 
 }
@@ -84,24 +87,35 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 
-     m_entityHandler.update();
-	receivePacket();
+     m_entityHandler.update(m_udpSocket);
+	receiveBlockUpdate();
 	updateCameraAndWorld(settings, deltaTime);
-	player.update(m_camera, settings, colors, m_particleHandler, world, deltaTime, m_socket);
+	player.update(m_camera, settings, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
 	m_handler.update();
+	m_entityHandler.entities[0].setForward(m_camera.getPitch(), m_camera.getYaw());
 
      //Updating GUI color
-	m_handler.images[1].color = ColorRGBA8(colors[player.selectedBlock].r, colors[player.selectedBlock].g, colors[player.selectedBlock].b, 255);
+	m_handler.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
 
+	sendPositionDataToServer();
 
 }
 
-void Game::receivePacket(){
+void Game::sendPositionDataToServer(){
+	sf::Packet packet;
+	glm::vec3 p = m_camera.getPosition(); //Position
+	glm::vec3 f = m_camera.getForward(); //Forward vector
+	packet << p.x << p.y << p.z << f.x << f.y << f.z;
+	m_udpSocket.send(packet, m_serverIp, Constants::getUdpPort());
+
+}
+
+void Game::receiveBlockUpdate(){
 	sf::Packet packet;
 
-	if(m_socket.receive(packet) == sf::Socket::Done){
+	if(m_tcpSocket.receive(packet) == sf::Socket::Done){
 
           int x;
 		int y;
@@ -110,16 +124,16 @@ void Game::receivePacket(){
 		packet >> x >> y  >> z >> b;
 
           if(!b){
-               m_particleHandler.placeParticlesAroundBlock(x, y, z, colors[world.getBlock(x, y, z)]);
+               m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
           }
-          world.setBlock(x, y, z, b);
+          m_world.setBlock(x, y, z, b);
 
 	}
 }
 
 void Game::render(Settings& settings, Player& player, float deltaTime){
 
-	world.render(settings, m_camera, colors);
+	m_world.render(settings, m_camera, m_colors);
 	m_blockOutline.render(player, m_camera);
 	m_particleHandler.render(m_camera);
      m_entityHandler.render(settings, m_camera);
@@ -138,7 +152,7 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 void Game::destroy(){
 	m_entityHandler.destroy();
-	world.destroy();
+	m_world.destroy();
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
@@ -157,7 +171,7 @@ void Game::updateCameraAndWorld(Settings& settings, float deltaTime){
 	glm::vec3 previousCameraPosition = m_camera.getPosition();
 	m_camera.update(settings, deltaTime);
 	glm::vec3 currentCameraPosition = m_camera.getPosition();
-	world.update(colors, previousCameraPosition, currentCameraPosition);
+	m_world.update(m_colors, previousCameraPosition, currentCameraPosition);
 }
 
 void Game::updateElementsBasedOnResize(){
@@ -165,12 +179,12 @@ void Game::updateElementsBasedOnResize(){
 	m_camera.updateProjectionMatrix();
 }
 
-void Game::generateColorVector(std::vector<vec3>& colors){
+void Game::generateColorVector(std::vector<vec3>& m_colors){
 
 	for(unsigned int b = 0; b < 6; b++){
 		for(unsigned int g = 0; g < 6; g++){
 			for(unsigned int r = 0; r < 6; r++){
-				colors.push_back(vec3(r * 42, g * 42, b * 42));
+				m_colors.push_back(vec3(r * 42, g * 42, b * 42));
 			}
 		}
 	}

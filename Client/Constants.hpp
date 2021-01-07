@@ -25,6 +25,8 @@ public:
      static float getMaxMouseSensibility();
      static float getMaxGradient();
      static float getMaxDensity();
+	static unsigned short getTcpPort();
+	static unsigned short getUdpPort();
 
 private:
 
@@ -45,6 +47,8 @@ private:
      static float m_maxMouseSensibility;
      static float m_maxGradient;
      static float m_maxDensity;
+	static unsigned short m_udpPort;
+	static unsigned short m_tcpPort;
 
 
 

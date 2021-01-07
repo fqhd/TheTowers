@@ -29,19 +29,19 @@ public:
 
      void updateElementsBasedOnResize();
 
-	World world;
-     std::vector<vec3> colors;
+
 
 private:
 
      //Game functions
      void generateColorVector(std::vector<vec3>& colors);
      void generateLocalWorld();
+	void sendPositionDataToServer();
 
      //Game functions
-     void connectToServer(sf::IpAddress& ip);
+     void connectToServer();
      void receiveAndDecompressWorld();
-     void receivePacket();
+     void receiveBlockUpdate();
      void initGUI();
      void calcFps();
      void updateCameraAndWorld(Settings& settings, float deltaTime);
@@ -53,6 +53,7 @@ private:
      Camera m_camera;
      EntityHandler m_entityHandler;
      BlockOutline m_blockOutline;
+	World m_world;
 
 
      //Game Variables
@@ -60,7 +61,11 @@ private:
      std::string m_fpsString;
      unsigned int m_fps;
      sf::Clock m_fpsClock;
-     sf::TcpSocket m_socket;
+	sf::IpAddress m_serverIp;
+     sf::TcpSocket m_tcpSocket;
+	sf::UdpSocket m_udpSocket;
+	std::vector<vec3> m_colors;
+
 
 };
 

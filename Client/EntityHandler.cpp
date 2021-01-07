@@ -9,10 +9,8 @@ void EntityHandler::init(){
 
 }
 
-void EntityHandler::update(){
-     for(auto& i : entities){
-          //Code for updating position of entities based on received socket or whatever
-     }
+void EntityHandler::update(sf::UdpSocket& socket){
+
 }
 
 void EntityHandler::render(Settings& settings, Camera& camera){

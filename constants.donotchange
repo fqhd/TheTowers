@@ -15,3 +15,5 @@ LocalWorldHeight: 2
 NumParticles: 50
 MaxGradient: 10
 MaxDensity: 0.1
+UdpPort: 2001
+TcpPort: 2000

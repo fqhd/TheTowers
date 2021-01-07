@@ -9,9 +9,12 @@ public:
 
      Entity(const vec3& c, const Transform& t);
 
-     const vec3& getColor();
+	void setPosition(const glm::vec3& position);
+	void setForward(float pitch, float yaw);
 
-     Transform transform;
+     const vec3& getColor();
+	Transform transform;
+
 
 private:
 

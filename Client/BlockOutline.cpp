@@ -27,19 +27,17 @@ void BlockOutline::render(Player& player, Camera& camera){
 
 Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
 
-	glm::vec3 deltaBlockFace = visibleBlocks.placeableBlock - visibleBlocks.breakableBlock;
+	glm::ivec3 deltaBlockFace = visibleBlocks.placeableBlock - visibleBlocks.breakableBlock;
 
 	if(deltaBlockFace.x == 1){
 		return FACE_4;
 	} else if(deltaBlockFace.x == -1){
 		return FACE_3;
-	}
-	if(deltaBlockFace.z == 1){
+	}else if(deltaBlockFace.z == 1){
 		return FACE_2;
 	} else if(deltaBlockFace.z == -1){
 		return FACE_0;
-	}
-	if(deltaBlockFace.y == 1){
+	}else if(deltaBlockFace.y == 1){
 		return FACE_1;
 	} else if(deltaBlockFace.y == -1){
 		return FACE_5;
