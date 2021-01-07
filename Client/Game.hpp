@@ -61,6 +61,7 @@ private:
      std::string m_fpsString;
      unsigned int m_fps;
      sf::Clock m_fpsClock;
+	sf::Clock m_dataFrequencyTimer;
 	sf::IpAddress m_serverIp;
      sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;

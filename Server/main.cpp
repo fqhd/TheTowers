@@ -11,28 +11,33 @@
 
 void udpThread(){
 
-	//Variables for algorithm
+	// Getting constants
 	Constants constants = getConstants();
-	sf::UdpSocket socket;
-	socket.bind(constants.udpPort);
-	socket.setBlocking(false);
 
+	//Variables for algorithm
+	sf::UdpSocket socket;
 	sf::Packet receivedPacket;
 	sf::IpAddress remoteIp;
 	unsigned short remotePort;
-	while(true){
+	std::vector<sf::IpAddress> clients;
 
-		if(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
-			std::cout << "received data" << std::endl;
+	//Initializing variables
+	socket.bind(constants.serverPort);
+	socket.setBlocking(false);
+
+	while(true){
+		receivedPacket.clear();
+
+		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
+			// While we receive packets from clients, we send them to other clients
+			std::cout << "sending data to other clients" << std::endl;
+
+			for(unsigned int i = 0; i < clients.size(); i++){
+
+			}
 		}
 
-		//Depackaging and printing packet
-		glm::vec3 position;
-		glm::vec3 forward;
-		receivedPacket >> position.x >> position.y >> position.z;
-		receivedPacket >> forward.x >> forward.y >> forward.z;
-
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 
 
@@ -49,8 +54,9 @@ int main(){
 	std::cout << "ChunkWidth: " << constants.chunkWidth << std::endl;
 	std::cout << "WorldWidth: " << constants.worldWidth << std::endl;
 	std::cout << "WorldHeight: " << constants.worldHeight << std::endl;
-	std::cout << "TcpPort: " << constants.tcpPort << std::endl;
-	std::cout << "UdpPort: " << constants.udpPort << std::endl;
+	std::cout << "ServerPort: " << constants.serverPort << std::endl;
+	std::cout << "ServerListeningPort: " << constants.serverListeningPort << std::endl;
+	std::cout << "ClientPort: " << constants.clientPort << std::endl;
 
 
 	unsigned int ww = constants.worldWidth; //WorldWidth
@@ -76,7 +82,7 @@ int main(){
 
 	//Starting server
 	std::cout << "Listening for connection..." << std::endl;
-	listener.listen(constants.tcpPort);
+	listener.listen(constants.serverListeningPort);
 	selector.add(listener);
 
 	while(true){
@@ -197,10 +203,12 @@ Constants getConstants(){
                is >> constants.worldWidth;
           }else if(s == "WorldHeight:"){
                is >> constants.worldHeight;
-          }else if(s == "TcpPort:"){
-			is >> constants.tcpPort;
-		}else if(s == "UdpPort:"){
-			is >> constants.udpPort;
+          }else if(s == "ServerPort:"){
+			is >> constants.serverPort;
+		}else if(s == "ClientPort:"){
+			is >> constants.clientPort;
+		}else if(s == "ServerListeningPort:"){
+			is >> constants.serverListeningPort;
 		}
      }
 

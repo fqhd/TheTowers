@@ -20,8 +20,10 @@ unsigned int Constants::m_maxRenderDistance;
 float Constants::m_maxMouseSensibility;
 float Constants::m_maxDensity;
 float Constants::m_maxGradient;
-unsigned short Constants::m_tcpPort;
-unsigned short Constants::m_udpPort;
+unsigned short Constants::m_clientPort;
+unsigned short Constants::m_serverPort;
+unsigned short Constants::m_serverListeningPort;
+unsigned int Constants::m_packetTransmissionFrequency;
 
 void Constants::loadFromFile(){
 
@@ -68,10 +70,12 @@ void Constants::loadFromFile(){
                is >> m_maxGradient;
           }else if(s == "MaxDensity:"){
                is >> m_maxDensity;
-          }else if(s == "UdpPort:"){
-			is >> m_udpPort;
-		}else if(s == "TcpPort:"){
-			is >> m_tcpPort;
+		}else if(s == "ClientPort:"){
+			is >> m_clientPort;
+		}else if(s == "ServerPort:"){
+			is >> m_serverPort;
+		}else if(s == "ServerListeningPort:"){
+			is >> m_serverListeningPort;
 		}
      }
 
@@ -87,12 +91,16 @@ unsigned int Constants::getLocalWorldWidth(){
      return m_localWorldWidth;
 }
 
-unsigned short Constants::getTcpPort(){
-	return m_tcpPort;
+unsigned short Constants::getClientPort(){
+	return m_clientPort;
 }
 
-unsigned short Constants::getUdpPort(){
-	return m_udpPort;
+unsigned short Constants::getServerPort(){
+	return m_serverPort;
+}
+
+unsigned short Constants::getServerListeningPort(){
+	return m_serverListeningPort;
 }
 
 float Constants::getMaxGradient(){
@@ -135,6 +143,10 @@ unsigned int Constants::getMaxRenderDistance(){
      return m_maxRenderDistance;
 }
 
+unsigned int Constants::getPacketTransmissionFrequency(){
+	return m_packetTransmissionFrequency;
+}
+
 unsigned int Constants::getChunkSize() {
      return m_chunkWidth * m_chunkWidth * m_chunkWidth;
 }
@@ -175,6 +187,8 @@ void Constants::printDebugMessage() {
      Utils::log("Gravity: " + std::to_string(m_gravity));
      Utils::log("MaxRenderDistance: " + std::to_string(m_maxRenderDistance));
      Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
-	Utils::log("UdpPort: " + std::to_string(m_udpPort));
-	Utils::log("TcpPort: " + std::to_string(m_tcpPort));
+	Utils::log("ClientPort: " + std::to_string(m_clientPort));
+	Utils::log("ServerPort: " + std::to_string(m_serverPort));
+	Utils::log("ServerListeningPort: " + std::to_string(m_serverListeningPort));
+	Utils::log("PacketTransmissionFrequency: " + std::to_string(m_packetTransmissionFrequency));
 }

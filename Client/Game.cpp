@@ -8,6 +8,7 @@
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
 	m_serverIp = ip;
+	m_udpSocket.bind(Constants::getClientPort());
 	m_udpSocket.setBlocking(false);
 	connectToServer();
 	receiveAndDecompressWorld();
@@ -35,7 +36,7 @@ void Game::initGUI(){
 }
 
 void Game::connectToServer(){
-	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, Constants::getTcpPort());
+	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, Constants::getServerListeningPort());
 
 	if(status != sf::Socket::Status::Done){
 		Utils::log("Game: Failed to connect to server");
@@ -75,7 +76,6 @@ void Game::receiveAndDecompressWorld(){
 	//Initializing the world with decompressed data
 	m_world.init(data);
 
-
 }
 
 
@@ -104,11 +104,20 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 }
 
 void Game::sendPositionDataToServer(){
-	sf::Packet packet;
-	glm::vec3 p = m_camera.getPosition(); //Position
-	glm::vec3 f = m_camera.getForward(); //Forward vector
-	packet << p.x << p.y << p.z << f.x << f.y << f.z;
-	m_udpSocket.send(packet, m_serverIp, Constants::getUdpPort());
+	float timeBetweenPackets = 1.0f / Constants::getPacketTransmissionFrequency();
+	if(m_dataFrequencyTimer.getElapsedTime().asSeconds() >= timeBetweenPackets){
+		m_dataFrequencyTimer.restart();
+
+		// We execute this code only a few times per second
+		// This code stores the position and camera angles to the server
+		// Which will in turn send it to other connected clients
+		sf::Packet packet;
+		glm::vec3 p = m_camera.getPosition(); // Camera Position
+		packet << p.x << p.y << p.z << m_camera.getPitch() << m_camera.getYaw();
+		m_udpSocket.send(packet, m_serverIp, Constants::getServerPort());
+
+	}
+
 
 }
 
