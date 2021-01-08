@@ -1,13 +1,23 @@
-#include <SFML/Network.hpp>
 #include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <thread>
-#include <map>
+#include <unordered_map>
+#include "Structs.hpp"
 #include "Perlin.hpp"
-#include "UtilityFunctions.hpp"
 
+
+//Forward Declarations
+Constants getConstants();
+void generateWorld(uint8_t* data, const Constants& constants);
+void printConstants(const Constants& constants);
+uint8_t createUniqueID();
+bool doesIDExist(uint8_t id);
+
+
+//Global Variables
+std::vector<Client> clients;
 
 void udpThread(){
 
@@ -19,7 +29,6 @@ void udpThread(){
 	sf::Packet receivedPacket;
 	sf::IpAddress remoteIp;
 	unsigned short remotePort;
-	std::vector<sf::IpAddress> clients;
 
 	//Initializing variables
 	socket.bind(constants.serverPort);
@@ -29,13 +38,18 @@ void udpThread(){
 		receivedPacket.clear();
 
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
+			std::cout << "got data" << std::endl;
+
+			// uint8_t id = 0;
+			// receivedPacket >> id;
+			// receivedPacket << id;
+			// std::cout << id << std::endl;
+
 			// While we receive packets from clients, we send them to other clients
-			std::cout << "sending data to other clients" << std::endl;
+			// for(auto it = clients.begin(); it != clients.end(); it++){
+			// 	socket.send(receivedPacket, it->second.ip, it->second.port);
+			// }
 
-			for(unsigned int i = 0; i < clients.size(); i++){
-				
-
-			}
 		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -51,19 +65,10 @@ int main(){
 	//Getting constants
 	Constants constants = getConstants();
 
-	//Printing the constants for debug
-	std::cout << "ChunkWidth: " << constants.chunkWidth << std::endl;
-	std::cout << "WorldWidth: " << constants.worldWidth << std::endl;
-	std::cout << "WorldHeight: " << constants.worldHeight << std::endl;
-	std::cout << "ServerPort: " << constants.serverPort << std::endl;
-	std::cout << "ServerListeningPort: " << constants.serverListeningPort << std::endl;
-	std::cout << "ClientPort: " << constants.clientPort << std::endl;
-
-
-	unsigned int ww = constants.worldWidth; //WorldWidth
-	unsigned int wh = constants.worldHeight; //WorldHeight
-	unsigned int cw = constants.chunkWidth; //ChunkWidth
-	unsigned int cs = cw * cw * cw; //ChunkSize
+	unsigned int ww = constants.worldWidth; // WorldWidth
+	unsigned int wh = constants.worldHeight; // WorldHeight
+	unsigned int cw = constants.chunkWidth; // ChunkWidth
+	unsigned int cs = cw * cw * cw; // ChunkSize
 
 	//Allocating memory for world data
 	uint8_t* data = new uint8_t[ww * ww * wh * cs];
@@ -76,7 +81,6 @@ int main(){
 	//Server variables
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
-	std::vector<sf::TcpSocket*> sockets;
 
 	//Starting packet position thread
 	std::thread positionUpdater(udpThread);
@@ -89,12 +93,13 @@ int main(){
 	while(true){
 
 		if(selector.wait()){
-			if(selector.isReady(listener)){
-				sf::TcpSocket* socket = new sf::TcpSocket();
-				listener.accept(*socket);
-				sockets.push_back(socket);
-				selector.add(*socket);
-				std::cout << "New client connected with ID: " << sockets.size() << std::endl;
+			if(selector.isReady(listener)){ //If we got no informatino but we got a new connection, make a new client
+				Client client;
+				listener.accept(*client.socket);
+				client.id = createUniqueID();
+				clients.push_back(client);
+				selector.add(*client.socket);
+				std::cout << "New client connected with ID: " << client.id << std::endl;
 
 				sf::Packet packet;
 
@@ -111,41 +116,44 @@ int main(){
 				packet << (sf::Uint8)data[ww * ww * wh * cs - 1] << numBlocks;
 
 				//Sending the packet containing the compressed world to the newly connected person
-				socket->send(packet);
+				client.socket->send(packet);
 
-			}else{
-				for(unsigned int i = 0; i < sockets.size(); i++){
-					if(selector.isReady(*sockets[i])){
+			}else{ //Otherwise, we got information, so then send that packet we received to all other clients
+				for(unsigned int i = 0; i < clients.size(); i++){
+					if(selector.isReady(*clients[i].socket)){
 						sf::Packet packet;
-						sf::Socket::Status status = sockets[i]->receive(packet);
-
-						//Variables for received packet information
-						int x;
-						int y;
-						int z;
-						uint8_t b;
-
-						//Depackaging packet
-						packet >> x >> y >> z >> b;
-
-						//Updating world data based on sent packet
-						if(!(x < 0 || x >= cw * ww || y < 0 || y >= cw * wh || z < 0 || z >= cw * ww)){
-							data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = b;
-						}
-
-						//Repackaging packet
-						packet << x << y << z << b;
+						sf::Socket::Status status = clients[i].socket->receive(packet);
 
 						if(status == sf::Socket::Done){
-							for(unsigned int j = 0; j < sockets.size(); j++){
+
+							std::cout << "got packet" << std::endl;
+
+							//Variables for received packet information
+							int x;
+							int y;
+							int z;
+							uint8_t b;
+
+							//Depackaging packet
+							packet >> x >> y >> z >> b;
+
+							//Updating world data based on sent packet
+							if(!(x < 0 || x >= cw * ww || y < 0 || y >= cw * wh || z < 0 || z >= cw * ww)){
+								data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = b;
+							}
+
+							//Repackaging packet
+							packet << x << y << z << b;
+
+							for(unsigned int j = 0; j < clients.size(); j++){
 								if(i != j){
-									sockets[j]->send(packet);
+									clients[j].socket->send(packet);
 								}
 							}
 						}else if(status == sf::Socket::Disconnected){
-							std::cout << "Client " << i + 1 << " disconnected" << std::endl;
-							sockets[i] = sockets.back();
-							sockets.pop_back();
+							std::cout << "Client " << clients[i].id << " disconnected" << std::endl;
+							clients[i] = clients.back();
+							clients.pop_back();
 						}
 					}
 				}
@@ -189,6 +197,16 @@ void generateWorld(uint8_t* data, const Constants& constants){
 	perlin.destroy();
 }
 
+void printConstants(const Constants& constants){
+	//Printing the constants for debug
+	std::cout << "ChunkWidth: " << constants.chunkWidth << std::endl;
+	std::cout << "WorldWidth: " << constants.worldWidth << std::endl;
+	std::cout << "WorldHeight: " << constants.worldHeight << std::endl;
+	std::cout << "ServerPort: " << constants.serverPort << std::endl;
+	std::cout << "ServerListeningPort: " << constants.serverListeningPort << std::endl;
+	std::cout << "ClientPort: " << constants.clientPort << std::endl;
+}
+
 Constants getConstants(){
 
 	Constants constants;
@@ -213,11 +231,22 @@ Constants getConstants(){
 		}
      }
 
-
-
-
      is.close();
 
 	return constants;
+}
 
+uint8_t createUniqueID(){
+	uint8_t id = rand()%256;
+	if(!doesIDExist(id)){
+		return id;
+	}
+	return createUniqueID();
+}
+
+bool doesIDExist(uint8_t id){
+	for(auto& i : clients){
+		if(i.id == id) return true;
+	}
+	return false;
 }
