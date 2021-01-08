@@ -33,6 +33,7 @@ void udpThread(){
 			std::cout << "sending data to other clients" << std::endl;
 
 			for(unsigned int i = 0; i < clients.size(); i++){
+				
 
 			}
 		}

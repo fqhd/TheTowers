@@ -28,10 +28,11 @@ void Player::getVisibleBlocks(Camera& camera, World& world){
           rayPosition += camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
           uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
           if(blockID){
+
                visibleBlocks.lookingAtBlock = true;
-               visibleBlocks.breakableBlock = glm::uvec3((unsigned int)rayPosition.x, (unsigned int)rayPosition.y, (unsigned int)rayPosition.z);
+               visibleBlocks.breakableBlock = vecToBlock(rayPosition);
                rayPosition -= camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
-               visibleBlocks.placeableBlock = glm::uvec3((unsigned int)rayPosition.x, (unsigned int)rayPosition.y, (unsigned int)rayPosition.z);
+               visibleBlocks.placeableBlock = vecToBlock(rayPosition);
                break;
           }
      }
@@ -53,4 +54,8 @@ void Player::sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::Tcp
      packet << (uint32_t)blockUpdate.x << (uint32_t)blockUpdate.y << (uint32_t)blockUpdate.z << block;
      socket.send(packet);
 
+}
+
+glm::uvec3 Player::vecToBlock(const glm::vec3& vec){
+	return glm::uvec3((unsigned int)vec.x, (unsigned int)vec.y, (unsigned int)vec.z);
 }

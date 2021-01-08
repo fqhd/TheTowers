@@ -208,17 +208,15 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
 uint8_t World::getBlock(int x, int y, int z){
 
-     unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
-     unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
+     int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
+     int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
-	if(!(x < 0 || x >= maxW ||
-          y < 0 || y >= maxH ||
-          z < 0 || z >= maxW )){
-             return m_data[(y * maxW * maxW) + (z * maxW) + x];
-	}
+	if(y < 0 || y >= maxH) return 0;
 
-     return 0;
+	x = (maxW + x) % maxW;
+	z = (maxW + z) % maxW;
 
+	return m_data[(y * maxW * maxW) + (z * maxW) + x];
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {

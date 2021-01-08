@@ -2,7 +2,7 @@
 #include "Constants.hpp"
 
 
-void Chunk::init(unsigned int x, unsigned int y, unsigned int z){
+void Chunk::init(int x, int y, int z){
 
 	m_x = x;
 	m_y = y;
@@ -47,28 +47,28 @@ void Chunk::render(){
 	glBindVertexArray(0);
 }
 
-unsigned int Chunk::getX(){
+int Chunk::getX(){
 	return m_x;
 }
 
-unsigned int Chunk::getY(){
+int Chunk::getY(){
 	return m_y;
 }
 
-unsigned int Chunk::getZ(){
+int Chunk::getZ(){
 	return m_z;
 }
 
 
-void Chunk::setX(unsigned int x){
+void Chunk::setX(int x){
 	m_x = x;
 }
 
-void Chunk::setY(unsigned int y) {
+void Chunk::setY(int y) {
 	m_y = y;
 }
 
-void Chunk::setZ(unsigned int z){
+void Chunk::setZ(int z){
 	m_z = z;
 }
 

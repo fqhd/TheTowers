@@ -76,6 +76,8 @@ void Constants::loadFromFile(){
 			is >> m_serverPort;
 		}else if(s == "ServerListeningPort:"){
 			is >> m_serverListeningPort;
+		}else if(s == "PacketTransmissionFrequency:"){
+			is >> m_packetTransmissionFrequency;
 		}
      }
 

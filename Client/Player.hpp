@@ -17,7 +17,6 @@ public:
 
      void update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket);
 
-
      uint8_t selectedBlock = 215;
      VisibleBlocks visibleBlocks;
 
@@ -27,6 +26,7 @@ private:
      void placeBlock(World& world);
      void breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, World& world);
      void sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::TcpSocket& socket);
+	glm::uvec3 vecToBlock(const glm::vec3& vector);
 
 };
 
