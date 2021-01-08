@@ -24,6 +24,8 @@ void udpThread(){
 	// Getting constants
 	Constants constants = getConstants();
 
+	printConstants(constants);
+
 	//Variables for algorithm
 	sf::UdpSocket socket;
 	sf::Packet receivedPacket;
@@ -99,7 +101,7 @@ int main(){
 				client.id = createUniqueID();
 				clients.push_back(client);
 				selector.add(*client.socket);
-				std::cout << "New client connected with ID: " << client.id << std::endl;
+				std::cout << "New client connected with ID: " << (unsigned int)client.id << std::endl;
 
 				sf::Packet packet;
 
@@ -151,7 +153,7 @@ int main(){
 								}
 							}
 						}else if(status == sf::Socket::Disconnected){
-							std::cout << "Client " << clients[i].id << " disconnected" << std::endl;
+							std::cout << "Client with id " << (unsigned int)clients[i].id << " disconnected" << std::endl;
 							clients[i] = clients.back();
 							clients.pop_back();
 						}

@@ -9,14 +9,10 @@ struct Constants {
 	unsigned short serverListeningPort = 0;
 };
 
-struct Client {
+class Client {
 public:
 	Client(){
 		socket = new sf::TcpSocket();
-	}
-	~Client(){
-		delete socket;
-		socket = nullptr;
 	}
 	sf::TcpSocket* socket = nullptr;
 	uint8_t id = 0;
