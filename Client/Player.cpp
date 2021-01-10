@@ -57,5 +57,8 @@ void Player::sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::Tcp
 }
 
 glm::uvec3 Player::vecToBlock(const glm::vec3& vec){
-	return glm::uvec3((unsigned int)vec.x, (unsigned int)vec.y, (unsigned int)vec.z);
+	return glm::uvec3(
+     vec.x < 0 ? (unsigned int)vec.x - 1  : (unsigned int)vec.x,
+     vec.y < 0 ? (unsigned int)vec.y - 1  : (unsigned int)vec.y,
+     vec.z < 0 ? (unsigned int)vec.z - 1  : (unsigned int)vec.z);
 }

@@ -7,6 +7,7 @@
 
 void Game::init(GUIFont* font, sf::IpAddress ip){
 
+	Utils::printDividor("Game");
 	m_serverIp = ip;
 	m_udpSocket.bind(Constants::getClientPort());
 	m_udpSocket.setBlocking(false);
@@ -36,13 +37,16 @@ void Game::initGUI(){
 }
 
 void Game::connectToServer(){
+	Utils::log("Connecting...");
 	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, Constants::getServerListeningPort());
 
 	if(status != sf::Socket::Status::Done){
 		Utils::log("Game: Failed to connect to server");
 	}else{
 		sf::Packet packet;
+		m_tcpSocket.setBlocking(true);
 		m_tcpSocket.receive(packet);
+		m_tcpSocket.setBlocking(false);
 		packet >> m_id;
 		Utils::log("Game: Connected to server with ID: " + std::to_string(m_id));
 	}

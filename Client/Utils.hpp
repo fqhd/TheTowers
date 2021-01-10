@@ -8,8 +8,9 @@
 #include <cstdint>
 
 
-namespace Utils{
+namespace Utils {
 
+     void printDividor(const std::string& name);
      std::string readFileToString(const std::string& shaderName);
      bool isInside(const glm::vec2& mousePos, const glm::vec4& destRect);
      bool isInRange(const glm::vec3& a, const glm::vec3& b, float range);

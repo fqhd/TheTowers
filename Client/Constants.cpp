@@ -174,6 +174,7 @@ unsigned int Constants::getPrecision(){
 }
 
 void Constants::printDebugMessage() {
+     Utils::printDividor("Constants");
      Utils::log("ScreenWidth: " + std::to_string(m_screenWidth));
      Utils::log("ScreenHeight: " + std::to_string(m_screenHeight));
      Utils::log("ChunkWidth: " + std::to_string(m_chunkWidth));

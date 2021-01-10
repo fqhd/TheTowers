@@ -1,5 +1,9 @@
 #include "Utils.hpp"
 
+void Utils::printDividor(const std::string& name){
+	printf("%s\n", ("--------------------------- " + name + " ---------------------------").c_str());
+}
+
 std::string Utils::readFileToString(const std::string& shaderName) {
 	std::string shaderCode = "";
 	std::string line;
