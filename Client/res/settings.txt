@@ -1,4 +1,4 @@
-ShowFPS: 0
+ShowFPS: 1
 Vsync: 1
 Front: 87
 Back: 83

@@ -3,6 +3,8 @@
 
 
 void Perlin::createPerlinNoise(int width, int octaves, float bias, float* seed, float *output) {
+     
+     srand(time(0)); //Making randomness random every instance
 
      for (int x = 0; x < width; x++) {
           for (int y = 0; y < width; y++) {

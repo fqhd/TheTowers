@@ -11,7 +11,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	m_udpSocket.bind(Constants::getClientPort());
 	m_udpSocket.setBlocking(false);
 	connectToServer();
-	receiveAndDecompressWorld();
+	receiveAndDecompressPacket();
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_handler.init(font);
@@ -41,11 +41,14 @@ void Game::connectToServer(){
 	if(status != sf::Socket::Status::Done){
 		Utils::log("Game: Failed to connect to server");
 	}else{
-		Utils::log("Game: Connected to server");
+		sf::Packet packet;
+		m_tcpSocket.receive(packet);
+		packet >> m_id;
+		Utils::log("Game: Connected to server with ID: " + std::to_string(m_id));
 	}
 }
 
-void Game::receiveAndDecompressWorld(){
+void Game::receiveAndDecompressPacket(){
 
 	//Allocating memory for the world
 	uint8_t* data = new uint8_t[Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize()];

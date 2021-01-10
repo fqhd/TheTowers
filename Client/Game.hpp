@@ -40,7 +40,7 @@ private:
 
      //Game functions
      void connectToServer();
-     void receiveAndDecompressWorld();
+     void receiveAndDecompressPacket();
      void receiveBlockUpdate();
      void initGUI();
      void calcFps();
@@ -66,6 +66,7 @@ private:
      sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;
 	std::vector<vec3> m_colors;
+     uint8_t m_id = 0;
 
 
 };

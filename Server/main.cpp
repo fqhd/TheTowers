@@ -3,21 +3,69 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
-#include <unordered_map>
 #include "Structs.hpp"
 #include "Perlin.hpp"
 
 
 //Forward Declarations
 Constants getConstants();
-void generateWorld(uint8_t* data, const Constants& constants);
+uint8_t* generateWorld(const Constants& constants);
 void printConstants(const Constants& constants);
 uint8_t createUniqueID();
 bool doesIDExist(uint8_t id);
-
+void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
+void udpThread();
+void compressAndSendWorld(uint8_t* data, const Constants& constants);
+void freeWorldData(uint8_t* data);
+void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, uint8_t* data);
+uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet);
+void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
 
 //Global Variables
 std::vector<Client> clients;
+bool isDone = false;
+
+int main(){
+
+	//Server variables
+	sf::TcpListener listener;
+	sf::SocketSelector selector;
+
+	Constants constants = getConstants(); // Getting the constant values for synced client/server interaction
+	uint8_t* worldData = generateWorld(constants); // Creating the world data buffer
+	std::thread positionUpdater(udpThread); //Starting packet position thread
+
+
+	//Starting server
+	std::cout << "Listening for connection..." << std::endl;
+	listener.listen(constants.serverListeningPort);
+	selector.add(listener);
+
+	while(!isDone){
+
+		if(selector.wait()){ // Wait for even to happen
+			if(selector.isReady(listener)){ // Got new connection
+
+				addClient(listener, selector);
+				compressAndSendWorld(worldData, constants);
+
+			}else{ // Got data from a connected client
+
+				sf::Packet receivedPacket;
+				uint8_t remoteClientID = getReceivedPacket(selector, receivedPacket);
+				updateWorldBasedOnPacket(constants, receivedPacket, worldData);
+				sendPacketToOtherClients(receivedPacket, remoteClientID);
+
+			}
+		}
+
+	}
+
+	positionUpdater.join();
+
+
+     return 0;
+}
 
 void udpThread(){
 
@@ -36,7 +84,7 @@ void udpThread(){
 	socket.bind(constants.serverPort);
 	socket.setBlocking(false);
 
-	while(true){
+	while(!isDone){
 		receivedPacket.clear();
 
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
@@ -60,120 +108,17 @@ void udpThread(){
 
 }
 
-int main(){
-
-	srand(time(0));
-
-	//Getting constants
-	Constants constants = getConstants();
-
-	unsigned int ww = constants.worldWidth; // WorldWidth
-	unsigned int wh = constants.worldHeight; // WorldHeight
-	unsigned int cw = constants.chunkWidth; // ChunkWidth
-	unsigned int cs = cw * cw * cw; // ChunkSize
+uint8_t* generateWorld(const Constants& constants){
+	unsigned int ww = constants.worldWidth;
+	unsigned int wh = constants.worldHeight;
+	unsigned int cw = constants.chunkWidth;
+	unsigned int cs = cw * cw * cw;
 
 	//Allocating memory for world data
 	uint8_t* data = new uint8_t[ww * ww * wh * cs];
-
 	std::cout << "World Size(bytes): " << ww * ww * wh * cs << std::endl;
 
-	//Populating the world data buffer
-	generateWorld(data, constants);
-
-	//Server variables
-	sf::TcpListener listener;
-	sf::SocketSelector selector;
-
-	//Starting packet position thread
-	std::thread positionUpdater(udpThread);
-
-	//Starting server
-	std::cout << "Listening for connection..." << std::endl;
-	listener.listen(constants.serverListeningPort);
-	selector.add(listener);
-
-	while(true){
-
-		if(selector.wait()){
-			if(selector.isReady(listener)){ //If we got no informatino but we got a new connection, make a new client
-				Client client;
-				listener.accept(*client.socket);
-				client.id = createUniqueID();
-				clients.push_back(client);
-				selector.add(*client.socket);
-				std::cout << "New client connected with ID: " << (unsigned int)client.id << std::endl;
-
-				sf::Packet packet;
-
-				//Compressing the world
-				sf::Uint64 numBlocks = 1;
-				for(sf::Uint64 i = 1; i < (ww * ww * wh * cs) - 1; i++){
-					if(data[i - 1] != data[i]){
-						packet << (sf::Uint8)data[i - 1] << numBlocks;
-						numBlocks = 1;
-					}else{
-						numBlocks++;
-					}
-				}
-				packet << (sf::Uint8)data[ww * ww * wh * cs - 1] << numBlocks;
-
-				//Sending the packet containing the compressed world to the newly connected person
-				client.socket->send(packet);
-
-			}else{ //Otherwise, we got information, so then send that packet we received to all other clients
-				for(unsigned int i = 0; i < clients.size(); i++){
-					if(selector.isReady(*clients[i].socket)){
-						sf::Packet packet;
-						sf::Socket::Status status = clients[i].socket->receive(packet);
-
-						if(status == sf::Socket::Done){
-
-							std::cout << "got packet" << std::endl;
-
-							//Variables for received packet information
-							int x;
-							int y;
-							int z;
-							uint8_t b;
-
-							//Depackaging packet
-							packet >> x >> y >> z >> b;
-
-							//Updating world data based on sent packet
-							if(!(x < 0 || x >= cw * ww || y < 0 || y >= cw * wh || z < 0 || z >= cw * ww)){
-								data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = b;
-							}
-
-							//Repackaging packet
-							packet << x << y << z << b;
-
-							for(unsigned int j = 0; j < clients.size(); j++){
-								if(i != j){
-									clients[j].socket->send(packet);
-								}
-							}
-						}else if(status == sf::Socket::Disconnected){
-							std::cout << "Client with id " << (unsigned int)clients[i].id << " disconnected" << std::endl;
-							clients[i] = clients.back();
-							clients.pop_back();
-						}
-					}
-				}
-			}
-		}
-
-	}
-
-
-
-     return 0;
-}
-
-void generateWorld(uint8_t* data, const Constants& constants){
-	//Setting everything to zero to start
-	unsigned int cw = constants.chunkWidth; //ChunkWidth
-	unsigned int ww = constants.worldWidth; //WorldWidth
-	unsigned int wh = constants.worldHeight; //WorldHeight
+	//Overwritting the entire buffer with 0s
 	for(unsigned int y = 0; y < cw * wh; y++){
 		for(unsigned int z = 0; z < cw * ww; z++){
 			for(unsigned int x = 0; x < cw * ww; x++){
@@ -197,6 +142,8 @@ void generateWorld(uint8_t* data, const Constants& constants){
 		}
 	}
 	perlin.destroy();
+
+	return data;
 }
 
 void printConstants(const Constants& constants){
@@ -251,4 +198,102 @@ bool doesIDExist(uint8_t id){
 		if(i.id == id) return true;
 	}
 	return false;
+}
+
+void addClient(sf::TcpListener& listener, sf::SocketSelector& selector) {
+	// Adding new client to list of clients
+	Client client;
+	listener.accept(*client.socket);
+	client.id = createUniqueID();
+	clients.push_back(client);
+	selector.add(*client.socket);
+
+	// Sending chosen ID to client
+	sf::Packet packet;
+	packet << client.id;
+	client.socket->send(packet);
+	packet.clear();
+	std::cout << "New client connected with ID: " << (unsigned int)client.id << std::endl;
+}
+
+void freeWorldData(uint8_t* data){
+	delete[] data;
+}
+
+void compressAndSendWorld(uint8_t* data, const Constants& constants){
+
+	unsigned int ww = constants.worldWidth;
+	unsigned int wh = constants.worldHeight;
+	unsigned int cw = constants.chunkWidth;
+	unsigned int cs = cw * cw * cw;
+
+	//Compressing the world into a packet
+	sf::Packet packet;
+	sf::Uint64 numBlocks = 1;
+	for(sf::Uint64 i = 1; i < (ww * ww * wh * cs) - 1; i++){
+		if(data[i - 1] != data[i]){
+			packet << (sf::Uint8)data[i - 1] << numBlocks;
+			numBlocks = 1;
+		}else{
+			numBlocks++;
+		}
+	}
+	packet << (sf::Uint8)data[ww * ww * wh * cs - 1] << numBlocks;
+
+	//Sending the packet containing the compressed world to the newly connected client
+	clients.back().socket->send(packet);
+
+}
+
+void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, uint8_t* data){
+
+	unsigned int ww = constants.worldWidth;
+	unsigned int wh = constants.worldHeight;
+	unsigned int cw = constants.chunkWidth;
+	unsigned int cs = cw * cw * cw;
+
+	//Variables for received packet information
+	int x;
+	int y;
+	int z;
+	uint8_t b;
+
+	//Depackaging packet
+	packet >> x >> y >> z >> b;
+
+	//Updating world data based on sent packet
+	if(!(x < 0 || x >= cw * ww || y < 0 || y >= cw * wh || z < 0 || z >= cw * ww)){
+		data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = b;
+	}
+
+	//Repackaging packet
+	packet << x << y << z << b;
+}
+
+uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
+	for(unsigned int i = 0; i < clients.size(); i++){
+		if(selector.isReady(*clients[i].socket)){
+			sf::Packet packet;
+			sf::Socket::Status status = clients[i].socket->receive(packet);
+
+			if(status == sf::Socket::Done){
+				return clients[i].id;
+			}else if(status == sf::Socket::Disconnected){
+				delete clients[i].socket;
+				clients[i].socket = nullptr;
+				clients[i] = clients.back();
+				clients.pop_back();
+				std::cout << "player disconnected" << std::endl;
+			}
+
+
+		}
+	}
+	return 0;
+}
+
+void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID){
+	for(auto& i : clients){
+		if(i.id != senderID) i.socket->send(packet);
+	}
 }
