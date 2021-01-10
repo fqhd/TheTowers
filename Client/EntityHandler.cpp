@@ -20,7 +20,7 @@ void EntityHandler::update(sf::UdpSocket& socket){
           float pitch, yaw;
           uint8_t remoteID;
 
-          packet >> position.x >> position.y >> position.z >> pitch >> yaw >> remoteID;
+          packet >> remoteID >> position.x >> position.y >> position.z >> pitch >> yaw;
 
           entities[0].setPosition(position);
           entities[0].setForward(pitch, yaw);

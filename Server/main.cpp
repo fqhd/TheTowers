@@ -72,8 +72,6 @@ void udpThread(){
 	// Getting constants
 	Constants constants = getConstants();
 
-	printConstants(constants);
-
 	//Variables for algorithm
 	sf::UdpSocket socket;
 	sf::Packet receivedPacket;
@@ -94,7 +92,7 @@ void udpThread(){
 			receivedPacket << id;
 
 			for(auto& i : clients){
-				socket.send(receivedPacket, i.socket->getRemoteAddress(), constants.clientPort);
+				if(i.id != id) socket.send(receivedPacket, i.socket->getRemoteAddress(), constants.clientPort);
 			}
 
 
@@ -271,7 +269,6 @@ void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, ui
 uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 	for(unsigned int i = 0; i < clients.size(); i++){
 		if(selector.isReady(*clients[i].socket)){
-			sf::Packet packet;
 			sf::Socket::Status status = clients[i].socket->receive(packet);
 
 			if(status == sf::Socket::Done){

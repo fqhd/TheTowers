@@ -101,7 +101,6 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
 	m_handler.update();
-	m_entityHandler.entities[0].setForward(m_camera.getPitch(), m_camera.getYaw());
 
      //Updating GUI color
 	m_handler.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
@@ -120,8 +119,7 @@ void Game::sendPositionDataToServer(){
 		// Which will in turn send it to other connected clients except ourselves
 		sf::Packet packet;
 		glm::vec3 p = m_camera.getPosition(); // Camera Position
-		packet << m_id;
-		packet << p.x << p.y << p.z << m_camera.getPitch() << m_camera.getYaw();
+		packet << m_id << p.x << p.y << p.z << m_camera.getPitch() << m_camera.getYaw();
 		m_udpSocket.send(packet, m_serverIp, Constants::getServerPort());
 
 	}
