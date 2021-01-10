@@ -10,6 +10,22 @@ void EntityHandler::init(){
 }
 
 void EntityHandler::update(sf::UdpSocket& socket){
+     sf::Packet packet;
+     sf::IpAddress remoteIp;
+     unsigned short remotePort;
+
+
+     while(socket.receive(packet, remoteIp, remotePort) == sf::Socket::Done){
+          glm::vec3 position;
+          float pitch, yaw;
+          uint8_t remoteID;
+
+          packet >> position.x >> position.y >> position.z >> pitch >> yaw >> remoteID;
+
+          entities[0].setPosition(position);
+          entities[0].setForward(pitch, yaw);
+
+     }
 
 }
 

@@ -36,7 +36,6 @@ int main(){
 	uint8_t* worldData = generateWorld(constants); // Creating the world data buffer
 	std::thread positionUpdater(udpThread); //Starting packet position thread
 
-
 	//Starting server
 	std::cout << "Listening for connection..." << std::endl;
 	listener.listen(constants.serverListeningPort);
@@ -89,17 +88,15 @@ void udpThread(){
 		receivedPacket.clear();
 
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
-			std::cout << "got data" << std::endl;
 
-			// uint8_t id = 0;
-			// receivedPacket >> id;
-			// receivedPacket << id;
-			// std::cout << id << std::endl;
+			uint8_t id;
+			receivedPacket >> id;
+			receivedPacket << id;
 
-			// While we receive packets from clients, we send them to other clients
-			// for(auto it = clients.begin(); it != clients.end(); it++){
-			// 	socket.send(receivedPacket, it->second.ip, it->second.port);
-			// }
+			for(auto& i : clients){
+				socket.send(receivedPacket, i.socket->getRemoteAddress(), constants.clientPort);
+			}
+
 
 		}
 

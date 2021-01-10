@@ -116,10 +116,11 @@ void Game::sendPositionDataToServer(){
 		m_dataFrequencyTimer.restart();
 
 		// We execute this code only a few times per second
-		// This code stores the position and camera angles to the server
-		// Which will in turn send it to other connected clients
+		// This code sends the position and camera angles to the server
+		// Which will in turn send it to other connected clients except ourselves
 		sf::Packet packet;
 		glm::vec3 p = m_camera.getPosition(); // Camera Position
+		packet << m_id;
 		packet << p.x << p.y << p.z << m_camera.getPitch() << m_camera.getYaw();
 		m_udpSocket.send(packet, m_serverIp, Constants::getServerPort());
 
