@@ -18,6 +18,7 @@ public:
      void update(sf::UdpSocket& socket, float deltaTime);
      void render(Settings& settings, Camera& camera);
      void destroy();
+     void removeEntity(uint8_t entity);
 
 
 private:

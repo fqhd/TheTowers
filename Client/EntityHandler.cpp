@@ -44,6 +44,9 @@ void EntityHandler::addEntity(uint8_t id, const glm::vec3& position, float pitch
      m_entities[id] = entity;
 }
 
+void EntityHandler::removeEntity(uint8_t id){
+     m_entities.erase(id);
+}
 
 void EntityHandler::render(Settings& settings, Camera& camera){
 

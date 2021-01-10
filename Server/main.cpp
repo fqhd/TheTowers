@@ -275,6 +275,12 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 			if(status == sf::Socket::Done){
 				return clients[i].id;
 			}else if(status == sf::Socket::Disconnected){
+
+				packet.clear();
+				packet << (uint8_t)8 << clients[i].id;
+				sendPacketToAllClients(packet);
+
+
 				std::cout << "Client Disconnected with ID: " << (unsigned int)clients[i].id << std::endl;
 				selector.remove(*clients[i].socket);
 				delete clients[i].socket;
