@@ -32,6 +32,7 @@ int main(){
 	sf::SocketSelector selector;
 
 	Constants constants = getConstants(); // Getting the constant values for synced client/server interaction
+	printConstants(constants); // Printing the constants
 	uint8_t* worldData = generateWorld(constants); // Creating the world data buffer
 	std::thread positionUpdater(udpThread); //Starting packet position thread
 
@@ -44,12 +45,12 @@ int main(){
 	while(!isDone){
 
 		if(selector.wait()){ // Wait for even to happen
-			if(selector.isReady(listener)){ // Got new connection
+			if(selector.isReady(listener)){ // Got new connection, so we are going to handle that by creating a new client
 
 				addClient(listener, selector);
 				compressAndSendWorld(worldData, constants);
 
-			}else{ // Got data from a connected client
+			}else{ // Got data from a connected client so we are going to send it to all other clients
 
 				sf::Packet receivedPacket;
 				uint8_t remoteClientID = getReceivedPacket(selector, receivedPacket);
@@ -279,11 +280,12 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 			if(status == sf::Socket::Done){
 				return clients[i].id;
 			}else if(status == sf::Socket::Disconnected){
+				std::cout << "Client Disconnected with ID: " << (unsigned int)clients[i].id << std::endl;
+				selector.remove(*clients[i].socket);
 				delete clients[i].socket;
 				clients[i].socket = nullptr;
 				clients[i] = clients.back();
 				clients.pop_back();
-				std::cout << "player disconnected" << std::endl;
 			}
 
 
