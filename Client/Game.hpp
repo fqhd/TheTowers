@@ -41,7 +41,7 @@ private:
      //Game functions
      void connectToServer();
      void receiveAndDecompressPacket();
-     void receiveBlockUpdate();
+     void receiveGameUpdatePacket();
      void initGUI();
      void calcFps();
      void updateCameraAndWorld(Settings& settings, float deltaTime);

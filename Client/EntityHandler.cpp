@@ -22,12 +22,25 @@ void EntityHandler::update(sf::UdpSocket& socket){
 
           packet >> remoteID >> position.x >> position.y >> position.z >> pitch >> yaw;
 
-          entities[0].setPosition(position);
-          entities[0].setForward(pitch, yaw);
+          if(m_entities.find(remoteID) != m_entities.end()){
+               m_entities[remoteID].setPosition(position);
+               m_entities[remoteID].setForward(pitch, yaw);
+          }else{
+               addEntity(remoteID, position, pitch, yaw);
+          }
+
 
      }
 
 }
+
+void EntityHandler::addEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw){
+     Entity entity(vec3(255, 255, 255), Transform(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(1.0f)));
+     entity.setPosition(position);
+     entity.setForward(pitch, yaw);
+     m_entities[id] = entity;
+}
+
 
 void EntityHandler::render(Settings& settings, Camera& camera){
 
@@ -38,9 +51,9 @@ void EntityHandler::render(Settings& settings, Camera& camera){
      m_shader.loadDensity(settings.density);
      m_shader.loadGradient(settings.gradient);
 
-     for(auto& i : entities){
-          m_shader.loadModelMatrix(i.transform.getMatrix());
-          m_shader.loadColor(i.getColor());
+     for(auto it = m_entities.begin(); it != m_entities.end(); it++){
+          m_shader.loadModelMatrix(it->second.transform.getMatrix());
+          m_shader.loadColor(it->second.getColor());
 
           m_model.render();
 

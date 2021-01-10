@@ -7,6 +7,7 @@
 class Entity {
 public:
 
+     Entity();
      Entity(const vec3& c, const Transform& t);
 
 	void setPosition(const glm::vec3& position);

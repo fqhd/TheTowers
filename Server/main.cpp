@@ -20,6 +20,7 @@ void freeWorldData(uint8_t* data);
 void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, uint8_t* data);
 uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet);
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
+void sendPacketToAllClients(sf::Packet& packet);
 
 //Global Variables
 std::vector<Client> clients;
@@ -286,6 +287,12 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 		}
 	}
 	return 0;
+}
+
+void sendPacketToAllClients(sf::Packet& packet){
+	for(auto& i : clients){
+		i.socket->send(packet);
+	}
 }
 
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID){

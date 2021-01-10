@@ -51,7 +51,7 @@ void Player::breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, Wor
 void Player::sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::TcpSocket& socket){
 
      sf::Packet packet;
-     packet << (uint32_t)blockUpdate.x << (uint32_t)blockUpdate.y << (uint32_t)blockUpdate.z << block;
+     packet << (uint8_t)0 << (uint32_t)blockUpdate.x << (uint32_t)blockUpdate.y << (uint32_t)blockUpdate.z << block;
      socket.send(packet);
 
 }

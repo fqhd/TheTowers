@@ -22,10 +22,6 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
      m_entityHandler.init();
 	m_blockOutline.init();
 
-	//Adding entities
-	m_entityHandler.entities.emplace_back(vec3(255, 255, 255), Transform(glm::vec3(0, 0, 0), glm::vec3(20, 20, 20), glm::vec3(1, 1, 1)));
-	m_entityHandler.entities[0].setPosition(m_camera.getPosition() + m_camera.getForward());
-
 
 }
 
@@ -95,7 +91,7 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	}
 
      m_entityHandler.update(m_udpSocket);
-	receiveBlockUpdate();
+	receiveGameUpdatePacket();
 	updateCameraAndWorld(settings, deltaTime);
 	player.update(m_camera, settings, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
 	m_cubeMap.update();
@@ -127,21 +123,29 @@ void Game::sendPositionDataToServer(){
 
 }
 
-void Game::receiveBlockUpdate(){
+void Game::receiveGameUpdatePacket(){
 	sf::Packet packet;
 
 	if(m_tcpSocket.receive(packet) == sf::Socket::Done){
 
-          int x;
-		int y;
-		int z;
-		uint8_t b;
-		packet >> x >> y  >> z >> b;
+		uint8_t code;
+		packet >> code;
+		if(code == 0){ // If the code is 0 then it is a block update packet
+			int x;
+			int y;
+			int z;
+			uint8_t b;
+			packet >> x >> y  >> z >> b;
 
-          if(!b){
-               m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
-          }
-          m_world.setBlock(x, y, z, b);
+			if(!b){
+				m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
+			}
+			m_world.setBlock(x, y, z, b);
+		}else{ // If the code is not 0 then a client has disconnected
+
+		}
+
+
 
 	}
 }
