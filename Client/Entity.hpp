@@ -10,7 +10,9 @@ public:
      Entity();
      Entity(const vec3& c, const Transform& t);
 
-	void setPosition(const glm::vec3& position);
+     void update(float deltaTime);
+
+	void setTargetPosition(const glm::vec3& position);
 	void setForward(float pitch, float yaw);
 
      const vec3& getColor();
@@ -19,6 +21,13 @@ public:
 
 private:
 
+     void updateRotation();
+
+     glm::vec3 m_targetPosition;
+     float m_targetPitch = 0.0f;
+     float m_targetYaw = 0.0f;
+     float m_currentPitch = 0.0f;
+     float m_currentYaw = 0.0f;
      vec3 m_color;
 
 };

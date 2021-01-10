@@ -15,7 +15,7 @@ class EntityHandler {
 public:
 
      void init();
-     void update(sf::UdpSocket& socket);
+     void update(sf::UdpSocket& socket, float deltaTime);
      void render(Settings& settings, Camera& camera);
      void destroy();
 

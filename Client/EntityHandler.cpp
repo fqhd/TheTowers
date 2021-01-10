@@ -9,7 +9,7 @@ void EntityHandler::init(){
 
 }
 
-void EntityHandler::update(sf::UdpSocket& socket){
+void EntityHandler::update(sf::UdpSocket& socket, float deltaTime){
      sf::Packet packet;
      sf::IpAddress remoteIp;
      unsigned short remotePort;
@@ -23,20 +23,23 @@ void EntityHandler::update(sf::UdpSocket& socket){
           packet >> remoteID >> position.x >> position.y >> position.z >> pitch >> yaw;
 
           if(m_entities.find(remoteID) != m_entities.end()){
-               m_entities[remoteID].setPosition(position);
+               m_entities[remoteID].setTargetPosition(position);
                m_entities[remoteID].setForward(pitch, yaw);
           }else{
                addEntity(remoteID, position, pitch, yaw);
           }
+     }
 
-
+     //Update Entities
+     for(auto it = m_entities.begin(); it != m_entities.end(); it++){
+          it->second.update(deltaTime);
      }
 
 }
 
 void EntityHandler::addEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw){
      Entity entity(vec3(255, 255, 255), Transform(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(1.0f)));
-     entity.setPosition(position);
+     entity.setTargetPosition(position);
      entity.setForward(pitch, yaw);
      m_entities[id] = entity;
 }

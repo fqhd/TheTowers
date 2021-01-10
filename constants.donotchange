@@ -18,4 +18,4 @@ MaxDensity: 0.1
 ClientPort: 2002
 ServerPort: 2001
 ServerListeningPort: 2000
-PacketTransmissionFrequency: 1
+PacketTransmissionFrequency: 10

@@ -90,7 +90,7 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 
-     m_entityHandler.update(m_udpSocket);
+     m_entityHandler.update(m_udpSocket, deltaTime);
 	receiveGameUpdatePacket();
 	updateCameraAndWorld(settings, deltaTime);
 	player.update(m_camera, settings, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);

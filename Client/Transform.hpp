@@ -16,7 +16,6 @@ public:
      void setScale(const glm::vec3& scale);
 
      void move(const glm::vec3& delta);
-     void smoothMove(const glm::vec3& destination, float speed); //Function needs to be ran each frame
 
      const glm::vec3& getPosition() const;
      const glm::vec3& getRotation() const;
