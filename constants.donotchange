@@ -19,3 +19,4 @@ ClientPort: 2002
 ServerPort: 2001
 ServerListeningPort: 2000
 PacketTransmissionFrequency: 10
+EntityMovementSharpness: 2.0

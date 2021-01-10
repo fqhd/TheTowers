@@ -1,4 +1,5 @@
 #include "Entity.hpp"
+#include "Constants.hpp"
 
 Entity::Entity(){
 
@@ -14,9 +15,10 @@ const vec3& Entity::getColor(){
 }
 
 void Entity::update(float deltaTime){
-     transform.move((m_targetPosition - transform.getPosition()) * deltaTime);
-     m_currentPitch += (m_targetPitch - m_currentPitch) * deltaTime;
-     m_currentYaw += (m_targetYaw - m_currentYaw) * deltaTime;
+     float s = Constants::getEntityMovementSharpness();
+     transform.move((m_targetPosition - transform.getPosition()) * s * deltaTime);
+     m_currentPitch += (m_targetPitch - m_currentPitch) * s * deltaTime;
+     m_currentYaw += (m_targetYaw - m_currentYaw) * s * deltaTime;
      updateRotation();
 }
 

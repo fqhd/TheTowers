@@ -16,6 +16,7 @@ float Constants::m_occlusionFactor;
 unsigned int Constants::m_precision;
 float Constants::m_maxPlayerSpeed;
 float Constants::m_gravity;
+float Constants::m_entityMovementSharpness;
 unsigned int Constants::m_maxRenderDistance;
 float Constants::m_maxMouseSensibility;
 float Constants::m_maxDensity;
@@ -78,7 +79,9 @@ void Constants::loadFromFile(){
 			is >> m_serverListeningPort;
 		}else if(s == "PacketTransmissionFrequency:"){
 			is >> m_packetTransmissionFrequency;
-		}
+		}else if(s == "EntityMovementSharpness:"){
+               is >> m_entityMovementSharpness;
+          }
      }
 
      is.close();
@@ -111,6 +114,10 @@ float Constants::getMaxGradient(){
 
 float Constants::getMaxDensity(){
      return m_maxDensity;
+}
+
+float Constants::getEntityMovementSharpness(){
+     return m_entityMovementSharpness;
 }
 
 unsigned int Constants::getLocalWorldHeight(){

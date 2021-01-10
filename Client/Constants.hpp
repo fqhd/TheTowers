@@ -25,6 +25,7 @@ public:
      static float getMaxMouseSensibility();
      static float getMaxGradient();
      static float getMaxDensity();
+     static float getEntityMovementSharpness();
 	static unsigned short getClientPort();
 	static unsigned short getServerPort();
 	static unsigned short getServerListeningPort();
@@ -49,6 +50,7 @@ private:
      static float m_maxMouseSensibility;
      static float m_maxGradient;
      static float m_maxDensity;
+     static float m_entityMovementSharpness;
 	static unsigned short m_clientPort;
 	static unsigned short m_serverPort;
 	static unsigned short m_serverListeningPort;
