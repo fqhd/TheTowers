@@ -19,10 +19,10 @@ public:
 
 private:
 
-	void addImages();
-	void addCheckboxes();
-	void addSliders();
-	void addKeyboxes();
+	void addImages(Settings& settings);
+	void addCheckboxes(Settings& settings);
+	void addSliders(Settings& settings);
+	void addKeyboxes(Settings& settings);
 
      GUIHandler m_handler;
 

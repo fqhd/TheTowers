@@ -16,15 +16,15 @@ void PauseMenu::init(Settings& settings){
           Window::setVerticalSyncEnabled(false);
 
 
-	addImages();
-	addCheckboxes();
-	addSliders();
-	addKeyboxes();
+	addImages(settings);
+	addCheckboxes(settings);
+	addSliders(settings);
+	addKeyboxes(settings);
 
 
 }
 
-void PauseMenu::addImages(){
+void PauseMenu::addImages(Settings& settings){
 	     //Images
 	     m_handler.images.push_back(GUIImage(glm::vec4(0, 0, Constants::getScreenWidth(), Constants::getScreenHeight()), ColorRGBA8(0, 0, 0, 150)));
 	     m_handler.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_BG_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_BG_HEIGHT / 2.0f, MENU_BG_WIDTH, MENU_BG_HEIGHT), ColorRGBA8(50, 50, 50, 255)));
@@ -33,13 +33,13 @@ void PauseMenu::addImages(){
 
 }
 
-void PauseMenu::addCheckboxes(){
+void PauseMenu::addCheckboxes(Settings& settings){
 	//Checkboxes
      m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showFPS));
      m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.vsync));
 }
 
-void PauseMenu::addSliders(){
+void PauseMenu::addSliders(Settings& settings){
 	//Sliders
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
      m_handler.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
@@ -50,7 +50,7 @@ void PauseMenu::addSliders(){
      m_handler.sliders.push_back(GUISlider(glm::vec2(800, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.gradient / Constants::getMaxGradient()));
 }
 
-void PauseMenu::addKeyboxes(){
+void PauseMenu::addKeyboxes(Settings& settings){
 	//Keyboxes
      m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.front));
      m_handler.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.back));
