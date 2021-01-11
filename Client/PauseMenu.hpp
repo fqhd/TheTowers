@@ -19,6 +19,11 @@ public:
 
 private:
 
+	void addImages();
+	void addCheckboxes();
+	void addSliders();
+	void addKeyboxes();
+
      GUIHandler m_handler;
 
 

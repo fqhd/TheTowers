@@ -1,7 +1,6 @@
 #ifndef GUI_SLIDER_H
 #define GUI_SLIDER_H
 #include "GUIRenderer.hpp"
-#include "GUIFontRenderer.hpp"
 #include "InputManager.hpp"
 
 

@@ -5,7 +5,7 @@
 #include "GUIButton.hpp"
 #include "GUIShader.hpp"
 #include "GUIFontShader.hpp"
-#include "GUIFontRenderer.hpp"
+#include "GUIFont.hpp"
 #include "GUIImage.hpp"
 #include "GUICheckbox.hpp"
 #include "GUISlider.hpp"
@@ -25,11 +25,17 @@ public:
 	std::vector<GUISlider> sliders;
 	std::vector<GUIKeybox> keyboxes;
 
+	std::vector<GUITextMesh> textMeshes;
+	std::vector<GUIFont> fonts;
 
 private:
 
-	GUIRenderer m_renderer;
-	GUIShader m_shader;
+	void renderGUI();
+	void renderFonts();
+
+	GUIRenderer m_guiRenderer;
+	GUIShader m_guiShader;
+	GUIFontShader m_fontShader;
 
 	glm::mat4 m_matrix;
 

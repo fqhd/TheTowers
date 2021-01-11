@@ -1,7 +1,7 @@
 #include "GUITextMesh.hpp"
 
 
-void GUITextMesh::init(){
+GUITextMesh::GUITextMesh(const std::string& string, const ColorRGBA8& c, unsigned int fontIndex){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
@@ -16,6 +16,19 @@ void GUITextMesh::init(){
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	m_string = string;
+	m_fontIndex = fontIndex;
+	color = c;
+}
+
+unsigned int GUITextMesh::getFontIndex(){
+	return m_fontIndex;
+}
+
+void GUITextMesh::setString(const std::string& string){
+	m_string = string;
+	needsUpdate = true;
 }
 
 void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){

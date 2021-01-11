@@ -4,6 +4,35 @@ void Utils::printDividor(const std::string& name){
 	printf("%s\n", ("--------------------------- " + name + " ---------------------------").c_str());
 }
 
+uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
+
+    std::ifstream file(filePath, std::ios::binary);
+    if (file.fail()) {
+	   perror(filePath.c_str());
+	   return nullptr;
+    }
+
+    file.seekg(0, std::ios::end);
+
+    unsigned int fileSize = (unsigned int)file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    fileSize -= (unsigned int)file.tellg();
+
+	//Creating new buffer
+    uint8_t* buffer = new uint8_t[fileSize];
+
+	//Reading data into buffer
+    file.read((char*)buffer, fileSize);
+    file.close();
+
+    return buffer;
+}
+
+void Utils::freeBuffer(uint8_t* buffer){
+	delete[] buffer;
+}
+
 std::string Utils::readFileToString(const std::string& shaderName) {
 	std::string shaderCode = "";
 	std::string line;
