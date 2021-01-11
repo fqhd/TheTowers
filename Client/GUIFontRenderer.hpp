@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 
 
-class GUIFontRenderer{
+class GUIFontRenderer {
 public:
 
 	void init();
@@ -12,10 +12,9 @@ public:
 	void destroy();
 
 
-
 private:
 
-
+	
 
 };
 

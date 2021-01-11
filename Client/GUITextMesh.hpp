@@ -3,6 +3,10 @@
 
 #include <GL/glew.h>
 
+struct GUITextVertex {
+	glm::vec2 position;
+	glm::vec2 uv;
+};
 
 class GUITextMesh {
 public:
@@ -10,6 +14,8 @@ public:
      void init();
      void render();
      void destroy();
+
+	std::vector<GUITextVertex> vertices;
 
 private:
 
