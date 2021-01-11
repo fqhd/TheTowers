@@ -5,7 +5,7 @@
 #include "Window.hpp"
 
 
-void Game::init(GUIFont* font, sf::IpAddress ip){
+void Game::init(sf::IpAddress ip){
 
 	Utils::printDividor("Game");
 	m_serverIp = ip;
@@ -15,7 +15,7 @@ void Game::init(GUIFont* font, sf::IpAddress ip){
 	receiveAndDecompressPacket();
 	m_cubeMap.init();
 	m_particleHandler.init();
-	m_handler.init(font);
+	m_handler.init();
 	m_camera.init();
 	initGUI();
 	generateColorVector(m_colors);
@@ -165,9 +165,6 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 	//Rendering GUI
 	m_handler.render();
-
-	//Rendering FPS
-	if(settings.showFPS) m_handler.renderFont(m_fpsString.c_str(), 20, Constants::getScreenHeight() - 48, 1.0f, ColorRGBA8(255, 255, 255, 255));
 
 }
 

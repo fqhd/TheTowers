@@ -4,7 +4,6 @@
 #include "Window.hpp"
 #include "GameStates.hpp"
 #include "PauseMenu.hpp"
-#include "GUIFont.hpp"
 #include <iostream>
 
 
@@ -24,7 +23,6 @@ int main() {
 	Player player;
 	Game game;
 	PauseMenu pause;
-	GUIFont font;
 	GameStates state;
 	Settings settings;
 	sf::Clock clock;
@@ -36,9 +34,8 @@ int main() {
 	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
-	font.init("res/fonts/thinfont-thin.ttf");
-	game.init(&font, ip);
-	pause.init(&font, settings);
+	game.init(ip);
+	pause.init(settings);
 	state = GameStates::PLAY;
 
 	clock.restart();

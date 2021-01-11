@@ -38,7 +38,6 @@ build particle.o: cc Particle.cpp
 build particlequad.o: cc ParticleQuad.cpp
 build particleshader.o: cc ParticleShader.cpp
 build guibutton.o: cc GUIButton.cpp
-build guifont.o: cc GUIFont.cpp
 build guifontrenderer.o: cc GUIFontRenderer.cpp
 build guifontshader.o: cc GUIFontShader.cpp
 build guihandler.o: cc GUIHandler.cpp
@@ -48,11 +47,9 @@ build pausemenu.o: cc PauseMenu.cpp
 build guiimage.o: cc GUIImage.cpp
 build checkbox.o: cc GUICheckbox.cpp
 build slider.o: cc GUISlider.cpp
-build guiselectbox.o: cc GUISelectbox.cpp
-build guicomponent.o: cc GUIComponent.cpp
 build image.o: cc Image.cpp
 build guikeybox.o: cc GUIKeybox.cpp
 build objloader.o: cc OBJLoader.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guiselectbox.o guicomponent.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o frustum.o blockoutlineshader.o blockoutline.o outlinerenderer.o
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifontrenderer.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o frustum.o blockoutlineshader.o blockoutline.o outlinerenderer.o
 

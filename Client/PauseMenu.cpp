@@ -6,9 +6,9 @@ const float MENU_HEIGHT = 600.0f;
 const float MENU_BG_WIDTH = MENU_WIDTH + 2.0f;
 const float MENU_BG_HEIGHT = MENU_HEIGHT + 2.0f;
 
-void PauseMenu::init(GUIFont* font, Settings& settings){
+void PauseMenu::init(Settings& settings){
 
-     m_handler.init(font);
+     m_handler.init();
 
      if(settings.vsync)
           Window::setVerticalSyncEnabled(true);
@@ -91,26 +91,6 @@ void PauseMenu::updateValues(Settings& settings){
 void PauseMenu::render(){
 
      m_handler.render();
-
-     m_handler.renderFont("Show FPS", 280, 510, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Vertical Sync", 280, 460, 0.5f, ColorRGBA8(255, 255, 255, 255));
-
-
-     m_handler.renderFont("R: " + std::to_string((int)(m_handler.sliders[0].getValue() * 255)), 220, 200, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("G: " + std::to_string((int)(m_handler.sliders[1].getValue() * 255)), 220, 250, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("B: " + std::to_string((int)(m_handler.sliders[2].getValue() * 255)), 220, 300, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Mouse Sensibility: " + std::to_string((int)(m_handler.sliders[3].getValue() * Constants::getMaxMouseSensibility())), 220, 150, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Player Speed: " + std::to_string((int)(m_handler.sliders[4].getValue() * Constants::getMaxPlayerSpeed())), 220, 100, 0.5f, ColorRGBA8(255, 255, 255, 255));
-
-     m_handler.renderFont("Density: " + std::to_string(m_handler.sliders[5].getValue() * Constants::getMaxDensity()), 870, 320, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Gradient: " + std::to_string(m_handler.sliders[6].getValue() * Constants::getMaxGradient()), 870, 220, 0.5f, ColorRGBA8(255, 255, 255, 255));
-
-     m_handler.renderFont("Front: ", 220, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Back: ", 220, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Left: ", 420, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Right: ", 420, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Up: ", 620, 620, 0.5f, ColorRGBA8(255, 255, 255, 255));
-     m_handler.renderFont("Down: ", 620, 580, 0.5f, ColorRGBA8(255, 255, 255, 255));
 
 }
 

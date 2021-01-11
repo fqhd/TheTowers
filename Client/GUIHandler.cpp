@@ -1,22 +1,12 @@
 #include "GUIHandler.hpp"
 #include "Constants.hpp"
 
-void GUIHandler::init(GUIFont* font){
+void GUIHandler::init(){
 
-	m_font = font;
 	m_renderer.init();
 	m_shader.init();
 
-	m_fShader.init();
-	m_fRenderer.init();
-
 	m_matrix = glm::ortho(0.0f, (float)Constants::getScreenWidth(), 0.0f, (float)Constants::getScreenHeight());
-
-	//Loading matrix and colors
-	m_fShader.bind();
-	m_fShader.loadMatrix(m_matrix);
-	m_fShader.loadColor(ColorRGBA8(255, 255, 255, 255));
-	m_fShader.unbind();
 
 }
 
@@ -33,10 +23,6 @@ void GUIHandler::update(){
 	}
 
 	for(auto& i : sliders){
-		i.update();
-	}
-
-	for(auto& i : boxes){
 		i.update();
 	}
 
@@ -71,10 +57,6 @@ void GUIHandler::render(){
 		i.render(m_renderer);
 	}
 
-	for(auto& i : boxes){
-		i.render(m_renderer);
-	}
-
 	for(auto& i : keyboxes){
 		i.render(m_renderer);
 	}
@@ -82,27 +64,15 @@ void GUIHandler::render(){
 
 	m_renderer.end();
 
-
 	m_shader.bind();
 	m_shader.loadMatrix(m_matrix);
 
-	//Final render
 	m_renderer.render();
 
 	m_shader.unbind();
 }
 
-void GUIHandler::renderFont(const std::string& text, float x, float y, float scale, const ColorRGBA8& color){
-	m_fShader.bind();
-	m_fShader.loadMatrix(m_matrix);
-	m_fShader.loadColor(color);
-	m_fRenderer.render(*m_font, text, x, y, scale);
-	m_fShader.unbind();
-}
-
 void GUIHandler::destroy(){
-	m_fShader.destroy();
-	m_fRenderer.destroy();
 	m_shader.destroy();
 	m_renderer.destroy();
 }

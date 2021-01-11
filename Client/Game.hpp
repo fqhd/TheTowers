@@ -21,7 +21,7 @@
 class Game {
 public:
 
-     void init(GUIFont* font, sf::IpAddress ip);
+     void init(sf::IpAddress ip);
      void update(Settings& settings, float deltaTime, GameStates& state, Player& player);
      void render(Settings& settings, Player& player, float deltaTime);
      void destroy();
