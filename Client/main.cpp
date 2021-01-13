@@ -4,6 +4,7 @@
 #include "Window.hpp"
 #include "GameStates.hpp"
 #include "PauseMenu.hpp"
+#include "GUIHandler.hpp"
 #include <iostream>
 
 
@@ -25,6 +26,7 @@ int main() {
 	PauseMenu pause;
 	GameStates state;
 	Settings settings;
+	GUIHandler handler;
 	sf::Clock clock;
 
 	//Initializing objects
@@ -34,46 +36,38 @@ int main() {
 	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
-	game.init(ip);
-	pause.init(settings);
+	handler.createWorkspaces(2);
+	handler.fonts.emplace_back("res/fonts/ostrich-regular.ttf", 32.0f, 512, 512);
+	game.init(ip, handler.workspaces.at(0));
+	pause.init(settings, handler.workspaces.at(1));
+	handler.init();
 	state = GameStates::PLAY;
 
 	clock.restart();
 	while(state != GameStates::EXIT){
-		while(state == GameStates::PLAY){
-			Window::clear();
+		Window::clear();
 
-			float deltaTime = clock.restart().asSeconds();
+		float deltaTime = clock.restart().asSeconds();
+		if(Window::isResized()) game.updateElementsBasedOnResize();
 
-			if(Window::isResized()) game.updateElementsBasedOnResize();
-			game.update(settings, deltaTime, state, player);
+		if(state == GameStates::PLAY){
+			game.update(settings, deltaTime, state, player, handler.workspaces.at(0));
 			game.render(settings, player, deltaTime);
+			handler.renderWorkspace(0);
 
-			Window::update();
-			if(Window::isCloseRequested()) state = GameStates::EXIT;
+		}else if(state == GameStates::PAUSE){
+			pause.update(state, settings, player, handler.workspaces.at(1));
+			game.render(settings, player, deltaTime);
+			handler.renderWorkspace(1);
 		}
 
-		while(state == GameStates::PAUSE){
-			Window::clear();
-
-
-			if(Window::isResized()) game.updateElementsBasedOnResize();
-			pause.update(state, settings, player);
-			game.render(settings, player, clock.getElapsedTime().asSeconds());
-			pause.render();
-
-			clock.restart();
-			Window::update();
-			if(Window::isCloseRequested()) state = GameStates::EXIT;
-
-		}
-
+		if(Window::isCloseRequested()) state = GameStates::EXIT;
+		Window::update();
 	}
 
 	settings.writeToFile();
 
 	game.destroy();
-	pause.destroy();
 
 	Window::close();
 

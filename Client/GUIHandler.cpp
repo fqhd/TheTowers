@@ -11,101 +11,42 @@ void GUIHandler::init(){
 
 }
 
-
-
-void GUIHandler::update(){
-
-	for(auto& i : buttons){
-		i.update();
-	}
-
-	for(auto& i : checkboxes){
-		i.update();
-	}
-
-	for(auto& i : sliders){
-		i.update();
-	}
-
-	for(auto& i : keyboxes){
-		i.update(keyboxes);
-	}
-
+void GUIHandler::createWorkspaces(unsigned int numWorkspaces){
+	for(unsigned int i = 0; i < numWorkspaces; i++) workspaces.emplace_back();
 }
 
-void GUIHandler::render(){
-	renderGUI();
-	renderFonts();
+void GUIHandler::renderWorkspace(unsigned int numWorkspace){
+	workspaces.at(numWorkspace).render(m_guiRenderer, m_guiShader, m_fontShader, fonts, m_matrix);
 }
 
-void GUIHandler::renderFonts(){
-
-	m_fontShader.bind();
-	m_fontShader.loadMatrix(m_matrix);
-
-	//Render all meshes, if a mesh needs an update, it gets passed to the updateMesh() function of the
-	//GUIFont class where it will be updated based on its string of text
-
-	for(auto& i : textMeshes){
-		if(i.needsUpdate) fonts.at(i.getFontIndex()).updateMesh(i);
-		m_fontShader.loadColor(i.color);
-		m_fontShader.loadPosition(i.position);
-		fonts.at(i.getFontIndex()).bindTexture();
-		i.render();
-		fonts.at(i.getFontIndex()).unbindTexture();
-	}
-
-	m_fontShader.unbind();
+void GUIHandler::updateWorkspace(unsigned int numWorkspace){
+	workspaces.at(numWorkspace).update();
 }
 
-void GUIHandler::renderGUI(){
-
-	//Preaparing renderer for drawing
-	m_guiRenderer.begin();
-
-	//Batching images
-	for(auto& i : images){
-		i.render(m_guiRenderer);
+void GUIHandler::updateAll(){
+	for(auto& i : workspaces){
+		i.update();
 	}
+}
 
-	//Batching Buttons
-	for(auto& i : buttons){
-		i.render(m_guiRenderer);
+void GUIHandler::renderAll(){
+	for(auto& i : workspaces){
+		i.render(m_guiRenderer, m_guiShader, m_fontShader, fonts, m_matrix);
 	}
-
-	//Batching checkboxes
-	for(auto& i : checkboxes){
-		i.render(m_guiRenderer);
-	}
-
-	for(auto& i : sliders){
-		i.render(m_guiRenderer);
-	}
-
-	for(auto& i : keyboxes){
-		i.render(m_guiRenderer);
-	}
-
-
-	m_guiRenderer.end();
-
-	m_guiShader.bind();
-	m_guiShader.loadMatrix(m_matrix);
-
-	m_guiRenderer.render();
-
-	m_guiShader.unbind();
 }
 
 void GUIHandler::destroy(){
+
 	//Deleting fonts
 	for(auto& i : fonts){
 		i.destroy();
 	}
 
-	//Deleting text meshes
-	for(auto& i : textMeshes){
-		i.destroy();
+	//Deleting text meshes inside of workspaces
+	for(auto& i : workspaces){
+		for(auto& j : i.textMeshes){
+			j.destroy();
+		}
 	}
 
 	m_fontShader.destroy();

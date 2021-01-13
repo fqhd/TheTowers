@@ -5,7 +5,7 @@
 #include "Window.hpp"
 
 
-void Game::init(sf::IpAddress ip){
+void Game::init(sf::IpAddress ip, GUICanvas& workspace){
 
 	Utils::printDividor("Game");
 	m_serverIp = ip;
@@ -15,21 +15,22 @@ void Game::init(sf::IpAddress ip){
 	receiveAndDecompressPacket();
 	m_cubeMap.init();
 	m_particleHandler.init();
-	m_handler.init();
 	m_camera.init();
-	initGUI();
+	initGUI(workspace);
 	generateColorVector(m_colors);
      m_entityHandler.init();
 	m_blockOutline.init();
+
+
 
 
 }
 
 
 
-void Game::initGUI(){
-	m_handler.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 4, Constants::getScreenHeight() / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
-	m_handler.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
+void Game::initGUI(GUICanvas& workspace){
+	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 4, Constants::getScreenHeight() / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
+	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 }
 
 void Game::connectToServer(){
@@ -82,7 +83,7 @@ void Game::receiveAndDecompressPacket(){
 }
 
 
-void Game::update(Settings& settings, float deltaTime, GameStates& state, Player& player){
+void Game::update(Settings& settings, float deltaTime, GameStates& state, Player& player, GUICanvas& workspace){
 
 	//Switch state if key has been pressed
 	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
@@ -96,10 +97,10 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	player.update(m_camera, settings, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
-	m_handler.update();
+	workspace.update();
 
      //Updating GUI color
-	m_handler.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
+	workspace.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
 
 	sendPositionDataToServer();
 
@@ -162,9 +163,6 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 	//Calculating FPS
 	calcFps();
-
-	//Rendering GUI
-	m_handler.render();
 
 }
 

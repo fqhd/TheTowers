@@ -10,22 +10,21 @@
 #include "GUICheckbox.hpp"
 #include "GUISlider.hpp"
 #include "GUIKeybox.hpp"
+#include "GUICanvas.hpp"
 
 class GUIHandler {
 public:
 
 	void init();
-	void update();
-	void render();
+	void createWorkspaces(unsigned int numWorkspaces); // Number of workspaces to create
+	void updateWorkspace(unsigned int numWorkspace); // Number of workspace to update
+	void renderWorkspace(unsigned int numWorkspace); // Number of workspace to render
+	void updateAll(); // Update all workspaces
+	void renderAll(); // Render all workspaces
 	void destroy();
 
-	std::vector<GUIButton> buttons;
-	std::vector<GUIImage> images;
-	std::vector<GUICheckbox> checkboxes;
-	std::vector<GUISlider> sliders;
-	std::vector<GUIKeybox> keyboxes;
+	std::vector<GUICanvas> workspaces;
 
-	std::vector<GUITextMesh> textMeshes;
 	std::vector<GUIFont> fonts;
 
 private:

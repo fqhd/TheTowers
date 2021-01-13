@@ -12,7 +12,7 @@
 #include "GameStates.hpp"
 #include "EntityHandler.hpp"
 #include "Settings.hpp"
-#include "GUIHandler.hpp"
+#include "GUICanvas.hpp"
 #include "Window.hpp"
 #include "Camera.hpp"
 #include "BlockOutline.hpp"
@@ -21,8 +21,8 @@
 class Game {
 public:
 
-     void init(sf::IpAddress ip);
-     void update(Settings& settings, float deltaTime, GameStates& state, Player& player);
+     void init(sf::IpAddress ip, GUICanvas& workspace);
+     void update(Settings& settings, float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
      void render(Settings& settings, Player& player, float deltaTime);
      void destroy();
 
@@ -42,14 +42,13 @@ private:
      void connectToServer();
      void receiveAndDecompressPacket();
      void receiveGameUpdatePacket();
-     void initGUI();
+     void initGUI(GUICanvas& workspace);
      void calcFps();
      void updateCameraAndWorld(Settings& settings, float deltaTime);
 
      //Engine Variables
      CubeMap m_cubeMap;
      ParticleHandler m_particleHandler;
-     GUIHandler m_handler;
      Camera m_camera;
      EntityHandler m_entityHandler;
      BlockOutline m_blockOutline;
