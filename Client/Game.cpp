@@ -88,7 +88,7 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 
-	calcFps(workspace);
+	calcFps(deltaTime, workspace);
 
      m_entityHandler.update(m_udpSocket, deltaTime);
 	receiveGameUpdatePacket();
@@ -172,11 +172,9 @@ void Game::destroy(){
 	m_blockOutline.destroy();
 }
 
-void Game::calcFps(GUICanvas& workspace){
-	m_fps++;
+void Game::calcFps(float deltaTime, GUICanvas& workspace){
 	if(m_fpsClock.getElapsedTime().asSeconds() >= 1.0f){
-		workspace.textMeshes.at(0).setString(std::to_string(m_fps));
-		m_fps = 0;
+		workspace.textMeshes.at(0).setString(std::to_string((unsigned int)(1.0f / deltaTime)));
 		m_fpsClock.restart();
 	}
 }
