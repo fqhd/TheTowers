@@ -23,6 +23,7 @@ private:
 	void addCheckboxes(Settings& settings);
 	void addSliders(Settings& settings);
 	void addKeyboxes(Settings& settings);
+	void addText();
 
      GUIHandler m_handler;
 

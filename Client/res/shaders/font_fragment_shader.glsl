@@ -1,14 +1,22 @@
-#version 410 core
+#version 330 core
 
-in vec2 TexCoords;
-out vec4 color;
+//Ins
+in vec2 pass_uv;
 
-uniform sampler2D text;
-uniform vec3 textColor;
+//Outs
+out vec4 out_color;
 
-void main()
-{
-    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
+//Uniforms
+uniform sampler2D ourTexture;
+uniform vec3 color;
 
-    color = vec4(textColor, 1.0) * sampled;
+//Constants
+
+
+void main() {
+
+    float red = texture(ourTexture, pass_uv).r;
+
+	out_color = vec4(color, red);
+
 }

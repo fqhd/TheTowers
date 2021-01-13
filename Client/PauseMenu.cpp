@@ -20,7 +20,28 @@ void PauseMenu::init(Settings& settings){
 	addCheckboxes(settings);
 	addSliders(settings);
 	addKeyboxes(settings);
+	addText();
 
+
+}
+
+void PauseMenu::addText(){
+	m_handler.fonts.emplace_back("res/fonts/ostrich-regular.ttf", 32.0f, 512, 512);
+	m_handler.textMeshes.emplace_back("Show FPS", glm::vec2(280, 510), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Vertical Sync", glm::vec2(280, 460), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("RED", glm::vec2(220, 200), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("GREEN", glm::vec2(220, 250), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("BLUE", glm::vec2(220, 300), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Mouse Sensitivity", glm::vec2(220, 150), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Player Speed", glm::vec2(220, 100), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Density", glm::vec2(870, 320), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Gradient", glm::vec2(870, 220), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Front", glm::vec2(220, 620), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Back", glm::vec2(220, 580), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Left", glm::vec2(420, 620), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Right", glm::vec2(420, 580), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Up", glm::vec2(620, 620), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Down", glm::vec2(620, 580), ColorRGBA8(), 0);
 
 }
 

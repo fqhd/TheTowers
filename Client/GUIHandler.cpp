@@ -43,14 +43,16 @@ void GUIHandler::renderFonts(){
 	m_fontShader.bind();
 	m_fontShader.loadMatrix(m_matrix);
 
+	//Render all meshes, if a mesh needs an update, it gets passed to the updateMesh() function of the
+	//GUIFont class where it will be updated based on its string of text
+
 	for(auto& i : textMeshes){
-		if(i.needsUpdate){
-			fonts.at(i.getFontIndex()).updateMesh(i);
-			m_fontShader.loadColor(i.color);
-			fonts.at(i.getFontIndex()).bindTexture();
-			i.render();
-			fonts.at(i.getFontIndex()).unbindTexture();
-		}
+		if(i.needsUpdate) fonts.at(i.getFontIndex()).updateMesh(i);
+		m_fontShader.loadColor(i.color);
+		m_fontShader.loadPosition(i.position);
+		fonts.at(i.getFontIndex()).bindTexture();
+		i.render();
+		fonts.at(i.getFontIndex()).unbindTexture();
 	}
 
 	m_fontShader.unbind();
@@ -96,6 +98,17 @@ void GUIHandler::renderGUI(){
 }
 
 void GUIHandler::destroy(){
+	//Deleting fonts
+	for(auto& i : fonts){
+		i.destroy();
+	}
+
+	//Deleting text meshes
+	for(auto& i : textMeshes){
+		i.destroy();
+	}
+
+	m_fontShader.destroy();
 	m_guiShader.destroy();
 	m_guiRenderer.destroy();
 }

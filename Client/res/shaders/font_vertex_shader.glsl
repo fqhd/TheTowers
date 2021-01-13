@@ -1,13 +1,21 @@
-#version 410 core
+#version 330 core
 
-layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
+//Ins
+layout (location = 0) in vec2 in_position;
+layout (location = 1) in vec2 in_uv;
 
-out vec2 TexCoords;
+//Outs
+out vec2 pass_uv;
 
+//Uniforms
 uniform mat4 matrix;
+uniform vec2 position;
 
-void main()
-{
-    gl_Position = matrix * vec4(vertex.xy, 0.0, 1.0);
-    TexCoords = vertex.zw;
-}  
+//Constants
+
+void main() {
+
+    gl_Position = matrix * vec4(in_position + position, 0.0, 1.0);
+    pass_uv = in_uv;
+
+}

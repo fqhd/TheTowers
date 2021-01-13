@@ -1,7 +1,8 @@
 #include "GUITextMesh.hpp"
+#include "Utils.hpp"
 
 
-GUITextMesh::GUITextMesh(const std::string& string, const ColorRGBA8& c, unsigned int fontIndex){
+GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
@@ -20,6 +21,7 @@ GUITextMesh::GUITextMesh(const std::string& string, const ColorRGBA8& c, unsigne
 	m_string = string;
 	m_fontIndex = fontIndex;
 	color = c;
+	position = p;
 }
 
 unsigned int GUITextMesh::getFontIndex(){
@@ -35,17 +37,27 @@ void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
 	m_numVertices = vertices.size();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GUITextVertex), vertices.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GUITextMesh::render(){
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+
 	glBindVertexArray(m_vaoID);
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
 	glBindVertexArray(0);
+
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GUITextMesh::destroy(){
 	glDeleteBuffers(1, &m_vboID);
 	glDeleteVertexArrays(1, &m_vaoID);
+}
+
+const std::string& GUITextMesh::getString(){
+	return m_string;
 }

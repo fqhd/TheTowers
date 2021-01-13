@@ -15,8 +15,8 @@ LocalWorldHeight: 2
 NumParticles: 50
 MaxGradient: 10
 MaxDensity: 0.1
-ClientPort: 2002
-ServerPort: 2001
-ServerListeningPort: 2000
+ClientPort: 7459
+ServerPort: 7456
+ServerListeningPort: 7453
 PacketTransmissionFrequency: 10
 EntityMovementSharpness: 8.0
