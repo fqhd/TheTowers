@@ -43,7 +43,7 @@ private:
      void receiveAndDecompressPacket();
      void receiveGameUpdatePacket();
      void initGUI(GUICanvas& workspace);
-     void calcFps();
+     void calcFps(GUICanvas& workspace);
      void updateCameraAndWorld(Settings& settings, float deltaTime);
 
      //Engine Variables
@@ -57,7 +57,6 @@ private:
 
      //Game Variables
      std::unordered_map<uint8_t, uint8_t> m_clients;
-     std::string m_fpsString;
      unsigned int m_fps;
      sf::Clock m_fpsClock;
 	sf::Clock m_dataFrequencyTimer;

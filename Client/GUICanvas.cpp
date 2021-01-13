@@ -72,6 +72,7 @@ void GUICanvas::renderFonts(GUIFontShader& fontShader, std::vector<GUIFont>& fon
 	//GUIFont class where it will be updated based on its string of text
 
 	for(auto& i : textMeshes){
+		if(!i.shouldBeDrawn) continue;
 		if(i.needsUpdate) fonts.at(i.getFontIndex()).updateMesh(i);
 		fontShader.loadColor(i.color);
 		fontShader.loadPosition(i.position);

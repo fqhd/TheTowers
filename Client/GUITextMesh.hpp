@@ -30,6 +30,7 @@ public:
 
 	ColorRGBA8 color;
 	bool needsUpdate = true;
+	bool shouldBeDrawn = true;
 	glm::vec2 position;
 
 	const std::string& getString();

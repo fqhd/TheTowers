@@ -21,16 +21,13 @@ void Game::init(sf::IpAddress ip, GUICanvas& workspace){
      m_entityHandler.init();
 	m_blockOutline.init();
 
-
-
-
 }
-
 
 
 void Game::initGUI(GUICanvas& workspace){
 	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 4, Constants::getScreenHeight() / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
 	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
+	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 48), ColorRGBA8(), 0);
 }
 
 void Game::connectToServer(){
@@ -91,6 +88,8 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 		state = GameStates::PAUSE;
 	}
 
+	calcFps(workspace);
+
      m_entityHandler.update(m_udpSocket, deltaTime);
 	receiveGameUpdatePacket();
 	updateCameraAndWorld(settings, deltaTime);
@@ -100,7 +99,9 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	workspace.update();
 
      //Updating GUI color
-	workspace.images[1].color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
+	workspace.images.at(1).color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
+	//Updating if we should or should not render the FPS
+	workspace.textMeshes.at(0).shouldBeDrawn = settings.showFPS;
 
 	sendPositionDataToServer();
 
@@ -161,9 +162,6 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
      m_entityHandler.render(settings, m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 
-	//Calculating FPS
-	calcFps();
-
 }
 
 void Game::destroy(){
@@ -174,10 +172,10 @@ void Game::destroy(){
 	m_blockOutline.destroy();
 }
 
-void Game::calcFps(){
+void Game::calcFps(GUICanvas& workspace){
 	m_fps++;
 	if(m_fpsClock.getElapsedTime().asSeconds() >= 1.0f){
-		m_fpsString = std::to_string(m_fps);
+		workspace.textMeshes.at(0).setString(std::to_string(m_fps));
 		m_fps = 0;
 		m_fpsClock.restart();
 	}
