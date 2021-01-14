@@ -53,7 +53,7 @@ void Game::connectToServer(){
 void Game::receiveAndDecompressPacket(){
 
 	//Allocating memory for the world
-	uint8_t* data = new uint8_t[Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize()];
+	uint8_t* data = (uint8_t*)malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize());
 
 	sf::Packet packet;
 

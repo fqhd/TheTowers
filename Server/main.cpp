@@ -113,17 +113,8 @@ uint8_t* generateWorld(const Constants& constants){
 	unsigned int cs = cw * cw * cw;
 
 	//Allocating memory for world data
-	uint8_t* data = new uint8_t[ww * ww * wh * cs];
+	uint8_t* data = (uint8_t*)malloc(ww * ww * wh * cs);
 	std::cout << "World Size(bytes): " << ww * ww * wh * cs << std::endl;
-
-	//Overwritting the entire buffer with 0s
-	for(unsigned int y = 0; y < cw * wh; y++){
-		for(unsigned int z = 0; z < cw * ww; z++){
-			for(unsigned int x = 0; x < cw * ww; x++){
-				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = 0;
-			}
-		}
-	}
 
 	//Generating the world with perlin noise
 	Perlin perlin;
@@ -133,8 +124,8 @@ uint8_t* generateWorld(const Constants& constants){
 
 			unsigned int height = perlin.noise(x, z) * cw * wh;
 
-			for(unsigned int y = 0; y < height; y++){
-				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = y + 100;
+			for(unsigned int y = 0; y < cw * wh; y++){
+				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = y < height ? y + 100 : 0;
 			}
 
 		}
@@ -215,7 +206,7 @@ void addClient(sf::TcpListener& listener, sf::SocketSelector& selector) {
 }
 
 void freeWorldData(uint8_t* data){
-	delete[] data;
+	free(data);
 }
 
 void compressAndSendWorld(uint8_t* data, const Constants& constants){
@@ -289,7 +280,6 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 				std::cout << "Client Disconnected with ID: " << (unsigned int)clients[i].id << std::endl;
 				selector.remove(*clients[i].socket);
 				delete clients[i].socket;
-				clients[i].socket = nullptr;
 				clients[i] = clients.back();
 				clients.pop_back();
 				return 0;

@@ -156,7 +156,7 @@ void World::destroy(){
     }
 
 	m_shader.destroy();
-     delete[] m_data;
+     free(m_data);
 
 }
 

@@ -20,7 +20,7 @@ uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
     fileSize -= (unsigned int)file.tellg();
 
 	//Creating new buffer
-    uint8_t* buffer = new uint8_t[fileSize];
+    uint8_t* buffer = (uint8_t*)malloc(fileSize);
 
 	//Reading data into buffer
     file.read((char*)buffer, fileSize);
@@ -38,7 +38,7 @@ void Utils::printAverage(const std::vector<float> samples){
 }
 
 void Utils::freeBuffer(uint8_t* buffer){
-	delete[] buffer;
+	free(buffer);
 }
 
 std::string Utils::readFileToString(const std::string& shaderName) {

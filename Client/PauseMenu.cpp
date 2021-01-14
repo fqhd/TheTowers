@@ -48,7 +48,9 @@ void PauseMenu::addImages(Settings& settings, GUICanvas& workspace){
      workspace.images.push_back(GUIImage(glm::vec4(0, 0, Constants::getScreenWidth(), Constants::getScreenHeight()), ColorRGBA8(0, 0, 0, 150)));
      workspace.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_BG_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_BG_HEIGHT / 2.0f, MENU_BG_WIDTH, MENU_BG_HEIGHT), ColorRGBA8(50, 50, 50, 255)));
      workspace.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f, MENU_WIDTH, MENU_HEIGHT), ColorRGBA8(20, 20, 20, 255)));
-     workspace.images.push_back(GUIImage(glm::vec4(600, 190, 128, 128), ColorRGBA8(0, 0, 0, 255)));
+	workspace.images.push_back(GUIImage(glm::vec4(598, 188, 132, 132), ColorRGBA8(0, 0, 0, 255)));
+	workspace.images.push_back(GUIImage(glm::vec4(600, 190, 128, 128), ColorRGBA8(0, 0, 0, 255)));
+
 
 }
 
@@ -111,7 +113,7 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GU
 
      }
 
-     workspace.images[3].color = ColorRGBA8(workspace.sliders[0].getValue() * 255, workspace.sliders[1].getValue() * 255, workspace.sliders[2].getValue() * 255, 255);
+     workspace.images[4].color = ColorRGBA8(workspace.sliders[0].getValue() * 255, workspace.sliders[1].getValue() * 255, workspace.sliders[2].getValue() * 255, 255);
 
      workspace.update();
      updateValues(settings, workspace);
