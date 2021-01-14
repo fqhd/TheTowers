@@ -20,7 +20,7 @@ struct GUITextVertex {
 class GUITextMesh {
 public:
 
-     GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex);
+     GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool shouldRender = true);
      void render();
      void destroy();
 	void pushData(const std::vector<GUITextVertex>& vertices);
@@ -41,7 +41,7 @@ private:
 	std::string m_string;
      GLuint m_vaoID = 0;
      GLuint m_vboID = 0;
-	GLuint m_numVertices;
+	GLuint m_numVertices = 0;
 
 };
 

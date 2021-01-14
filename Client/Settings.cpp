@@ -29,7 +29,9 @@ void Settings::readFromFile(){
                is >> vsync;
           }else if(s == "ShowFPS:"){
                is >> showFPS;
-          }else if(s == "Front:"){
+          }else if(s == "ShowDebugInfo:"){
+			is >> showDebugInfo;
+		}else if(s == "Front:"){
                is >> front;
           }else if(s == "Back:"){
                is >> back;
@@ -61,6 +63,7 @@ void Settings::writeToFile(){
 
      os << "ShowFPS: " << showFPS << std::endl;
      os << "Vsync: " << vsync << std::endl;
+	os << "ShowDebugInfo: " << showDebugInfo << std::endl;
      os << "Front: " << front << std::endl;
      os << "Back: " << back << std::endl;
      os << "Up: " << up << std::endl;

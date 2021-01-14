@@ -2,7 +2,7 @@
 #include "Utils.hpp"
 
 
-GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex){
+GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool shouldRender){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
@@ -20,6 +20,7 @@ GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const Co
 
 	m_string = string;
 	m_fontIndex = fontIndex;
+	shouldBeDrawn = shouldRender;
 	color = c;
 	position = p;
 }

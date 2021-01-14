@@ -11,6 +11,7 @@ public:
 
      bool showFPS = false;
      bool vsync = false;
+	bool showDebugInfo = false;
      unsigned int front = 0;
      unsigned int back = 0;
      unsigned int up = 0;

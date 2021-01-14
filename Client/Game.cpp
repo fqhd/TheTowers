@@ -28,6 +28,10 @@ void Game::initGUI(GUICanvas& workspace){
 	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 4, Constants::getScreenHeight() / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
 	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
 	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 48), ColorRGBA8(), 0);
+	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 150), ColorRGBA8(), 0);
+	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 200), ColorRGBA8(), 0);
+	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 250), ColorRGBA8(), 0);
+
 }
 
 void Game::connectToServer(){
@@ -98,11 +102,7 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	m_particleHandler.update(deltaTime);
 	workspace.update();
 
-     //Updating GUI color
-	workspace.images.at(1).color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
-	//Updating if we should or should not render the FPS
-	workspace.textMeshes.at(0).shouldBeDrawn = settings.showFPS;
-
+	updateGUIElements(player, workspace, settings);
 	sendPositionDataToServer();
 
 }
@@ -123,6 +123,24 @@ void Game::sendPositionDataToServer(){
 	}
 
 
+}
+
+void Game::updateGUIElements(Player& player, GUICanvas& workspace, Settings& settings){
+	//Updating text rendering
+	workspace.textMeshes.at(0).shouldBeDrawn = settings.showFPS;
+	if(settings.showDebugInfo){
+		//If this is on we have to update the text meshes based on the position of the player
+		workspace.textMeshes.at(1).setString("X: " + std::to_string(m_camera.getPosition().x));
+		workspace.textMeshes.at(2).setString("Y: " + std::to_string(m_camera.getPosition().y));
+		workspace.textMeshes.at(3).setString("Z: " + std::to_string(m_camera.getPosition().z));
+
+	}
+	workspace.textMeshes.at(1).shouldBeDrawn = settings.showDebugInfo;
+	workspace.textMeshes.at(2).shouldBeDrawn = settings.showDebugInfo;
+	workspace.textMeshes.at(3).shouldBeDrawn = settings.showDebugInfo;
+
+	//Updating GUI color
+	workspace.images.at(1).color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
 }
 
 void Game::receiveGameUpdatePacket(){

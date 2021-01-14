@@ -26,7 +26,7 @@ public:
      void render(Settings& settings, Player& player, float deltaTime);
      void destroy();
 
-
+	void updateGUIElements(Player& player, GUICanvas& workspace, Settings& settings);
      void updateElementsBasedOnResize();
 
 

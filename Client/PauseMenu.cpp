@@ -26,6 +26,7 @@ void PauseMenu::init(Settings& settings, GUICanvas& workspace){
 void PauseMenu::addText(GUICanvas& workspace){
 	workspace.textMeshes.emplace_back("Show FPS", glm::vec2(280, 510), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("Vertical Sync", glm::vec2(280, 460), ColorRGBA8(), 0);
+	workspace.textMeshes.emplace_back("Show Debug Info", glm::vec2(280, 410), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("RED", glm::vec2(220, 200), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("GREEN", glm::vec2(220, 250), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("BLUE", glm::vec2(220, 300), ColorRGBA8(), 0);
@@ -55,6 +56,8 @@ void PauseMenu::addCheckboxes(Settings& settings, GUICanvas& workspace){
 	//Checkboxes
      workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showFPS));
      workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.vsync));
+	workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 350, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showDebugInfo));
+
 }
 
 void PauseMenu::addSliders(Settings& settings, GUICanvas& workspace){
@@ -86,6 +89,7 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GU
 
           settings.showFPS = workspace.checkboxes[0].isChecked();
           settings.vsync = workspace.checkboxes[1].isChecked();
+		settings.showDebugInfo = workspace.checkboxes[2].isChecked();
           if(settings.vsync){
                Window::setVerticalSyncEnabled(true);
           } else {
