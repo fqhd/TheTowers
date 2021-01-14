@@ -7,15 +7,14 @@
 class GUICheckbox {
 public:
 
-     GUICheckbox(const glm::vec4& destRect, const ColorRGBA8& onColor, const ColorRGBA8& offColor, bool isChecked);
+     GUICheckbox(const glm::vec4& destRect, const ColorRGBA8& onColor, const ColorRGBA8& offColor, bool checked = false);
      void update();
      void render(GUIRenderer& renderer);
 
-     bool isChecked();
+	bool isChecked = false;
 
 private:
 
-     bool m_isChecked = false;
      glm::vec4 m_destRect;
      ColorRGBA8 m_offColor;
      ColorRGBA8 m_onColor;

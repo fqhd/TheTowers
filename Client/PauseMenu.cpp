@@ -18,12 +18,12 @@ void PauseMenu::init(Settings& settings, GUICanvas& workspace){
 	addCheckboxes(settings, workspace);
 	addSliders(settings, workspace);
 	addKeyboxes(settings, workspace);
-	addText(workspace);
+	addText(settings, workspace);
 
 
 }
 
-void PauseMenu::addText(GUICanvas& workspace){
+void PauseMenu::addText(Settings& settings, GUICanvas& workspace){
 	workspace.textMeshes.emplace_back("Show FPS", glm::vec2(280, 510), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("Vertical Sync", glm::vec2(280, 460), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("Show Debug Info", glm::vec2(280, 410), ColorRGBA8(), 0);
@@ -39,7 +39,7 @@ void PauseMenu::addText(GUICanvas& workspace){
 	workspace.textMeshes.emplace_back("Left", glm::vec2(420, 620), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("Right", glm::vec2(420, 580), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("Up", glm::vec2(620, 620), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Down", glm::vec2(620, 580), ColorRGBA8(), 0);
+	workspace.textMeshes.emplace_back("Down", glm::vec2(620, 580), ColorRGBA8(), 0); workspace.textMeshes.emplace_back("Save", glm::vec2(990, 75), ColorRGBA8(), 0);
 
 }
 
@@ -81,17 +81,20 @@ void PauseMenu::addKeyboxes(Settings& settings, GUICanvas& workspace){
      workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.right));
      workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.up));
      workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.down));
+	workspace.buttons.push_back(GUIButton(glm::vec4(950, 70, 128, 32), ColorRGBA8(156, 0, 252, 255)));
 }
 
 
 void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace){
      if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
-          Window::setMouseCursorGrabbed(true);
+		Window::setMouseCursorGrabbed(true);
+		state = GameStates::PLAY;
+		applySettingsToWorkspace(settings, workspace);
+     }else if(workspace.buttons.at(0).isPressed()){
+		applyWorkspaceToSettings(workspace, settings);
+		Window::setMouseCursorGrabbed(true);
           state = GameStates::PLAY;
 
-          settings.showFPS = workspace.checkboxes[0].isChecked();
-          settings.vsync = workspace.checkboxes[1].isChecked();
-		settings.showDebugInfo = workspace.checkboxes[2].isChecked();
           if(settings.vsync){
                Window::setVerticalSyncEnabled(true);
           } else {
@@ -104,14 +107,7 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GU
 
           player.selectedBlock = blueValue + greenValue + redValue;
 
-          settings.front = workspace.keyboxes[0].getValue();
-          settings.back = workspace.keyboxes[1].getValue();
-          settings.left = workspace.keyboxes[2].getValue();
-          settings.right = workspace.keyboxes[3].getValue();
-          settings.up = workspace.keyboxes[4].getValue();
-          settings.down = workspace.keyboxes[5].getValue();
-
-     }
+	}
 
      workspace.images[4].color = ColorRGBA8(workspace.sliders[0].getValue() * 255, workspace.sliders[1].getValue() * 255, workspace.sliders[2].getValue() * 255, 255);
 
@@ -125,4 +121,35 @@ void PauseMenu::updateValues(Settings& settings, GUICanvas& workspace){
      settings.playerSpeed = workspace.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
      settings.density = workspace.sliders[5].getValue() * Constants::getMaxDensity();
      settings.gradient = workspace.sliders[6].getValue() * Constants::getMaxGradient();
+}
+
+void PauseMenu::applySettingsToWorkspace(Settings& settings, GUICanvas& workspace){
+	//Set keyboxes
+	workspace.keyboxes[0].value = settings.front;
+	workspace.keyboxes[1].value = settings.back;
+	workspace.keyboxes[2].value = settings.left;
+	workspace.keyboxes[3].value = settings.right;
+	workspace.keyboxes[4].value = settings.up;
+	workspace.keyboxes[5].value = settings.down;
+
+	//Setting Checkboxes
+	workspace.checkboxes[0].isChecked = settings.showFPS;
+	workspace.checkboxes[1].isChecked = settings.vsync;
+	workspace.checkboxes[2].isChecked = settings.showDebugInfo;
+}
+
+void PauseMenu::applyWorkspaceToSettings(GUICanvas& workspace, Settings& settings){
+	//Applying keyboxes
+	settings.front = workspace.keyboxes[0].value;
+	settings.back = workspace.keyboxes[1].value;
+	settings.left = workspace.keyboxes[2].value;
+	settings.right = workspace.keyboxes[3].value;
+	settings.up = workspace.keyboxes[4].value;
+	settings.down = workspace.keyboxes[5].value;
+
+	//Applying Checkboxes
+	settings.showFPS = workspace.checkboxes[0].isChecked;
+	settings.vsync = workspace.checkboxes[1].isChecked;
+	settings.showDebugInfo = workspace.checkboxes[2].isChecked;
+
 }

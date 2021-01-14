@@ -11,11 +11,11 @@ public:
      void update();
      void render(GUIRenderer& renderer);
 
-     float getValue();
+	float getValue();
 
 private:
 
-     float m_value = 0.0f;
+	float m_value = 0.0f;
      bool m_isSelected = false;
      glm::vec4 m_buttonRect;
      glm::vec2 m_position;

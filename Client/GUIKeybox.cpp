@@ -3,10 +3,10 @@
 #include "Constants.hpp"
 
 
-GUIKeybox::GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int value){
+GUIKeybox::GUIKeybox(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int v){
      m_destRect = destRect;
      m_baseColor = color;
-     m_value = value;
+     value = v;
 }
 
 void GUIKeybox::update(std::vector<GUIKeybox>& keyboxes){
@@ -17,7 +17,7 @@ void GUIKeybox::update(std::vector<GUIKeybox>& keyboxes){
      if(InputManager::getLastKeyPressed() != -1 && m_isSelected){
           m_isSelected = false;
           m_currentColor = m_baseColor;
-          m_value = InputManager::getLastKeyPressed();
+          value = InputManager::getLastKeyPressed();
      }
 
      if(Utils::isInside(Utils::flipCoords(mousePos, Constants::getScreenHeight()), m_destRect)){
@@ -40,8 +40,4 @@ void GUIKeybox::update(std::vector<GUIKeybox>& keyboxes){
 
 void GUIKeybox::render(GUIRenderer& renderer){
      renderer.draw(m_destRect, m_currentColor);
-}
-
-unsigned int GUIKeybox::getValue(){
-     return m_value;
 }

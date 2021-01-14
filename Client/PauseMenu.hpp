@@ -16,12 +16,14 @@ public:
 
 private:
 
+	void applySettingsToWorkspace(Settings& settings, GUICanvas& workspace);
+	void applyWorkspaceToSettings(GUICanvas& workspace, Settings& settings);
 	void updateValues(Settings& settings, GUICanvas& workspace);
 	void addImages(Settings& settings, GUICanvas& workspace);
 	void addCheckboxes(Settings& settings, GUICanvas& workspace);
 	void addSliders(Settings& settings, GUICanvas& workspace);
 	void addKeyboxes(Settings& settings, GUICanvas& workspace);
-	void addText(GUICanvas& workspace);
+	void addText(Settings& settings, GUICanvas& workspace);
 
 
 };
