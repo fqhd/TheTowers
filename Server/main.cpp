@@ -250,9 +250,9 @@ void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, ui
 	unsigned int cs = cw * cw * cw;
 
 	//Variables for received packet information
-	int x;
-	int y;
-	int z;
+	uint32_t x;
+	uint32_t y;
+	uint32_t z;
 	uint8_t b;
 
 	//Depackaging packet

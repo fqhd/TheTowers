@@ -28,7 +28,6 @@ void Player::getVisibleBlocks(Camera& camera, World& world){
           rayPosition += camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
           uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
           if(blockID){
-
                visibleBlocks.lookingAtBlock = true;
                visibleBlocks.breakableBlock = vecToBlock(rayPosition);
                rayPosition -= camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
@@ -51,7 +50,7 @@ void Player::breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, Wor
 void Player::sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::TcpSocket& socket){
 
      sf::Packet packet;
-     packet << (uint8_t)0 << (uint32_t)blockUpdate.x << (uint32_t)blockUpdate.y << (uint32_t)blockUpdate.z << block;
+     packet << (uint32_t)blockUpdate.x << (uint32_t)blockUpdate.y << (uint32_t)blockUpdate.z << block;
      socket.send(packet);
 
 }

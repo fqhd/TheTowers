@@ -30,12 +30,12 @@ unsigned int Chunk::getNumVertices(){
 }
 
 
-void Chunk::pushData(const std::vector<Vertex>& vertices){
+void Chunk::pushData(Vertex* vertices, unsigned int numVertices){
 
-	m_numVertices = vertices.size();
+	m_numVertices = numVertices;
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * numVertices, vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 }

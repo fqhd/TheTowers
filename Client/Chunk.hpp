@@ -15,7 +15,7 @@ public:
 
 	void render();
 	void destroy();
-	void pushData(const std::vector<Vertex>& vertices);
+	void pushData(Vertex* vertices, unsigned int numVertices);
 
 	void setX(int x);
 	void setY(int y);

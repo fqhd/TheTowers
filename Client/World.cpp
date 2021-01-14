@@ -41,6 +41,10 @@ void World::update(const std::vector<vec3>& colors, const glm::vec3& previousCam
           moveFront();
      }
 
+	if(InputManager::isKeyPressed(GLFW_KEY_Y)){
+		Utils::printAverage(samples);
+	}
+
 }
 
 
@@ -158,6 +162,9 @@ void World::destroy(){
 
 void World::updateChunks(const std::vector<vec3>& colors) {
 
+	sf::Clock clock;
+	bool needsPrint = false;
+
      for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
 
           for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
@@ -168,12 +175,15 @@ void World::updateChunks(const std::vector<vec3>& colors) {
 
                     if(c->needsUpdate){
                          generateMesh(colors, c);
+					needsPrint = true;
                          c->needsUpdate = false;
                     }
 
                }
           }
      }
+
+	if(needsPrint) samples.push_back(clock.getElapsedTime().asSeconds());
 
 }
 
@@ -202,7 +212,7 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
           }
      }
 
-     chunk->pushData(m_vertices);
+     chunk->pushData(m_vertices.data(), m_vertices.size());
 
 }
 
