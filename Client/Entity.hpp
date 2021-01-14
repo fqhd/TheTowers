@@ -8,14 +8,13 @@ class Entity {
 public:
 
      Entity();
-     Entity(const vec3& c, const Transform& t);
+     Entity(const Transform& t);
 
      void update(float deltaTime);
 
 	void setTargetPosition(const glm::vec3& position);
 	void setForward(float pitch, float yaw);
 
-     const vec3& getColor();
 	Transform transform;
 
 
@@ -28,7 +27,6 @@ private:
      float m_targetYaw = 0.0f;
      float m_currentPitch = 0.0f;
      float m_currentYaw = 0.0f;
-     vec3 m_color;
 
 };
 

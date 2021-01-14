@@ -19,7 +19,7 @@ void OutlineRenderer::init(){
           -0.001f, -0.001f, 1.001f,
           -0.001f, 1.001f, 1.001f,
           1.001f, 1.001f, 1.001f,
-          1.001f, 0.001f, 1.001f,
+          1.001f, -0.001f, 1.001f,
      };
 
      glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);

@@ -16,7 +16,7 @@ public:
 
      void init();
      void update(sf::UdpSocket& socket, float deltaTime);
-     void render(Settings& settings, Camera& camera);
+     void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
      void destroy();
      void removeEntity(uint8_t entity);
 

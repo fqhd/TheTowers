@@ -5,13 +5,8 @@ Entity::Entity(){
 
 }
 
-Entity::Entity(const vec3& c, const Transform& t){
+Entity::Entity(const Transform& t){
      transform = t;
-     m_color = c;
-}
-
-const vec3& Entity::getColor(){
-     return m_color;
 }
 
 void Entity::update(float deltaTime){
