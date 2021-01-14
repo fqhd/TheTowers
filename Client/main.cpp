@@ -61,8 +61,8 @@ int main() {
 			handler.renderWorkspace(1);
 		}
 
-		if(Window::isCloseRequested()) state = GameStates::EXIT;
 		Window::update();
+		if(Window::isCloseRequested()) state = GameStates::EXIT;
 	}
 
 	settings.writeToFile();

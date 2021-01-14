@@ -20,7 +20,11 @@ void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& color
 }
 
 void Player::getVisibleBlocks(Camera& camera, World& world){
+	glm::ivec3 pos = vecToBlock(camera.getPosition());
      visibleBlocks.lookingAtBlock = false;
+	visibleBlocks.isInsideBlock = world.getBlock(pos.x, pos.y, pos.z) ? true : false;
+
+
 
      glm::vec3 rayPosition = camera.getPosition();
      for(unsigned int i = 0; i < Constants::getPrecision(); i++){
@@ -53,7 +57,7 @@ void Player::sendBlockData(const glm::ivec3& blockUpdate, uint8_t block, sf::Tcp
      sf::Packet packet;
      packet << blockUpdate.x << blockUpdate.y << blockUpdate.z << block;
      socket.send(packet);
-	
+
 }
 
 glm::ivec3 Player::vecToBlock(const glm::vec3& vec){

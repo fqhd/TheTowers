@@ -8,7 +8,7 @@ void BlockOutline::init(){
 void BlockOutline::render(Player& player, Camera& camera){
 
 	//Checking if the player is facing a block in order to draw an outline
-     if(!player.visibleBlocks.lookingAtBlock) return;
+     if(!player.visibleBlocks.lookingAtBlock || player.visibleBlocks.isInsideBlock) return;
 
 	//Getting the face of the block that the player is facing
      Face blockFace = getFace(player.visibleBlocks);

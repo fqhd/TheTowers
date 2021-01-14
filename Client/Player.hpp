@@ -10,6 +10,7 @@ struct VisibleBlocks {
      glm::ivec3 breakableBlock; // The block that the player is looking at
      glm::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
      bool lookingAtBlock = false;
+	bool isInsideBlock = false;
 };
 
 class Player {
