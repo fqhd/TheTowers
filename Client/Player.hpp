@@ -25,7 +25,7 @@ private:
      void getVisibleBlocks(Camera& camera, World& world);
      void placeBlock(World& world);
      void breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, World& world);
-     void sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::TcpSocket& socket);
+     void sendBlockData(const glm::ivec3& blockUpdate, uint8_t block, sf::TcpSocket& socket);
 	glm::ivec3 vecToBlock(const glm::vec3& vector);
 
 };

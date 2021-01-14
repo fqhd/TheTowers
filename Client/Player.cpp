@@ -1,7 +1,6 @@
 #include "Player.hpp"
 #include "Constants.hpp"
 #include "Utils.hpp"
-#include <iostream>
 
 
 void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket){
@@ -12,10 +11,10 @@ void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& color
 
      if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
           breakBlock(handler, colors, world);
-          //sendBlockData(visibleBlocks.breakableBlock, 0, socket);
+          sendBlockData(visibleBlocks.breakableBlock, 0, socket);
      } else if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
           placeBlock(world);
-          //sendBlockData(visibleBlocks.placeableBlock, selectedBlock, socket);
+          sendBlockData(visibleBlocks.placeableBlock, selectedBlock, socket);
      }
 
 }
@@ -49,12 +48,12 @@ void Player::breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, Wor
      handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, colors[blockID]);
 }
 
-void Player::sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::TcpSocket& socket){
+void Player::sendBlockData(const glm::ivec3& blockUpdate, uint8_t block, sf::TcpSocket& socket){
 
      sf::Packet packet;
-     packet << (uint32_t)blockUpdate.x << (uint32_t)blockUpdate.y << (uint32_t)blockUpdate.z << block;
+     packet << blockUpdate.x << blockUpdate.y << blockUpdate.z << block;
      socket.send(packet);
-
+	
 }
 
 glm::ivec3 Player::vecToBlock(const glm::vec3& vec){

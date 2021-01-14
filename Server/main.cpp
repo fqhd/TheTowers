@@ -54,9 +54,10 @@ int main(){
 
 				sf::Packet receivedPacket;
 				uint8_t remoteClientID = getReceivedPacket(selector, receivedPacket);
-				updateWorldBasedOnPacket(constants, receivedPacket, worldData);
-				sendPacketToOtherClients(receivedPacket, remoteClientID);
-
+				if(remoteClientID){
+					updateWorldBasedOnPacket(constants, receivedPacket, worldData);
+					sendPacketToOtherClients(receivedPacket, remoteClientID);
+				}
 			}
 		}
 
@@ -183,7 +184,7 @@ Constants getConstants(){
 }
 
 uint8_t createUniqueID(){
-	uint8_t id = rand()%256;
+	uint8_t id = rand()%255 + 1;
 	if(!doesIDExist(id)){
 		return id;
 	}
@@ -250,13 +251,17 @@ void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, ui
 	unsigned int cs = cw * cw * cw;
 
 	//Variables for received packet information
-	uint32_t x;
-	uint32_t y;
-	uint32_t z;
+	int x;
+	int y;
+	int z;
 	uint8_t b;
 
 	//Depackaging packet
 	packet >> x >> y >> z >> b;
+
+	x = x % (ww * cw);
+	y = y % (wh * cw);
+	z = z % (ww * cw);
 
 	//Updating world data based on sent packet
 	if(!(x < 0 || x >= cw * ww || y < 0 || y >= cw * wh || z < 0 || z >= cw * ww)){
@@ -272,9 +277,9 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 		if(selector.isReady(*clients[i].socket)){
 			sf::Socket::Status status = clients[i].socket->receive(packet);
 
-			if(status == sf::Socket::Done){
+			if(status == sf::Socket::Done){ // Got a valid packet
 				return clients[i].id;
-			}else if(status == sf::Socket::Disconnected){
+			}else if(status == sf::Socket::Disconnected){ // The client has disconnected
 
 				packet.clear();
 				packet << (uint8_t)8 << clients[i].id;
@@ -287,6 +292,7 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 				clients[i].socket = nullptr;
 				clients[i] = clients.back();
 				clients.pop_back();
+				return 0;
 			}
 
 
