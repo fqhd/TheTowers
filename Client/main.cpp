@@ -33,7 +33,7 @@ int main() {
 	Constants::loadFromFile();
 	Constants::printDebugMessage();
 	settings.readFromFile();
-	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", false, true);
+	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", true, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
 	handler.createWorkspaces(2);
