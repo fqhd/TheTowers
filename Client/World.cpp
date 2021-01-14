@@ -234,49 +234,46 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
      unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
      unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
-     if(!(x < 0 || x >= maxW ||
-          y < 0 || y >= maxH ||
-          z < 0 || z >= maxW )){
+	x = x % maxW;
+	y = y % maxH;
+	z = z % maxW;
 
-               m_data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
+     m_data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
 
-          unsigned int posX = x / Constants::getChunkWidth();
-          unsigned int posY = y / Constants::getChunkWidth();
-          unsigned int posZ = z / Constants::getChunkWidth();
+     unsigned int posX = x / Constants::getChunkWidth();
+     unsigned int posY = y / Constants::getChunkWidth();
+     unsigned int posZ = z / Constants::getChunkWidth();
 
-          posX -= m_chunkOffsetX;
-          posZ -= m_chunkOffsetZ;
+     posX -= m_chunkOffsetX;
+     posZ -= m_chunkOffsetZ;
 
+     getChunk(posX, posY, posZ)->needsUpdate = true;
 
-
-          getChunk(posX, posY, posZ)->needsUpdate = true;
-
-          //Update neighboring chunks if block is on the edge of the current chunk
-		if(x % Constants::getChunkWidth() == 0){
-			Chunk* chunk = getChunk(posX - 1, posY, posZ);
-			if(chunk) chunk->needsUpdate = true;
-		}
-		if((x + 1) % Constants::getChunkWidth() == 0){
-			Chunk* chunk = getChunk(posX + 1, posY, posZ);
-			if(chunk) chunk->needsUpdate = true;
-		}
-          if(z % Constants::getChunkWidth() == 0){
-			Chunk* chunk = getChunk(posX, posY, posZ - 1);
-			if(chunk) chunk->needsUpdate = true;
-		}
-		if((z + 1) % Constants::getChunkWidth() == 0){
-			Chunk* chunk = getChunk(posX, posY, posZ + 1);
-			if(chunk) chunk->needsUpdate = true;
-		}
-          if(y % Constants::getChunkWidth() == 0){
-			Chunk* chunk = getChunk(posX, posY - 1, posZ);
-			if(chunk) chunk->needsUpdate = true;
-		}
-		if((y + 1) % Constants::getChunkWidth() == 0){
-			Chunk* chunk = getChunk(posX, posY + 1, posZ);
-			if(chunk) chunk->needsUpdate = true;
-		}
-     }
+     //Update neighboring chunks if block is on the edge of the current chunk
+	if(x % Constants::getChunkWidth() == 0){
+		Chunk* chunk = getChunk(posX - 1, posY, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if((x + 1) % Constants::getChunkWidth() == 0){
+		Chunk* chunk = getChunk(posX + 1, posY, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
+     if(z % Constants::getChunkWidth() == 0){
+		Chunk* chunk = getChunk(posX, posY, posZ - 1);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if((z + 1) % Constants::getChunkWidth() == 0){
+		Chunk* chunk = getChunk(posX, posY, posZ + 1);
+		if(chunk) chunk->needsUpdate = true;
+	}
+     if(y % Constants::getChunkWidth() == 0){
+		Chunk* chunk = getChunk(posX, posY - 1, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if((y + 1) % Constants::getChunkWidth() == 0){
+		Chunk* chunk = getChunk(posX, posY + 1, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
 }
 
 

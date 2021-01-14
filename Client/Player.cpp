@@ -12,10 +12,10 @@ void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& color
 
      if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
           breakBlock(handler, colors, world);
-          sendBlockData(visibleBlocks.breakableBlock, 0, socket);
+          //sendBlockData(visibleBlocks.breakableBlock, 0, socket);
      } else if(InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
           placeBlock(world);
-          sendBlockData(visibleBlocks.placeableBlock, selectedBlock, socket);
+          //sendBlockData(visibleBlocks.placeableBlock, selectedBlock, socket);
      }
 
 }
@@ -26,10 +26,12 @@ void Player::getVisibleBlocks(Camera& camera, World& world){
      glm::vec3 rayPosition = camera.getPosition();
      for(unsigned int i = 0; i < Constants::getPrecision(); i++){
           rayPosition += camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
-          uint8_t blockID = world.getBlock(rayPosition.x, rayPosition.y, rayPosition.z);
+
+		visibleBlocks.breakableBlock = vecToBlock(rayPosition);
+          uint8_t blockID = world.getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
+
           if(blockID){
                visibleBlocks.lookingAtBlock = true;
-               visibleBlocks.breakableBlock = vecToBlock(rayPosition);
                rayPosition -= camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());
                visibleBlocks.placeableBlock = vecToBlock(rayPosition);
                break;
@@ -55,9 +57,6 @@ void Player::sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::Tcp
 
 }
 
-glm::uvec3 Player::vecToBlock(const glm::vec3& vec){
-	return glm::uvec3(
-     vec.x < 0 ? (unsigned int)vec.x - 1  : (unsigned int)vec.x,
-     vec.y < 0 ? (unsigned int)vec.y - 1  : (unsigned int)vec.y,
-     vec.z < 0 ? (unsigned int)vec.z - 1  : (unsigned int)vec.z);
+glm::ivec3 Player::vecToBlock(const glm::vec3& vec){
+	return glm::ivec3(floor(vec.x), floor(vec.y), floor(vec.z));
 }

@@ -7,8 +7,8 @@
 #include <SFML/Network.hpp>
 
 struct VisibleBlocks {
-     glm::uvec3 breakableBlock; // The block that the player is looking at
-     glm::uvec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
+     glm::ivec3 breakableBlock; // The block that the player is looking at
+     glm::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
      bool lookingAtBlock = false;
 };
 
@@ -26,7 +26,7 @@ private:
      void placeBlock(World& world);
      void breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, World& world);
      void sendBlockData(const glm::uvec3& blockUpdate, uint8_t block, sf::TcpSocket& socket);
-	glm::uvec3 vecToBlock(const glm::vec3& vector);
+	glm::ivec3 vecToBlock(const glm::vec3& vector);
 
 };
 
