@@ -29,14 +29,6 @@ uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
     return buffer;
 }
 
-void Utils::printAverage(const std::vector<float> samples){
-	float total;
-	for(auto& i : samples){
-		total += i;
-	}
-	log("Average: " + std::to_string(total/samples.size()) + " with " + std::to_string(samples.size()) + " samples");
-}
-
 void Utils::freeBuffer(uint8_t* buffer){
 	free(buffer);
 }

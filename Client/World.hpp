@@ -45,9 +45,8 @@ private:
 
      //We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
      std::vector<Vertex> m_vertices;
-	std::vector<float> samples;
 
-     Chunk* m_chunks;
+     Chunk* m_chunks = nullptr;
      ChunkShader m_shader;
      unsigned int m_chunkOffsetX = 0;
      unsigned int m_chunkOffsetZ = 0;

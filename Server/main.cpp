@@ -218,16 +218,16 @@ void compressAndSendWorld(uint8_t* data, const Constants& constants){
 
 	//Compressing the world into a packet
 	sf::Packet packet;
-	sf::Uint64 numBlocks = 1;
-	for(sf::Uint64 i = 1; i < (ww * ww * wh * cs) - 1; i++){
+	uint32_t numBlocks = 1;
+	for(uint32_t i = 1; i < (ww * ww * wh * cs) - 1; i++){
 		if(data[i - 1] != data[i]){
-			packet << (sf::Uint8)data[i - 1] << numBlocks;
+			packet << (uint8_t)data[i - 1] << numBlocks;
 			numBlocks = 1;
 		}else{
 			numBlocks++;
 		}
 	}
-	packet << (sf::Uint8)data[ww * ww * wh * cs - 1] << numBlocks;
+	packet << (uint8_t)data[ww * ww * wh * cs - 1] << numBlocks;
 
 	//Sending the packet containing the compressed world to the newly connected client
 	clients.back().socket->send(packet);

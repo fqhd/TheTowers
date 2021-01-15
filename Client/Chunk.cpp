@@ -1,6 +1,19 @@
 #include "Chunk.hpp"
 #include "Constants.hpp"
 
+Chunk::Chunk(){
+	needsUpdate = true;
+	m_x = 0;
+	m_y = 0;
+	m_z = 0;
+	m_numVertices = 0;
+	m_vaoID = 0;
+	m_vboID = 0;
+}
+
+Chunk::~Chunk(){
+
+}
 
 void Chunk::init(int x, int y, int z){
 

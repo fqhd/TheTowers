@@ -19,7 +19,6 @@ int main() {
 		return 0;
 	}
 
-
 	//Program Variables
 	Player player;
 	Game game;
@@ -67,8 +66,8 @@ int main() {
 
 	settings.writeToFile();
 
+	handler.destroy();
 	game.destroy();
-
 	Window::close();
 
 

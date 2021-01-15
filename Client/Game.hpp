@@ -64,6 +64,7 @@ private:
 	sf::UdpSocket m_udpSocket;
 	std::vector<vec3> m_colors;
      uint8_t m_id = 0;
+	uint8_t* m_data = nullptr;
 
 
 };

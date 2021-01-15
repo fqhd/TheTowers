@@ -53,7 +53,7 @@ void Game::connectToServer(){
 void Game::receiveAndDecompressPacket(){
 
 	//Allocating memory for the world
-	uint8_t* data = (uint8_t*)malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize());
+	m_data = (uint8_t*)malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize());
 
 	sf::Packet packet;
 
@@ -62,24 +62,25 @@ void Game::receiveAndDecompressPacket(){
 	m_tcpSocket.receive(packet);
 	m_tcpSocket.setBlocking(false);
 
-	sf::Uint64 size = packet.getDataSize();
+	//Printing information
+	uint32_t size = packet.getDataSize();
 	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
 	Utils::log("World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize())) * 100.0f) + "%");
 
 	//Decompressing the world into allocated memory
-	sf::Uint8 blockID = 0;
-	sf::Uint64 pointer = 0;
+	uint8_t blockID = 0;
+	uint32_t pointer = 0;
 	while(packet >> blockID){
-		sf::Uint64 numBlocks = 0;
+		uint32_t numBlocks = 0;
 		packet >> numBlocks;
-		for(sf::Uint64 i = 0; i < numBlocks; i++){
-			data[pointer + i] = blockID;
+		for(uint32_t i = 0; i < numBlocks; i++){
+			m_data[pointer + i] = blockID;
 		}
 		pointer += numBlocks;
 	}
 
 	//Initializing the world with decompressed data
-	m_world.init(data);
+	m_world.init(m_data);
 
 }
 
@@ -183,6 +184,11 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 }
 
 void Game::destroy(){
+
+	//Freeing world data
+	free(m_data);
+
+	m_cubeMap.destroy();
 	m_entityHandler.destroy();
 	m_world.destroy();
 	m_cubeMap.destroy();

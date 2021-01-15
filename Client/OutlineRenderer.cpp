@@ -65,5 +65,6 @@ void OutlineRenderer::renderFace(Face face){
 
 void OutlineRenderer::destroy(){
      glDeleteBuffers(1, &m_vboID);
+	glDeleteBuffers(1, &m_eboID);
      glDeleteVertexArrays(1, &m_vaoID);
 }
