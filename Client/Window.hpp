@@ -1,7 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#include <GL/glew.h>
 #include <string>
+#include "glad.h"
 #include "Utils.hpp"
 #include "InputManager.hpp"
 

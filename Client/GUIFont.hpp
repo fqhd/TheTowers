@@ -1,7 +1,7 @@
 #ifndef GUI_FONT_H
 #define GUI_FONT_H
 
-#include <GL/glew.h>
+#include "glad.h"
 #include <string>
 #include "GUITextMesh.hpp"
 #include "stb_truetype.h"

@@ -2,7 +2,7 @@
 #define CAMERA_H
 #include <glm/gtx/transform.hpp>
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include "glad.h"
 #include "Chunk.hpp"
 #include "InputManager.hpp"
 #include "Settings.hpp"

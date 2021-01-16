@@ -1,12 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 #include <SFML/Network.hpp>
-#include <GL/glew.h>
 #include <glm/gtc/noise.hpp>
 #include "InputManager.hpp"
 #include "Player.hpp"
 #include "ChunkShader.hpp"
 #include "World.hpp"
+#include "glad.h"
 #include "CubeMap.hpp"
 #include "ParticleHandler.hpp"
 #include "GameStates.hpp"

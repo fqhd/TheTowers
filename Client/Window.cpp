@@ -51,9 +51,10 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 	//Creating the context for opengl
 	glfwMakeContextCurrent(window);
 
-	//Initializing glew
-	if(glewInit() != GLEW_OK){
-		Utils::log("Window: Failed to initialize glew");
+	//Initializing opengl
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		Utils::log("Failed to initialize glad");
+		return;
 	}
 
 	//Enabling transparency
@@ -62,7 +63,7 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 
 	//Enabling depth
 	glEnable(GL_DEPTH_TEST);
-	glClearDepthf(1.0f);
+	glClearDepth(1.0);
 
 	//Enabling back face culling
 	glEnable(GL_CULL_FACE);

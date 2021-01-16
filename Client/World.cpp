@@ -63,22 +63,36 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 			for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
 				Chunk* c = getChunk(x, y, z);
-				if(c->getNumVertices() && !c->needsUpdate){
 
-                         unsigned int w = Constants::getChunkWidth();
-                         glm::vec3 min = glm::vec3(c->getX(), c->getY(), c->getZ());
-                         glm::vec3 max = min + glm::vec3(w, w, w);
+                    unsigned int w = Constants::getChunkWidth();
+                    glm::vec3 min = glm::vec3(c->getX(), c->getY(), c->getZ());
+                    glm::vec3 max = min + glm::vec3(w, w, w);
 
-                         if(f.IsBoxVisible(min, max)){
-                              c->render();
-                         }
-
+                    if(f.IsBoxVisible(min, max)){
+                         c->render();
                     }
+
                }
           }
      }
 
      m_shader.unbind();
+
+}
+
+void World::updateChunks(const std::vector<vec3>& colors){
+
+	for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
+			for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
+				Chunk* c = getChunk(x, y, z);
+				if(c->needsUpdate){
+					generateMesh(colors, c);
+					c->needsUpdate = false;
+				}
+			}
+		}
+	}
 
 }
 
@@ -156,31 +170,8 @@ void World::destroy(){
 
 }
 
-void World::updateChunks(const std::vector<vec3>& colors) {
-
-     for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
-
-          for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
-
-               for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
-
-                    Chunk* c = getChunk(x, y, z);
-
-                    if(c->needsUpdate){
-                         generateMesh(colors, c);
-                         c->needsUpdate = false;
-                    }
-
-               }
-          }
-     }
-
-}
-
-
 void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
-	if(!chunk) return;
      m_vertices.clear();
 
      for(unsigned int y = 0; y < Constants::getChunkWidth(); y++){
@@ -189,7 +180,9 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
                for(unsigned int x = 0; x < Constants::getChunkWidth(); x++){
 
-                    uint8_t block = getBlock(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z);
+				//May be better to get the surrounding blocks and then check against them rather than get the surrounding blocks every time. Because then, they will be stored in the cache rather than having to go look through the entire array of data for the surrounding blocks in ram which is farther away from the cpu
+
+				uint8_t block = getBlock(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z);
 
                     if(block){
                          addTopFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
@@ -243,27 +236,27 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
      //Update neighboring chunks if block is on the edge of the current chunk
 	if(x % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX - 1, posY, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		chunk->needsUpdate = true;
 	}
 	if((x + 1) % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX + 1, posY, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		chunk->needsUpdate = true;
 	}
      if(z % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY, posZ - 1);
-		if(chunk) chunk->needsUpdate = true;
+		chunk->needsUpdate = true;
 	}
 	if((z + 1) % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY, posZ + 1);
-		if(chunk) chunk->needsUpdate = true;
+		chunk->needsUpdate = true;
 	}
      if(y % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY - 1, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		chunk->needsUpdate = true;
 	}
 	if((y + 1) % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY + 1, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		chunk->needsUpdate = true;
 	}
 }
 
@@ -427,6 +420,5 @@ void World::addBackFace(int x, int y, int z, const vec3& color){
 
 	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	m_vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
-
 
 }

@@ -1,6 +1,6 @@
 #ifndef PARTICLE_QUAD_H
 #define PARTICLE_QUAD_H
-#include <GL/glew.h>
+#include "glad.h"
 #include <vector>
 #include <glm/glm.hpp>
 #include "Vertex.hpp"

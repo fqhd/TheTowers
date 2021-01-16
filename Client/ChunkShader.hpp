@@ -1,6 +1,5 @@
 #ifndef CHUNK_SHADER_H
 #define CHUNK_SHADER_H
-#include <GL/glew.h>
 #include <string>
 #include <fstream>
 #include <glm/glm.hpp>

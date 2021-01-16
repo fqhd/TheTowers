@@ -1,5 +1,5 @@
-cflags = -std=c++17 -O3 $$(pkg-config --cflags glfw3) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g -ggdb3
-lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glew) $$(pkg-config --libs glfw3)
+cflags = -std=c++17 -O3 $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g
+lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glfw3) -ldl
 
 rule cc
   command = clang++ -c $in -o $out $cflags
@@ -8,6 +8,7 @@ rule lnk
   command = clang++ -o out $in $lflags
 
 build main.o: cc main.cpp
+build glad.o: cc glad.cpp
 build blockoutline.o: cc BlockOutline.cpp
 build outlinerenderer.o: cc OutlineRenderer.cpp
 build blockoutlineshader.o: cc BlockOutlineShader.cpp
@@ -53,6 +54,5 @@ build objloader.o: cc OBJLoader.cpp
 build guitextmesh.o: cc GUITextMesh.cpp
 build guicanvas.o: cc GUICanvas.cpp
 
-build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o frustum.o blockoutlineshader.o blockoutline.o outlinerenderer.o guitextmesh.o guicanvas.o
-
+build out: lnk main.o inputmanager.o player.o chunk.o shader.o utils.o chunkshader.o game.o window.o camera.o world.o cubemap.o cube.o cubemapshader.o cubemaptexture.o particlehandler.o particle.o particlequad.o particleshader.o pausemenu.o guifont.o guifontshader.o guihandler.o guirenderer.o guishader.o guibutton.o guiimage.o checkbox.o slider.o guikeybox.o image.o constants.o settings.o transform.o model.o modelshader.o entityhandler.o entity.o objloader.o frustum.o blockoutlineshader.o blockoutline.o outlinerenderer.o guitextmesh.o guicanvas.o glad.o
 

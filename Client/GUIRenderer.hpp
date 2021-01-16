@@ -1,8 +1,8 @@
 #ifndef GUI_RENDERER_H
 #define GUI_RENDERER_H
-#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include "glad.h"
 #include "Vertex.hpp"
 #include "Utils.hpp"
 

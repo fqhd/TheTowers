@@ -13,7 +13,6 @@ class World{
 public:
 
      void init(uint8_t* d);
-     void updateChunks(const std::vector<vec3>& colors);
      void update(const std::vector<vec3>& colors, const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition);
      void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
      void destroy();
@@ -26,6 +25,7 @@ public:
 
 private:
 
+	void updateChunks(const std::vector<vec3>& colors);
      void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
      Chunk* getChunk(int x, int y, int z);
 

@@ -1,7 +1,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include <GL/glew.h>
+#include "glad.h"
 
 
 class Cube {
