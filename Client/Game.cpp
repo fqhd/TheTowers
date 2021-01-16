@@ -74,7 +74,7 @@ void Game::connectToServer(){
 void Game::receiveAndDecompressPacket(){
 
 	//Allocating memory for the world
-	m_data = (uint8_t*)malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize());
+	m_data = static_cast<uint8_t*>(calloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize(), 1));
 
 	sf::Packet packet;
 
@@ -99,6 +99,8 @@ void Game::receiveAndDecompressPacket(){
 		}
 		pointer += numBlocks;
 	}
+
+	Utils::log(std::to_string(pointer));
 
 	//Initializing the world with decompressed data
 	m_world.init(m_data);

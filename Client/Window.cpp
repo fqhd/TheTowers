@@ -38,7 +38,7 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 #endif
 
 	//Creating the window
-	window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
+	window = glfwCreateWindow(width, height, "Hello Window", NULL, NULL);
 	if(!window){
 		Utils::log("Window: Failed to create window");
 		return;
@@ -56,6 +56,7 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 		Utils::log("Failed to initialize glad");
 		return;
 	}
+
 
 	//Enabling transparency
 	glEnable(GL_BLEND);
