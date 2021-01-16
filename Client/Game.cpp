@@ -5,9 +5,15 @@
 #include <chrono>
 #include "Window.hpp"
 
-void updateChunks(World* world, const std::vector<vec3>& colors, GameStates* state){
-	while(*state != GameStates::EXIT){
-		world->updateChunks(colors);
+struct MeshGenerationObjects {
+	World* world = nullptr;
+	std::vector<vec3> colors;
+	GameStates* state = nullptr;
+};
+
+void updateChunks(MeshGenerationObjects t){
+	while(*t.state != GameStates::EXIT){
+		t.world->updateChunks(t.colors);
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 }
@@ -28,7 +34,13 @@ void Game::init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state){
      m_entityHandler.init();
 	m_blockOutline.init();
 
-	m_worldGenerationThread = new std::thread(updateChunks, &m_world, m_colors, state);
+	MeshGenerationObjects objects;
+	objects.world = &m_world;
+	objects.colors = m_colors;
+	objects.state = state;
+
+	m_worldGenerationThread = new sf::Thread(updateChunks, objects);
+	m_worldGenerationThread->launch();
 
 }
 
@@ -194,7 +206,7 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 
 void Game::destroy(){
 
-	m_worldGenerationThread->join();
+	m_worldGenerationThread->terminate();
 
 	//Freeing world data
 	free(m_data);
