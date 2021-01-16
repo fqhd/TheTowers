@@ -9,15 +9,27 @@
 
 
 bool getIP(sf::IpAddress& ip);
+void runGame(sf::IpAddress &ip);
 
-int main() {
+int main(){
 
+	//Seeding the random function to be completely random each time
 	srand(time(0));
 
+	//Getting the ip of the server the client desires to connect to
 	sf::IpAddress ip;
 	if(!getIP(ip)){
 		return 0;
 	}
+
+	//Running the game with that requested ip
+	runGame(ip);
+
+	return 0;
+}
+
+void runGame(sf::IpAddress& ip) {
+
 
 	//Program Variables
 	Player player;
@@ -64,14 +76,14 @@ int main() {
 		if(Window::isCloseRequested()) state = GameStates::EXIT;
 	}
 
+	//Save settings to file
 	settings.writeToFile();
 
+	//Dellocate memory and free objects
 	handler.destroy();
 	game.destroy();
 	Window::close();
 
-
-	return 0;
 }
 
 bool getIP(sf::IpAddress& ip){

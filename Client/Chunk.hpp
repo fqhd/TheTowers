@@ -12,7 +12,6 @@ class Chunk {
 public:
 
 	Chunk();
-	~Chunk();
 	void init(int x, int y, int z);
 
 	void render();

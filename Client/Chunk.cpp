@@ -11,10 +11,6 @@ Chunk::Chunk(){
 	m_vboID = 0;
 }
 
-Chunk::~Chunk(){
-
-}
-
 void Chunk::init(int x, int y, int z){
 
 	m_x = x;

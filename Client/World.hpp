@@ -21,8 +21,6 @@ public:
      void setBlock(int x, int y, int z, uint8_t block);
 
 
-
-
 private:
 
 	void updateChunks(const std::vector<vec3>& colors);
