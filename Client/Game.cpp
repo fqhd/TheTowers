@@ -2,10 +2,17 @@
 #include "Constants.hpp"
 #include <cstring>
 #include <glm/gtc/noise.hpp>
+#include <chrono>
 #include "Window.hpp"
 
+void updateChunks(World* world, const std::vector<vec3>& colors, GameStates* state){
+	while(*state != GameStates::EXIT){
+		world->updateChunks(colors);
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	}
+}
 
-void Game::init(sf::IpAddress ip, GUICanvas& workspace){
+void Game::init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state){
 
 	Utils::printDividor("Game");
 	m_serverIp = ip;
@@ -20,6 +27,8 @@ void Game::init(sf::IpAddress ip, GUICanvas& workspace){
 	generateColorVector(m_colors);
      m_entityHandler.init();
 	m_blockOutline.init();
+
+	m_worldGenerationThread = new std::thread(updateChunks, &m_world, m_colors, state);
 
 }
 
@@ -184,6 +193,8 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 }
 
 void Game::destroy(){
+
+	m_worldGenerationThread->join();
 
 	//Freeing world data
 	free(m_data);

@@ -3,10 +3,10 @@
 
 Chunk::Chunk(){
 	needsUpdate = true;
+	needsPush = false;
 	m_x = 0;
 	m_y = 0;
 	m_z = 0;
-	m_numVertices = 0;
 	m_vaoID = 0;
 	m_vboID = 0;
 }
@@ -34,17 +34,10 @@ void Chunk::init(int x, int y, int z){
 
 }
 
-unsigned int Chunk::getNumVertices(){
-	return m_numVertices;
-}
-
-
-void Chunk::pushData(Vertex* vertices, unsigned int numVertices){
-
-	m_numVertices = numVertices;
+void Chunk::pushData(){
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * numVertices, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 }
@@ -52,7 +45,7 @@ void Chunk::pushData(Vertex* vertices, unsigned int numVertices){
 
 void Chunk::render(){
 	glBindVertexArray(m_vaoID);
-	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 	glBindVertexArray(0);
 }
 

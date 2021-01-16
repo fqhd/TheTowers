@@ -35,7 +35,7 @@ void runGame(sf::IpAddress& ip) {
 	Player player;
 	Game game;
 	PauseMenu pause;
-	GameStates state;
+	GameStates state = GameStates::PLAY;
 	Settings settings;
 	GUIHandler handler;
 	sf::Clock clock;
@@ -49,10 +49,9 @@ void runGame(sf::IpAddress& ip) {
 	InputManager::init(Window::window);
 	handler.createWorkspaces(2);
 	handler.fonts.emplace_back("res/fonts/ostrich-regular.ttf", 32.0f, 512, 512);
-	game.init(ip, handler.workspaces.at(0));
+	game.init(ip, handler.workspaces.at(0), &state);
 	pause.init(settings, handler.workspaces.at(1));
 	handler.init();
-	state = GameStates::PLAY;
 
 	clock.restart();
 	while(state != GameStates::EXIT){
