@@ -75,27 +75,15 @@ void Game::receiveAndDecompressPacket(){
 	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
 	Utils::log("World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize())) * 100.0f) + "%");
 
-	//Decompressing the world into allocated memory
-	// uint8_t blockID = 0;
-	// uint32_t pointer = 0;
-	// uint32_t numBlocks = 0;
-	// while(packet >> blockID){
-	// 	packet >> numBlocks;
-	// 	for(uint32_t i = 0; i < numBlocks; i++){
-	// 		m_data[pointer + i] = blockID;
-	// 	}
-	// 	pointer += numBlocks;
-	// }
-
-	unsigned int ww = Constants::getChunkWidth() * Constants::getWorldWidth();
-	unsigned int wh = Constants::getChunkWidth() * Constants::getWorldHeight();
-
-	for(unsigned int y = 0; y < wh; y++){
-		for(unsigned int z = 0; z < ww; z++){
-			for(unsigned int x = 0; x < ww; x++){
-				m_data[y * ww * ww + z * ww + x] = 50;
-			}
+	uint8_t blockID = 0;
+	uint32_t pointer = 0;
+	uint32_t numBlocks = 0;
+	while(packet >> blockID){
+		packet >> numBlocks;
+		for(uint32_t i = 0; i < numBlocks; i++){
+			m_data[pointer + i] = blockID;
 		}
+		pointer += numBlocks;
 	}
 
 

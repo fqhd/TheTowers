@@ -219,7 +219,7 @@ void compressAndSendWorld(uint8_t* data, const Constants& constants){
 	//Compressing the world into a packet
 	sf::Packet packet;
 	uint32_t numBlocks = 1;
-	for(uint32_t i = 1; i < (ww * ww * wh * cs) - 1; i++){
+	for(uint32_t i = 1; i < (ww * ww * wh * cs); i++){
 		if(data[i - 1] != data[i]){
 			packet << (uint8_t)data[i - 1] << numBlocks;
 			numBlocks = 1;
