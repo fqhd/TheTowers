@@ -16,14 +16,13 @@ public:
      void update(const std::vector<vec3>& colors, const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition);
      void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
      void destroy();
-
+	void updateChunks(const std::vector<vec3>& colors);
      uint8_t getBlock(int x, int y, int z);
      void setBlock(int x, int y, int z, uint8_t block);
 
 
 private:
-     
-     void updateChunks(const std::vector<vec3>& colors);
+
      void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
      Chunk* getChunk(int x, int y, int z);
 

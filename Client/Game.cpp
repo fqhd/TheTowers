@@ -5,6 +5,13 @@
 #include <chrono>
 #include "Window.hpp"
 
+void chunkUpdater(World* world, const std::vector<vec3>& colors, GameStates* state){
+	while(*state != GameStates::EXIT){
+		world->updateChunks(colors);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
+
 void Game::init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state){
 
 	Utils::printDividor("Game");
@@ -20,6 +27,8 @@ void Game::init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state){
 	generateColorVector(m_colors);
      m_entityHandler.init();
 	m_blockOutline.init();
+
+	m_thread = std::thread(chunkUpdater, &m_world, m_colors, state);
 
 }
 
@@ -67,18 +76,28 @@ void Game::receiveAndDecompressPacket(){
 	Utils::log("World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize())) * 100.0f) + "%");
 
 	//Decompressing the world into allocated memory
-	uint8_t blockID = 0;
-	uint32_t pointer = 0;
-	uint32_t numBlocks = 0;
-	while(packet >> blockID){
-		packet >> numBlocks;
-		for(uint32_t i = 0; i < numBlocks; i++){
-			m_data[pointer + i] = blockID;
+	// uint8_t blockID = 0;
+	// uint32_t pointer = 0;
+	// uint32_t numBlocks = 0;
+	// while(packet >> blockID){
+	// 	packet >> numBlocks;
+	// 	for(uint32_t i = 0; i < numBlocks; i++){
+	// 		m_data[pointer + i] = blockID;
+	// 	}
+	// 	pointer += numBlocks;
+	// }
+
+	unsigned int ww = Constants::getChunkWidth() * Constants::getWorldWidth();
+	unsigned int wh = Constants::getChunkWidth() * Constants::getWorldHeight();
+
+	for(unsigned int y = 0; y < wh; y++){
+		for(unsigned int z = 0; z < ww; z++){
+			for(unsigned int x = 0; x < ww; x++){
+				m_data[y * ww * ww + z * ww + x] = 50;
+			}
 		}
-		pointer += numBlocks;
 	}
 
-	Utils::log(std::to_string(pointer));
 
 	//Initializing the world with decompressed data
 	m_world.init(m_data);
@@ -185,6 +204,9 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 }
 
 void Game::destroy(){
+
+	m_thread.join();
+
 	//Freeing world data
 	free(m_data);
 

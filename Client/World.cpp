@@ -46,8 +46,6 @@ void World::update(const std::vector<vec3>& colors, const glm::vec3& previousCam
 
 void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
 
-     updateChunks(colors);
-
      Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
 
      m_shader.bind();
