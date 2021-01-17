@@ -52,6 +52,7 @@ int main(){
 
 			}else{ // Got data from a connected client so we are going to send it to all other clients
 
+
 				sf::Packet receivedPacket;
 				uint8_t remoteClientID = getReceivedPacket(selector, receivedPacket);
 				if(remoteClientID){

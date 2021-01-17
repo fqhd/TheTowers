@@ -161,6 +161,8 @@ void Game::receiveGameUpdatePacket(){
 			}
 			m_world.setBlock(x, y, z, b);
 		}else{ // If the code is not 0 then a client has disconnected
+
+
 			uint8_t id;
 			packet >> id;
 			m_entityHandler.removeEntity(id);
