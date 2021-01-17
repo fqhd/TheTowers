@@ -247,9 +247,10 @@ void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, ui
 	int y;
 	int z;
 	uint8_t b;
+	uint8_t code;
 
 	//Depackaging packet
-	packet >> x >> y >> z >> b;
+	packet >> code >> x >> y >> z >> b;
 
 	x = x % (ww * cw);
 	y = y % (wh * cw);
@@ -261,7 +262,7 @@ void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, ui
 	}
 
 	//Repackaging packet
-	packet << x << y << z << b;
+	packet << code << x << y << z << b;
 }
 
 uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
