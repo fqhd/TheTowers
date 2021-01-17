@@ -23,7 +23,6 @@ public:
 	const glm::vec3& getForward();
 
 
-
 private:
 
 	//Private Functions

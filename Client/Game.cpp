@@ -14,7 +14,7 @@ struct MeshGenerationObjects {
 void updateChunks(MeshGenerationObjects t){
 	while(*t.state != GameStates::EXIT){
 		t.world->updateChunks(t.colors);
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 }
 
@@ -91,8 +91,8 @@ void Game::receiveAndDecompressPacket(){
 	//Decompressing the world into allocated memory
 	uint8_t blockID = 0;
 	uint32_t pointer = 0;
+	uint32_t numBlocks = 0;
 	while(packet >> blockID){
-		uint32_t numBlocks = 0;
 		packet >> numBlocks;
 		for(uint32_t i = 0; i < numBlocks; i++){
 			m_data[pointer + i] = blockID;
@@ -211,7 +211,7 @@ void Game::destroy(){
 	m_worldGenerationThread->terminate();
 
 	//Freeing world data
-	free(m_data);
+	delete[] m_data;
 
 	m_cubeMap.destroy();
 	m_entityHandler.destroy();

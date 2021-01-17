@@ -4,9 +4,9 @@
 void World::init(uint8_t* d){
 
      m_data = d;
-     m_chunks = new Chunk[Constants::getLocalWorldWidth() * Constants::getLocalWorldWidth() * Constants::getLocalWorldHeight()];
+     m_chunks = new Chunk[Constants::getLocalWorldWidth() * Constants::getLocalWorldWidth() * Constants::getWorldHeight()];
 
-     for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+     for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
           for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
                for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
@@ -40,6 +40,8 @@ void World::update(const std::vector<vec3>& colors, const glm::vec3& previousCam
           moveFront();
      }
 
+     updateChunks(colors);
+
 }
 
 
@@ -55,7 +57,7 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
      m_shader.loadGradient(settings.gradient);
      m_shader.loadDensity(settings.density);
 
-	for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+	for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
 			for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
@@ -82,8 +84,7 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 }
 
 void World::updateChunks(const std::vector<vec3>& colors){
-
-	for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+	for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
 			for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 				Chunk* c = getChunk(x, y, z);
@@ -95,14 +96,12 @@ void World::updateChunks(const std::vector<vec3>& colors){
 			}
 		}
 	}
-
-
 }
 
 void World::moveFront(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+          for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
                Chunk* currentChunk = getChunk(i, y, 0);
                currentChunk->setZ(currentChunk->getZ() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
                currentChunk->needsUpdate = true;
@@ -115,7 +114,7 @@ void World::moveFront(){
 void World::moveBack(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+          for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
                Chunk* currentChunk = getChunk(i, y, Constants::getLocalWorldWidth() - 1);
                currentChunk->setZ(currentChunk->getZ() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
                currentChunk->needsUpdate = true;
@@ -129,7 +128,7 @@ void World::moveBack(){
 void World::moveRight(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+          for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
                Chunk* currentChunk = getChunk(0, y, i);
                currentChunk->setX(currentChunk->getX() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
                currentChunk->needsUpdate = true;
@@ -143,7 +142,7 @@ void World::moveRight(){
 void World::moveLeft(){
 
      for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-          for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+          for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
                Chunk* currentChunk = getChunk(Constants::getLocalWorldWidth() - 1, y, i);
                currentChunk->setX(currentChunk->getX() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
                currentChunk->needsUpdate = true;
@@ -158,7 +157,7 @@ void World::moveLeft(){
 
 void World::destroy(){
 
-	for(unsigned int y = 0; y < Constants::getLocalWorldHeight(); y++){
+	for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
 			for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
@@ -185,6 +184,7 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
 				//May be better to get the surrounding blocks and then check against them rather than get the surrounding blocks every time. Because then, they will be stored in the cache rather than having to go look through the entire array of data for the surrounding blocks in ram which is farther away from the cpu
 
+
 				uint8_t block = getBlock(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z);
 
                     if(block){
@@ -209,10 +209,10 @@ uint8_t World::getBlock(int x, int y, int z){
 	if(y < 0 || y >= maxH) return 0;
 
 	x = x % maxW;
-	y = y % maxH;
 	z = z % maxW;
 
 	return m_data[(y * maxW * maxW) + (z * maxW) + x];
+
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
@@ -226,13 +226,12 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	if(y < 0 || y >= maxH) return;
 
 	x = x % maxW;
-	y = y % maxH;
 	z = z % maxW;
 
      m_data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
 
      unsigned int posX = (x % maxCW) / Constants::getChunkWidth();
-     unsigned int posY = (y % maxCH) / Constants::getChunkWidth();
+     unsigned int posY = y / Constants::getChunkWidth();
      unsigned int posZ = (z % maxCW) / Constants::getChunkWidth();
 
      posX -= m_chunkOffsetX;
@@ -271,10 +270,11 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 Chunk* World::getChunk(int x, int y, int z) {
 
      unsigned int worldWidth = Constants::getLocalWorldWidth();
-     unsigned int worldHeight = Constants::getLocalWorldHeight();
+     unsigned int worldHeight = Constants::getWorldHeight();
+
+     if(y < 0 || y >= worldHeight) return nullptr;
 
      z = (z + m_chunkOffsetZ) % worldWidth;
-     y = y % worldHeight;
      x = (x + m_chunkOffsetX) % worldWidth;
      return &m_chunks[(y * worldWidth * worldWidth) + (z * worldWidth) + x];
 

@@ -19,11 +19,11 @@ public:
 
      uint8_t getBlock(int x, int y, int z);
      void setBlock(int x, int y, int z, uint8_t block);
-	void updateChunks(const std::vector<vec3>& colors);
 
 
 private:
-
+     
+     void updateChunks(const std::vector<vec3>& colors);
      void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
      Chunk* getChunk(int x, int y, int z);
 

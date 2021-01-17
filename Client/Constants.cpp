@@ -9,7 +9,6 @@ unsigned int Constants::m_chunkWidth;
 unsigned int Constants::m_worldWidth;
 unsigned int Constants::m_worldHeight;
 unsigned int Constants::m_localWorldWidth;
-unsigned int Constants::m_localWorldHeight;
 unsigned int Constants::m_numParticles;
 float Constants::m_playerReachDistance;
 float Constants::m_occlusionFactor;
@@ -45,8 +44,6 @@ void Constants::loadFromFile(){
                is >> m_worldHeight;
           }else if(s == "LocalWorldWidth:"){
                is >> m_localWorldWidth;
-          }else if(s == "LocalWorldHeight:"){
-               is >> m_localWorldHeight;
           }else if(s == "PlayerReachDistance:"){
                is >> m_playerReachDistance;
           }else if(s == "OcclusionFactor:"){
@@ -63,8 +60,6 @@ void Constants::loadFromFile(){
                is >> m_maxMouseSensibility;
           }else if(s == "LocalWorldWidth:"){
                is >> m_localWorldWidth;
-          }else if(s == "LocalWorldHeight:"){
-               is >> m_localWorldHeight;
           }else if(s == "NumParticles:"){
                is >> m_numParticles;
           }else if(s == "MaxGradient:"){
@@ -118,10 +113,6 @@ float Constants::getMaxDensity(){
 
 float Constants::getEntityMovementSharpness(){
      return m_entityMovementSharpness;
-}
-
-unsigned int Constants::getLocalWorldHeight(){
-     return m_localWorldHeight;
 }
 
 unsigned int Constants::getScreenWidth() {
@@ -187,7 +178,6 @@ void Constants::printDebugMessage() {
      Utils::log("ChunkWidth: " + std::to_string(m_chunkWidth));
      Utils::log("ChunkSize: " + std::to_string(m_chunkWidth * m_chunkWidth * m_chunkWidth));
      Utils::log("LocalWorldWidth: " + std::to_string(m_localWorldWidth));
-     Utils::log("LocalWorldHeight: " + std::to_string(m_localWorldHeight));
      Utils::log("WorldWidth: " + std::to_string(m_worldWidth));
      Utils::log("WorldHeight: " + std::to_string(m_worldHeight));
      Utils::log("PlayerReachDistance: " + std::to_string(m_playerReachDistance));
