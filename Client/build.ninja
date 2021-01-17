@@ -1,5 +1,5 @@
 cflags = -std=c++17 -O3 $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64
-lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glfw3)
+lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glfw3) -ldl
 
 rule cc
   command = clang++ -c $in -o $out $cflags

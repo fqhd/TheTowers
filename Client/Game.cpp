@@ -177,8 +177,8 @@ void Game::receiveGameUpdatePacket(){
 
 void Game::render(Settings& settings, Player& player, float deltaTime){
 
-	m_blockOutline.render(player, m_camera);
 	m_world.render(settings, m_camera, m_colors);
+	m_blockOutline.render(player, m_camera);
 	m_particleHandler.render(m_camera);
      m_entityHandler.render(settings, m_camera, m_colors);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
