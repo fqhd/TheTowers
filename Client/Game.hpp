@@ -57,7 +57,6 @@ private:
 
 
      //Game Variables
-     std::unordered_map<uint8_t, uint8_t> m_clients;
      sf::Clock m_fpsClock;
 	sf::Clock m_dataFrequencyTimer;
 	sf::IpAddress m_serverIp;
@@ -66,7 +65,6 @@ private:
 	std::vector<vec3> m_colors;
      uint8_t m_id = 0;
 	uint8_t* m_data = nullptr;
-	sf::Thread* m_worldGenerationThread;
 
 
 };

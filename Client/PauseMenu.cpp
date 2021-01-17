@@ -89,9 +89,11 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GU
      if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
 		Window::setMouseCursorGrabbed(true);
 		state = GameStates::PLAY;
+          updatePlayerBlock(player, workspace);
 		applySettingsToWorkspace(settings, workspace);
      }else if(workspace.buttons.at(0).isPressed()){
 		applyWorkspaceToSettings(workspace, settings);
+          updatePlayerBlock(player, workspace);
 		Window::setMouseCursorGrabbed(true);
           state = GameStates::PLAY;
 
@@ -100,12 +102,6 @@ void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GU
           } else {
                Window::setVerticalSyncEnabled(false);
           }
-
-          unsigned int blueValue = ((int)(workspace.sliders[2].getValue() * 5)) * 36;
-          unsigned int greenValue = ((int)(workspace.sliders[1].getValue() * 5)) * 6;
-          unsigned int redValue = (int)(workspace.sliders[0].getValue() * 5);
-
-          player.selectedBlock = blueValue + greenValue + redValue;
 
 	}
 
@@ -121,6 +117,13 @@ void PauseMenu::updateValues(Settings& settings, GUICanvas& workspace){
      settings.playerSpeed = workspace.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
      settings.density = workspace.sliders[5].getValue() * Constants::getMaxDensity();
      settings.gradient = workspace.sliders[6].getValue() * Constants::getMaxGradient();
+}
+
+void PauseMenu::updatePlayerBlock(Player& player, GUICanvas& workspace){
+     unsigned int blueValue = ((int)(workspace.sliders[2].getValue() * 5)) * 36;
+     unsigned int greenValue = ((int)(workspace.sliders[1].getValue() * 5)) * 6;
+     unsigned int redValue = (int)(workspace.sliders[0].getValue() * 5);
+     player.selectedBlock = blueValue + greenValue + redValue;
 }
 
 void PauseMenu::applySettingsToWorkspace(Settings& settings, GUICanvas& workspace){

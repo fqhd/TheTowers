@@ -17,6 +17,9 @@ void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& color
           sendBlockData(visibleBlocks.placeableBlock, selectedBlock, socket);
      }
 
+     //We get the visible blocks again to update them after a block has been pressed
+     getVisibleBlocks(camera, world);
+
 }
 
 void Player::getVisibleBlocks(Camera& camera, World& world){

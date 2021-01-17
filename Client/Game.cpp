@@ -5,19 +5,6 @@
 #include <chrono>
 #include "Window.hpp"
 
-struct MeshGenerationObjects {
-	World* world = nullptr;
-	std::vector<vec3> colors;
-	GameStates* state = nullptr;
-};
-
-void updateChunks(MeshGenerationObjects t){
-	while(*t.state != GameStates::EXIT){
-		t.world->updateChunks(t.colors);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-}
-
 void Game::init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state){
 
 	Utils::printDividor("Game");
@@ -33,14 +20,6 @@ void Game::init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state){
 	generateColorVector(m_colors);
      m_entityHandler.init();
 	m_blockOutline.init();
-
-	MeshGenerationObjects objects;
-	objects.world = &m_world;
-	objects.colors = m_colors;
-	objects.state = state;
-
-	m_worldGenerationThread = new sf::Thread(updateChunks, objects);
-	m_worldGenerationThread->launch();
 
 }
 
@@ -74,7 +53,7 @@ void Game::connectToServer(){
 void Game::receiveAndDecompressPacket(){
 
 	//Allocating memory for the world
-	m_data = static_cast<uint8_t*>(calloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize(), 1));
+	m_data = static_cast<uint8_t*>(malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize()));
 
 	sf::Packet packet;
 
@@ -198,8 +177,8 @@ void Game::receiveGameUpdatePacket(){
 
 void Game::render(Settings& settings, Player& player, float deltaTime){
 
-	m_world.render(settings, m_camera, m_colors);
 	m_blockOutline.render(player, m_camera);
+	m_world.render(settings, m_camera, m_colors);
 	m_particleHandler.render(m_camera);
      m_entityHandler.render(settings, m_camera, m_colors);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
@@ -207,11 +186,8 @@ void Game::render(Settings& settings, Player& player, float deltaTime){
 }
 
 void Game::destroy(){
-
-	m_worldGenerationThread->terminate();
-
 	//Freeing world data
-	delete[] m_data;
+	free(m_data);
 
 	m_cubeMap.destroy();
 	m_entityHandler.destroy();

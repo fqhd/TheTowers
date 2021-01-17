@@ -9,17 +9,17 @@ void OutlineRenderer::init(){
      glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
 
      glEnableVertexAttribArray(0);
-     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
+     glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(double) * 3, 0);
 
-     float vertices[] = {
-          -0.001f, -0.001f, -0.001f,
-          -0.001f, 1.001f, -0.001f,
-          1.001f, 1.001f, -0.001f,
-          1.001f, -0.001f, -0.001f,
-          -0.001f, -0.001f, 1.001f,
-          -0.001f, 1.001f, 1.001f,
-          1.001f, 1.001f, 1.001f,
-          1.001f, -0.001f, 1.001f,
+     double vertices[] = {
+          -0.001, -0.001, -0.001,
+          -0.001, 1.001, -0.001,
+          1.001, 1.001, -0.001,
+          1.001, -0.001, -0.001,
+          -0.001, -0.001, 1.001,
+          -0.001, 1.001, 1.001,
+          1.001, 1.001, 1.001,
+          1.001, -0.001, 1.001,
      };
 
      glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);

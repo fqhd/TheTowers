@@ -24,6 +24,7 @@ private:
 	void addSliders(Settings& settings, GUICanvas& workspace);
 	void addKeyboxes(Settings& settings, GUICanvas& workspace);
 	void addText(Settings& settings, GUICanvas& workspace);
+     void updatePlayerBlock(Player& player, GUICanvas& workspace);
 
 
 };
