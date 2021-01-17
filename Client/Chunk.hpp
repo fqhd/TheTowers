@@ -4,7 +4,6 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <cstddef>
-#include <SFML/Graphics.hpp>
 #include "Vertex.hpp"
 
 
@@ -16,7 +15,7 @@ public:
 
 	void render();
 	void destroy();
-	void pushData();
+	void pushData(Vertex* vertices, unsigned int numVertices);
 
 	void setX(int x);
 	void setY(int y);
@@ -26,16 +25,14 @@ public:
 	int getY();
 	int getZ();
 
-	std::vector<Vertex> vertices;
-
 	bool needsUpdate = true;
-	bool needsPush = false;
 
 private:
 
 	//Opengl Variables
 	GLuint m_vaoID = 0;
 	GLuint m_vboID = 0;
+	GLuint m_numVertices = 0;
 	int m_x = 0;
 	int m_y = 0;
 	int m_z = 0;

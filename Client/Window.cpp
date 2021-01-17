@@ -38,7 +38,7 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 #endif
 
 	//Creating the window
-	window = glfwCreateWindow(width, height, "Hello Window", NULL, NULL);
+	window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
 	if(!window){
 		Utils::log("Window: Failed to create window");
 		return;

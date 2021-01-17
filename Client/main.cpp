@@ -44,12 +44,12 @@ void runGame(sf::IpAddress& ip) {
 	Constants::loadFromFile();
 	Constants::printDebugMessage();
 	settings.readFromFile();
-	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "Game", true, true);
+	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "BuildBattle", true, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
 	handler.createWorkspaces(2);
 	handler.fonts.emplace_back("res/fonts/ostrich-regular.ttf", 32.0f, 512, 512);
-	game.init(ip, handler.workspaces.at(0), &state);
+	game.init(ip, handler.workspaces.at(0));
 	pause.init(settings, handler.workspaces.at(1));
 	handler.init();
 

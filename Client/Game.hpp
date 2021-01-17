@@ -2,7 +2,6 @@
 #define GAME_H
 #include <SFML/Network.hpp>
 #include <glm/gtc/noise.hpp>
-#include <thread>
 #include "InputManager.hpp"
 #include "Player.hpp"
 #include "ChunkShader.hpp"
@@ -22,7 +21,7 @@
 class Game {
 public:
 
-     void init(sf::IpAddress ip, GUICanvas& workspace, GameStates* state);
+     void init(sf::IpAddress ip, GUICanvas& workspace);
      void update(Settings& settings, float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
      void render(Settings& settings, Player& player, float deltaTime);
      void destroy();
@@ -65,7 +64,6 @@ private:
 	std::vector<vec3> m_colors;
      uint8_t m_id = 0;
 	uint8_t* m_data = nullptr;
-	std::thread m_thread;
 
 
 };
