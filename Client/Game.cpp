@@ -8,7 +8,7 @@
 void chunkUpdater(World* world, const std::vector<vec3>& colors, GameStates* state){
 	while(*state != GameStates::EXIT){
 		world->updateChunks(colors);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 }
 
