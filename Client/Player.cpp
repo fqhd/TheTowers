@@ -27,8 +27,6 @@ void Player::getVisibleBlocks(Camera& camera, World& world){
      visibleBlocks.lookingAtBlock = false;
 	visibleBlocks.isInsideBlock = world.getBlock(pos.x, pos.y, pos.z) ? true : false;
 
-
-
      glm::vec3 rayPosition = camera.getPosition();
      for(unsigned int i = 0; i < Constants::getPrecision(); i++){
           rayPosition += camera.getForward() * (Constants::getPlayerReachDistance() / (float)Constants::getPrecision());

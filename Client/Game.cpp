@@ -63,7 +63,6 @@ void Game::receiveAndDecompressPacket(){
 	m_tcpSocket.setBlocking(false);
 
 	//Printing information
-	uint32_t size = packet.getDataSize();
 	Utils::log("Received Packet Size: " + std::to_string(packet.getDataSize()));
 	Utils::log("World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize())) * 100.0f) + "%");
 

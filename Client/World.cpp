@@ -219,26 +219,56 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
      unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
      unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
-	unsigned int maxCW = Constants::getChunkWidth() * Constants::getLocalWorldWidth();
-	unsigned int maxCH = Constants::getChunkWidth() * Constants::getLocalWorldWidth();
-
-	//Checking if the Y is in bounds
+	//Checking if the Y coordinate of the block is in bounds
 	if(y < 0 || y >= maxH) return;
 
+	//We loop the x and z positions around the boundaries this way we can accomodate for negative, and out of world values
 	x = x % maxW;
 	z = z % maxW;
 
+	//By this point the xyz coordinates should be in range for the current world
      m_data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
 
-     unsigned int posX = (x % maxCW) / Constants::getChunkWidth();
-     unsigned int posY = y / Constants::getChunkWidth();
-     unsigned int posZ = (z % maxCW) / Constants::getChunkWidth();
+	//Here we try to get which chunk deserves an update based on where the block was placed
+	//We first check if the block is within the boundaries of the localworld(visible world) aka chunks
 
-     posX -= m_chunkOffsetX;
-     posZ -= m_chunkOffsetZ;
+	//So right here, we are getting 2 chunks that are completely opposite of each other, and we are using them to find the square rectangle of the current world and check if the updated block is within the current boundaries of the world or not.
+	Chunk* minChunk = getChunk(0, 0, 0);
+	Chunk* maxChunk = getChunk(Constants::getLocalWorldWidth() - 1, Constants::getWorldHeight() - 1, Constants::getLocalWorldWidth() - 1);
 
-     getChunk(posX, posY, posZ)->needsUpdate = true;
+	if(minChunk == nullptr){
+		Utils::log("Failed to get the minimum chunk.. aborting");
+		return;
+	}
+	if(maxChunk == nullptr){
+		Utils::log("Failed to get the maximum chunk.. aborting");
+		return;
+	}
 
+	//Now we get the coordinates of the coordinates that will define our "visible world" cube
+	int minX = minChunk->getX();
+	int minY = minChunk->getY();
+	int minZ = minChunk->getZ();
+	int maxX = maxChunk->getX() + Constants::getChunkWidth();
+	int maxY = maxChunk->getY() + Constants::getChunkWidth();
+	int maxZ = maxChunk->getZ() + Constants::getChunkWidth();
+
+	//Here, we check against these coordinates to tell us if the block is within the world
+	if(!(x >= minX && x < maxX && y >= minY && y < maxY && z >= minZ && z < maxZ)){
+		Utils::log("received block that isn't within the bounds of the current world, aborting");
+		return;
+	}
+
+	//If we get this far, we know that the block provided is within the visible world. So we figure out which of the visible chunks the block is placed in
+     unsigned int posX = (x - minX) / Constants::getChunkWidth();
+     unsigned int posY = (y - minY) / Constants::getChunkWidth();
+     unsigned int posZ = (z - minZ) / Constants::getChunkWidth();
+
+	//Right now, we have the position of the chunk that the block has been placed in stored in posX, posY, and posZ
+	//So we first of all, queue this chunk up for updation
+	getChunk(posX, posY, posZ)->needsUpdate = true;
+
+	//Next, we check if the placed block has been placed on any edge
      //Update neighboring chunks if block is on the edge of the current chunk
 	if(x % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX - 1, posY, posZ);
@@ -258,12 +288,13 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	}
      if(y % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY - 1, posZ);
-		chunk->needsUpdate = true;
+		if(chunk) chunk->needsUpdate = true;
 	}
 	if((y + 1) % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY + 1, posZ);
-		chunk->needsUpdate = true;
+		if(chunk) chunk->needsUpdate = true;
 	}
+
 }
 
 
