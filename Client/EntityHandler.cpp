@@ -56,6 +56,7 @@ void EntityHandler::render(Settings& settings, Camera& camera, const std::vector
      m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
      m_shader.loadDensity(settings.density);
      m_shader.loadGradient(settings.gradient);
+	m_shader.loadLightDirection(camera.getForward());
 
      for(auto it = m_entities.begin(); it != m_entities.end(); it++){
           m_shader.loadModelMatrix(it->second.transform.getMatrix());

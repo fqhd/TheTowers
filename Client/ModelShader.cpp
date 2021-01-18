@@ -15,6 +15,11 @@ void ModelShader::getUniformLocations(){
      m_gradientLocation = glGetUniformLocation(m_programID, "gradient");
      m_densityLocation = glGetUniformLocation(m_programID, "density");
      m_colorLocation = glGetUniformLocation(m_programID, "color");
+	m_lightDirectionLocation = glGetUniformLocation(m_programID, "lightDir");
+}
+
+void ModelShader::loadLightDirection(const glm::vec3& lightDir){
+	glUniform3fv(m_lightDirectionLocation, 1, &lightDir[0]);
 }
 
 void ModelShader::loadViewMatrix(const glm::mat4& matrix){
