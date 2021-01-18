@@ -52,7 +52,6 @@ int main(){
 
 			}else{ // Got data from a connected client so we are going to send it to all other clients
 
-
 				sf::Packet receivedPacket;
 				uint8_t remoteClientID = getReceivedPacket(selector, receivedPacket);
 				if(remoteClientID){
@@ -275,9 +274,8 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
 			}else if(status == sf::Socket::Disconnected){ // The client has disconnected
 
 				packet.clear();
-				packet << (uint8_t)8 << clients[i].id;
+				packet << (uint8_t)1 << clients[i].id; // We send the keycode 1 because that is the code for a disconnection
 				sendPacketToAllClients(packet);
-
 
 				std::cout << "Client Disconnected with ID: " << (unsigned int)clients[i].id << std::endl;
 				selector.remove(*clients[i].socket);

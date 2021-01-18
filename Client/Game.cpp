@@ -147,24 +147,27 @@ void Game::receiveGameUpdatePacket(){
 
 	if(m_tcpSocket.receive(packet) == sf::Socket::Done){
 
-		uint8_t code;
+		uint8_t code = 0;
+
 		packet >> code;
 		if(code == 0){ // If the code is 0 then it is a block update packet
-			int x;
-			int y;
-			int z;
-			uint8_t b;
-			packet >> x >> y  >> z >> b;
+			int x = 0;
+			int y = 0;
+			int z = 0;
+			uint8_t b = 0;
+
+			packet >> x >> y >> z >> b;
+
+			Utils::log("Got block update");
 
 			if(!b){
 				m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
 			}
 			m_world.setBlock(x, y, z, b);
-		}else{ // If the code is not 0 then a client has disconnected
-
-
-			uint8_t id;
+		}else if(code == 1){ // If the code is not 0 then a client has disconnected
+			uint8_t id = 0;
 			packet >> id;
+			Utils::log("Person: " + std::to_string(id) + " has disconnected");
 			m_entityHandler.removeEntity(id);
 		}
 
