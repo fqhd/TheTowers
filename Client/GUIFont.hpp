@@ -23,7 +23,6 @@ private:
 
 	unsigned int m_bitmapWidth = 0;
 	unsigned int m_bitmapHeight = 0;
-	unsigned char* m_fontData = nullptr;
 	stbtt_bakedchar* m_charData = nullptr;
 	GLuint m_textureID = 0;
 

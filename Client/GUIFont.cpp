@@ -10,12 +10,12 @@ GUIFont::GUIFont(const std::string& fontLocation, float pixelHeight, unsigned in
 	m_bitmapHeight = h;
 
 	// Allocating data for font loading and bitmap
-	m_fontData = Utils::readFileToBuffer(fontLocation);
+	unsigned char* fontData = Utils::readFileToBuffer(fontLocation);
 	uint8_t* bitmapBuffer = (uint8_t*)malloc(m_bitmapWidth * m_bitmapHeight);
 
 	//Creating the bitmap
 	m_charData = (stbtt_bakedchar*)malloc(sizeof(stbtt_bakedchar) * numChars);
-	stbtt_BakeFontBitmap(m_fontData, 0, pixelHeight, bitmapBuffer, m_bitmapWidth, m_bitmapHeight, firstChar, numChars, m_charData);
+	stbtt_BakeFontBitmap(fontData, 0, pixelHeight, bitmapBuffer, m_bitmapWidth, m_bitmapHeight, firstChar, numChars, m_charData);
 
 	//Storing the bitmap into a texture
 	glGenTextures(1, &m_textureID);
@@ -30,6 +30,7 @@ GUIFont::GUIFont(const std::string& fontLocation, float pixelHeight, unsigned in
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	free(bitmapBuffer);
+	Utils::freeBuffer(fontData);
 
 }
 
@@ -44,7 +45,6 @@ void GUIFont::unbindTexture(){
 }
 
 void GUIFont::destroy(){
-	Utils::freeBuffer(m_fontData);
 	free(m_charData);
 	glDeleteTextures(1, &m_textureID);
 }
