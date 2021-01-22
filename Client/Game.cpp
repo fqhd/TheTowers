@@ -35,7 +35,7 @@ void Game::initGUI(GUICanvas& workspace){
 
 void Game::connectToServer(){
 	Utils::log("Connecting...");
-	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, Constants::getServerListeningPort());
+	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, Constants::getServerPort());
 
 	if(status != sf::Socket::Status::Done){
 		Utils::log("Game: Failed to connect to server");

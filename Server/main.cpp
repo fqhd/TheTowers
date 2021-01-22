@@ -39,7 +39,7 @@ int main(){
 
 	//Starting server
 	std::cout << "Listening for connection..." << std::endl;
-	listener.listen(constants.serverListeningPort);
+	listener.listen(constants.serverPort);
 	selector.add(listener);
 
 	while(!isDone){
@@ -141,7 +141,6 @@ void printConstants(const Constants& constants){
 	std::cout << "WorldWidth: " << constants.worldWidth << std::endl;
 	std::cout << "WorldHeight: " << constants.worldHeight << std::endl;
 	std::cout << "ServerPort: " << constants.serverPort << std::endl;
-	std::cout << "ServerListeningPort: " << constants.serverListeningPort << std::endl;
 	std::cout << "ClientPort: " << constants.clientPort << std::endl;
 }
 
@@ -164,8 +163,6 @@ Constants getConstants(){
 			is >> constants.serverPort;
 		}else if(s == "ClientPort:"){
 			is >> constants.clientPort;
-		}else if(s == "ServerListeningPort:"){
-			is >> constants.serverListeningPort;
 		}
      }
 

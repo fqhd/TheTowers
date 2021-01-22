@@ -27,7 +27,6 @@ public:
      static float getEntityMovementSharpness();
 	static unsigned short getClientPort();
 	static unsigned short getServerPort();
-	static unsigned short getServerListeningPort();
 	static unsigned int getPacketTransmissionFrequency();
 
 private:
@@ -51,7 +50,6 @@ private:
      static float m_entityMovementSharpness;
 	static unsigned short m_clientPort;
 	static unsigned short m_serverPort;
-	static unsigned short m_serverListeningPort;
 	static unsigned int m_packetTransmissionFrequency;
 
 

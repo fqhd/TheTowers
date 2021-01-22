@@ -16,6 +16,5 @@ MaxGradient: 10
 MaxDensity: 0.1
 ClientPort: 7459
 ServerPort: 7456
-ServerListeningPort: 7453
 PacketTransmissionFrequency: 10
 EntityMovementSharpness: 8.0

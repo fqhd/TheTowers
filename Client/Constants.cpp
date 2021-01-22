@@ -22,7 +22,6 @@ float Constants::m_maxDensity;
 float Constants::m_maxGradient;
 unsigned short Constants::m_clientPort;
 unsigned short Constants::m_serverPort;
-unsigned short Constants::m_serverListeningPort;
 unsigned int Constants::m_packetTransmissionFrequency;
 
 void Constants::loadFromFile(){
@@ -70,8 +69,6 @@ void Constants::loadFromFile(){
 			is >> m_clientPort;
 		}else if(s == "ServerPort:"){
 			is >> m_serverPort;
-		}else if(s == "ServerListeningPort:"){
-			is >> m_serverListeningPort;
 		}else if(s == "PacketTransmissionFrequency:"){
 			is >> m_packetTransmissionFrequency;
 		}else if(s == "EntityMovementSharpness:"){
@@ -97,10 +94,6 @@ unsigned short Constants::getClientPort(){
 
 unsigned short Constants::getServerPort(){
 	return m_serverPort;
-}
-
-unsigned short Constants::getServerListeningPort(){
-	return m_serverListeningPort;
 }
 
 float Constants::getMaxGradient(){
@@ -189,6 +182,5 @@ void Constants::printDebugMessage() {
      Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
 	Utils::log("ClientPort: " + std::to_string(m_clientPort));
 	Utils::log("ServerPort: " + std::to_string(m_serverPort));
-	Utils::log("ServerListeningPort: " + std::to_string(m_serverListeningPort));
 	Utils::log("PacketTransmissionFrequency: " + std::to_string(m_packetTransmissionFrequency));
 }
