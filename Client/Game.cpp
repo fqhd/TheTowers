@@ -158,8 +158,6 @@ void Game::receiveGameUpdatePacket(){
 
 			packet >> x >> y >> z >> b;
 
-			Utils::log("Got block update");
-
 			if(!b){
 				m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
 			}
