@@ -1,7 +1,8 @@
 #include "Frustum.hpp"
 
-Frustum::Frustum(glm::mat4 m)
-{
+// This is not my code
+
+Frustum::Frustum(glm::mat4 m) {
 	m = glm::transpose(m);
 	m_planes[Left]   = m[3] + m[0];
 	m_planes[Right]  = m[3] - m[0];
@@ -36,12 +37,11 @@ Frustum::Frustum(glm::mat4 m)
 	m_points[5] = intersection<Left,  Top,    Far>(crosses);
 	m_points[6] = intersection<Right, Bottom, Far>(crosses);
 	m_points[7] = intersection<Right, Top,    Far>(crosses);
-	
+
 
 }
 
-bool Frustum::IsBoxVisible(const glm::vec3& minp, const glm::vec3& maxp) const
-{
+bool Frustum::IsBoxVisible(const glm::vec3& minp, const glm::vec3& maxp) const {
 	// check box outside/inside of frustum
 	for (int i = 0; i < Count; i++) {
 		if ((glm::dot(m_planes[i], glm::vec4(minp.x, minp.y, minp.z, 1.0f)) < 0.0) &&

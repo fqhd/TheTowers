@@ -6,27 +6,27 @@ void Utils::printDividor(const std::string& name){
 
 uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
 
-    std::ifstream file(filePath, std::ios::binary);
-    if (file.fail()) {
-	   perror(filePath.c_str());
-	   return nullptr;
-    }
+	std::ifstream file(filePath, std::ios::binary);
+	if (file.fail()) {
+		perror(filePath.c_str());
+		return nullptr;
+	}
 
-    file.seekg(0, std::ios::end);
+	file.seekg(0, std::ios::end);
 
-    unsigned int fileSize = (unsigned int)file.tellg();
-    file.seekg(0, std::ios::beg);
+	unsigned int fileSize = (unsigned int)file.tellg();
+	file.seekg(0, std::ios::beg);
 
-    fileSize -= (unsigned int)file.tellg();
+	fileSize -= (unsigned int)file.tellg();
 
 	//Creating new buffer
-    uint8_t* buffer = (uint8_t*)malloc(fileSize);
+	uint8_t* buffer = (uint8_t*)malloc(fileSize);
 
 	//Reading data into buffer
-    file.read((char*)buffer, fileSize);
-    file.close();
+	file.read((char*)buffer, fileSize);
+	file.close();
 
-    return buffer;
+	return buffer;
 }
 
 void Utils::freeBuffer(uint8_t* buffer){
@@ -53,7 +53,7 @@ std::string Utils::readFileToString(const std::string& shaderName) {
 }
 
 bool Utils::isInside(const glm::vec2& pos, const glm::vec4& destRect){
-    return (pos.x >= destRect.x && pos.x <= destRect.x + destRect.z && pos.y >= destRect.y && pos.y <= destRect.y + destRect.w);
+	return (pos.x >= destRect.x && pos.x <= destRect.x + destRect.z && pos.y >= destRect.y && pos.y <= destRect.y + destRect.w);
 }
 
 bool Utils::isInRange(const glm::vec3& a, const glm::vec3& b, float range){

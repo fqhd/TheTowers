@@ -6,28 +6,28 @@
 class Particle {
 public:
 
-    Particle(const vec3& color, const glm::vec3& position, const glm::vec3& velocity, float lifelength, float rotation, float scale);
+  Particle(const vec3& color, const glm::vec3& position, const glm::vec3& velocity, float lifelength, float rotation, float scale);
 
-    bool update(float deltaTime);
+  bool update(float deltaTime);
 
-    const glm::vec3& getPosition() const;
-    const vec3& getColor();
-    float getRotation() const;
-    float getScale() const;
-    float getLifeLength() const;
-    float getElapsedTime() const;
+  const glm::vec3& getPosition() const;
+  const vec3& getColor();
+  float getRotation() const;
+  float getScale() const;
+  float getLifeLength() const;
+  float getElapsedTime() const;
 
 
 
 private:
 
-        vec3 m_color;
-        glm::vec3 m_position;
-        glm::vec3 m_velocity;
-        float m_lifeLength = 0.0f;
-        float m_rotation = 0.0f;
-        float m_scale = 0.0f;
-        float m_elapsedTime = 0.0f;
+  vec3 m_color;
+  glm::vec3 m_position;
+  glm::vec3 m_velocity;
+  float m_lifeLength = 0.0f;
+  float m_rotation = 0.0f;
+  float m_scale = 0.0f;
+  float m_elapsedTime = 0.0f;
 
 };
 

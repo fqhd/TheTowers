@@ -1,4 +1,5 @@
 #include "Chunk.hpp"
+#include <iostream>
 #include "Constants.hpp"
 
 Chunk::Chunk(){
@@ -40,6 +41,8 @@ void Chunk::pushData(Vertex* vertices, unsigned int numVertices){
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * numVertices, vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	size = sizeof(vertices[0]) * numVertices;
 
 }
 

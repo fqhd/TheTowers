@@ -105,28 +105,28 @@ void Window::setVerticalSyncEnabled(bool enabled){
 }
 
 void Window::setMouseCursorGrabbed(bool grabbed){
-     if(grabbed){
-          glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-     }else{
-          glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-     }
+	if(grabbed){
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}else{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 }
 
 void Window::clear(){
-     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::update(){
-     m_isResized = false;
-     glfwSwapBuffers(window);
-     m_closeRequested = InputManager::processInput(window);
+	m_isResized = false;
+	glfwSwapBuffers(window);
+	m_closeRequested = InputManager::processInput(window);
 }
 
 void Window::close(){
-     glfwDestroyWindow(window);
-     glfwTerminate();
+	glfwDestroyWindow(window);
+	glfwTerminate();
 }
 
 bool Window::isCloseRequested(){
-     return m_closeRequested;
+	return m_closeRequested;
 }

@@ -26,6 +26,7 @@ public:
 	int getZ();
 
 	bool needsUpdate = true;
+	unsigned int size = 0;
 
 private:
 

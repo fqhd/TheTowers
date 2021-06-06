@@ -44,13 +44,15 @@ struct ModelVertex {
 	glm::vec3 normal;
 };
 
-struct Vertex {
-	Vertex(const glm::vec3& p, const vec3& c){
-		position = p;
-		color = c;
+struct ChunkVertex {
+	Vertex(GLubyte a, GLubyte b, GLubyte c){
+		x = a;
+		y = b;
+		z = c;
 	}
-	glm::vec3 position;
-	vec3 color;
+	GLubyte x = 0;
+	GLubyte y = 0;
+	GLubyte z = 0;
 };
 
 struct GUIVertex{

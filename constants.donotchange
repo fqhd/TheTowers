@@ -2,7 +2,7 @@ ScreenWidth: 1280
 ScreenHeight: 720
 Gravity: 12
 MaxPlayerSpeed: 64.0
-ChunkWidth: 16
+ChunkWidth: 32
 MaxMouseSensibility: 5.0
 MaxRenderDistance: 64.0
 WorldWidth: 64

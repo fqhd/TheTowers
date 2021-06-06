@@ -6,17 +6,15 @@
 class CubeMap {
 public:
 
-    void init();
-    void update();
-    void render(const glm::mat4& projection, const glm::mat4& view);
-    void destroy();
+  void init();
+  void update();
+  void render(const glm::mat4& projection, const glm::mat4& view);
+  void destroy();
 
 private:
 
-
-    CubeMapTexture m_dayTexture;
-    Cube m_cube;
-    CubeMapShader m_shader;
-
+  CubeMapTexture m_dayTexture;
+  Cube m_cube;
+  CubeMapShader m_shader;
 
 };

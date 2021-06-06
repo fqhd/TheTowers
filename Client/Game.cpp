@@ -3,6 +3,7 @@
 #include <cstring>
 #include <glm/gtc/noise.hpp>
 #include "Window.hpp"
+#include <iostream>
 
 void Game::init(sf::IpAddress ip, GUICanvas& workspace){
 
@@ -17,7 +18,7 @@ void Game::init(sf::IpAddress ip, GUICanvas& workspace){
 	m_camera.init();
 	initGUI(workspace);
 	generateColorVector(m_colors);
-     m_entityHandler.init();
+	m_entityHandler.init();
 	m_blockOutline.init();
 
 }
@@ -30,7 +31,6 @@ void Game::initGUI(GUICanvas& workspace){
 	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 150), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 200), ColorRGBA8(), 0);
 	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 250), ColorRGBA8(), 0);
-
 }
 
 void Game::connectToServer(){
@@ -89,6 +89,10 @@ void Game::update(Settings& settings, float deltaTime, GameStates& state, Player
 	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
 		Window::setMouseCursorGrabbed(false);
 		state = GameStates::PAUSE;
+	}
+
+	if(InputManager::isKeyPressed(GLFW_KEY_G)){
+		std::cout << m_world.getWorldSize() << std::endl;
 	}
 
 	calcFps(deltaTime, workspace);

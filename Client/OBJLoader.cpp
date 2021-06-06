@@ -16,148 +16,137 @@ static inline std::vector<std::string> SplitString(const std::string &s, char de
 OBJModel::OBJModel(const std::string& fileName) {
 	hasUVs = false;
 	hasNormals = false;
-    std::ifstream file;
-    file.open(fileName.c_str());
+	std::ifstream file;
+	file.open(fileName.c_str());
 
-    std::string line;
-    if(file.is_open())
-    {
-        while(file.good())
-        {
-            getline(file, line);
+	std::string line;
+	if(file.is_open()) {
+		while(file.good()) {
+			getline(file, line);
 
-            unsigned int lineLength = line.length();
+			unsigned int lineLength = line.length();
 
-            if(lineLength < 2)
-                continue;
+			if(lineLength < 2)
+			continue;
 
-            const char* lineCStr = line.c_str();
+			const char* lineCStr = line.c_str();
 
-            switch(lineCStr[0])
-            {
-                case 'v':
-                    if(lineCStr[1] == 't')
-                        this->uvs.push_back(ParseOBJVec2(line));
-                    else if(lineCStr[1] == 'n')
-                        this->normals.push_back(ParseOBJVec3(line));
-                    else if(lineCStr[1] == ' ' || lineCStr[1] == '\t')
-                        this->vertices.push_back(ParseOBJVec3(line));
-                break;
-                case 'f':
-                    CreateOBJFace(line);
-                break;
-                default: break;
-            };
-        }
-    }
-    else
-    {
-        Utils::log("Unable to load mesh: " + fileName);
-    }
+			switch(lineCStr[0]) {
+			case 'v':
+				if(lineCStr[1] == 't')
+					this->uvs.push_back(ParseOBJVec2(line));
+				else if(lineCStr[1] == 'n')
+					this->normals.push_back(ParseOBJVec3(line));
+				else if(lineCStr[1] == ' ' || lineCStr[1] == '\t')
+					this->vertices.push_back(ParseOBJVec3(line));
+			break;
+			case 'f':
+				CreateOBJFace(line);
+			break;
+			default: break;
+			};
+		}
+	} else {
+		Utils::log("Unable to load mesh: " + fileName);
+	}
 }
 
-void IndexedModel::CalcNormals()
-{
-    for(unsigned int i = 0; i < indices.size(); i += 3)
-    {
-        int i0 = indices[i];
-        int i1 = indices[i + 1];
-        int i2 = indices[i + 2];
+void IndexedModel::CalcNormals() {
+	for(unsigned int i = 0; i < indices.size(); i += 3) {
+		int i0 = indices[i];
+		int i1 = indices[i + 1];
+		int i2 = indices[i + 2];
 
-        glm::vec3 v1 = positions[i1] - positions[i0];
-        glm::vec3 v2 = positions[i2] - positions[i0];
+		glm::vec3 v1 = positions[i1] - positions[i0];
+		glm::vec3 v2 = positions[i2] - positions[i0];
 
-        glm::vec3 normal = glm::normalize(glm::cross(v1, v2));
+		glm::vec3 normal = glm::normalize(glm::cross(v1, v2));
 
-        normals[i0] += normal;
-        normals[i1] += normal;
-        normals[i2] += normal;
-    }
+		normals[i0] += normal;
+		normals[i1] += normal;
+		normals[i2] += normal;
+	}
 
-    for(unsigned int i = 0; i < positions.size(); i++)
-        normals[i] = glm::normalize(normals[i]);
+	for(unsigned int i = 0; i < positions.size(); i++)
+		normals[i] = glm::normalize(normals[i]);
 }
 
-IndexedModel OBJModel::ToIndexedModel()
-{
-    IndexedModel result;
-    IndexedModel normalModel;
+IndexedModel OBJModel::ToIndexedModel() {
+	IndexedModel result;
+	IndexedModel normalModel;
 
-    unsigned int numIndices = OBJIndices.size();
+	unsigned int numIndices = OBJIndices.size();
 
-    std::vector<OBJIndex*> indexLookup;
+	std::vector<OBJIndex*> indexLookup;
 
-    for(unsigned int i = 0; i < numIndices; i++)
-        indexLookup.push_back(&OBJIndices[i]);
+	for(unsigned int i = 0; i < numIndices; i++)
+		indexLookup.push_back(&OBJIndices[i]);
 
-    std::sort(indexLookup.begin(), indexLookup.end(), CompareOBJIndexPtr);
+	std::sort(indexLookup.begin(), indexLookup.end(), CompareOBJIndexPtr);
 
-    std::map<OBJIndex, unsigned int> normalModelIndexMap;
-    std::map<unsigned int, unsigned int> indexMap;
+	std::map<OBJIndex, unsigned int> normalModelIndexMap;
+	std::map<unsigned int, unsigned int> indexMap;
 
-    for(unsigned int i = 0; i < numIndices; i++)
-    {
-        OBJIndex* currentIndex = &OBJIndices[i];
+	for(unsigned int i = 0; i < numIndices; i++) {
+		OBJIndex* currentIndex = &OBJIndices[i];
 
-        glm::vec3 currentPosition = vertices[currentIndex->vertexIndex];
-        glm::vec2 currentTexCoord;
-        glm::vec3 currentNormal;
+		glm::vec3 currentPosition = vertices[currentIndex->vertexIndex];
+		glm::vec2 currentTexCoord;
+		glm::vec3 currentNormal;
 
-        if(hasUVs)
-            currentTexCoord = uvs[currentIndex->uvIndex];
-        else
-            currentTexCoord = glm::vec2(0,0);
+		if(hasUVs)
+			currentTexCoord = uvs[currentIndex->uvIndex];
+		else
+			currentTexCoord = glm::vec2(0,0);
 
-        if(hasNormals)
-            currentNormal = normals[currentIndex->normalIndex];
-        else
-            currentNormal = glm::vec3(0,0,0);
+		if(hasNormals)
+			currentNormal = normals[currentIndex->normalIndex];
+		else
+			currentNormal = glm::vec3(0,0,0);
 
-        unsigned int normalModelIndex;
-        unsigned int resultModelIndex;
+		unsigned int normalModelIndex;
+		unsigned int resultModelIndex;
 
-        //Create model to properly generate normals on
-        std::map<OBJIndex, unsigned int>::iterator it = normalModelIndexMap.find(*currentIndex);
-        if(it == normalModelIndexMap.end())
-        {
-            normalModelIndex = normalModel.positions.size();
+		//Create model to properly generate normals on
+		std::map<OBJIndex, unsigned int>::iterator it = normalModelIndexMap.find(*currentIndex);
+		if(it == normalModelIndexMap.end()) {
+			normalModelIndex = normalModel.positions.size();
 
-            normalModelIndexMap.insert(std::pair<OBJIndex, unsigned int>(*currentIndex, normalModelIndex));
-            normalModel.positions.push_back(currentPosition);
-            normalModel.texCoords.push_back(currentTexCoord);
-            normalModel.normals.push_back(currentNormal);
-        }
-        else
-            normalModelIndex = it->second;
+			normalModelIndexMap.insert(std::pair<OBJIndex, unsigned int>(*currentIndex, normalModelIndex));
+			normalModel.positions.push_back(currentPosition);
+			normalModel.texCoords.push_back(currentTexCoord);
+			normalModel.normals.push_back(currentNormal);
+		} else {
+			normalModelIndex = it->second;
+		}
 
-        //Create model which properly separates texture coordinates
-        unsigned int previousVertexLocation = FindLastVertexIndex(indexLookup, currentIndex, result);
 
-        if(previousVertexLocation == (unsigned int)-1)
-        {
-            resultModelIndex = result.positions.size();
+		//Create model which properly separates texture coordinates
+		unsigned int previousVertexLocation = FindLastVertexIndex(indexLookup, currentIndex, result);
 
-            result.positions.push_back(currentPosition);
-            result.texCoords.push_back(currentTexCoord);
-            result.normals.push_back(currentNormal);
-        }
-        else
-            resultModelIndex = previousVertexLocation;
+		if(previousVertexLocation == (unsigned int)-1) {
+			resultModelIndex = result.positions.size();
 
-        normalModel.indices.push_back(normalModelIndex);
-        result.indices.push_back(resultModelIndex);
-        indexMap.insert(std::pair<unsigned int, unsigned int>(resultModelIndex, normalModelIndex));
-    }
+			result.positions.push_back(currentPosition);
+			result.texCoords.push_back(currentTexCoord);
+			result.normals.push_back(currentNormal);
+		} else {
+			resultModelIndex = previousVertexLocation;
+		}
 
-    if(!hasNormals)
-    {
-        normalModel.CalcNormals();
+		normalModel.indices.push_back(normalModelIndex);
+		result.indices.push_back(resultModelIndex);
+		indexMap.insert(std::pair<unsigned int, unsigned int>(resultModelIndex, normalModelIndex));
+	}
 
-        for(unsigned int i = 0; i < result.positions.size(); i++)
-            result.normals[i] = normalModel.normals[indexMap[i]];
-    }
+	if(!hasNormals) {
+		normalModel.CalcNormals();
 
-    //Getting center of positions
+		for(unsigned int i = 0; i < result.positions.size(); i++)
+		result.normals[i] = normalModel.normals[indexMap[i]];
+	}
+
+	//Getting center of positions
 	glm::vec3 center;
 	for(auto& i : result.positions){
 		center += i;
@@ -171,17 +160,17 @@ IndexedModel OBJModel::ToIndexedModel()
 	//Getting highest value
 	float highestValue = 0.0f;
 
-    for(auto& i : result.positions){
-	    if(glm::abs(i.x) > highestValue){
-		    highestValue = glm::abs(i.x);
-	    }
-	    if(glm::abs(i.y) > highestValue){
-		    highestValue = glm::abs(i.y);
-	    }
-	    if(glm::abs(i.z) > highestValue){
-		    highestValue = glm::abs(i.z);
-	    }
-    }
+	for(auto& i : result.positions){
+		if(glm::abs(i.x) > highestValue){
+			highestValue = glm::abs(i.x);
+		}
+		if(glm::abs(i.y) > highestValue){
+			highestValue = glm::abs(i.y);
+		}
+		if(glm::abs(i.z) > highestValue){
+			highestValue = glm::abs(i.z);
+		}
+	}
 
 	//Scaling positions
 	for(auto& i : result.positions){
@@ -191,7 +180,7 @@ IndexedModel OBJModel::ToIndexedModel()
 	}
 
 
-    return result;
+	return result;
 };
 
 unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLookup, const OBJIndex* currentIndex, const IndexedModel& result)

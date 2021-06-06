@@ -11,13 +11,21 @@ void World::init(uint8_t* d){
                for(unsigned int x = 0; x < Constants::getLocalWorldWidth(); x++){
 
                     getChunk(x, y, z)->init(x * Constants::getChunkWidth(), y * Constants::getChunkWidth(), z * Constants::getChunkWidth());
-
+                  
                }
           }
      }
 
      m_shader.init();
 
+}
+
+unsigned int World::getWorldSize() {
+	unsigned int size = 0;
+	for(unsigned int i = 0; i < Constants::getLocalWorldWidth() * Constants::getWorldHeight(); i++){
+		size += m_chunks[i].size;
+	}
+	return size;
 }
 
 void World::update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition){

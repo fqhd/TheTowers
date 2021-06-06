@@ -2,16 +2,16 @@
 
 
 void BlockOutlineShader::init(){
-     loadShader("res/shaders/block_outline_vertex_shader.glsl", "res/shaders/block_outline_fragment_shader.glsl");
-     bind();
-     getUniformLocations();
-     unbind();
+  loadShader("res/shaders/block_outline_vertex_shader.glsl", "res/shaders/block_outline_fragment_shader.glsl");
+  bind();
+  getUniformLocations();
+  unbind();
 }
 
 void BlockOutlineShader::getUniformLocations(){
-     m_viewMatrixLocation = glGetUniformLocation(m_programID, "view");
-     m_projectionMatrixLocation = glGetUniformLocation(m_programID, "projection");
-     m_blockPositionLocation = glGetUniformLocation(m_programID, "blockPosition");
+  m_viewMatrixLocation = glGetUniformLocation(m_programID, "view");
+  m_projectionMatrixLocation = glGetUniformLocation(m_programID, "projection");
+  m_blockPositionLocation = glGetUniformLocation(m_programID, "blockPosition");
 }
 
 void BlockOutlineShader::loadViewMatrix(const glm::mat4& matrix){

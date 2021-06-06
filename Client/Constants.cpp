@@ -26,70 +26,70 @@ unsigned int Constants::m_packetTransmissionFrequency;
 
 void Constants::loadFromFile(){
 
-     std::ifstream is;
-     std::string s;
-     is.open("../constants.donotchange");
+  std::ifstream is;
+  std::string s;
+  is.open("../constants.donotchange");
 
-     while(is >> s){
-          if(s == "ScreenWidth:"){
-               is >> m_screenWidth;
-          }else if(s == "ScreenHeight:"){
-               is >> m_screenHeight;
-          }else if(s == "ChunkWidth:"){
-               is >> m_chunkWidth;
-          }else if(s == "WorldWidth:"){
-               is >> m_worldWidth;
-          }else if(s == "WorldHeight:"){
-               is >> m_worldHeight;
-          }else if(s == "LocalWorldWidth:"){
-               is >> m_localWorldWidth;
-          }else if(s == "PlayerReachDistance:"){
-               is >> m_playerReachDistance;
-          }else if(s == "OcclusionFactor:"){
-               is >> m_occlusionFactor;
-          }else if(s == "Precision:"){
-               is >> m_precision;
-          }else if(s == "MaxPlayerSpeed:"){
-               is >> m_maxPlayerSpeed;
-          }else if(s == "Gravity:"){
-               is >> m_gravity;
-          }else if(s == "MaxRenderDistance:"){
-               is >> m_maxRenderDistance;
-          }else if(s == "MaxMouseSensibility:"){
-               is >> m_maxMouseSensibility;
-          }else if(s == "LocalWorldWidth:"){
-               is >> m_localWorldWidth;
-          }else if(s == "NumParticles:"){
-               is >> m_numParticles;
-          }else if(s == "MaxGradient:"){
-               is >> m_maxGradient;
-          }else if(s == "MaxDensity:"){
-               is >> m_maxDensity;
-		}else if(s == "ClientPort:"){
-			is >> m_clientPort;
-		}else if(s == "ServerPort:"){
-			is >> m_serverPort;
-		}else if(s == "PacketTransmissionFrequency:"){
-			is >> m_packetTransmissionFrequency;
-		}else if(s == "EntityMovementSharpness:"){
-               is >> m_entityMovementSharpness;
-          }
-     }
+  while(is >> s){
+    if(s == "ScreenWidth:"){
+      is >> m_screenWidth;
+    }else if(s == "ScreenHeight:"){
+      is >> m_screenHeight;
+    }else if(s == "ChunkWidth:"){
+      is >> m_chunkWidth;
+    }else if(s == "WorldWidth:"){
+      is >> m_worldWidth;
+    }else if(s == "WorldHeight:"){
+      is >> m_worldHeight;
+    }else if(s == "LocalWorldWidth:"){
+      is >> m_localWorldWidth;
+    }else if(s == "PlayerReachDistance:"){
+      is >> m_playerReachDistance;
+    }else if(s == "OcclusionFactor:"){
+      is >> m_occlusionFactor;
+    }else if(s == "Precision:"){
+      is >> m_precision;
+    }else if(s == "MaxPlayerSpeed:"){
+      is >> m_maxPlayerSpeed;
+    }else if(s == "Gravity:"){
+      is >> m_gravity;
+    }else if(s == "MaxRenderDistance:"){
+      is >> m_maxRenderDistance;
+    }else if(s == "MaxMouseSensibility:"){
+      is >> m_maxMouseSensibility;
+    }else if(s == "LocalWorldWidth:"){
+      is >> m_localWorldWidth;
+    }else if(s == "NumParticles:"){
+      is >> m_numParticles;
+    }else if(s == "MaxGradient:"){
+      is >> m_maxGradient;
+    }else if(s == "MaxDensity:"){
+      is >> m_maxDensity;
+    }else if(s == "ClientPort:"){
+      is >> m_clientPort;
+    }else if(s == "ServerPort:"){
+      is >> m_serverPort;
+    }else if(s == "PacketTransmissionFrequency:"){
+      is >> m_packetTransmissionFrequency;
+    }else if(s == "EntityMovementSharpness:"){
+      is >> m_entityMovementSharpness;
+    }
+  }
 
-     is.close();
+  is.close();
 
 }
 
 unsigned int Constants::getNumParticles(){
-     return m_numParticles;
+  return m_numParticles;
 }
 
 unsigned int Constants::getLocalWorldWidth(){
-     return m_localWorldWidth;
+  return m_localWorldWidth;
 }
 
 unsigned short Constants::getClientPort(){
-	return m_clientPort;
+  return m_clientPort;
 }
 
 unsigned short Constants::getServerPort(){
@@ -97,19 +97,19 @@ unsigned short Constants::getServerPort(){
 }
 
 float Constants::getMaxGradient(){
-     return m_maxGradient;
+  return m_maxGradient;
 }
 
 float Constants::getMaxDensity(){
-     return m_maxDensity;
+  return m_maxDensity;
 }
 
 float Constants::getEntityMovementSharpness(){
-     return m_entityMovementSharpness;
+  return m_entityMovementSharpness;
 }
 
 unsigned int Constants::getScreenWidth() {
-     return m_screenWidth;
+  return m_screenWidth;
 }
 
 unsigned int Constants::getScreenHeight() {

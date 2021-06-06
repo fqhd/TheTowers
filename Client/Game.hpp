@@ -21,48 +21,47 @@
 class Game {
 public:
 
-     void init(sf::IpAddress ip, GUICanvas& workspace);
-     void update(Settings& settings, float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
-     void render(Settings& settings, Player& player, float deltaTime);
-     void destroy();
+	void init(sf::IpAddress ip, GUICanvas& workspace);
+	void update(Settings& settings, float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
+	void render(Settings& settings, Player& player, float deltaTime);
+	void destroy();
 
 	void updateGUIElements(Player& player, GUICanvas& workspace, Settings& settings);
-     void updateElementsBasedOnResize();
+	void updateElementsBasedOnResize();
 
 
 
 private:
 
-     //Game functions
-     void generateColorVector(std::vector<vec3>& colors);
-     void generateLocalWorld();
+	//Game functions
+	void generateColorVector(std::vector<vec3>& colors);
+	void generateLocalWorld();
 	void sendPositionDataToServer();
 
-     //Game functions
-     void connectToServer();
-     void receiveAndDecompressPacket();
-     void receiveGameUpdatePacket();
-     void initGUI(GUICanvas& workspace);
-     void calcFps(float deltaTime, GUICanvas& workspace);
-     void updateCameraAndWorld(Settings& settings, float deltaTime);
+	//Game functions
+	void connectToServer();
+	void receiveAndDecompressPacket();
+	void receiveGameUpdatePacket();
+	void initGUI(GUICanvas& workspace);
+	void calcFps(float deltaTime, GUICanvas& workspace);
+	void updateCameraAndWorld(Settings& settings, float deltaTime);
 
-     //Engine Variables
-     CubeMap m_cubeMap;
-     ParticleHandler m_particleHandler;
-     Camera m_camera;
-     EntityHandler m_entityHandler;
-     BlockOutline m_blockOutline;
+	//Engine Variables
+	CubeMap m_cubeMap;
+	ParticleHandler m_particleHandler;
+	Camera m_camera;
+	EntityHandler m_entityHandler;
+	BlockOutline m_blockOutline;
 	World m_world;
 
-
-     //Game Variables
-     sf::Clock m_fpsClock;
+	//Game Variables
+	sf::Clock m_fpsClock;
 	sf::Clock m_dataFrequencyTimer;
 	sf::IpAddress m_serverIp;
-     sf::TcpSocket m_tcpSocket;
+	sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;
 	std::vector<vec3> m_colors;
-     uint8_t m_id = 0;
+	uint8_t m_id = 0;
 	uint8_t* m_data = nullptr;
 
 
