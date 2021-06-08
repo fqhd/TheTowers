@@ -8,19 +8,19 @@
 class CubeMapShader : public Shader {
 public:
 
-     void init();
+	void init();
 
-    //Loading Uniforms
-    void loadProjection(const glm::mat4& matrix);
-    void loadView(const glm::mat4& matrix);
+	//Loading Uniforms
+	void loadProjection(const glm::mat4& matrix);
+	void loadView(const glm::mat4& matrix);
 
 private:
 
-     void getUniformLocations();
+	void getUniformLocations();
 
-    //Locations
-    GLint m_projectionLocation = 0;
-    GLint m_viewLocation = 0;
+	//Locations
+	GLint m_projectionLocation = 0;
+	GLint m_viewLocation = 0;
 
 
 };

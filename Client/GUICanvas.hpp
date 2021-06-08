@@ -14,7 +14,7 @@
 #include <glm/glm.hpp>
 
 
-class GUICanvas{
+class GUICanvas {
 public:
 
 	void update();

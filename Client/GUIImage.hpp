@@ -8,11 +8,11 @@ class GUIImage {
 public:
 
 
-     GUIImage(const glm::vec4& d, const ColorRGBA8& c);
-     void render(GUIRenderer& renderer);
+	GUIImage(const glm::vec4& d, const ColorRGBA8& c);
+	void render(GUIRenderer& renderer);
 
-     glm::vec4 destRect;
-     ColorRGBA8 color;
+	glm::vec4 destRect;
+	ColorRGBA8 color;
 
 private:
 

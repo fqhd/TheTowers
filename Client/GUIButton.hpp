@@ -1,10 +1,11 @@
 #ifndef GUI_BUTTON_H
 #define GUI_BUTTON_H
+
 #include "GUIRenderer.hpp"
 #include "InputManager.hpp"
 
 
-class GUIButton{
+class GUIButton {
 public:
 
 	GUIButton(const glm::vec4& destRect, const ColorRGBA8& color);

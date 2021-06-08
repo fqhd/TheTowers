@@ -8,10 +8,10 @@ const float MENU_BG_HEIGHT = MENU_HEIGHT + 2.0f;
 
 void PauseMenu::init(Settings& settings, GUICanvas& workspace){
 
-     if(settings.vsync)
-          Window::setVerticalSyncEnabled(true);
-     else
-          Window::setVerticalSyncEnabled(false);
+	if(settings.vsync)
+		Window::setVerticalSyncEnabled(true);
+	else
+		Window::setVerticalSyncEnabled(false);
 
 
 	addImages(settings, workspace);
@@ -44,79 +44,78 @@ void PauseMenu::addText(Settings& settings, GUICanvas& workspace){
 }
 
 void PauseMenu::addImages(Settings& settings, GUICanvas& workspace){
-     //Images
-     workspace.images.push_back(GUIImage(glm::vec4(0, 0, Constants::getScreenWidth(), Constants::getScreenHeight()), ColorRGBA8(0, 0, 0, 150)));
-     workspace.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_BG_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_BG_HEIGHT / 2.0f, MENU_BG_WIDTH, MENU_BG_HEIGHT), ColorRGBA8(50, 50, 50, 255)));
-     workspace.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f, MENU_WIDTH, MENU_HEIGHT), ColorRGBA8(20, 20, 20, 255)));
+	//Images
+	workspace.images.push_back(GUIImage(glm::vec4(0, 0, Constants::getScreenWidth(), Constants::getScreenHeight()), ColorRGBA8(0, 0, 0, 150)));
+	workspace.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_BG_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_BG_HEIGHT / 2.0f, MENU_BG_WIDTH, MENU_BG_HEIGHT), ColorRGBA8(50, 50, 50, 255)));
+	workspace.images.push_back(GUIImage(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f, MENU_WIDTH, MENU_HEIGHT), ColorRGBA8(20, 20, 20, 255)));
 	workspace.images.push_back(GUIImage(glm::vec4(598, 188, 132, 132), ColorRGBA8(0, 0, 0, 255)));
 	workspace.images.push_back(GUIImage(glm::vec4(600, 190, 128, 128), ColorRGBA8(0, 0, 0, 255)));
-
 
 }
 
 void PauseMenu::addCheckboxes(Settings& settings, GUICanvas& workspace){
 	//Checkboxes
-     workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showFPS));
-     workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.vsync));
+	workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 450, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showFPS));
+	workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.vsync));
 	workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 350, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showDebugInfo));
 
 }
 
 void PauseMenu::addSliders(Settings& settings, GUICanvas& workspace){
 	//Sliders
-     workspace.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-     workspace.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-     workspace.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-     workspace.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / Constants::getMaxMouseSensibility()));
-     workspace.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / Constants::getMaxPlayerSpeed()));
-     workspace.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.density / Constants::getMaxDensity()));
-     workspace.sliders.push_back(GUISlider(glm::vec2(800, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.gradient / Constants::getMaxGradient()));
+	workspace.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
+	workspace.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
+	workspace.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
+	workspace.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / Constants::getMaxMouseSensibility()));
+	workspace.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / Constants::getMaxPlayerSpeed()));
+	workspace.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.density / Constants::getMaxDensity()));
+	workspace.sliders.push_back(GUISlider(glm::vec2(800, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.gradient / Constants::getMaxGradient()));
 }
 
 void PauseMenu::addKeyboxes(Settings& settings, GUICanvas& workspace){
 	//Keyboxes
-     workspace.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.front));
-     workspace.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.back));
-     workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.left));
-     workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.right));
-     workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.up));
-     workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.down));
+	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.front));
+	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.back));
+	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.left));
+	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.right));
+	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.up));
+	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.down));
 	workspace.buttons.push_back(GUIButton(glm::vec4(950, 70, 128, 32), ColorRGBA8(156, 0, 252, 255)));
 }
 
 
 void PauseMenu::update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace){
-     if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
+	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
 		Window::setMouseCursorGrabbed(true);
 		state = GameStates::PLAY;
-          updatePlayerBlock(player, workspace);
+		updatePlayerBlock(player, workspace);
 		applySettingsToWorkspace(settings, workspace);
-     }else if(workspace.buttons.at(0).isPressed()){
+	} else if (workspace.buttons.at(0).isPressed()){
 		applyWorkspaceToSettings(workspace, settings);
-          updatePlayerBlock(player, workspace);
+		updatePlayerBlock(player, workspace);
 		Window::setMouseCursorGrabbed(true);
-          state = GameStates::PLAY;
+		state = GameStates::PLAY;
 
-          if(settings.vsync){
-               Window::setVerticalSyncEnabled(true);
-          } else {
-               Window::setVerticalSyncEnabled(false);
-          }
+		if(settings.vsync){
+			Window::setVerticalSyncEnabled(true);
+		} else {
+			Window::setVerticalSyncEnabled(false);
+		}
 
 	}
 
-     workspace.images[4].color = ColorRGBA8(workspace.sliders[0].getValue() * 255, workspace.sliders[1].getValue() * 255, workspace.sliders[2].getValue() * 255, 255);
+	workspace.images[4].color = ColorRGBA8(workspace.sliders[0].getValue() * 255, workspace.sliders[1].getValue() * 255, workspace.sliders[2].getValue() * 255, 255);
 
-     workspace.update();
-     updateValues(settings, workspace);
+	workspace.update();
+	updateValues(settings, workspace);
 
 }
 
 void PauseMenu::updateValues(Settings& settings, GUICanvas& workspace){
-     settings.mouseSensibility = workspace.sliders[3].getValue() * Constants::getMaxMouseSensibility();
-     settings.playerSpeed = workspace.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
-     settings.density = workspace.sliders[5].getValue() * Constants::getMaxDensity();
-     settings.gradient = workspace.sliders[6].getValue() * Constants::getMaxGradient();
+	settings.mouseSensibility = workspace.sliders[3].getValue() * Constants::getMaxMouseSensibility();
+	settings.playerSpeed = workspace.sliders[4].getValue() * Constants::getMaxPlayerSpeed();
+	settings.density = workspace.sliders[5].getValue() * Constants::getMaxDensity();
+	settings.gradient = workspace.sliders[6].getValue() * Constants::getMaxGradient();
 }
 
 void PauseMenu::updatePlayerBlock(Player& player, GUICanvas& workspace){

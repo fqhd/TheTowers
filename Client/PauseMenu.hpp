@@ -11,8 +11,8 @@
 class PauseMenu {
 public:
 
-     void init(Settings& settings, GUICanvas& workspace);
-     void update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace);
+	void init(Settings& settings, GUICanvas& workspace);
+	void update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace);
 
 private:
 
@@ -24,7 +24,7 @@ private:
 	void addSliders(Settings& settings, GUICanvas& workspace);
 	void addKeyboxes(Settings& settings, GUICanvas& workspace);
 	void addText(Settings& settings, GUICanvas& workspace);
-     void updatePlayerBlock(Player& player, GUICanvas& workspace);
+	void updatePlayerBlock(Player& player, GUICanvas& workspace);
 
 
 };

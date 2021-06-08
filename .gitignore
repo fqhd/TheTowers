@@ -2,4 +2,4 @@
 .ninja_log
 *.o
 out
-
+.vscode/

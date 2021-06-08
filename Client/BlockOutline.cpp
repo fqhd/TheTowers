@@ -49,6 +49,6 @@ Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
 }
 
 void BlockOutline::destroy(){
-     m_shader.destroy();
-     m_renderer.destroy();
+	m_shader.destroy();
+	m_renderer.destroy();
 }

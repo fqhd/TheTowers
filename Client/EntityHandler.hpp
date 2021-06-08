@@ -14,24 +14,24 @@
 class EntityHandler {
 public:
 
-     void init();
-     void update(sf::UdpSocket& socket, float deltaTime);
-     void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
-     void destroy();
-     void removeEntity(uint8_t entity);
+	void init();
+	void update(sf::UdpSocket& socket, float deltaTime);
+	void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
+	void destroy();
+	void removeEntity(uint8_t entity);
 
 
 private:
 
-     //Functions
-     void addEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw);
+	//Functions
+	void addEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw);
 
-     //Objects
-     ModelShader m_shader;
-     Model m_model;
+	//Objects
+	ModelShader m_shader;
+	Model m_model;
 
-     //Data Structures
-     std::unordered_map<uint8_t, Entity> m_entities;
+	//Data Structures
+	std::unordered_map<uint8_t, Entity> m_entities;
 
 };
 

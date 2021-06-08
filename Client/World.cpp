@@ -68,7 +68,7 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
                     unsigned int w = Constants::getChunkWidth();
                     glm::vec3 min = glm::vec3(c->getX(), c->getY(), c->getZ());
                     glm::vec3 max = min + glm::vec3(w, w, w);
-
+					
                     if(f.IsBoxVisible(min, max)){
                          c->render();
                     }

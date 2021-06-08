@@ -1,5 +1,6 @@
 #ifndef CUBEMAP_TEXTURE_H
 #define CUBEMAP_TEXTURE_H
+
 #include "glad.h"
 #include <vector>
 #include <string>
@@ -7,14 +8,14 @@
 class CubeMapTexture {
 public:
 
-    void init(const std::vector<std::string>& locations);
-    void bind();
-    void unbind();
-    void destroy();
+	void init(const std::vector<std::string>& locations);
+	void bind();
+	void unbind();
+	void destroy();
 
 private:
 
-    GLuint m_textureID;
+	GLuint m_textureID;
 
 };
 

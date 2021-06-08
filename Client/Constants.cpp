@@ -24,162 +24,162 @@ unsigned short Constants::m_clientPort;
 unsigned short Constants::m_serverPort;
 unsigned int Constants::m_packetTransmissionFrequency;
 
-void Constants::loadFromFile(){
+void Constants::loadFromFile() {
 
-     std::ifstream is;
-     std::string s;
-     is.open("../constants.donotchange");
+	std::ifstream is;
+	std::string s;
+	is.open("../constants.donotchange");
 
-     while(is >> s){
-          if(s == "ScreenWidth:"){
-               is >> m_screenWidth;
-          }else if(s == "ScreenHeight:"){
-               is >> m_screenHeight;
-          }else if(s == "ChunkWidth:"){
-               is >> m_chunkWidth;
-          }else if(s == "WorldWidth:"){
-               is >> m_worldWidth;
-          }else if(s == "WorldHeight:"){
-               is >> m_worldHeight;
-          }else if(s == "LocalWorldWidth:"){
-               is >> m_localWorldWidth;
-          }else if(s == "PlayerReachDistance:"){
-               is >> m_playerReachDistance;
-          }else if(s == "OcclusionFactor:"){
-               is >> m_occlusionFactor;
-          }else if(s == "Precision:"){
-               is >> m_precision;
-          }else if(s == "MaxPlayerSpeed:"){
-               is >> m_maxPlayerSpeed;
-          }else if(s == "Gravity:"){
-               is >> m_gravity;
-          }else if(s == "MaxRenderDistance:"){
-               is >> m_maxRenderDistance;
-          }else if(s == "MaxMouseSensibility:"){
-               is >> m_maxMouseSensibility;
-          }else if(s == "LocalWorldWidth:"){
-               is >> m_localWorldWidth;
-          }else if(s == "NumParticles:"){
-               is >> m_numParticles;
-          }else if(s == "MaxGradient:"){
-               is >> m_maxGradient;
-          }else if(s == "MaxDensity:"){
-               is >> m_maxDensity;
-		}else if(s == "ClientPort:"){
+	while (is >> s) {
+		if (s == "ScreenWidth:") {
+			is >> m_screenWidth;
+		} else if (s == "ScreenHeight:") {
+			is >> m_screenHeight;
+		} else if (s == "ChunkWidth:") {
+			is >> m_chunkWidth;
+		} else if (s == "WorldWidth:") {
+			is >> m_worldWidth;
+		} else if (s == "WorldHeight:") {
+			is >> m_worldHeight;
+		} else if (s == "LocalWorldWidth:") {
+			is >> m_localWorldWidth;
+		} else if (s == "PlayerReachDistance:") {
+			is >> m_playerReachDistance;
+		} else if (s == "OcclusionFactor:") {
+			is >> m_occlusionFactor;
+		} else if (s == "Precision:") {
+			is >> m_precision;
+		} else if (s == "MaxPlayerSpeed:") {
+			is >> m_maxPlayerSpeed;
+		} else if (s == "Gravity:") {
+			is >> m_gravity;
+		} else if (s == "MaxRenderDistance:") {
+			is >> m_maxRenderDistance;
+		} else if (s == "MaxMouseSensibility:") {
+			is >> m_maxMouseSensibility;
+		} else if (s == "LocalWorldWidth:") {
+			is >> m_localWorldWidth;
+		} else if (s == "NumParticles:") {
+			is >> m_numParticles;
+		} else if (s == "MaxGradient:") {
+			is >> m_maxGradient;
+		} else if (s == "MaxDensity:") {
+			is >> m_maxDensity;
+		} else if (s == "ClientPort:") {
 			is >> m_clientPort;
-		}else if(s == "ServerPort:"){
+		} else if (s == "ServerPort:") {
 			is >> m_serverPort;
-		}else if(s == "PacketTransmissionFrequency:"){
+		} else if (s == "PacketTransmissionFrequency:") {
 			is >> m_packetTransmissionFrequency;
-		}else if(s == "EntityMovementSharpness:"){
-               is >> m_entityMovementSharpness;
-          }
-     }
+		} else if (s == "EntityMovementSharpness:") {
+			is >> m_entityMovementSharpness;
+		}
+	}
 
-     is.close();
+	is.close();
 
 }
 
-unsigned int Constants::getNumParticles(){
-     return m_numParticles;
+unsigned int Constants::getNumParticles() {
+	return m_numParticles;
 }
 
-unsigned int Constants::getLocalWorldWidth(){
-     return m_localWorldWidth;
+unsigned int Constants::getLocalWorldWidth() {
+	return m_localWorldWidth;
 }
 
-unsigned short Constants::getClientPort(){
+unsigned short Constants::getClientPort() {
 	return m_clientPort;
 }
 
-unsigned short Constants::getServerPort(){
+unsigned short Constants::getServerPort() {
 	return m_serverPort;
 }
 
-float Constants::getMaxGradient(){
-     return m_maxGradient;
+float Constants::getMaxGradient() {
+	return m_maxGradient;
 }
 
-float Constants::getMaxDensity(){
-     return m_maxDensity;
+float Constants::getMaxDensity() {
+	return m_maxDensity;
 }
 
-float Constants::getEntityMovementSharpness(){
-     return m_entityMovementSharpness;
+float Constants::getEntityMovementSharpness() {
+	return m_entityMovementSharpness;
 }
 
 unsigned int Constants::getScreenWidth() {
-     return m_screenWidth;
+	return m_screenWidth;
 }
 
 unsigned int Constants::getScreenHeight() {
-     return m_screenHeight;
+	return m_screenHeight;
 }
 
 float Constants::getGravity() {
-     return m_gravity;
+	return m_gravity;
 }
 
-float Constants::getMaxPlayerSpeed(){
-     return m_maxPlayerSpeed;
+float Constants::getMaxPlayerSpeed() {
+	return m_maxPlayerSpeed;
 }
 
 unsigned int Constants::getChunkWidth() {
-     return m_chunkWidth;
+	return m_chunkWidth;
 }
 
-float Constants::getMaxMouseSensibility(){
-     return m_maxMouseSensibility;
+float Constants::getMaxMouseSensibility() {
+	return m_maxMouseSensibility;
 }
 
-unsigned int Constants::getMaxRenderDistance(){
-     return m_maxRenderDistance;
+unsigned int Constants::getMaxRenderDistance() {
+	return m_maxRenderDistance;
 }
 
-unsigned int Constants::getPacketTransmissionFrequency(){
+unsigned int Constants::getPacketTransmissionFrequency() {
 	return m_packetTransmissionFrequency;
 }
 
 unsigned int Constants::getChunkSize() {
-     return m_chunkWidth * m_chunkWidth * m_chunkWidth;
+	return m_chunkWidth * m_chunkWidth * m_chunkWidth;
 }
 
 unsigned int Constants::getWorldWidth() {
-     return m_worldWidth;
+	return m_worldWidth;
 }
 
 unsigned int Constants::getWorldHeight() {
-     return m_worldHeight;
+	return m_worldHeight;
 }
 
 float Constants::getPlayerReachDistance() {
-     return m_playerReachDistance;
+	return m_playerReachDistance;
 }
 
 float Constants::getOcclusionFactor() {
-     return m_occlusionFactor;
+	return m_occlusionFactor;
 }
 
-unsigned int Constants::getPrecision(){
-     return m_precision;
+unsigned int Constants::getPrecision() {
+	return m_precision;
 }
 
 void Constants::printDebugMessage() {
-     Utils::printDividor("Constants");
-     Utils::log("ScreenWidth: " + std::to_string(m_screenWidth));
-     Utils::log("ScreenHeight: " + std::to_string(m_screenHeight));
-     Utils::log("ChunkWidth: " + std::to_string(m_chunkWidth));
-     Utils::log("ChunkSize: " + std::to_string(m_chunkWidth * m_chunkWidth * m_chunkWidth));
-     Utils::log("LocalWorldWidth: " + std::to_string(m_localWorldWidth));
-     Utils::log("WorldWidth: " + std::to_string(m_worldWidth));
-     Utils::log("WorldHeight: " + std::to_string(m_worldHeight));
-     Utils::log("PlayerReachDistance: " + std::to_string(m_playerReachDistance));
-     Utils::log("OcclusionFactor: " + std::to_string(m_occlusionFactor));
-     Utils::log("Precision: " + std::to_string(m_precision));
-     Utils::log("MaxPlayerSpeed: " + std::to_string(m_maxPlayerSpeed));
-     Utils::log("Gravity: " + std::to_string(m_gravity));
-     Utils::log("MaxRenderDistance: " + std::to_string(m_maxRenderDistance));
-     Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
+	Utils::printDividor("Constants");
+	Utils::log("ScreenWidth: " + std::to_string(m_screenWidth));
+	Utils::log("ScreenHeight: " + std::to_string(m_screenHeight));
+	Utils::log("ChunkWidth: " + std::to_string(m_chunkWidth));
+	Utils::log("ChunkSize: " + std::to_string(m_chunkWidth * m_chunkWidth * m_chunkWidth));
+	Utils::log("LocalWorldWidth: " + std::to_string(m_localWorldWidth));
+	Utils::log("WorldWidth: " + std::to_string(m_worldWidth));
+	Utils::log("WorldHeight: " + std::to_string(m_worldHeight));
+	Utils::log("PlayerReachDistance: " + std::to_string(m_playerReachDistance));
+	Utils::log("OcclusionFactor: " + std::to_string(m_occlusionFactor));
+	Utils::log("Precision: " + std::to_string(m_precision));
+	Utils::log("MaxPlayerSpeed: " + std::to_string(m_maxPlayerSpeed));
+	Utils::log("Gravity: " + std::to_string(m_gravity));
+	Utils::log("MaxRenderDistance: " + std::to_string(m_maxRenderDistance));
+	Utils::log("MaxMouseSensibility: " + std::to_string(m_maxMouseSensibility));
 	Utils::log("ClientPort: " + std::to_string(m_clientPort));
 	Utils::log("ServerPort: " + std::to_string(m_serverPort));
 	Utils::log("PacketTransmissionFrequency: " + std::to_string(m_packetTransmissionFrequency));

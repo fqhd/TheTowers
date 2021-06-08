@@ -78,55 +78,55 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 }
 
 bool Window::isResized(){
-     return m_isResized;
+	return m_isResized;
 }
 
 void Window::windowResized(GLFWwindow* window, int width, int height){
-     m_isResized = true;
+	m_isResized = true;
 	m_width = width;
 	m_height = height;
 }
 
 int Window::getWidth(){
-     return m_width;
+	return m_width;
 }
 
 int Window::getHeight(){
-     return m_height;
+	return m_height;
 }
 
 
 void Window::setVerticalSyncEnabled(bool enabled){
-     if(enabled){
-          glfwSwapInterval(1);
-     }else{
-          glfwSwapInterval(0);
-     }
+	if(enabled){
+		glfwSwapInterval(1);
+	}else{
+		glfwSwapInterval(0);
+	}
 }
 
 void Window::setMouseCursorGrabbed(bool grabbed){
-     if(grabbed){
-          glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-     }else{
-          glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-     }
+	if(grabbed){
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}else{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 }
 
 void Window::clear(){
-     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::update(){
-     m_isResized = false;
-     glfwSwapBuffers(window);
-     m_closeRequested = InputManager::processInput(window);
+	m_isResized = false;
+	glfwSwapBuffers(window);
+	m_closeRequested = InputManager::processInput(window);
 }
 
 void Window::close(){
-     glfwDestroyWindow(window);
-     glfwTerminate();
+	glfwDestroyWindow(window);
+	glfwTerminate();
 }
 
 bool Window::isCloseRequested(){
-     return m_closeRequested;
+	return m_closeRequested;
 }
