@@ -2,5 +2,4 @@
 .ninja_log
 *.o
 out
-Client/build.ninja
 
