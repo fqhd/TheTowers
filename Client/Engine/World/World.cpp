@@ -191,25 +191,23 @@ uint8_t World::getBlock(int x, int y, int z){
 	unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
 	if(y < 0 || y >= maxH) return 0;
-		x = x % maxW;
-		z = z % maxW;
-		return m_data[(y * maxW * maxW) + (z * maxW) + x];
-	}
+	x = x % maxW;
+	z = z % maxW;
+	return m_data[(y * maxW * maxW) + (z * maxW) + x];
+}
 
-	void World::setBlock(int x, int y, int z, uint8_t block) {
+void World::setBlock(int x, int y, int z, uint8_t block) {
 	unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
 	unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
-	//Checking if the Y coordinate of the block is in bounds
+	//Checking if the X Y Z coordinate of the block is in bounds
 	if(y < 0 || y >= maxH) return;
+	if(x < 0 || x >= maxW) return;
+	if(z < 0 || z >= maxW) return;
 
-	//Now, we use the modulo opporator to convert the blocks absolute XZ coords, to tiled world coordinates. This way we can *properly* 2-Dimensionally tile a 3D world.
-	x = x % maxW;
-	z = z % maxW;
-
-	//We use the modulo opporator to make sure that the x and z coordinates of the chunk are between 0 and maxW. And even if they are provided to be out of bounds. They get looped back around so that the world tiles
 	m_data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
 
+	// Getting the chunk that the block is in
 	unsigned int posX = x / Constants::getChunkWidth();
 	unsigned int posY = y / Constants::getChunkWidth();
 	unsigned int posZ = z / Constants::getChunkWidth();

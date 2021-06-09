@@ -62,7 +62,6 @@ int Chunk::getZ() {
 	return m_z;
 }
 
-
 void Chunk::setX(int x) {
 	m_x = x;
 }
