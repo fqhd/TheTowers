@@ -8,8 +8,7 @@
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
 
-
-class World{
+class World {
 public:
 
 	void init(uint8_t* d);
@@ -25,14 +24,14 @@ private:
 	void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
 	Chunk* getChunk(int x, int y, int z);
 
-	//World movement functions
+	// World movement functions
 	void moveFront();
 	void moveBack();
 	void moveRight();
 	void moveLeft();
 
 	//Mesh generation functions
-	void addTopFace(int x, int y, int z, const vec3& color);
+	void addTopFace(Chunk* c, int x, int y, int z, const vec3& color);
 	void addBottomFace(int x, int y, int z, const vec3& color);
 	void addRightFace(int x, int y, int z, const vec3& color);
 	void addLeftFace(int x, int y, int z, const vec3& color);
@@ -47,8 +46,6 @@ private:
 	unsigned int m_chunkOffsetX = 0;
 	unsigned int m_chunkOffsetZ = 0;
 	uint8_t* m_data = nullptr;
-
-
 
 
 };

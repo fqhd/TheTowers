@@ -1,5 +1,6 @@
 #include "World.hpp"
 #include "../../Constants.hpp"
+#include <iostream>
 
 void World::init(uint8_t* d){
 
@@ -171,12 +172,12 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 				uint8_t block = getBlock(chunk->x + x, chunk->y + y, chunk->z + z);
 
 				if(block){
-					addTopFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
-					addBottomFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
-					addLeftFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
-					addRightFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
-					addFrontFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
-					addBackFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
+					addTopFace(chunk, x, y, z, colors[block]);
+					addBottomFace(x, y, z, colors[block]);
+					addLeftFace(x, y, z, colors[block]);
+					addRightFace(x, y, z, colors[block]);
+					addFrontFace(x, y, z, colors[block]);
+					addBackFace(x, y, z, colors[block]);
 				}
 			}
 		}
@@ -239,7 +240,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 		Chunk* chunk = getChunk(posX, posY, posZ + 1);
 		chunk->needsUpdate = true;
 	}
-	
+
 	if(y % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY - 1, posZ);
 		if(chunk) chunk->needsUpdate = true;
@@ -250,7 +251,6 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	}
 
 }
-
 
 Chunk* World::getChunk(int x, int y, int z) {
 	unsigned int worldWidth = Constants::getLocalWorldWidth();
@@ -263,9 +263,9 @@ Chunk* World::getChunk(int x, int y, int z) {
 	return &m_chunks[(y * worldWidth * worldWidth) + (z * worldWidth) + x];
 }
 
-void World::addTopFace(int x, int y, int z, const vec3& color){
+void World::addTopFace(Chunk* c, int x, int y, int z, const vec3& color){
 
-	if(getBlock(x, y + 1, z)) return;
+	if(getBlock(c->x + x, c->y + y + 1, c->z + z)) return;
 
 	float of = 1.0f;
 
