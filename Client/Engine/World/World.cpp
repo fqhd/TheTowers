@@ -172,12 +172,7 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 				uint8_t block = getBlock(chunk->x + x, chunk->y + y, chunk->z + z);
 
 				if(block){
-					addTopFace(chunk, x, y, z, colors[block]);
-					addBottomFace(x, y, z, colors[block]);
-					addLeftFace(x, y, z, colors[block]);
-					addRightFace(x, y, z, colors[block]);
-					addFrontFace(x, y, z, colors[block]);
-					addBackFace(x, y, z, colors[block]);
+					addBlock(chunk, x, y, z, colors[block]);
 				}
 			}
 		}
@@ -252,6 +247,17 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 
 }
 
+void World::addBlock(Chunk* _c, int _x, int _y, int _z, const vec3& _color){
+
+	addTopFace(_c, _x, _y, _z, _color);
+	addBottomFace(_c, _x, _y, _z, _color);
+	addLeftFace(_c, _x, _y, _z, _color);
+	addRightFace(_c, _x, _y, _z, _color);
+	addFrontFace(_c, _x, _y, _z, _color);
+	addBackFace(_c, _x, _y, _z, _color);
+
+}
+
 Chunk* World::getChunk(int x, int y, int z) {
 	unsigned int worldWidth = Constants::getLocalWorldWidth();
 	unsigned int worldHeight = Constants::getWorldHeight();
@@ -289,8 +295,8 @@ void World::addTopFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 }
 
-void World::addBottomFace(int x, int y, int z, const vec3& color){
-	if(getBlock(x, y - 1, z)) return;
+void World::addBottomFace(Chunk* c, int x, int y, int z, const vec3& color){
+	if(getBlock(c->x + x, c->y + y - 1, c->z + z)) return;
 
 	float of = 1.0f;
 
@@ -314,8 +320,8 @@ void World::addBottomFace(int x, int y, int z, const vec3& color){
 
 }
 
-void World::addRightFace(int x, int y, int z, const vec3& color){
-	if(getBlock(x - 1, y, z)) return;
+void World::addRightFace(Chunk* c, int x, int y, int z, const vec3& color){
+	if(getBlock(c->x + x - 1, c->y + y, c->z + z)) return;
 
 	float of = 1.0f;
 
@@ -339,8 +345,8 @@ void World::addRightFace(int x, int y, int z, const vec3& color){
 
 }
 
-void World::addLeftFace(int x, int  y, int z, const vec3& color){
-	if(getBlock(x + 1, y, z)) return;
+void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
+	if(getBlock(c->x + x + 1, c->y + y, c->z + z)) return;
 
 	float of = 1.0f;
 
@@ -364,8 +370,8 @@ void World::addLeftFace(int x, int  y, int z, const vec3& color){
 
 }
 
-void World::addFrontFace(int x, int y, int z, const vec3& color){
-	if(getBlock(x, y, z - 1)) return;
+void World::addFrontFace(Chunk* c, int x, int y, int z, const vec3& color){
+	if(getBlock(c->x + x, c->y + y, c->z + z - 1)) return;
 
 	float of = 1.0f;
 
@@ -388,8 +394,8 @@ void World::addFrontFace(int x, int y, int z, const vec3& color){
 	m_vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 }
 
-void World::addBackFace(int x, int y, int z, const vec3& color){
-	if(getBlock(x, y, z + 1)) return;
+void World::addBackFace(Chunk* c, int x, int y, int z, const vec3& color){
+	if(getBlock(c->x + x, c->y + y, c->z + z + 1)) return;
 
 	float of = 1.0f;
 

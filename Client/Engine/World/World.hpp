@@ -17,6 +17,7 @@ public:
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);
+	void addBlock(Chunk* _c, int _x, int _y, int _z, const vec3& _color);
 
 
 private:
@@ -32,11 +33,11 @@ private:
 
 	//Mesh generation functions
 	void addTopFace(Chunk* c, int x, int y, int z, const vec3& color);
-	void addBottomFace(int x, int y, int z, const vec3& color);
-	void addRightFace(int x, int y, int z, const vec3& color);
-	void addLeftFace(int x, int y, int z, const vec3& color);
-	void addFrontFace(int x, int y, int z, const vec3& color);
-	void addBackFace(int x, int y, int z, const vec3& color);
+	void addBottomFace(Chunk* c, int x, int y, int z, const vec3& color);
+	void addRightFace(Chunk* c, int x, int y, int z, const vec3& color);
+	void addLeftFace(Chunk* c, int x, int y, int z, const vec3& color);
+	void addFrontFace(Chunk* c, int x, int y, int z, const vec3& color);
+	void addBackFace(Chunk* c, int x, int y, int z, const vec3& color);
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<Vertex> m_vertices;
