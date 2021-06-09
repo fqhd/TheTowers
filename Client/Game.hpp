@@ -2,19 +2,19 @@
 #define GAME_H
 #include <SFML/Network.hpp>
 #include <glm/gtc/noise.hpp>
-#include "InputManager.hpp"
+#include "Engine/Input/InputManager.hpp"
 #include "Player.hpp"
-#include "ChunkShader.hpp"
-#include "World.hpp"
-#include "glad.h"
-#include "CubeMap.hpp"
-#include "ParticleHandler.hpp"
+#include "Engine/Utils/ChunkShader.hpp"
+#include "Engine/World/World.hpp"
+#include "Engine/Libs/glad.h"
+#include "Engine/Utils/CubeMap.hpp"
+#include "Engine/Utils/ParticleHandler.hpp"
 #include "GameStates.hpp"
 #include "EntityHandler.hpp"
 #include "Settings.hpp"
-#include "GUICanvas.hpp"
-#include "Window.hpp"
-#include "Camera.hpp"
+#include "Engine/GUI/GUICanvas.hpp"
+#include "Engine/Input/Window.hpp"
+#include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
 
 

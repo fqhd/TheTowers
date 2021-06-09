@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "Camera.hpp"
-#include "World.hpp"
-#include "ParticleHandler.hpp"
+#include "Engine/Utils/Camera.hpp"
+#include "Engine/World/World.hpp"
+#include "Engine/Utils/ParticleHandler.hpp"
 #include "Settings.hpp"
 #include <SFML/Network.hpp>
 

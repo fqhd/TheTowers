@@ -2,10 +2,10 @@
 #define ENTITY_HANDLER_H
 
 #include "Entity.hpp"
-#include "ModelShader.hpp"
-#include "Camera.hpp"
+#include "Engine/Utils/ModelShader.hpp"
+#include "Engine/Utils/Camera.hpp"
 #include "Settings.hpp"
-#include "Model.hpp"
+#include "Engine/Utils/Model.hpp"
 #include <vector>
 #include <unordered_map>
 #include <SFML/Network.hpp>

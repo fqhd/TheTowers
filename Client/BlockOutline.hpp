@@ -1,10 +1,9 @@
 #ifndef BLOCK_OUTLINE_H
 #define BLOCK_OUTLINE_H
 
-#include "OutlineRenderer.hpp"
-#include "BlockOutlineShader.hpp"
+#include "Engine/Utils/OutlineRenderer.hpp"
+#include "Engine/Utils/BlockOutlineShader.hpp"
 #include "Player.hpp"
-
 
 class BlockOutline {
 public:

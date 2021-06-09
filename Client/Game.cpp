@@ -2,7 +2,7 @@
 #include "Constants.hpp"
 #include <cstring>
 #include <glm/gtc/noise.hpp>
-#include "Window.hpp"
+#include "Engine/Input/Window.hpp"
 
 
 void Game::init(sf::IpAddress ip, GUICanvas & workspace) {

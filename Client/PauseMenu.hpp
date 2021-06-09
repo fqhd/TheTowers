@@ -1,9 +1,10 @@
 #ifndef PAUSE_MENU_H
 #define PAUSE_MENU_H
-#include "GUICanvas.hpp"
+
+#include "Engine/GUI/GUICanvas.hpp"
 #include "GameStates.hpp"
 #include "Settings.hpp"
-#include "Window.hpp"
+#include "Engine/Input/Window.hpp"
 #include "Player.hpp"
 #include <fstream>
 

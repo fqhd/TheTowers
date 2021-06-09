@@ -1,8 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "Transform.hpp"
-#include "Vertex.hpp"
+#include "Engine/Utils/Transform.hpp"
+#include "Engine/Utils/Vertex.hpp"
 
 class Entity {
 public:
