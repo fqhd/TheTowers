@@ -15,6 +15,7 @@ public:
 	void loadViewMatrix(const glm::mat4& matrix);
 	void loadGradient(float gradient);
 	void loadDensity(float density);
+	void loadChunkPosition(int _x, int _y, int _z);
 
 
 private:
@@ -25,6 +26,7 @@ private:
 	GLint m_projectionMatrixLocation = 0;
 	GLint m_densityLocation = 0;
 	GLint m_gradientLocation = 0;
+	GLint m_chunkPositionLocation = 0;
 
 };
 

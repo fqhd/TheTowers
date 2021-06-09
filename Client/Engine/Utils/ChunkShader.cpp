@@ -13,6 +13,7 @@ void ChunkShader::getUniformLocations(){
 	m_projectionMatrixLocation = glGetUniformLocation(m_programID, "projection");
 	m_gradientLocation = glGetUniformLocation(m_programID, "gradient");
 	m_densityLocation = glGetUniformLocation(m_programID, "density");
+	m_chunkPositionLocation = glGetUniformLocation(m_programID, "chunkPosition");
 }
 
 void ChunkShader::loadViewMatrix(const glm::mat4& matrix){
@@ -29,4 +30,9 @@ void ChunkShader::loadGradient(float gradient){
 
 void ChunkShader::loadDensity(float density){
 	glUniform1f(m_densityLocation, density);
+}
+
+void ChunkShader::loadChunkPosition(int _x, int _y, int _z){
+	glm::vec3 position(_x, _y, _z);
+	glUniform3fv(m_chunkPositionLocation, 0, &position[0]);
 }

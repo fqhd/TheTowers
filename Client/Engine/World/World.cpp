@@ -66,10 +66,11 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 				}
 
 				unsigned int w = Constants::getChunkWidth();
-				glm::vec3 min = glm::vec3(c->getX(), c->getY(), c->getZ());
+				glm::vec3 min = glm::vec3(c->x, c->y, c->z);
 				glm::vec3 max = min + glm::vec3(w, w, w);
 
 				if(f.IsBoxVisible(min, max)){
+					m_shader.loadChunkPosition(c->x, c->y, c->z);
 					c->render();
 				}
 
@@ -86,7 +87,7 @@ void World::moveFront(){
 	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
 		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 			Chunk* currentChunk = getChunk(i, y, 0);
-			currentChunk->setZ(currentChunk->getZ() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+			currentChunk->z += Constants::getLocalWorldWidth() * Constants::getChunkWidth();
 			currentChunk->needsUpdate = true;
 		}
 	}
@@ -99,7 +100,7 @@ void World::moveBack(){
 	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
 		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 			Chunk* currentChunk = getChunk(i, y, Constants::getLocalWorldWidth() - 1);
-			currentChunk->setZ(currentChunk->getZ() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+			currentChunk->z -= Constants::getLocalWorldWidth() * Constants::getChunkWidth();
 			currentChunk->needsUpdate = true;
 		}
 	}
@@ -113,7 +114,7 @@ void World::moveRight(){
 	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
 		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 			Chunk* currentChunk = getChunk(0, y, i);
-			currentChunk->setX(currentChunk->getX() + Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+			currentChunk->x += Constants::getLocalWorldWidth() * Constants::getChunkWidth();
 			currentChunk->needsUpdate = true;
 		}
 	}
@@ -127,7 +128,7 @@ void World::moveLeft(){
 	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
 		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 			Chunk* currentChunk = getChunk(Constants::getLocalWorldWidth() - 1, y, i);
-			currentChunk->setX(currentChunk->getX() - Constants::getLocalWorldWidth() * Constants::getChunkWidth());
+			currentChunk->x -= Constants::getLocalWorldWidth() * Constants::getChunkWidth();
 			currentChunk->needsUpdate = true;
 		}
 	}
@@ -167,15 +168,15 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 
 				//May be better to get the surrounding blocks and then check against them rather than get the surrounding blocks every time. Because then, they will be stored in the cache rather than having to go look through the entire array of data for the surrounding blocks in ram which is farther away from the cpu
 
-				uint8_t block = getBlock(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z);
+				uint8_t block = getBlock(chunk->x + x, chunk->y + y, chunk->z + z);
 
 				if(block){
-					addTopFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
-					addBottomFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
-					addLeftFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
-					addRightFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
-					addFrontFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
-					addBackFace(chunk->getX() + x, chunk->getY() + y, chunk->getZ() + z, colors[block]);
+					addTopFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
+					addBottomFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
+					addLeftFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
+					addRightFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
+					addFrontFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
+					addBackFace(chunk->x + x, chunk->y + y, chunk->z + z, colors[block]);
 				}
 			}
 		}

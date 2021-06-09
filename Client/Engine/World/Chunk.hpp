@@ -17,13 +17,9 @@ public:
 	void destroy();
 	void pushData(Vertex* vertices, unsigned int numVertices);
 
-	void setX(int x);
-	void setY(int y);
-	void setZ(int z);
-
-	int getX();
-	int getY();
-	int getZ();
+	int x = 0;
+	int y = 0;
+	int z = 0;
 
 	bool needsUpdate = true;
 
@@ -33,9 +29,6 @@ private:
 	GLuint m_vaoID = 0;
 	GLuint m_vboID = 0;
 	GLuint m_numVertices = 0;
-	int m_x = 0;
-	int m_y = 0;
-	int m_z = 0;
 
 };
 
