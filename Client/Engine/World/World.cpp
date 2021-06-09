@@ -21,30 +21,6 @@ void World::init(uint8_t* d){
 
 }
 
-void World::update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition){
-
-	glm::uvec3 pGridPosition = glm::vec3(previousCameraPosition.x / Constants::getChunkWidth(), previousCameraPosition.y / Constants::getChunkWidth(), previousCameraPosition.z / Constants::getChunkWidth());
-	glm::uvec3 cGridPosition = glm::vec3(currentCameraPosition.x / Constants::getChunkWidth(), currentCameraPosition.y / Constants::getChunkWidth(), currentCameraPosition.z / Constants::getChunkWidth());
-
-	glm::uvec3 dPosition = pGridPosition - cGridPosition;
-
-	if(dPosition.x == 1){
-		moveLeft();
-	}
-	if(dPosition.x == -1){
-		moveRight();
-	}
-	if(dPosition.z == 1){
-		moveBack();
-	}
-	if(dPosition.z == -1){
-		moveFront();
-	}
-
-}
-
-
-
 void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
 
 	Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
@@ -82,63 +58,6 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 	shader.unbind();
 
 }
-
-void World::moveFront(){
-
-	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
-			Chunk* currentChunk = getChunk(i, y, 0);
-			currentChunk->z += Constants::getLocalWorldWidth() * Constants::getChunkWidth();
-			currentChunk->needsUpdate = true;
-		}
-	}
-	chunkOffsetZ++;
-
-}
-
-void World::moveBack(){
-
-	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
-			Chunk* currentChunk = getChunk(i, y, Constants::getLocalWorldWidth() - 1);
-			currentChunk->z -= Constants::getLocalWorldWidth() * Constants::getChunkWidth();
-			currentChunk->needsUpdate = true;
-		}
-	}
-
-	chunkOffsetZ--;
-
-}
-
-void World::moveRight(){
-
-	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
-			Chunk* currentChunk = getChunk(0, y, i);
-			currentChunk->x += Constants::getLocalWorldWidth() * Constants::getChunkWidth();
-			currentChunk->needsUpdate = true;
-		}
-	}
-
-	chunkOffsetX++;
-
-}
-
-void World::moveLeft(){
-
-	for(unsigned int i = 0; i < Constants::getLocalWorldWidth(); i++){
-		for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
-			Chunk* currentChunk = getChunk(Constants::getLocalWorldWidth() - 1, y, i);
-			currentChunk->x -= Constants::getLocalWorldWidth() * Constants::getChunkWidth();
-			currentChunk->needsUpdate = true;
-		}
-	}
-
-	chunkOffsetX--;
-
-}
-
-
 
 void World::destroy(){
 
@@ -183,13 +102,13 @@ void World::generateMesh(const std::vector<vec3>& colors, Chunk* chunk){
 }
 
 uint8_t World::getBlock(int x, int y, int z){
-
 	unsigned int maxW = Constants::getChunkWidth() * Constants::getWorldWidth();
 	unsigned int maxH = Constants::getChunkWidth() * Constants::getWorldHeight();
 
+	if(x < 0 || x >= maxW) return 0;
 	if(y < 0 || y >= maxH) return 0;
-	x = x % maxW;
-	z = z % maxW;
+	if(z < 0 || z >= maxW) return 0;
+	
 	return data[(y * maxW * maxW) + (z * maxW) + x];
 }
 
@@ -209,10 +128,6 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	unsigned int posY = y / Constants::getChunkWidth();
 	unsigned int posZ = z / Constants::getChunkWidth();
 
-	//Now we keep track of the position of the chunk using the chunk offset. A block may be in different chunk chunks based on where the player is standing. So it is important that we make sure to account for these offsets. These offsets describe the position of the visible world.
-	posX -= chunkOffsetX;
-	posZ -= chunkOffsetZ;
-
 	//Right now, we have the position of the chunk that the block has been placed in stored in posX, posY, and posZ
 	//So we first of all, queue this chunk up for updation
 	getChunk(posX, posY, posZ)->needsUpdate = true;
@@ -221,21 +136,20 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	//Update neighboring chunks if block is on the edge of the current chunk
 	if(x % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX - 1, posY, posZ);
-		chunk->needsUpdate = true;
+		if(chunk) chunk->needsUpdate = true;
 	}
 	if((x + 1) % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX + 1, posY, posZ);
-		chunk->needsUpdate = true;
+		if(chunk) chunk->needsUpdate = true;
 	}
 	if(z % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY, posZ - 1);
-		chunk->needsUpdate = true;
+		if(chunk) chunk->needsUpdate = true;
 	}
 	if((z + 1) % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY, posZ + 1);
-		chunk->needsUpdate = true;
+		if(chunk) chunk->needsUpdate = true;
 	}
-
 	if(y % Constants::getChunkWidth() == 0){
 		Chunk* chunk = getChunk(posX, posY - 1, posZ);
 		if(chunk) chunk->needsUpdate = true;
@@ -263,9 +177,10 @@ Chunk* World::getChunk(int x, int y, int z) {
 	unsigned int worldHeight = Constants::getWorldHeight();
 
 	if(y < 0 || y >= worldHeight) return nullptr;
+	if(x < 0 || x >= worldWidth) return nullptr;
+	if(z < 0 || z >= worldWidth) return nullptr;
+	
 
-	z = (z + chunkOffsetZ) % worldWidth;
-	x = (x + chunkOffsetX) % worldWidth;
 	return &chunks[(y * worldWidth * worldWidth) + (z * worldWidth) + x];
 }
 

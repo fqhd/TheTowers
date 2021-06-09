@@ -11,7 +11,6 @@
 struct World {
 
 	void init(uint8_t* d);
-	void update(const glm::vec3& previousCameraPosition, const glm::vec3& currentCameraPosition);
 	void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);

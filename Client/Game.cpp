@@ -208,10 +208,7 @@ void Game::calcFps(float deltaTime, GUICanvas & workspace) {
 }
 
 void Game::updateCameraAndWorld(Settings & settings, float deltaTime) {
-	glm::vec3 previousCameraPosition = m_camera.getPosition();
 	m_camera.update(settings, deltaTime);
-	glm::vec3 currentCameraPosition = m_camera.getPosition();
-	m_world.update(previousCameraPosition, currentCameraPosition);
 }
 
 void Game::updateElementsBasedOnResize() {
