@@ -1,0 +1,57 @@
+cflags = -std=c++17 -O3 $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror
+lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glfw3) -ldl
+
+rule cc
+  command = clang++ -c $in -o $out $cflags
+
+rule lnk
+  command = clang++ -o out $in $lflags
+
+build obj/main.o: cc main.cpp
+build obj/glad.o: cc Engine/Libs/glad.cpp
+build obj/blockoutline.o: cc BlockOutline.cpp
+build obj/outlinerenderer.o: cc Engine/Utils/OutlineRenderer.cpp
+build obj/blockoutlineshader.o: cc Engine/Utils/BlockOutlineShader.cpp
+build obj/frustum.o: cc Engine/Libs/Frustum.cpp
+build obj/inputmanager.o: cc Engine/Input/InputManager.cpp
+build obj/constants.o: cc Constants.cpp
+build obj/settings.o: cc Settings.cpp
+build obj/model.o: cc Engine/Utils/Model.cpp
+build obj/modelshader.o: cc Engine/Utils/ModelShader.cpp
+build obj/transform.o: cc Engine/Utils/Transform.cpp
+build obj/entity.o: cc Entity.cpp
+build obj/entityhandler.o: cc EntityHandler.cpp
+build obj/player.o: cc Player.cpp
+build obj/chunk.o: cc Engine/World/Chunk.cpp
+build obj/shader.o: cc Engine/Utils/Shader.cpp
+build obj/utils.o: cc Engine/Utils/Utils.cpp
+build obj/chunkshader.o: cc Engine/Utils/ChunkShader.cpp
+build obj/game.o: cc Game.cpp
+build obj/window.o: cc Engine/Input/Window.cpp
+build obj/camera.o: cc Engine/Utils/Camera.cpp
+build obj/world.o: cc Engine/World/World.cpp
+build obj/cubemap.o: cc Engine/Utils/CubeMap.cpp
+build obj/cube.o: cc Engine/Utils/Cube.cpp
+build obj/cubemapshader.o: cc Engine/Utils/CubeMapShader.cpp
+build obj/cubemaptexture.o: cc Engine/Utils/CubeMapTexture.cpp
+build obj/particlehandler.o: cc Engine/Utils/ParticleHandler.cpp
+build obj/particle.o: cc Engine/Utils/Particle.cpp
+build obj/particlequad.o: cc Engine/Utils/ParticleQuad.cpp
+build obj/particleshader.o: cc Engine/Utils/ParticleShader.cpp
+build obj/guibutton.o: cc Engine/GUI/GUIButton.cpp
+build obj/guifont.o: cc Engine/GUI/GUIFont.cpp
+build obj/guifontshader.o: cc Engine/GUI/GUIFontShader.cpp
+build obj/guihandler.o: cc Engine/GUI/GUIHandler.cpp
+build obj/guirenderer.o: cc Engine/GUI/GUIRenderer.cpp
+build obj/guishader.o: cc Engine/GUI/GUIShader.cpp
+build obj/pausemenu.o: cc PauseMenu.cpp
+build obj/guiimage.o: cc Engine/GUI/GUIImage.cpp
+build obj/checkbox.o: cc Engine/GUI/GUICheckbox.cpp
+build obj/slider.o: cc Engine/GUI/GUISlider.cpp
+build obj/image.o: cc Engine/Utils/Image.cpp
+build obj/guikeybox.o: cc Engine/GUI/GUIKeybox.cpp
+build obj/objloader.o: cc Engine/Libs/OBJLoader.cpp
+build obj/guitextmesh.o: cc Engine/GUI/GUITextMesh.cpp
+build obj/guicanvas.o: cc Engine/GUI/GUICanvas.cpp
+
+build out: lnk obj/main.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/window.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/cubemaptexture.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guiimage.o obj/checkbox.o obj/slider.o obj/guikeybox.o obj/image.o obj/constants.o obj/settings.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guitextmesh.o obj/guicanvas.o obj/glad.o

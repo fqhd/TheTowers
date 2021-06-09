@@ -1,10 +1,10 @@
 #include <SFML/Network.hpp>
 #include "Game.hpp"
 #include "Constants.hpp"
-#include "Window.hpp"
+#include "Engine/Input/Window.hpp"
 #include "GameStates.hpp"
 #include "PauseMenu.hpp"
-#include "GUIHandler.hpp"
+#include "Engine/GUI/GUIHandler.hpp"
 #include <iostream>
 
 

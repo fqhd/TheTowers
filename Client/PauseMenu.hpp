@@ -1,9 +1,10 @@
 #ifndef PAUSE_MENU_H
 #define PAUSE_MENU_H
-#include "GUICanvas.hpp"
+
+#include "Engine/GUI/GUICanvas.hpp"
 #include "GameStates.hpp"
 #include "Settings.hpp"
-#include "Window.hpp"
+#include "Engine/Input/Window.hpp"
 #include "Player.hpp"
 #include <fstream>
 
@@ -11,8 +12,8 @@
 class PauseMenu {
 public:
 
-  void init(Settings& settings, GUICanvas& workspace);
-  void update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace);
+	void init(Settings& settings, GUICanvas& workspace);
+	void update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace);
 
 private:
 
@@ -24,7 +25,7 @@ private:
 	void addSliders(Settings& settings, GUICanvas& workspace);
 	void addKeyboxes(Settings& settings, GUICanvas& workspace);
 	void addText(Settings& settings, GUICanvas& workspace);
-  void updatePlayerBlock(Player& player, GUICanvas& workspace);
+	void updatePlayerBlock(Player& player, GUICanvas& workspace);
 
 
 };

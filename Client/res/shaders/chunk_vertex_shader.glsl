@@ -13,11 +13,13 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float density;
 uniform float gradient;
+uniform vec3 chunkPosition;
 
 void main(){
 
 
-	vec4 positionRelativeToCamera = view * vec4(position, 1.0);
+	vec3 worldPosition = chunkPosition + position;
+	vec4 positionRelativeToCamera = view * vec4(worldPosition, 1.0);
 
 	gl_Position = projection * positionRelativeToCamera;
 	pass_color = color;
