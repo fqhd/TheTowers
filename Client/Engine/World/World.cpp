@@ -180,7 +180,6 @@ Chunk* World::getChunk(int x, int y, int z) {
 	if(x < 0 || x >= worldWidth) return nullptr;
 	if(z < 0 || z >= worldWidth) return nullptr;
 	
-
 	return &chunks[(y * worldWidth * worldWidth) + (z * worldWidth) + x];
 }
 
@@ -190,22 +189,22 @@ void World::addTopFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x, y + 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y + 1, c->z + z) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x, c->y + y + 1, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -215,22 +214,22 @@ void World::addBottomFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y- 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y- 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y- 1, z) || getBlock(x - 1, y- 1, z + 1) || getBlock(x, y- 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y- 1, c->z + z) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x, c->y + y - 1, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1,c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -240,22 +239,22 @@ void World::addRightFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x - 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y + 1, c->z + z) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x - 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x - 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y + 1, z) || getBlock(x - 1, y + 1, z + 1) || getBlock(x - 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y + 1, c->z + z) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -265,22 +264,22 @@ void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x + 1, c->y + y, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y + 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x + 1, c->y + y, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y + 1, z) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x + 1, c->y + y + 1, c->z + z) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x + 1, c->y + y, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y + 1, z) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x + 1, c->y + y + 1, c->z + z) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x + 1, y, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y - 1, z)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x + 1, c->y + y, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }
@@ -290,22 +289,22 @@ void World::addFrontFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x, y - 1, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x, c->y + y - 1, c->z + z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y + 1, z - 1) || getBlock(x, y + 1, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x, c->y + y + 1, c->z + z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y, c->z + z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z - 1) || getBlock(x - 1, y - 1, z - 1) || getBlock(x, y - 1, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x, c->y + y - 1, c->z + z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z - 1) || getBlock(x + 1, y + 1, z - 1) || getBlock(x + 1, y, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y, c->z + z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z - 1) || getBlock(x + 1, y - 1, z - 1) || getBlock(x + 1, y, z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y, c->z + z - 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
 }
 
@@ -314,22 +313,22 @@ void World::addBackFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x, y - 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x, c->y + y - 1, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y + 1, z + 1) || getBlock(x, y + 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x, c->y + y + 1, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x - 1, y, z + 1) || getBlock(x - 1, y - 1, z + 1) || getBlock(x, y - 1, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x - 1, c->y + y, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x, c->y + y - 1, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y - 1, z + 1) || getBlock(x + 1, y - 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(x, y + 1, z + 1) || getBlock(x + 1, y + 1, z + 1) || getBlock(x + 1, y, z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
+	of = (getBlock(c->x + x, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
 	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 
 }

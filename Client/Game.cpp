@@ -76,7 +76,6 @@ void Game::receiveAndDecompressPacket() {
 		pointer += numBlocks;
 	}
 
-
 	//Initializing the world with decompressed data
 	m_world.init(m_data);
 
