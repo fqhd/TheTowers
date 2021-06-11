@@ -8,7 +8,7 @@ MaxRenderDistance: 64.0
 WorldWidth: 64
 WorldHeight: 2
 PlayerReachDistance: 5.0
-OcclusionFactor: 0.8
+OcclusionFactor: 0.5
 Precision: 50
 LocalWorldWidth: 32
 NumParticles: 50
