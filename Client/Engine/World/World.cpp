@@ -38,8 +38,6 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 
 	shader.loadProjectionMatrix(camera.getProjectionMatrix());
 	shader.loadViewMatrix(camera.getViewMatrix());
-	shader.loadGradient(settings.gradient);
-	shader.loadDensity(settings.density);
 
 	for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){
@@ -82,6 +80,7 @@ void World::destroy(){
 		}
 	}
 
+	texturePack.destroy();
 	shader.destroy();
 	delete[] chunks;
 
@@ -211,23 +210,21 @@ void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, const vec3& co
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 1));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 1));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 1));
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 1));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 1));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, 1));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, 0));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, 0));
 		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
 	}
-
-
 
 }
 
@@ -242,20 +239,20 @@ void World::addBottomFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y, z + 1, a01, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y, z + 1, a01, 1, 0));
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, 0));
 
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y, z, a10, 0, 0));
-		vertices.emplace_back(packData(x, y, z + 1, a01, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, 0));
+		vertices.emplace_back(packData(x, y, z + 1, a01, 1, 0));
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y, z + 1, a01, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y, z + 1, a01, 1, 0));
 	}
 
 }
@@ -272,19 +269,19 @@ void World::addRightFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, 0));
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 0, 0));
+		vertices.emplace_back(packData(x, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, 0));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
+		vertices.emplace_back(packData(x, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, 0));
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
+		vertices.emplace_back(packData(x, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, 0));
 	}
 	
 }
@@ -300,18 +297,18 @@ void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		vertices.emplace_back(packData(x + 1, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
 		vertices.emplace_back(packData(x + 1, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, 0));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, 0));
 		vertices.emplace_back(packData(x + 1, y, z, a00, 0, 0));
 	}
 
@@ -328,19 +325,19 @@ void World::addFrontFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 0, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, 0));
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, 0));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, 0));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y, z, a10, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, 0));
 		vertices.emplace_back(packData(x, y, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 0, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, 0));
 	}
 
 }
@@ -356,19 +353,19 @@ void World::addBackFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		vertices.emplace_back(packData(x, y, z + 1, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 0));
 		vertices.emplace_back(packData(x, y, z + 1, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
 	} else {
 		// Generate a flipped quad
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 0));
 		vertices.emplace_back(packData(x, y, z + 1, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, 0));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 0));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 0));
 	}
 
 }

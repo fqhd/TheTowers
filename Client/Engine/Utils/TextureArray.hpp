@@ -5,9 +5,9 @@
 #include "Image.hpp"
 
 
-struct Texture {
+struct TextureArray {
 
-	Texture(){}
+	TextureArray(){}
 
 	void init(const char* path);
 	void bind();

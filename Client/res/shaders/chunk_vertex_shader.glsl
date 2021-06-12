@@ -5,6 +5,7 @@ layout (location = 0) in uint vertexData;
 
 // Outs
 out float pass_basicLight;
+out float debugFloat;
 out vec3 textureData;
 
 //Uniforms
@@ -38,6 +39,5 @@ void main(){
 	pass_basicLight = map(basicLight, 0, 3, 0.5, 1.0);
 	gl_Position = projection * positionRelativeToCamera;
 	textureData = vec3(texCoords[coordIndex], float(arrayIndex));
-
 
 }
