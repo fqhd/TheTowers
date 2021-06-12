@@ -273,8 +273,6 @@ void World::addBottomFace(Chunk* c, int x, int y, int z, const vec3& color){
 		of = a01 / 3.0f;
 		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
 	}
-	
-
 
 }
 
@@ -283,29 +281,41 @@ void World::addRightFace(Chunk* c, int x, int y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	unsigned int a00 = calcAO();
-	unsigned int a01 = calcAO();
-	unsigned int a10 = calcAO();
-	unsigned int a11 = calcAO();
+	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
+	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z), getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1));
+	unsigned int a10 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z + 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1));
+	unsigned int a11 = calcAO(getBlock(c->x + x - 1, c->y + y + 1, c->z + z), getBlock(c->x + x - 1, c->y + y, c->z + z + 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1));
 
-	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
 
-	of = (getBlock(c->x + x - 1, c->y + y + 1, c->z + z) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x - 1, c->y + y, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x - 1, c->y + y, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x - 1, c->y + y + 1, c->z + z) || getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x - 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
-
+	if(a00 + a11 > a01 + a10) {
+		// Generate normal quad
+		of = a00 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a11 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a01 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a00 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a10 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a11 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+	} else {
+		// Generate flipped quad
+		of = a10 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a01 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a00 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a10 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a11 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a01 / 3.0f;
+		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+	}
 }
 
 void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
@@ -313,23 +323,41 @@ void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
 
 	float of = 1.0f;
 
-	of = (getBlock(c->x + x + 1, c->y + y, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+	unsigned int a00 = calcAO(getBlock(c->x + x + 1, c->y + y, c->z + z - 1), getBlock(c->x + x + 1, c->y + y - 1, c->z + z), getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1));
+	unsigned int a01 = calcAO(getBlock(c->x + x + 1, c->y + y, c->z + z - 1), getBlock(c->x + x + 1, c->y + y + 1, c->z + z), getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1));
+	unsigned int a10 = calcAO(getBlock(c->x + x + 1, c->y + y, c->z + z + 1), getBlock(c->x + x + 1, c->y + y - 1, c->z + z), getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1));
+	unsigned int a11 = calcAO(getBlock(c->x + x + 1, c->y + y + 1, c->z + z), getBlock(c->x + x + 1, c->y + y, c->z + z + 1), getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1));
 
-	of = (getBlock(c->x + x + 1, c->y + y, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x + 1, c->y + y + 1, c->z + z) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x + 1, c->y + y, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x + 1, c->y + y + 1, c->z + z) || getBlock(c->x + x + 1, c->y + y + 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y, c->z + z + 1)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
-
-	of = (getBlock(c->x + x + 1, c->y + y, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1) || getBlock(c->x + x + 1, c->y + y - 1, c->z + z)) ? Constants::getOcclusionFactor() : 1.0f;
-	vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+	if(a00 + a11 > a01 + a10) {
+		// Generate normal quad
+		of = a00 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a01 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a11 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a00 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a11 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a10 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+	} else {
+		// Generate flipped quad
+		of = a01 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a11 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a10 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a01 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		of = a10 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		of = a00 / 3.0f;
+		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+	}
+	
 
 }
 
