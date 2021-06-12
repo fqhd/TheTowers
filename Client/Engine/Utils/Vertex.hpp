@@ -45,16 +45,7 @@ struct ModelVertex {
 	glm::vec3 normal;
 };
 
-struct Vertex {
-	Vertex(const glm::vec3& _position, const vec3& _color){
-		position = _position;
-		color = _color;
-	}
-	glm::vec3 position;
-	vec3 color;
-};
-
-struct GUIVertex{
+struct GUIVertex {
 	GUIVertex(const glm::vec2& p, const ColorRGBA8& c){
 		position = p;
 		color = c;

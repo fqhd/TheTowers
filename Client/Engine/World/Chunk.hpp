@@ -15,14 +15,13 @@ public:
 
 	void render();
 	void destroy();
-	void pushData(Vertex* vertices, unsigned int numVertices);
+	void pushData(GLuint* vertices, unsigned int numVertices);
 
 	int x = 0;
 	int y = 0;
 	int z = 0;
 
 	bool needsUpdate = true;
-	unsigned int size = 0;
 
 private:
 

@@ -21,6 +21,11 @@ void World::init(uint8_t* d){
 
 }
 
+GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint8_t textureArrayIndex) {
+	GLuint vertex = x | y << 6 | z << 12 | lightLevel << 18 | textureCoordinateIndex << 21 | textureArrayIndex << 23;
+	return vertex;
+}
+
 void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
 
 	Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
@@ -190,7 +195,7 @@ unsigned int calcAO(bool side1, bool side2, bool corner){
 	return 3 - (side1 + side2 + corner);
 }
 
-void World::addTopFace(Chunk* c, int x, int y, int z, const vec3& color){
+void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, const vec3& color){
 	if(getBlock(c->x + x, c->y + y + 1, c->z + z)) return;
 
 	float of = 1.0f;
@@ -202,31 +207,32 @@ void World::addTopFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
+
 	} else {
 		// Generate flipped quad
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 	}
 
 
@@ -246,32 +252,44 @@ void World::addBottomFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 
 	} else {
 		// Generate flipped quad
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 	}
 
 }
@@ -290,31 +308,43 @@ void World::addRightFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 	} else {
 		// Generate flipped quad
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 	}
 }
 
@@ -331,31 +361,43 @@ void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 	} else {
 		// Generate flipped quad
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 	}
 	
 
@@ -374,31 +416,43 @@ void World::addFrontFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 	} else {
 		// Generate flipped quad
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z, 0, 0, 0));
 	}
 
 
@@ -417,31 +471,43 @@ void World::addBackFace(Chunk* c, int x, int y, int z, const vec3& color){
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 	} else {
 		// Generate a flipped quad
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 		of = a00 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y, z + 1, 0, 0, 0));
 		of = a10 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y, z + 1, 0, 0, 0));
 		of = a11 / 3.0f;
-		vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x + 1, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, 0, 0, 0));
 		of = a01 / 3.0f;
-		vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		// vertices.emplace_back(glm::vec3(x, y + 1, z + 1), vec3(color.r * of, color.g * of, color.b * of));
+		vertices.emplace_back(packData(x, y + 1, z + 1, 0, 0, 0));
 	}
 
 
