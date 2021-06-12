@@ -280,6 +280,7 @@ void World::addRightFace(Chunk* c, int x, int y, int z, const vec3& color){
 		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 0, 0));
 		vertices.emplace_back(packData(x, y + 1, z, a01, 0, 0));
 	}
+	
 }
 
 void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
@@ -307,7 +308,6 @@ void World::addLeftFace(Chunk* c, int x, int  y, int z, const vec3& color){
 		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 0, 0));
 		vertices.emplace_back(packData(x + 1, y, z, a00, 0, 0));
 	}
-	
 
 }
 
@@ -337,7 +337,6 @@ void World::addFrontFace(Chunk* c, int x, int y, int z, const vec3& color){
 		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 0, 0));
 	}
 
-
 }
 
 void World::addBackFace(Chunk* c, int x, int y, int z, const vec3& color){
@@ -365,6 +364,5 @@ void World::addBackFace(Chunk* c, int x, int y, int z, const vec3& color){
 		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
 		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
 	}
-
 
 }
