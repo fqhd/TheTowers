@@ -14,15 +14,15 @@ void ChunkShader::getUniformLocations(){
 	m_gradientLocation = glGetUniformLocation(m_programID, "gradient");
 	m_densityLocation = glGetUniformLocation(m_programID, "density");
 	m_chunkPositionLocation = glGetUniformLocation(m_programID, "chunkPosition");
-	m_arrayShaderLocation = glGetUniformBlockIndex(m_programID, "textureMap");
+	m_cameraPositionLocation = glGetUniformLocation(m_programID, "cameraPosition");
 }
 
 void ChunkShader::loadViewMatrix(const glm::mat4& matrix){
 	glUniformMatrix4fv(m_viewMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
 }
 
-void ChunkShader::loadTextureLocation(unsigned int location){
-	glUniform1i(m_arrayShaderLocation, location);
+void ChunkShader::loadCameraPosition(const glm::vec3& position){
+	glUniform3fv(m_cameraPositionLocation, 1, &position[0]);
 }
 
 void ChunkShader::loadProjectionMatrix(const glm::mat4& matrix){

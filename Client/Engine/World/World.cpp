@@ -38,6 +38,7 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 
 	shader.loadProjectionMatrix(camera.getProjectionMatrix());
 	shader.loadViewMatrix(camera.getViewMatrix());
+	shader.loadCameraPosition(camera.getPosition());
 
 	for(unsigned int y = 0; y < Constants::getWorldHeight(); y++){
 		for(unsigned int z = 0; z < Constants::getLocalWorldWidth(); z++){

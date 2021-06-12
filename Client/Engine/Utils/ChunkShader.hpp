@@ -16,7 +16,7 @@ public:
 	void loadGradient(float gradient);
 	void loadDensity(float density);
 	void loadChunkPosition(int _x, int _y, int _z);
-	void loadTextureLocation(unsigned int location);
+	void loadCameraPosition(const glm::vec3& position);
 
 
 private:
@@ -28,8 +28,8 @@ private:
 	GLint m_densityLocation = 0;
 	GLint m_gradientLocation = 0;
 	GLint m_chunkPositionLocation = 0;
-	GLint m_arrayShaderLocation = 0;
-
+	GLint m_cameraPositionLocation = 0;
+	
 };
 
 #endif
