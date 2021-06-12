@@ -4,6 +4,7 @@
 #include "../Libs/Frustum.hpp"
 #include "../Utils/Camera.hpp"
 #include "../Utils/ChunkShader.hpp"
+#include "../Utils/Texture.hpp"
 #include "../../Settings.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
@@ -36,6 +37,7 @@ struct World {
 	Chunk* chunks = nullptr;
 	ChunkShader shader;
 	uint8_t* data = nullptr;
+	Texture texturePack;
 
 
 };

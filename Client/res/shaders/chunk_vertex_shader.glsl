@@ -1,10 +1,11 @@
 #version 410 core
 
-//Ins
+// Ins
 layout (location = 0) in uint vertexData;
 
-//Outs
+// Outs
 out float pass_basicLight;
+out vec3 textureData;
 
 //Uniforms
 uniform mat4 view;
@@ -14,6 +15,13 @@ uniform vec3 chunkPosition;
 float map(float value, float min1, float max1, float min2, float max2) {
 	return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
 }
+
+vec2 texCoords[4] = vec2[4](
+    vec2(0.0f, 0.0f),
+    vec2(0.0f, 1.0f),
+    vec2(1.0f, 1.0f),
+    vec2(1.0f, 0.0f)
+);
 
 void main(){
 
@@ -25,14 +33,11 @@ void main(){
 	uint coordIndex = (vertexData & 0x600000u) >> 21u;
 	uint arrayIndex = (vertexData & 0xFF800000u) >> 23u;
 
-
 	vec3 worldPosition = vec3(x, y, z) + chunkPosition;
-
 	vec4 positionRelativeToCamera = view * vec4(worldPosition, 1.0);
-
 	pass_basicLight = map(basicLight, 0, 3, 0.5, 1.0);
-
 	gl_Position = projection * positionRelativeToCamera;
+	textureData = vec3(texCoords[coordIndex], float(arrayIndex));
 
 
 }

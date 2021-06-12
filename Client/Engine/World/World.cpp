@@ -4,6 +4,8 @@
 
 void World::init(uint8_t* d){
 
+	texturePack.init("res/textures/pack.png");
+
 	data = d;
 	chunks = new Chunk[Constants::getLocalWorldWidth() * Constants::getLocalWorldWidth() * Constants::getWorldHeight()];
 
@@ -32,6 +34,8 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 
 	shader.bind();
 
+	texturePack.bind();
+
 	shader.loadProjectionMatrix(camera.getProjectionMatrix());
 	shader.loadViewMatrix(camera.getViewMatrix());
 	shader.loadGradient(settings.gradient);
@@ -59,6 +63,8 @@ void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& 
 			}
 		}
 	}
+
+	texturePack.unbind();
 
 	shader.unbind();
 
@@ -205,12 +211,12 @@ void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, const vec3& co
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 0, 0));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 0, 0));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 1));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, 1));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 1));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, 1));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, 1));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, 1));
 	} else {
 		// Generate flipped quad
 		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 0, 0));
