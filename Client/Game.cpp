@@ -82,7 +82,7 @@ void Game::receiveAndDecompressPacket() {
 }
 
 
-void Game::update(Settings & settings, float deltaTime, GameStates & state, Player & player, GUICanvas & workspace) {
+void Game::update(float deltaTime, GameStates& state, Player& player, GUICanvas & workspace) {
 
 	//Switch state if key has been pressed
 	if (InputManager::isKeyPressed(GLFW_KEY_ESCAPE)) {
@@ -94,13 +94,12 @@ void Game::update(Settings & settings, float deltaTime, GameStates & state, Play
 
 	m_entityHandler.update(m_udpSocket, deltaTime);
 	receiveGameUpdatePacket();
-	updateCameraAndWorld(settings, deltaTime);
-	player.update(m_camera, settings, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
+	m_camera.update(deltaTime);
+	player.update(m_camera, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
 	workspace.update();
 
-	updateGUIElements(player, workspace, settings);
 	sendPositionDataToServer();
 
 }
@@ -121,24 +120,6 @@ void Game::sendPositionDataToServer() {
 	}
 
 
-}
-
-void Game::updateGUIElements(Player & player, GUICanvas & workspace, Settings & settings) {
-	//Updating text rendering
-	workspace.textMeshes.at(0).shouldBeDrawn = settings.showFPS;
-	if (settings.showDebugInfo) {
-		//If this is on we have to update the text meshes based on the position of the player
-		workspace.textMeshes.at(1).setString("X: " + std::to_string(m_camera.getPosition().x));
-		workspace.textMeshes.at(2).setString("Y: " + std::to_string(m_camera.getPosition().y));
-		workspace.textMeshes.at(3).setString("Z: " + std::to_string(m_camera.getPosition().z));
-
-	}
-	workspace.textMeshes.at(1).shouldBeDrawn = settings.showDebugInfo;
-	workspace.textMeshes.at(2).shouldBeDrawn = settings.showDebugInfo;
-	workspace.textMeshes.at(3).shouldBeDrawn = settings.showDebugInfo;
-
-	//Updating GUI color
-	workspace.images.at(1).color = ColorRGBA8(m_colors[player.selectedBlock].r, m_colors[player.selectedBlock].g, m_colors[player.selectedBlock].b, 255);
 }
 
 void Game::receiveGameUpdatePacket() {
@@ -203,15 +184,6 @@ void Game::calcFps(float deltaTime, GUICanvas & workspace) {
 		workspace.textMeshes.at(0).setString(std::to_string((unsigned int)(1.0f / deltaTime)));
 		m_fpsClock.restart();
 	}
-}
-
-void Game::updateCameraAndWorld(Settings & settings, float deltaTime) {
-	m_camera.update(settings, deltaTime);
-}
-
-void Game::updateElementsBasedOnResize() {
-	glViewport(0, 0, Window::getWidth(), Window::getHeight());
-	m_camera.updateProjectionMatrix();
 }
 
 void Game::generateColorVector(std::vector < vec3 > & m_colors) {

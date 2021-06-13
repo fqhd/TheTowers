@@ -13,7 +13,7 @@
 class PauseMenu {
 public:
 
-	void init(Settings& settings, GUICanvas& workspace);
+	void init(GUIFont* font);
 	void update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace);
 
 private:

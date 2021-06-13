@@ -26,11 +26,6 @@ public:
 	void render(Settings& settings, Player& player, float deltaTime);
 	void destroy();
 
-	void updateGUIElements(Player& player, GUICanvas& workspace, Settings& settings);
-	void updateElementsBasedOnResize();
-
-
-
 private:
 
 	//Game functions
@@ -44,7 +39,6 @@ private:
 	void receiveGameUpdatePacket();
 	void initGUI(GUICanvas& workspace);
 	void calcFps(float deltaTime, GUICanvas& workspace);
-	void updateCameraAndWorld(Settings& settings, float deltaTime);
 
 	//Engine Variables
 	CubeMap m_cubeMap;
