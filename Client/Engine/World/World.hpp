@@ -13,7 +13,7 @@
 struct World {
 
 	void init(uint8_t* d);
-	void render(Settings& settings, Camera& camera, const std::vector<vec3>& colors);
+	void render(Camera& camera, const std::vector<vec3>& colors);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);

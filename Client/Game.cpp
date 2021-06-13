@@ -5,7 +5,7 @@
 #include "Engine/Input/Window.hpp"
 
 
-void Game::init(sf::IpAddress ip, GUICanvas & workspace) {
+void Game::init(sf::IpAddress ip) {
 
 	Utils::printDividor("Game");
 	m_serverIp = ip;
@@ -16,21 +16,9 @@ void Game::init(sf::IpAddress ip, GUICanvas & workspace) {
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_camera.init();
-	initGUI(workspace);
-	generateColorVector(m_colors);
 	m_entityHandler.init();
 	m_blockOutline.init();
 
-}
-
-
-void Game::initGUI(GUICanvas & workspace) {
-	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 4, Constants::getScreenHeight() / 2 - 4, 8, 8), ColorRGBA8(30, 30, 30, 255));
-	workspace.images.emplace_back(glm::vec4(Constants::getScreenWidth() / 2 - 3, Constants::getScreenHeight() / 2 - 3, 6, 6), ColorRGBA8(30, 30, 30, 255));
-	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 48), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 150), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 200), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("N/A", glm::vec2(20, Constants::getScreenHeight() - 250), ColorRGBA8(), 0);
 }
 
 void Game::connectToServer() {
@@ -156,12 +144,12 @@ void Game::receiveGameUpdatePacket() {
 	}
 }
 
-void Game::render(Settings & settings, Player & player, float deltaTime) {
+void Game::render(Player& player, float deltaTime) {
 
-	m_world.render(settings, m_camera, m_colors);
+	m_world.render(m_camera, m_colors);
 	m_blockOutline.render(player, m_camera);
 	m_particleHandler.render(m_camera);
-	m_entityHandler.render(settings, m_camera, m_colors);
+	m_entityHandler.render(m_camera, m_colors);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 
 }

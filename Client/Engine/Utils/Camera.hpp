@@ -12,7 +12,7 @@ class Camera {
 public:
 
 	void init();
-	void update(Settings& settings, float deltaTime);
+	void update(float deltaTime);
 	void updateProjectionMatrix();
 
 	float getPitch();
@@ -27,7 +27,7 @@ private:
 
 	//Private Functions
 	void calculateCameraVectors(float deltaTime);
-	void movement(float deltaTime, Settings& settings);
+	void movement(float deltaTime);
 	void updateViewMatrix();
 
 	float m_pitch = 0.0f;

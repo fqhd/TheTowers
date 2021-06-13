@@ -32,26 +32,16 @@ void runGame(sf::IpAddress& ip) {
 
 
 	//Program Variables
-	Player player;
-	Game game;
-	PauseMenu pause;
-	GameStates state = GameStates::PLAY;
-	Settings settings;
-	GUIHandler handler;
-	sf::Clock clock;
+
 
 	//Initializing objects
 	Constants::loadFromFile();
 	Constants::printDebugMessage();
-	settings.readFromFile();
 	Window::create(Constants::getScreenWidth(), Constants::getScreenHeight(), "BuildBattle", true, true);
 	Window::setMouseCursorGrabbed(true);
 	InputManager::init(Window::window);
-	handler.createWorkspaces(2);
-	handler.fonts.emplace_back("res/fonts/ostrich-regular.ttf", 32.0f, 512, 512);
-	game.init(ip, handler.workspaces.at(0));
-	pause.init(settings, handler.workspaces.at(1));
-	handler.init();
+	game.init(ip);
+	pause.init();
 
 	clock.restart();
 	while(state != GameStates::EXIT){

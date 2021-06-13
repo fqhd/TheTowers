@@ -3,7 +3,7 @@
 #include "Engine/Utils/Utils.hpp"
 
 
-void Player::update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket) {
+void Player::update(Camera& camera, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket) {
 
 	getVisibleBlocks(camera, world);
 

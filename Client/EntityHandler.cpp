@@ -49,15 +49,13 @@ void EntityHandler::removeEntity(uint8_t id) {
 	m_entities.erase(id);
 }
 
-void EntityHandler::render(Settings & settings, Camera & camera,
-	const std::vector < vec3 > & colors) {
+void EntityHandler::render(Camera & camera,
+	const std::vector<vec3> & colors) {
 
 	m_shader.bind();
 
 	m_shader.loadViewMatrix(camera.getViewMatrix());
 	m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
-	m_shader.loadDensity(settings.density);
-	m_shader.loadGradient(settings.gradient);
 	m_shader.loadLightDirection(camera.getForward());
 
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {

@@ -28,7 +28,7 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 	return vertex;
 }
 
-void World::render(Settings& settings, Camera& camera, const std::vector<vec3>& colors){
+void World::render(Camera& camera, const std::vector<vec3>& colors){
 
 	Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
 

@@ -16,7 +16,7 @@ struct VisibleBlocks {
 class Player {
 public:
 
-	void update(Camera& camera, Settings& settings, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket);
+	void update(Camera& camera, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket);
 
 	uint8_t selectedBlock = 215;
 	VisibleBlocks visibleBlocks;

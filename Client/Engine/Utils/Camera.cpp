@@ -27,44 +27,43 @@ float Camera::getYaw() {
 	return m_yaw;
 }
 
-void Camera::movement(float deltaTime, Settings& settings) {
+void Camera::movement(float deltaTime) {
 
 	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
 	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (InputManager::isKeyDown(settings.front)) {
-		m_position += forward * (float) settings.playerSpeed * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_Z)) {
+		m_position += forward * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(settings.back)) {
-		m_position -= forward * (float) settings.playerSpeed * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_S)) {
+		m_position -= forward * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(settings.left)) {
-		m_position -= side * (float) settings.playerSpeed * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_Q)) {
+		m_position -= side * deltaTime;
 	}
 
-
-	if (InputManager::isKeyDown(settings.right)) {
-		m_position += side * (float) settings.playerSpeed * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_D)) {
+		m_position += side * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(settings.down)) {
-		m_position.y -= (float) settings.playerSpeed * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+		m_position.y -= deltaTime;
 	}
 
-	if (InputManager::isKeyDown(settings.up)) {
-		m_position.y += (float) settings.playerSpeed * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_SPACE)) {
+		m_position.y += deltaTime;
 	}
 
 }
 
 
 
-void Camera::update(Settings& settings,float deltaTime) {
+void Camera::update(float deltaTime) {
 
-	movement(deltaTime, settings);
-	calculateCameraVectors(settings.mouseSensibility);
+	movement(deltaTime);
+	calculateCameraVectors(0.3f);
 	updateViewMatrix();
 
 }

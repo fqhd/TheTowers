@@ -21,9 +21,9 @@
 class Game {
 public:
 
-	void init(sf::IpAddress ip, GUICanvas& workspace);
-	void update(Settings& settings, float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
-	void render(Settings& settings, Player& player, float deltaTime);
+	void init(sf::IpAddress ip);
+	void update(float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
+	void render(Player& player, float deltaTime);
 	void destroy();
 
 private:
@@ -37,7 +37,6 @@ private:
 	void connectToServer();
 	void receiveAndDecompressPacket();
 	void receiveGameUpdatePacket();
-	void initGUI(GUICanvas& workspace);
 	void calcFps(float deltaTime, GUICanvas& workspace);
 
 	//Engine Variables
@@ -54,7 +53,6 @@ private:
 	sf::IpAddress m_serverIp;
 	sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;
-	std::vector<vec3> m_colors;
 	uint8_t m_id = 0;
 	uint8_t* m_data = nullptr;
 
