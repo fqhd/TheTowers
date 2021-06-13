@@ -15,8 +15,6 @@ uniform vec3 chunkPosition;
 uniform vec3 cameraPosition;
 
 // Constants
-const float density = 0.007;
-const float gradient = 5.0;
 vec2 texCoords[4] = vec2[4](
     vec2(0.0f, 0.0f),
     vec2(0.0f, 1.0f),
@@ -26,8 +24,12 @@ vec2 texCoords[4] = vec2[4](
 
 
 
-float calcVisibility(float d){
+float calcVisibility(float d, float density, float gradient){
 	return clamp(exp(-pow((d*density), gradient)), 0.0, 1.0);
+}
+
+float calcAO(float ao, float d) {
+	return ao + (1.0 - ao) * (1.0 - calcVisibility(d, 0.004, 1.5));
 }
 
 float map(float value, float min1, float max1, float min2, float max2) {
@@ -45,10 +47,14 @@ void main(){
 	uint arrayIndex = (vertexData & 0xFF800000u) >> 23u;
 
 	vec3 worldPosition = vec3(x, y, z) + chunkPosition;
-	pass_AO = map(basicLight, 0, 3, 0.4, 1.0);
-	visibility = calcVisibility(distance(worldPosition, cameraPosition));
 	gl_Position = projection * view * vec4(worldPosition, 1.0);
 	textureData = vec3(texCoords[coordIndex], float(arrayIndex));
+
+	// Calculating AO and Fog
+	float d = distance(worldPosition, cameraPosition);
+	visibility = calcVisibility(d, 0.002, 20.0);
+	pass_AO = map(basicLight, 0, 3, 0.4, 1.0);
+	pass_AO = calcAO(pass_AO, d);
 
 }
 

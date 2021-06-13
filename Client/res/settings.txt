@@ -1,5 +1,5 @@
 ShowFPS: 1
-Vsync: 1
+Vsync: 0
 ShowDebugInfo: 1
 Front: 87
 Back: 83
