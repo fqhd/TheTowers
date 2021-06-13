@@ -73,7 +73,7 @@ void GUIFont::updateMesh(GUITextMesh& mesh) {
 	mesh.pushData(vertices);
 
 
-	mesh.needsUpdate = false;
+	mesh.m_needsMeshUpdate = false;
 }
 
 void GUIFont::renderQuad(std::vector < GUITextVertex > & vertices, const glm::vec4 & destRect, const glm::vec4 & uv) {

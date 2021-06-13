@@ -5,6 +5,7 @@
 #include "GameStates.hpp"
 #include "Settings.hpp"
 #include "Engine/Input/Window.hpp"
+#include "Engine/GUI/GUIHandler.hpp"
 #include "Player.hpp"
 #include <fstream>
 
@@ -17,14 +18,12 @@ public:
 
 private:
 
-	void applySettingsToWorkspace(Settings& settings, GUICanvas& workspace);
-	void applyWorkspaceToSettings(GUICanvas& workspace, Settings& settings);
-	void updateValues(Settings& settings, GUICanvas& workspace);
-	void addImages(Settings& settings, GUICanvas& workspace);
-	void addCheckboxes(Settings& settings, GUICanvas& workspace);
-	void addSliders(Settings& settings, GUICanvas& workspace);
-	void addKeyboxes(Settings& settings, GUICanvas& workspace);
-	void addText(Settings& settings, GUICanvas& workspace);
+	GUIHandler m_handler;
+
+	void addImages();
+	void addCheckboxes();
+	void addText();
+	void addButtons();
 	void updatePlayerBlock(Player& player, GUICanvas& workspace);
 
 

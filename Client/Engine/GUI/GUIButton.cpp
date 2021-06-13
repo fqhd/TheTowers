@@ -5,8 +5,7 @@
 #include "../Utils/Vertex.hpp"
 
 
-GUIButton::GUIButton(const glm::vec4 & destRect,
-	const ColorRGBA8 & color) {
+GUIButton::GUIButton(const glm::vec4& destRect, const ColorRGBA8& color) {
 	m_destRect = destRect;
 	m_baseColor = color;
 }
@@ -28,7 +27,7 @@ void GUIButton::update() {
 
 }
 
-void GUIButton::render(GUIRenderer & renderer) {
+void GUIButton::render(GUIRenderer& renderer) {
 	renderer.draw(m_destRect, m_currentColor);
 }
 

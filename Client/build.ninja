@@ -48,11 +48,9 @@ build obj/guishader.o: cc Engine/GUI/GUIShader.cpp
 build obj/pausemenu.o: cc PauseMenu.cpp
 build obj/guiimage.o: cc Engine/GUI/GUIImage.cpp
 build obj/checkbox.o: cc Engine/GUI/GUICheckbox.cpp
-build obj/slider.o: cc Engine/GUI/GUISlider.cpp
 build obj/image.o: cc Engine/Utils/Image.cpp
-build obj/guikeybox.o: cc Engine/GUI/GUIKeybox.cpp
 build obj/objloader.o: cc Engine/Libs/OBJLoader.cpp
 build obj/guitextmesh.o: cc Engine/GUI/GUITextMesh.cpp
 build obj/guicanvas.o: cc Engine/GUI/GUICanvas.cpp
 
-build out: lnk obj/main.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/window.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/cubemaptexture.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guiimage.o obj/checkbox.o obj/slider.o obj/guikeybox.o obj/image.o obj/constants.o obj/settings.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guitextmesh.o obj/guicanvas.o obj/glad.o obj/textureArray.o
+build out: lnk obj/main.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/window.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/cubemaptexture.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guiimage.o obj/checkbox.o obj/image.o obj/constants.o obj/settings.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guitextmesh.o obj/guicanvas.o obj/glad.o obj/textureArray.o

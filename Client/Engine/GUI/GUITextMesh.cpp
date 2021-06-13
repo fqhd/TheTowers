@@ -2,7 +2,7 @@
 #include "../Utils/Utils.hpp"
 
 
-GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool shouldRender){
+GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool visible){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
@@ -20,7 +20,7 @@ GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const Co
 
 	m_string = string;
 	m_fontIndex = fontIndex;
-	shouldBeDrawn = shouldRender;
+	isVisible = visible;
 	color = c;
 	position = p;
 }
@@ -31,7 +31,7 @@ unsigned int GUITextMesh::getFontIndex(){
 
 void GUITextMesh::setString(const std::string& string){
 	m_string = string;
-	needsUpdate = true;
+	m_needsMeshUpdate = true;
 }
 
 void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
@@ -42,7 +42,11 @@ void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void GUITextMesh::render(){
+void GUITextMesh::render(GUIFont* font){
+	if(m_needsMeshUpdate){
+		font->updateMesh(*this);
+	}
+
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 

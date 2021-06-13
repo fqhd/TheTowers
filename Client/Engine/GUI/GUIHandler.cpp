@@ -1,7 +1,9 @@
 #include "GUIHandler.hpp"
 #include "../../Constants.hpp"
 
-void GUIHandler::init(){
+void GUIHandler::init(GUIFont* font){
+
+	m_font = font;
 
 	m_guiRenderer.init();
 	m_guiShader.init();
@@ -11,44 +13,27 @@ void GUIHandler::init(){
 
 }
 
-void GUIHandler::createWorkspaces(unsigned int numWorkspaces){
-	for(unsigned int i = 0; i < numWorkspaces; i++) workspaces.emplace_back();
+void GUIHandler::update() {
+
 }
 
-void GUIHandler::renderWorkspace(unsigned int numWorkspace){
-	workspaces.at(numWorkspace).render(m_guiRenderer, m_guiShader, m_fontShader, fonts, m_matrix);
-}
-
-void GUIHandler::updateWorkspace(unsigned int numWorkspace){
-	workspaces.at(numWorkspace).update();
-}
-
-void GUIHandler::updateAll(){
-	for(auto& i : workspaces){
-		i.update();
+void GUIHandler::render() {
+	for(auto& i : buttons){
+		i.render(m_guiRenderer);
 	}
-}
-
-void GUIHandler::renderAll(){
-	for(auto& i : workspaces){
-		i.render(m_guiRenderer, m_guiShader, m_fontShader, fonts, m_matrix);
+	for(auto& i : buttons){
+		i.render(m_guiRenderer);
 	}
+	for(auto& i : buttons){
+		i.render(m_guiRenderer);
+	}
+	for(auto& i : textMeshes){
+		i.render(m_font);
+	}
+	
 }
 
 void GUIHandler::destroy(){
-
-	//Deleting fonts
-	for(auto& i : fonts){
-		i.destroy();
-	}
-
-	//Deleting text meshes inside of workspaces
-	for(auto& i : workspaces){
-		for(auto& j : i.textMeshes){
-			j.destroy();
-		}
-	}
-
 	m_fontShader.destroy();
 	m_guiShader.destroy();
 	m_guiRenderer.destroy();

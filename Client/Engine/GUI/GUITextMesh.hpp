@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "../Utils/Vertex.hpp"
+#include "../GUI/GUIFont.hpp"
 
 
 struct GUITextVertex {
@@ -20,8 +21,10 @@ struct GUITextVertex {
 class GUITextMesh {
 public:
 
-	GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool shouldRender = true);
-	void render();
+	friend class GUIFont;
+
+	GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool visible = true);
+	void render(GUIFont* font);
 	void destroy();
 	void pushData(const std::vector<GUITextVertex>& vertices);
 
@@ -29,8 +32,7 @@ public:
 	void setString(const std::string& string);
 
 	ColorRGBA8 color;
-	bool needsUpdate = true;
-	bool shouldBeDrawn = true;
+	bool isVisible = true;
 	glm::vec2 position;
 
 	const std::string& getString();
@@ -38,6 +40,7 @@ public:
 private:
 
 	unsigned int m_fontIndex = 0;
+	bool m_needsMeshUpdate = true;
 	std::string m_string;
 	GLuint m_vaoID = 0;
 	GLuint m_vboID = 0;

@@ -6,12 +6,13 @@ const float MENU_HEIGHT = 600.0f;
 const float MENU_BG_WIDTH = MENU_WIDTH + 2.0f;
 const float MENU_BG_HEIGHT = MENU_HEIGHT + 2.0f;
 
-void PauseMenu::init(Settings& settings, GUICanvas& workspace){
+void PauseMenu::init(GUIFont* font){
 
-	if(settings.vsync)
+	if(settings.vsync) {
 		Window::setVerticalSyncEnabled(true);
-	else
+	} else {
 		Window::setVerticalSyncEnabled(false);
+	}
 
 
 	addImages(settings, workspace);
@@ -24,22 +25,22 @@ void PauseMenu::init(Settings& settings, GUICanvas& workspace){
 }
 
 void PauseMenu::addText(Settings& settings, GUICanvas& workspace){
-	workspace.textMeshes.emplace_back("Show FPS", glm::vec2(280, 510), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Vertical Sync", glm::vec2(280, 460), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Show Debug Info", glm::vec2(280, 410), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("RED", glm::vec2(220, 200), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("GREEN", glm::vec2(220, 250), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("BLUE", glm::vec2(220, 300), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Mouse Sensitivity", glm::vec2(220, 150), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Player Speed", glm::vec2(220, 100), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Density", glm::vec2(870, 320), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Gradient", glm::vec2(870, 220), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Front", glm::vec2(220, 620), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Back", glm::vec2(220, 580), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Left", glm::vec2(420, 620), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Right", glm::vec2(420, 580), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Up", glm::vec2(620, 620), ColorRGBA8(), 0);
-	workspace.textMeshes.emplace_back("Down", glm::vec2(620, 580), ColorRGBA8(), 0); workspace.textMeshes.emplace_back("Save", glm::vec2(990, 75), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Show FPS", glm::vec2(280, 510), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Vertical Sync", glm::vec2(280, 460), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Show Debug Info", glm::vec2(280, 410), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("RED", glm::vec2(220, 200), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("GREEN", glm::vec2(220, 250), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("BLUE", glm::vec2(220, 300), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Mouse Sensitivity", glm::vec2(220, 150), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Player Speed", glm::vec2(220, 100), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Density", glm::vec2(870, 320), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Gradient", glm::vec2(870, 220), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Front", glm::vec2(220, 620), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Back", glm::vec2(220, 580), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Left", glm::vec2(420, 620), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Right", glm::vec2(420, 580), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Up", glm::vec2(620, 620), ColorRGBA8(), 0);
+	m_handler.textMeshes.emplace_back("Down", glm::vec2(620, 580), ColorRGBA8(), 0); workspace.textMeshes.emplace_back("Save", glm::vec2(990, 75), ColorRGBA8(), 0);
 
 }
 
@@ -59,28 +60,6 @@ void PauseMenu::addCheckboxes(Settings& settings, GUICanvas& workspace){
 	workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 400, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.vsync));
 	workspace.checkboxes.push_back(GUICheckbox(glm::vec4(Constants::getScreenWidth() / 2 - MENU_WIDTH / 2 + 50, Constants::getScreenHeight() / 2.0f - MENU_HEIGHT / 2.0f + 350, 16, 16), ColorRGBA8(220, 50, 255, 255), ColorRGBA8(90, 90, 90, 255), settings.showDebugInfo));
 
-}
-
-void PauseMenu::addSliders(Settings& settings, GUICanvas& workspace){
-	//Sliders
-	workspace.sliders.push_back(GUISlider(glm::vec2(300, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-	workspace.sliders.push_back(GUISlider(glm::vec2(300, 250), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-	workspace.sliders.push_back(GUISlider(glm::vec2(300, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), 1.0f));
-	workspace.sliders.push_back(GUISlider(glm::vec2(500, 150), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.mouseSensibility / Constants::getMaxMouseSensibility()));
-	workspace.sliders.push_back(GUISlider(glm::vec2(500, 100), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.playerSpeed / Constants::getMaxPlayerSpeed()));
-	workspace.sliders.push_back(GUISlider(glm::vec2(800, 300), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.density / Constants::getMaxDensity()));
-	workspace.sliders.push_back(GUISlider(glm::vec2(800, 200), 250.0f, ColorRGBA8(156, 0, 252, 255), ColorRGBA8(255, 255, 255, 255), settings.gradient / Constants::getMaxGradient()));
-}
-
-void PauseMenu::addKeyboxes(Settings& settings, GUICanvas& workspace){
-	//Keyboxes
-	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.front));
-	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(220 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.back));
-	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.left));
-	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(420 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.right));
-	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 620, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.up));
-	workspace.keyboxes.push_back(GUIKeybox(glm::vec4(620 + 100, 580, 32, 32), ColorRGBA8(255, 255, 255, 255), settings.down));
-	workspace.buttons.push_back(GUIButton(glm::vec4(950, 70, 128, 32), ColorRGBA8(156, 0, 252, 255)));
 }
 
 

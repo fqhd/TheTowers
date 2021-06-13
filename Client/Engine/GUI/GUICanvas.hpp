@@ -4,8 +4,6 @@
 #include "GUIButton.hpp"
 #include "GUIImage.hpp"
 #include "GUICheckbox.hpp"
-#include "GUISlider.hpp"
-#include "GUIKeybox.hpp"
 #include "GUITextMesh.hpp"
 #include "GUIFontShader.hpp"
 #include "GUIFont.hpp"
@@ -23,8 +21,6 @@ public:
 	std::vector<GUIButton> buttons;
 	std::vector<GUIImage> images;
 	std::vector<GUICheckbox> checkboxes;
-	std::vector<GUISlider> sliders;
-	std::vector<GUIKeybox> keyboxes;
 	std::vector<GUITextMesh> textMeshes;
 
 private:
