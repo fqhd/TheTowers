@@ -1,4 +1,4 @@
-#version 410 core
+#version 330 core
 
 // Ins
 layout (location = 0) in uint vertexData;

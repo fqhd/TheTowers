@@ -10,7 +10,7 @@ WorldHeight: 2
 PlayerReachDistance: 5.0
 OcclusionFactor: 0.5
 Precision: 50
-LocalWorldWidth: 32
+LocalWorldWidth: 16
 NumParticles: 50
 MaxGradient: 10
 MaxDensity: 0.1
