@@ -31,7 +31,7 @@ unsigned int GUITextMesh::getFontIndex(){
 
 void GUITextMesh::setString(const std::string& string){
 	m_string = string;
-	m_needsMeshUpdate = true;
+	needsMeshUpdate = true;
 }
 
 void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
@@ -42,11 +42,7 @@ void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void GUITextMesh::render(GUIFont* font){
-	if(m_needsMeshUpdate){
-		font->updateMesh(*this);
-	}
-
+void GUITextMesh::render(){
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 

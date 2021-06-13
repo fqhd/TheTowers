@@ -12,7 +12,6 @@
 #include "GameStates.hpp"
 #include "EntityHandler.hpp"
 #include "Settings.hpp"
-#include "Engine/GUI/GUICanvas.hpp"
 #include "Engine/Input/Window.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
@@ -22,8 +21,8 @@ class Game {
 public:
 
 	void init(sf::IpAddress ip);
-	void update(float deltaTime, GameStates& state, Player& player, GUICanvas& workspace);
-	void render(Player& player, float deltaTime);
+	void update(float deltaTime, GameStates& state, Player& player);
+	void render(Player& player);
 	void destroy();
 
 private:
@@ -37,7 +36,7 @@ private:
 	void connectToServer();
 	void receiveAndDecompressPacket();
 	void receiveGameUpdatePacket();
-	void calcFps(float deltaTime, GUICanvas& workspace);
+	void calcFps(float deltaTime);
 
 	//Engine Variables
 	CubeMap m_cubeMap;
@@ -48,11 +47,11 @@ private:
 	World m_world;
 
 	//Game Variables
-	sf::Clock m_fpsClock;
 	sf::Clock m_dataFrequencyTimer;
 	sf::IpAddress m_serverIp;
 	sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;
+	std::vector<vec3> m_colors;
 	uint8_t m_id = 0;
 	uint8_t* m_data = nullptr;
 

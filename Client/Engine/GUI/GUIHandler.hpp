@@ -9,7 +9,6 @@
 #include "GUIFont.hpp"
 #include "GUIImage.hpp"
 #include "GUICheckbox.hpp"
-#include "GUICanvas.hpp"
 
 class GUIHandler {
 public:

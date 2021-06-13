@@ -1,7 +1,6 @@
 #ifndef PAUSE_MENU_H
 #define PAUSE_MENU_H
 
-#include "Engine/GUI/GUICanvas.hpp"
 #include "GameStates.hpp"
 #include "Settings.hpp"
 #include "Engine/Input/Window.hpp"
@@ -14,7 +13,9 @@ class PauseMenu {
 public:
 
 	void init(GUIFont* font);
-	void update(GameStates& state, Settings& settings, Player& player, GUICanvas& workspace);
+	void update(GameStates& state, Player& player);
+	void render();
+	void destroy();
 
 private:
 
@@ -24,7 +25,6 @@ private:
 	void addCheckboxes();
 	void addText();
 	void addButtons();
-	void updatePlayerBlock(Player& player, GUICanvas& workspace);
 
 
 };

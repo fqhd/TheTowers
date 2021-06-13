@@ -4,7 +4,7 @@
 #include "../Utils/Utils.hpp"
 #include "../../Constants.hpp"
 
-GUIFont::GUIFont(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
+void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
 
 	// Variables
 	m_bitmapWidth = w;
@@ -73,7 +73,7 @@ void GUIFont::updateMesh(GUITextMesh& mesh) {
 	mesh.pushData(vertices);
 
 
-	mesh.m_needsMeshUpdate = false;
+	mesh.needsMeshUpdate = false;
 }
 
 void GUIFont::renderQuad(std::vector < GUITextVertex > & vertices, const glm::vec4 & destRect, const glm::vec4 & uv) {

@@ -70,7 +70,7 @@ void Game::receiveAndDecompressPacket() {
 }
 
 
-void Game::update(float deltaTime, GameStates& state, Player& player, GUICanvas & workspace) {
+void Game::update(float deltaTime, GameStates& state, Player& player) {
 
 	//Switch state if key has been pressed
 	if (InputManager::isKeyPressed(GLFW_KEY_ESCAPE)) {
@@ -78,15 +78,12 @@ void Game::update(float deltaTime, GameStates& state, Player& player, GUICanvas 
 		state = GameStates::PAUSE;
 	}
 
-	calcFps(deltaTime, workspace);
-
 	m_entityHandler.update(m_udpSocket, deltaTime);
 	receiveGameUpdatePacket();
 	m_camera.update(deltaTime);
 	player.update(m_camera, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
-	workspace.update();
 
 	sendPositionDataToServer();
 
@@ -144,7 +141,7 @@ void Game::receiveGameUpdatePacket() {
 	}
 }
 
-void Game::render(Player& player, float deltaTime) {
+void Game::render(Player& player) {
 
 	m_world.render(m_camera, m_colors);
 	m_blockOutline.render(player, m_camera);
@@ -165,13 +162,6 @@ void Game::destroy() {
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
-}
-
-void Game::calcFps(float deltaTime, GUICanvas & workspace) {
-	if (m_fpsClock.getElapsedTime().asSeconds() >= 1.0f) {
-		workspace.textMeshes.at(0).setString(std::to_string((unsigned int)(1.0f / deltaTime)));
-		m_fpsClock.restart();
-	}
 }
 
 void Game::generateColorVector(std::vector < vec3 > & m_colors) {

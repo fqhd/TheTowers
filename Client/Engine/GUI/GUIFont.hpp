@@ -10,7 +10,7 @@
 class GUIFont {
 public:
 
-	GUIFont(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar = 32, unsigned int numChars = 95);
+	void init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar = 32, unsigned int numChars = 95);
 	void bindTexture();
 	void unbindTexture();
 	void updateMesh(GUITextMesh& mesh);

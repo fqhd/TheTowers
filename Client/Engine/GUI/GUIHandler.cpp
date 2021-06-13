@@ -28,7 +28,8 @@ void GUIHandler::render() {
 		i.render(m_guiRenderer);
 	}
 	for(auto& i : textMeshes){
-		i.render(m_font);
+		if(i.needsMeshUpdate) m_font->updateMesh(i);
+		i.render();
 	}
 	
 }
