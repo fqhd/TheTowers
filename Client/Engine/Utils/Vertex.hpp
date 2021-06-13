@@ -4,18 +4,6 @@
 #include "../Libs/glad.h"
 #include <glm/glm.hpp>
 
-struct vec3 {
-	vec3(){}
-	vec3(GLubyte red, GLubyte green, GLubyte blue){
-		r = red;
-		g = green;
-		b = blue;
-	}
-	GLubyte r = 0;
-	GLubyte g = 0;
-	GLubyte b = 0;
-};
-
 struct vec2 {
 	vec2(){}
 	vec2(GLubyte u, GLubyte v){

@@ -18,9 +18,7 @@ void ParticleHandler::update(float deltaTime){
 
 void ParticleHandler::render(Camera& camera){
 
-
 	std::vector<glm::mat4> matrices;
-	std::vector<vec3> colors;
 
 	for(auto& i : particles){
 		glm::mat4 posMatrix = glm::translate(i.getPosition());
@@ -40,7 +38,6 @@ void ParticleHandler::render(Camera& camera){
 		glm::mat4 matrix = camera.getViewMatrix() * modelMatrix;
 
 		matrices.push_back(matrix);
-		colors.push_back(i.getColor());
 
 	}
 
@@ -51,7 +48,6 @@ void ParticleHandler::render(Camera& camera){
 	m_shader.loadProjection(camera.getProjectionMatrix());
 
 	m_quad.pushMatrices(matrices);
-	m_quad.pushColors(colors);
 
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, matrices.size());
 
@@ -61,9 +57,9 @@ void ParticleHandler::render(Camera& camera){
 
 }
 
-void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, const vec3& color){
+void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z){
 	for(unsigned int j = 0; j < Constants::getNumParticles(); j++){
-		particles.emplace_back(color, glm::vec3(x, y, z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
+		// particles.emplace_back(color, glm::vec3(x, y, z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
 	}
 }
 

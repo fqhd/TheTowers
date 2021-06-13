@@ -15,7 +15,7 @@ public:
 	void render(Camera& camera);
 	void destroy();
 
-	void placeParticlesAroundBlock(int x, int y, int z, const vec3& color);
+	void placeParticlesAroundBlock(int x, int y, int z);
 
 	std::vector<Particle> particles;
 

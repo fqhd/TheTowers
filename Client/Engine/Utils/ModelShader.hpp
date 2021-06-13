@@ -10,7 +10,6 @@ class ModelShader : public Shader {
 public:
 
 	void init();
-	void loadColor(const vec3& color);
 	void loadLightDirection(const glm::vec3& lightDir);
 	void loadProjectionMatrix(const glm::mat4& matrix);
 	void loadViewMatrix(const glm::mat4& matrix);
@@ -24,7 +23,6 @@ private:
 	void getUniformLocations();
 
 	//Uniform Locations
-	GLint m_colorLocation = 0;
 	GLint m_viewMatrixLocation = 0;
 	GLint m_projectionMatrixLocation = 0;
 	GLint m_modelMatrixLocation = 0;

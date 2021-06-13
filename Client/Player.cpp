@@ -3,14 +3,14 @@
 #include "Engine/Utils/Utils.hpp"
 
 
-void Player::update(Camera& camera, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket) {
+void Player::update(Camera& camera, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket) {
 
 	getVisibleBlocks(camera, world);
 
 	if (!visibleBlocks.lookingAtBlock) return;
 
 	if (InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
-		breakBlock(handler, colors, world);
+		breakBlock(handler, world);
 		sendBlockData(visibleBlocks.breakableBlock, 0, socket);
 	} else if (InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 		placeBlock(world);
@@ -47,10 +47,10 @@ void Player::placeBlock(World& world) {
 	world.setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, selectedBlock);
 }
 
-void Player::breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, World& world) {
-	uint8_t blockID = world.getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
+void Player::breakBlock(ParticleHandler& handler, World& world) {
+	// uint8_t blockID = world.getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 	world.setBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, 0);
-	handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, colors[blockID]);
+	// handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 }
 
 void Player::sendBlockData(const glm::ivec3& blockUpdate, uint8_t block, sf::TcpSocket& socket) {

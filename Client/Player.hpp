@@ -16,7 +16,7 @@ struct VisibleBlocks {
 class Player {
 public:
 
-	void update(Camera& camera, std::vector<vec3>& colors, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket);
+	void update(Camera& camera, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket);
 
 	uint8_t selectedBlock = 215;
 	VisibleBlocks visibleBlocks;
@@ -25,7 +25,7 @@ private:
 
 	void getVisibleBlocks(Camera& camera, World& world);
 	void placeBlock(World& world);
-	void breakBlock(ParticleHandler& handler, std::vector<vec3>& colors, World& world);
+	void breakBlock(ParticleHandler& handler, World& world);
 	void sendBlockData(const glm::ivec3& blockUpdate, uint8_t block, sf::TcpSocket& socket);
 	glm::ivec3 vecToBlock(const glm::vec3& vector);
 

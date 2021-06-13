@@ -16,7 +16,6 @@ public:
 	void destroy();
 
 	void pushMatrices(const std::vector<glm::mat4>& matrices);
-	void pushColors(const std::vector<vec3>& colors);
 
 
 

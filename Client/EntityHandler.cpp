@@ -49,8 +49,7 @@ void EntityHandler::removeEntity(uint8_t id) {
 	m_entities.erase(id);
 }
 
-void EntityHandler::render(Camera & camera,
-	const std::vector<vec3> & colors) {
+void EntityHandler::render(Camera& camera) {
 
 	m_shader.bind();
 
@@ -60,7 +59,6 @@ void EntityHandler::render(Camera & camera,
 
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
 		m_shader.loadModelMatrix(it -> second.transform.getMatrix());
-		m_shader.loadColor(colors[it -> first]);
 
 		m_model.render();
 

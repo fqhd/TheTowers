@@ -12,7 +12,7 @@ void Game::init(sf::IpAddress ip) {
 	m_udpSocket.bind(Constants::getClientPort());
 	m_udpSocket.setBlocking(false);
 	connectToServer();
-	receiveAndDecompressPacket();
+	receiveAndDecompressWorld();
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_camera.init();
@@ -37,10 +37,10 @@ void Game::connectToServer() {
 	}
 }
 
-void Game::receiveAndDecompressPacket() {
+void Game::receiveAndDecompressWorld() {
 
 	//Allocating memory for the world
-	m_data = static_cast < uint8_t * > (malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize()));
+	m_data = static_cast<uint8_t*> (malloc(Constants::getWorldWidth() * Constants::getWorldWidth() * Constants::getWorldHeight() * Constants::getChunkSize()));
 
 	sf::Packet packet;
 
@@ -81,7 +81,7 @@ void Game::update(float deltaTime, GameStates& state, Player& player) {
 	m_entityHandler.update(m_udpSocket, deltaTime);
 	receiveGameUpdatePacket();
 	m_camera.update(deltaTime);
-	player.update(m_camera, m_colors, m_particleHandler, m_world, deltaTime, m_tcpSocket);
+	player.update(m_camera, m_particleHandler, m_world, deltaTime, m_tcpSocket);
 	m_cubeMap.update();
 	m_particleHandler.update(deltaTime);
 
@@ -126,7 +126,7 @@ void Game::receiveGameUpdatePacket() {
 			Utils::log("Got block update");
 
 			if (!b) {
-				m_particleHandler.placeParticlesAroundBlock(x, y, z, m_colors[m_world.getBlock(x, y, z)]);
+				m_particleHandler.placeParticlesAroundBlock(x, y, z);
 			}
 			m_world.setBlock(x, y, z, b);
 		} else if (code == 1) { // If the code is not 0 then a client has disconnected
@@ -143,10 +143,10 @@ void Game::receiveGameUpdatePacket() {
 
 void Game::render(Player& player) {
 
-	m_world.render(m_camera, m_colors);
+	m_world.render(m_camera);
 	m_blockOutline.render(player, m_camera);
 	m_particleHandler.render(m_camera);
-	m_entityHandler.render(m_camera, m_colors);
+	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 
 }
@@ -162,16 +162,4 @@ void Game::destroy() {
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
-}
-
-void Game::generateColorVector(std::vector < vec3 > & m_colors) {
-
-	for (unsigned int b = 0; b < 6; b++) {
-		for (unsigned int g = 0; g < 6; g++) {
-			for (unsigned int r = 0; r < 6; r++) {
-				m_colors.push_back(vec3(r * 42, g * 42, b * 42));
-			}
-		}
-	}
-
 }

@@ -10,26 +10,30 @@
 #include <cstdint>
 
 
-struct World {
+class World {
+public:
 
 	void init(uint8_t* d);
-	void render(Camera& camera, const std::vector<vec3>& colors);
+	void render(Camera& camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);
-	void addBlock(Chunk* _c, int _x, int _y, int _z, const vec3& _color);
+	
+	
+private:
 
-	void generateMesh(const std::vector<vec3>& colors, Chunk* chunk);
+	void generateMesh(Chunk* chunk);
 	Chunk* getChunk(int x, int y, int z);
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint8_t textureArrayIndex);
+	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 
 	//Mesh generation functions
-	void addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, const vec3& color);
-	void addBottomFace(Chunk* c, int x, int y, int z, const vec3& color);
-	void addRightFace(Chunk* c, int x, int y, int z, const vec3& color);
-	void addLeftFace(Chunk* c, int x, int y, int z, const vec3& color);
-	void addFrontFace(Chunk* c, int x, int y, int z, const vec3& color);
-	void addBackFace(Chunk* c, int x, int y, int z, const vec3& color);
+	void addTopFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint8_t _blockType);
+	void addBottomFace(Chunk* c, int x, int y, int z, uint8_t _blockType);
+	void addRightFace(Chunk* c, int x, int y, int z, uint8_t _blockType);
+	void addLeftFace(Chunk* c, int x, int y, int z, uint8_t _blockType);
+	void addFrontFace(Chunk* c, int x, int y, int z, uint8_t _blockType);
+	void addBackFace(Chunk* c, int x, int y, int z, uint8_t _blockType);
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<GLuint> vertices;

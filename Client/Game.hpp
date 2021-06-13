@@ -28,13 +28,12 @@ public:
 private:
 
 	//Game functions
-	void generateColorVector(std::vector<vec3>& colors);
 	void generateLocalWorld();
 	void sendPositionDataToServer();
 
 	//Game functions
 	void connectToServer();
-	void receiveAndDecompressPacket();
+	void receiveAndDecompressWorld();
 	void receiveGameUpdatePacket();
 	void calcFps(float deltaTime);
 
@@ -51,7 +50,6 @@ private:
 	sf::IpAddress m_serverIp;
 	sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;
-	std::vector<vec3> m_colors;
 	uint8_t m_id = 0;
 	uint8_t* m_data = nullptr;
 

@@ -14,7 +14,6 @@ void ModelShader::getUniformLocations(){
 	m_modelMatrixLocation = glGetUniformLocation(m_programID, "model");
 	m_gradientLocation = glGetUniformLocation(m_programID, "gradient");
 	m_densityLocation = glGetUniformLocation(m_programID, "density");
-	m_colorLocation = glGetUniformLocation(m_programID, "color");
 	m_lightDirectionLocation = glGetUniformLocation(m_programID, "lightDir");
 }
 
@@ -40,9 +39,4 @@ void ModelShader::loadGradient(float gradient){
 
 void ModelShader::loadDensity(float density){
 	glUniform1f(m_densityLocation, density);
-}
-
-void ModelShader::loadColor(const vec3& color){
-	glm::vec3 floatColor = glm::vec3(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
-	glUniform3fv(m_colorLocation, 1, &floatColor[0]);
 }
