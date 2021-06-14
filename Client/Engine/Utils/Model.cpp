@@ -1,5 +1,5 @@
 #include "Model.hpp"
-#include <Engine/Libs/OBJLoader.hpp>
+#include "../Libs/OBJLoader.hpp"
 #include "Utils.hpp"
 
 

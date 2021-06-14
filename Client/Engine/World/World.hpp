@@ -1,11 +1,11 @@
 #ifndef WORLD_H
 #define WORLD_H
-#include <Engine/World/Chunk.hpp>
-#include <Engine/Libs/Frustum.hpp>
-#include <Engine/Utils/Camera.hpp>
-#include <Engine/Utils/ChunkShader.hpp>
-#include <Engine/Utils/TextureArray.hpp>
-#include <Settings.hpp>
+#include "../World/Chunk.hpp"
+#include "../Libs/Frustum.hpp"
+#include "../Utils/Camera.hpp"
+#include "../Utils/ChunkShader.hpp"
+#include "../Utils/TextureArray.hpp"
+#include "../../Settings.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
 

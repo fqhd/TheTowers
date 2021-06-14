@@ -1,5 +1,5 @@
 #include "Particle.hpp"
-#include <Engine/Utils/Constants.hpp>
+#include "../../Constants.hpp"
 
 Particle::Particle(const glm::vec3 & position, const glm::vec3 & velocity, float lifelength, float rotation, float scale) {
 	m_position = position;

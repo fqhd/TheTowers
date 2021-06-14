@@ -1,5 +1,5 @@
 #include "GUITextMesh.hpp"
-#include <Engine/Utils/Utils.hpp>
+#include "../Utils/Utils.hpp"
 
 
 GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool visible){

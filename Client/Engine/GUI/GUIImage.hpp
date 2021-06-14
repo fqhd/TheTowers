@@ -1,7 +1,7 @@
 #ifndef GUI_IMAGE_H
 #define GUI_IMAGE_H
 
-#include <Engine/Utils/Vertex.hpp>
+#include "../Utils/Vertex.hpp"
 #include "GUIRenderer.hpp"
 #include <glm/glm.hpp>
 

@@ -1,9 +1,9 @@
 #ifndef GUI_FONT_SHADER_H
 #define GUI_FONT_SHADER_H
 
-#include <Engine/Utils/Shader.hpp>
+#include "../Utils/Shader.hpp"
 #include <glm/glm.hpp>
-#include <Engine/Utils/Vertex.hpp>
+#include "../Utils/Vertex.hpp"
 
 class GUIFontShader : public Shader {
 public:

@@ -1,8 +1,8 @@
 #include "GUIButton.hpp"
-#include <Engine/Utils/Utils.hpp>
-#include <Constants.hpp>
-#include <Engine/Input/Window.hpp>
-#include <Engine/Utils/Vertex.hpp>
+#include "../Utils/Utils.hpp"
+#include "../../Constants.hpp"
+#include "../Input/Window.hpp"
+#include "../Utils/Vertex.hpp"
 
 
 GUIButton::GUIButton(const glm::vec4& destRect, const ColorRGBA8& color) {

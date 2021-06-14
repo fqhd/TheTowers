@@ -2,8 +2,8 @@
 #define WINDOW_H
 
 #include <string>
-#include <Engine/Utils/Utils.hpp>
-#include <GL/glew.h>
+#include "../Libs/glad.h"
+#include "../Utils/Utils.hpp"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 

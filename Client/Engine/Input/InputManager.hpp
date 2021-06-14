@@ -53,5 +53,4 @@ private:
 	static int m_lastKeyPressed;
 
 };
-
 #endif

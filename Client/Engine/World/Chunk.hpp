@@ -1,10 +1,10 @@
 #ifndef CHUNK_H
 #define CHUNK_H
-#include <GL/glew.h>
+#include "../Libs/glad.h"
 #include <glm/glm.hpp>
 #include <vector>
 #include <cstddef>
-#include <Engine/Utils/Vertex.hpp>
+#include "../Utils/Vertex.hpp"
 
 
 class Chunk {

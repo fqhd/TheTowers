@@ -1,7 +1,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include <GL/glew.h>
+#include "../Libs/glad.h"
 #include "Image.hpp"
 
 

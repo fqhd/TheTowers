@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <map>
-#include <Engine/Utils/Utils.hpp>
+#include "../Utils/Utils.hpp"
 
 static bool CompareOBJIndexPtr(const OBJIndex* a, const OBJIndex* b);
 static inline unsigned int FindNextChar(unsigned int start, const char* str, unsigned int length, char token);

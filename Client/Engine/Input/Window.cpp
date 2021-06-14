@@ -52,10 +52,11 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 	glfwMakeContextCurrent(window);
 
 	//Initializing opengl
-	if(glewInit() != GLEW_OK){
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		Utils::log("Failed to initialize glad");
 		return;
 	}
+
 
 	//Enabling transparency
 	glEnable(GL_BLEND);

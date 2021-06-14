@@ -1,7 +1,7 @@
 #include "ModelShader.hpp"
 
 
-void ModelShader::init() {
+void ModelShader::init(){
 	loadShader("res/shaders/model_vertex_shader.glsl", "res/shaders/model_fragment_shader.glsl");
 	bind();
 	getUniformLocations();
