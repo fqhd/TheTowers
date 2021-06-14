@@ -102,8 +102,9 @@ void World::generateMesh(Chunk* chunk){
 				uint8_t block = getBlock(chunk->x + x, chunk->y + y, chunk->z + z);
 
 				if(block){
-					addBlock(chunk, x, y, z, block - 1);
+					addBlock(chunk, x, y, z, block);
 				}
+
 			}
 		}
 	}
@@ -174,12 +175,14 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 
 void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
 
-	addTopFace(_c, _x, _y, _z, _blockType);
-	addBottomFace(_c, _x, _y, _z, _blockType);
-	addLeftFace(_c, _x, _y, _z, _blockType);
-	addRightFace(_c, _x, _y, _z, _blockType);
-	addFrontFace(_c, _x, _y, _z, _blockType);
-	addBackFace(_c, _x, _y, _z, _blockType);
+	BlockTexture blockTexture = getTextureFromBlockID(_blockType);
+
+	addTopFace(_c, _x, _y, _z, blockTexture.top);
+	addBottomFace(_c, _x, _y, _z, blockTexture.bot);
+	addLeftFace(_c, _x, _y, _z, blockTexture.side);
+	addRightFace(_c, _x, _y, _z, blockTexture.side);
+	addFrontFace(_c, _x, _y, _z, blockTexture.side);
+	addBackFace(_c, _x, _y, _z, blockTexture.side);
 
 }
 
@@ -201,7 +204,7 @@ unsigned int calcAO(bool side1, bool side2, bool corner){
 	return 3 - (side1 + side2 + corner);
 }
 
-void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint8_t _blockType){
+void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
 	if(getBlock(c->x + x, c->y + y + 1, c->z + z)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x, c->y + y + 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z), getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1));
@@ -211,25 +214,25 @@ void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint8_t _block
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _blockType));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
 	}
 
 }
 
-void World::addBottomFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
+void World::addBottomFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
 	if(getBlock(c->x + x, c->y + y - 1, c->z + z)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x, c->y + y - 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
@@ -239,26 +242,26 @@ void World::addBottomFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
 	
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _blockType));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
 
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a01, 1, _blockType));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
 	}
 
 }
 
-void World::addRightFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
+void World::addRightFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
 	if(getBlock(c->x + x - 1, c->y + y, c->z + z)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
@@ -269,25 +272,25 @@ void World::addRightFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _blockType));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _blockType));
+		vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
 	}
 	
 }
 
-void World::addLeftFace(Chunk* c, int x, int  y, int z, uint8_t _blockType){
+void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _textureLayer){
 	if(getBlock(c->x + x + 1, c->y + y, c->z + z)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x + 1, c->y + y, c->z + z - 1), getBlock(c->x + x + 1, c->y + y - 1, c->z + z), getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1));
@@ -297,25 +300,39 @@ void World::addLeftFace(Chunk* c, int x, int  y, int z, uint8_t _blockType){
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x + 1, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _blockType));
+		vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z, a00, 0, _blockType));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
 	}
 
 }
 
-void World::addFrontFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
+BlockTexture World::getTextureFromBlockID(uint8_t _blockID) {
+	// Space reserved for uni-textured blocks(blocks that have the same texture on all sides)
+	uint16_t offset = 254;
+	
+	// List of exceptions
+	if(_blockID == 1) {
+		return BlockTexture(0, offset + 1, offset + 2);
+	}
+
+
+	return BlockTexture(_blockID - 1);
+}
+
+
+void World::addFrontFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
 	if(getBlock(c->x + x, c->y + y, c->z + z - 1)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x, c->y + y - 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
@@ -325,25 +342,25 @@ void World::addFrontFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _blockType));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
 	} else {
 		// Generate flipped quad
-		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y, z, a00, 0, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _blockType));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
 	}
 
 }
 
-void World::addBackFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
+void World::addBackFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
 	if(getBlock(c->x + x, c->y + y, c->z + z + 1)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z + 1), getBlock(c->x + x, c->y + y - 1, c->z + z + 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1));
@@ -353,20 +370,20 @@ void World::addBackFace(Chunk* c, int x, int y, int z, uint8_t _blockType){
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		vertices.emplace_back(packData(x, y, z + 1, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
+		vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
 	} else {
 		// Generate a flipped quad
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _blockType));
-		vertices.emplace_back(packData(x, y, z + 1, a00, 0, _blockType));
-		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _blockType));
-		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _blockType));
-		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _blockType));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
 	}
 
 }
