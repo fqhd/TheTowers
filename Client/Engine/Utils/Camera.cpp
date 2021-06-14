@@ -5,7 +5,7 @@
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
-
+const float SPEED = 25.0f;
 
 void Camera::init() {
 	m_position = glm::vec3(0, 0, 0);
@@ -32,28 +32,28 @@ void Camera::movement(float deltaTime) {
 	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
 	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (InputManager::isKeyDown(GLFW_KEY_Z)) {
-		m_position += forward * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_W)) {
+		m_position += forward * SPEED * deltaTime;
 	}
 
 	if (InputManager::isKeyDown(GLFW_KEY_S)) {
-		m_position -= forward * deltaTime;
+		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(GLFW_KEY_Q)) {
-		m_position -= side * deltaTime;
+	if (InputManager::isKeyDown(GLFW_KEY_A)) {
+		m_position -= side * SPEED * deltaTime;
 	}
 
 	if (InputManager::isKeyDown(GLFW_KEY_D)) {
-		m_position += side * deltaTime;
+		m_position += side * SPEED * deltaTime;
 	}
 
 	if (InputManager::isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
-		m_position.y -= deltaTime;
+		m_position.y -= SPEED * deltaTime;
 	}
 
 	if (InputManager::isKeyDown(GLFW_KEY_SPACE)) {
-		m_position.y += deltaTime;
+		m_position.y += SPEED * deltaTime;
 	}
 
 }

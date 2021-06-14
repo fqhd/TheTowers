@@ -4,7 +4,8 @@
 #include <string>
 #include "../Libs/glad.h"
 #include "../Utils/Utils.hpp"
-#include "InputManager.hpp"
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 
 class Window {

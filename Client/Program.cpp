@@ -29,7 +29,8 @@ void Program::gameloop(){
 
 	while(m_state != GameStates::EXIT){
 		Window::clear();
-		InputManager::processInput(Window::window);
+		if(InputManager::processInput(Window::window)) m_state = GameStates::EXIT;
+		glViewport(0, 0, Window::getWidth(), Window::getHeight());
 
 		if(m_state == GameStates::PLAY){
 			m_game.update(m_clock.restart().asSeconds(), m_state, m_player);

@@ -73,8 +73,6 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 	//Enabling MSAA
 	glEnable(GL_MULTISAMPLE);
 
-	InputManager::init(window);
-
 }
 
 bool Window::isResized(){
@@ -119,7 +117,6 @@ void Window::clear(){
 void Window::update(){
 	m_isResized = false;
 	glfwSwapBuffers(window);
-	m_closeRequested = InputManager::processInput(window);
 }
 
 void Window::close(){
