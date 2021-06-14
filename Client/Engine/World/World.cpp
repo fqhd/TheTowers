@@ -1,5 +1,5 @@
 #include "World.hpp"
-#include "../../Constants.hpp"
+#include <Constants.hpp>
 #include <iostream>
 
 void World::init(uint8_t* d){

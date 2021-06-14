@@ -1,6 +1,6 @@
 #include "Camera.hpp"
-#include "../../Constants.hpp"
-#include "../Input/Window.hpp"
+#include <Constants.hpp>
+#include <Engine/Input/Window.hpp>
 
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;

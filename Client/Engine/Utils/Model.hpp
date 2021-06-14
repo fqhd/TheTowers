@@ -1,7 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <string>
 #include "Vertex.hpp"
 

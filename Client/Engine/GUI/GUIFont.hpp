@@ -1,10 +1,10 @@
 #ifndef GUI_FONT_H
 #define GUI_FONT_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <string>
 #include "GUITextMesh.hpp"
-#include "../Libs/stb_truetype.h"
+#include <Engine/Libs/stb_truetype.h>
 
 
 class GUIFont {

@@ -1,5 +1,5 @@
-cflags = -std=c++17 -O3 $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror
-lflags = -lsfml-network -lsfml-system $$(pkg-config --libs glfw3) -ldl
+cflags = -std=c++17 -O3 $$(pkg-config --cflags glfw3) $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g -m64 -Wall -Werror
+lflags = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -I.
 
 rule cc
   command = clang++ -c $in -o $out $cflags
@@ -9,7 +9,6 @@ rule lnk
 
 build obj/main.o: cc main.cpp
 build obj/program.o: cc Program.cpp
-build obj/glad.o: cc Engine/Libs/glad.cpp
 build obj/blockoutline.o: cc BlockOutline.cpp
 build obj/outlinerenderer.o: cc Engine/Utils/OutlineRenderer.cpp
 build obj/blockoutlineshader.o: cc Engine/Utils/BlockOutlineShader.cpp
@@ -52,4 +51,4 @@ build obj/image.o: cc Engine/Utils/Image.cpp
 build obj/objloader.o: cc Engine/Libs/OBJLoader.cpp
 build obj/guitextmesh.o: cc Engine/GUI/GUITextMesh.cpp
 
-build out: lnk obj/main.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/window.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/cubemaptexture.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guiimage.o obj/checkbox.o obj/image.o obj/constants.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guitextmesh.o obj/glad.o obj/textureArray.o obj/program.o
+build out: lnk obj/main.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/window.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/cubemaptexture.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guiimage.o obj/checkbox.o obj/image.o obj/constants.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guitextmesh.o obj/textureArray.o obj/program.o

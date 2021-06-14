@@ -1,7 +1,7 @@
 #ifndef CUBEMAP_TEXTURE_H
 #define CUBEMAP_TEXTURE_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <vector>
 #include <string>
 

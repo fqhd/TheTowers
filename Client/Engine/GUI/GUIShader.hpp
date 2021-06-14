@@ -1,7 +1,7 @@
 #ifndef GUI_SHADER_H
 #define GUI_SHADER_H
 
-#include "../Utils/Shader.hpp"
+#include <Engine/Utils/Shader.hpp>
 #include <glm/glm.hpp>
 
 

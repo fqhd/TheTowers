@@ -1,5 +1,5 @@
 #include "InputManager.hpp"
-#include "../Utils/Utils.hpp"
+#include <Engine/Utils/Utils.hpp>
 
 
 std::unordered_map <unsigned int, bool> InputManager::m_keymap;

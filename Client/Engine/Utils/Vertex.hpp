@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 struct vec2 {

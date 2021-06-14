@@ -2,7 +2,7 @@
 #define GUI_BUTTON_H
 
 #include "GUIRenderer.hpp"
-#include "../Input/InputManager.hpp"
+#include <Engine/Input/InputManager.hpp>
 
 
 class GUIButton {

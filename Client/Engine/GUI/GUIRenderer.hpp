@@ -3,9 +3,9 @@
 
 #include <glm/glm.hpp>
 #include <vector>
-#include "../Libs/glad.h"
-#include "../Utils/Vertex.hpp"
-#include "../Utils/Utils.hpp"
+#include <Engine/Libs/glad.h>
+#include <Engine/Utils/Vertex.hpp>
+#include <Engine/Utils/Utils.hpp>
 
 class GUIRenderer {
 public:

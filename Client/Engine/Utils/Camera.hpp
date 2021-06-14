@@ -2,10 +2,10 @@
 #define CAMERA_H
 #include <glm/gtx/transform.hpp>
 #include <glm/glm.hpp>
-#include "../Libs/glad.h"
-#include "../World/Chunk.hpp"
-#include "../Input/InputManager.hpp"
-#include "../../Settings.hpp"
+#include <GL/glew.h>
+#include <Engine/World/Chunk.hpp>
+#include <Engine/Input/InputManager.hpp>
+#include <Settings.hpp>
 
 
 class Camera {
@@ -34,7 +34,6 @@ private:
 	float m_yaw = 90.0f;
 	glm::vec3 m_forward;
 	glm::vec3 m_position;
-
 
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;

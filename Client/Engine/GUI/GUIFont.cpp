@@ -1,8 +1,8 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 
 #include "GUIFont.hpp"
-#include "../Utils/Utils.hpp"
-#include "../../Constants.hpp"
+#include <Engine/Utils/Utils.hpp>
+#include <Constants.hpp>
 
 void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
 

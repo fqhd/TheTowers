@@ -1,11 +1,11 @@
 #ifndef TEXT_MESH_H
 #define TEXT_MESH_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
-#include "../Utils/Vertex.hpp"
+#include <Engine/Utils/Vertex.hpp>
 
 struct GUITextVertex {
 	GUITextVertex(const glm::vec2& p, const glm::vec2& u){
