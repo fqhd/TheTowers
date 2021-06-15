@@ -53,7 +53,7 @@ void GUIFont::destroy() {
 void GUIFont::updateMesh(GUITextMesh& mesh) {
 	//Going to take the mesh, create a set of vertices based on its string and upload the vertices to the meshes VAO.
 
-	std::vector < GUITextVertex > vertices;
+	std::vector<GUITextVertex> vertices;
 	float wh = Constants::getScreenHeight();
 	float xPos = 0.0f;
 	float yPos = wh - 0.0f;

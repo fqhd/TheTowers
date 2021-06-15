@@ -323,10 +323,13 @@ BlockTexture World::getTextureFromBlockID(uint8_t _blockID) {
 	uint16_t offset = 255;
 	
 	// List of exceptions
-	if(_blockID == 1) {
-		return BlockTexture(offset, offset + 1, offset + 2);
+	if (_blockID == 1) { // Grass
+		return BlockTexture(0, offset, 3);
+	} else if (_blockID == 3) { // Snow
+		return BlockTexture(2, offset + 1, 3);
+	} else if (_blockID == 6) { // Wood Log
+		return BlockTexture(5, offset + 2, 5);
 	}
-
 
 	return BlockTexture(_blockID - 1);
 }

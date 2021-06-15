@@ -124,9 +124,21 @@ uint8_t* generateWorld(const Constants& constants){
 			unsigned int height = perlin.noise(x, z) * cw * wh;
 
 			for(unsigned int y = 0; y < cw * wh; y++){
-				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] = y < height ? 1 : 0;
-			}
+				data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] =  0;
 
+				if(y <= height){
+					if(y == height){
+						if(height > 32){
+							data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] =  3;
+						}else{
+							data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] =  1;
+						}
+					}else{
+						data[(y * cw * ww * cw * ww) + (z * cw * ww) + x] =  4;
+					}
+				}
+				
+			}
 		}
 	}
 	perlin.destroy();

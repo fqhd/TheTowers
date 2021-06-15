@@ -24,6 +24,7 @@ unsigned short Constants::m_clientPort;
 unsigned short Constants::m_serverPort;
 unsigned int Constants::m_packetTransmissionFrequency;
 
+
 void Constants::loadFromFile() {
 
 	std::ifstream is;

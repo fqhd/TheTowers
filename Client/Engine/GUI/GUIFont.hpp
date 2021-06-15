@@ -26,9 +26,6 @@ private:
 	stbtt_bakedchar* m_charData = nullptr;
 	GLuint m_textureID = 0;
 
-
-
-
 };
 
 #endif
