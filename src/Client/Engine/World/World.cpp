@@ -10,7 +10,8 @@ void World::init(uint8_t* d){
 
 	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
 		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
-			for(unsigned int x = 0; x < LOCAL_WORLD_HEIGHT; x++){
+			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
+				
 
 				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH);
 

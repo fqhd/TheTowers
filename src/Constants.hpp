@@ -3,8 +3,8 @@
 
 // World
 const unsigned int CHUNK_WIDTH = 32;
-const unsigned int LOCAL_WORLD_WIDTH = 16;
-const unsigned int LOCAL_WORLD_HEIGHT = 4;
+const unsigned int LOCAL_WORLD_WIDTH = 8;
+const unsigned int LOCAL_WORLD_HEIGHT = 8;
 const unsigned int WORLD_WIDTH = 32;
 const unsigned int WORLD_HEIGHT = 8;
 constexpr unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;

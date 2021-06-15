@@ -1,5 +1,5 @@
 #include "Entity.hpp"
-#include "Constants.hpp"
+#include "../Constants.hpp"
 
 Entity::Entity() {
 
