@@ -247,7 +247,6 @@ void updateWorldBasedOnPacket(const Constants& constants, sf::Packet& packet, ui
 	unsigned int ww = constants.worldWidth;
 	unsigned int wh = constants.worldHeight;
 	unsigned int cw = constants.chunkWidth;
-	unsigned int cs = cw * cw * cw;
 
 	//Variables for received packet information
 	int x;
