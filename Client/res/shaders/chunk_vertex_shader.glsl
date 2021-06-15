@@ -53,7 +53,7 @@ void main(){
 	// Calculating AO and Fog
 	float d = distance(worldPosition, cameraPosition);
 	visibility = calcVisibility(d, 0.002, 20.0);
-	pass_AO = map(basicLight, 0, 3, 0.4, 1.0);
+	pass_AO = map(basicLight, 0, 3, 0.2, 1.0);
 	pass_AO = calcAO(pass_AO, d);
 
 }
