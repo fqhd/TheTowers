@@ -9,7 +9,7 @@ struct TextureArray {
 
 	TextureArray(){}
 
-	void init(const char* path);
+	void init(const char* _path, unsigned int _numLayers);
 	void bind();
 	void unbind();
 	void destroy();

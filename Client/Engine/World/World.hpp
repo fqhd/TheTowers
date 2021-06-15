@@ -41,7 +41,7 @@ private:
 
 	void generateMesh(Chunk* chunk);
 	Chunk* getChunk(int x, int y, int z);
-	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint8_t textureArrayIndex);
+	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
 

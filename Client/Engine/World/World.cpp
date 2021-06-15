@@ -4,7 +4,7 @@
 
 void World::init(uint8_t* d){
 
-	texturePack.init("res/textures/pack.png");
+	texturePack.init("res/textures/sprite_sheet.png", 512);
 
 	data = d;
 	chunks = new Chunk[Constants::getLocalWorldWidth() * Constants::getLocalWorldWidth() * Constants::getWorldHeight()];
@@ -23,7 +23,7 @@ void World::init(uint8_t* d){
 
 }
 
-GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint8_t textureArrayIndex) {
+GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
 	GLuint vertex = x | y << 6 | z << 12 | lightLevel << 18 | textureCoordinateIndex << 21 | textureArrayIndex << 23;
 	return vertex;
 }
@@ -320,11 +320,11 @@ void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _te
 
 BlockTexture World::getTextureFromBlockID(uint8_t _blockID) {
 	// Space reserved for uni-textured blocks(blocks that have the same texture on all sides)
-	uint16_t offset = 254;
+	uint16_t offset = 255;
 	
 	// List of exceptions
 	if(_blockID == 1) {
-		return BlockTexture(0, offset + 1, offset + 2);
+		return BlockTexture(offset, offset + 1, offset + 2);
 	}
 
 

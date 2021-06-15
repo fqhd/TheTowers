@@ -103,7 +103,6 @@ void udpThread(){
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 
-
 }
 
 uint8_t* generateWorld(const Constants& constants){
