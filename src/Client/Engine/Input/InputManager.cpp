@@ -2,71 +2,36 @@
 #include "../Utils/Utils.hpp"
 
 
-std::unordered_map <unsigned int, bool> InputManager::m_keymap;
-std::unordered_map <unsigned int, bool> InputManager::m_previousKeyMap;
-std::unordered_map <unsigned int, bool> InputManager::m_mousemap;
-std::unordered_map <unsigned int, bool> InputManager::m_previousMouseMap;
-
-glm::vec2 InputManager::m_mousePosition;
-glm::vec2 InputManager::m_deltaMousePosition;
-float InputManager::m_deltaMouseWheel;
-int InputManager::m_lastKeyPressed;
-
-
-void InputManager::init(GLFWwindow * window) {
-
-	glfwSetKeyCallback(window, keyCallback);
-	glfwSetCursorPosCallback(window, mousePosCallback);
-	glfwSetScrollCallback(window, scrollCallback);
-	glfwSetMouseButtonCallback(window, mouseButtonCallback);
-
+void InputManager::init(sf::Window * _window) {
+	m_window = _window;
 }
 
-int InputManager::getLastKeyPressed() {
-	return m_lastKeyPressed;
-}
-
-const glm::vec2 & InputManager::getMousePosition() {
-	return m_mousePosition;
-}
-
-glm::vec2 InputManager::getPercentageMousePosition() {
-	return glm::vec2(m_mousePosition.x, m_mousePosition.y);
-}
-
-bool InputManager::processInput(GLFWwindow * window) {
-	if (glfwWindowShouldClose(window)) {
-		return true;
+bool InputManager::processInput() {
+	while(m_window->pollEvent(m_event)){
+		if(m_event.type == sf::Event::Closed){
+			return true;
+		} else if (m_event.type == sf::Event::KeyPressed){
+			keyPressed(m_event.key.code);
+		} else if (m_event.type == sf::Event::KeyReleased){
+			keyReleased(m_event.key.code);
+		} else if (m_event.type == sf::Event::MouseButtonPressed){
+			buttonPressed(m_event.mouseButton.button);
+		} else if (m_event.type == sf::Event::MouseButtonReleased){
+			buttonReleased(m_event.mouseButton.button);
+		} else if (m_event.type == sf::Event::KeyPressed){
+			m_deltaMouseWheel = m_event.mouseWheelScroll.delta;
+		}
 	}
-
-	for (auto & it: m_keymap) {
-		m_previousKeyMap[it.first] = it.second;
-	}
-
-	for (auto & it: m_mousemap) {
-		m_previousMouseMap[it.first] = it.second;
-	}
-
-	m_deltaMouseWheel = 0;
-	m_lastKeyPressed = -1;
-
-	glm::vec2 previousMousePos = m_mousePosition;
-
-	glfwPollEvents();
-
-	m_deltaMousePosition = m_mousePosition - previousMousePos;
-
 	return false;
 }
 
-
+void InputManager::centerMouseInWindow(){
+	sf::Vector2u size = m_window->getSize();
+	sf::Mouse::setPosition(sf::Vector2i(size.x / 2, size.y / 2));
+}
 
 float InputManager::getDeltaMouseWheel() {
 	return m_deltaMouseWheel;
-}
-
-const glm::vec2 & InputManager::getDeltaMousePosition() {
-	return m_deltaMousePosition;
 }
 
 bool InputManager::isKeyPressed(unsigned int keyID) {
@@ -128,45 +93,8 @@ void InputManager::buttonReleased(unsigned int buttonID) {
 
 void InputManager::keyPressed(unsigned int keyID) {
 	m_keymap[keyID] = true;
-	m_lastKeyPressed = keyID;
 }
 
 void InputManager::keyReleased(unsigned int keyID) {
 	m_keymap[keyID] = false;
-}
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////
-// ********************************** CALLBACKS ********************************//
-//////////////////////////////////////////////////////////////////////////////////
-
-
-void InputManager::keyCallback(GLFWwindow * window, int key, int scanecode, int action, int mods) {
-
-	if (action == GLFW_PRESS) {
-		keyPressed(key);
-	} else if (action == GLFW_RELEASE) {
-		keyReleased(key);
-	}
-
-}
-
-void InputManager::mousePosCallback(GLFWwindow * window, double xpos, double ypos) {
-	m_mousePosition = glm::vec2(xpos, ypos);
-}
-
-void InputManager::scrollCallback(GLFWwindow * window, double xoffset, double yoffset) {
-	m_deltaMouseWheel = yoffset;
-}
-
-void InputManager::mouseButtonCallback(GLFWwindow * window, int button, int action, int mods) {
-
-	if (action == GLFW_PRESS) {
-		buttonPressed(button);
-	} else if (action == GLFW_RELEASE) {
-		buttonReleased(button);
-	}
-
 }

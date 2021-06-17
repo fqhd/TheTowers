@@ -1,56 +1,42 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 #include <unordered_map>
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
+#include <SFML/Window.hpp>
 #include <glm/glm.hpp>
 
 
 class InputManager {
 public:
 
-	static void init(GLFWwindow* window);
-	static bool processInput(GLFWwindow* window);
+	void init(sf::Window* _window);
+	bool processInput();
 
-	static bool isKeyPressed(unsigned int keyID);
-	static bool isKeyReleased(unsigned int keyID);
-	static bool isKeyDown(unsigned int keyID);
-	static bool wasKeyDown(unsigned int keyID);
-
-	static bool isButtonPressed(unsigned int keyID);
-	static bool isButtonReleased(unsigned int keyID);
-	static bool isButtonDown(unsigned int keyID);
-	static bool wasButtonDown(unsigned int keyID);
-
-	static const glm::vec2& getDeltaMousePosition();
-	static float getDeltaMouseWheel();
-	static const glm::vec2& getMousePosition();
-	static glm::vec2 getPercentageMousePosition();
-	static int getLastKeyPressed();
-
-	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
-	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	bool isKeyPressed(unsigned int keyID);
+	bool isKeyReleased(unsigned int keyID);
+	bool isKeyDown(unsigned int keyID);
+	bool wasKeyDown(unsigned int keyID);
+	bool isButtonPressed(unsigned int keyID);
+	bool isButtonReleased(unsigned int keyID);
+	bool isButtonDown(unsigned int keyID);
+	bool wasButtonDown(unsigned int keyID);
+	float getDeltaMouseWheel();
+	void centerMouseInWindow();
 
 
 private:
 
-	static void keyPressed(unsigned int keyID);
-	static void keyReleased(unsigned int keyID);
-	static void buttonPressed(unsigned int buttonID);
-	static void buttonReleased(unsigned int buttonID);
+	void keyPressed(unsigned int keyID);
+	void keyReleased(unsigned int keyID);
+	void buttonPressed(unsigned int buttonID);
+	void buttonReleased(unsigned int buttonID);
+	std::unordered_map<unsigned int, bool> m_keymap;
+	std::unordered_map<unsigned int, bool> m_previousKeyMap;
+	std::unordered_map<unsigned int, bool> m_mousemap;
+	std::unordered_map<unsigned int, bool> m_previousMouseMap;
 
-	static std::unordered_map<unsigned int, bool> m_keymap;
-	static std::unordered_map<unsigned int, bool> m_previousKeyMap;
-
-	static std::unordered_map<unsigned int, bool> m_mousemap;
-	static std::unordered_map<unsigned int, bool> m_previousMouseMap;
-
-	static glm::vec2 m_mousePosition;
-	static glm::vec2 m_deltaMousePosition;
 	static float m_deltaMouseWheel;
-	static int m_lastKeyPressed;
+	sf::Window* m_window;
+	sf::Event m_event;
 
 };
 #endif
