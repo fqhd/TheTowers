@@ -81,7 +81,7 @@ void World::render(Camera& camera){
 }
 
 void World::destroy(){
-	for(unsigned int y = 0; y < LOCAL_WORLD_WIDTH; y++){
+	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
 		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
 			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
 				getChunk(x, y, z)->destroy();

@@ -25,9 +25,9 @@ void Program::initWindow(){
 	cSettings.minorVersion = 3;
 	cSettings.depthBits = 24;
 	cSettings.antialiasingLevel = 4;
-	m_window.create(sf::VideoMode(1280.0f, 720.0f), "BuildBattle", sf::Style::Default, cSettings);
+	m_window.create(sf::VideoMode(1280.0f, 720.0f), "BuildBattle", sf::Style::None, cSettings);
 	m_window.setVerticalSyncEnabled(true);
-	m_window.setMouseCursorGrabbed(true);
+	// m_window.setMouseCursorVisible(false);
 }
 
 void Program::initGL(){
@@ -63,6 +63,7 @@ void Program::gameloop(){
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state);
 			m_pause.render();
+			m_game.render(m_player);
 		}
 
 		m_window.display();

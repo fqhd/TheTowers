@@ -1,4 +1,4 @@
-cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-window) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g -m64 -Wall -Werror
+cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags glew) -fdiagnostics-color=always -g -m64 -Wall -Werror
 lflags = $$(pkg-config --libs sfml-window) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) -pthread
 
 rule cc

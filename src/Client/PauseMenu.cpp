@@ -30,8 +30,8 @@ void PauseMenu::update(GameStates& _state){
 
 	// Change state back to game if the user presses on escape
 	if(m_manager->isKeyPressed(sf::Keyboard::Escape)){
-		m_window->setMouseCursorGrabbed(true);
-		m_window->setMouseCursorVisible(false);
+		// m_window->setMouseCursorGrabbed(true);
+		// m_window->setMouseCursorVisible(false);
 		_state = GameStates::PLAY;
 	}
 

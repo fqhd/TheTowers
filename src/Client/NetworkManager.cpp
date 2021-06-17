@@ -38,8 +38,8 @@ void NetworkManager::downloadWorld(uint8_t* _data, unsigned int _size){
 	m_tcpSocket.setBlocking(false);
 
 	// Printing information
-	std::cout << "Received Packet Size: " + std::to_string(packet.getDataSize());
-	std::cout << "World Compression Ratio: " + std::to_string(1.0f - packet.getDataSize() / (float)_size) << std::endl;
+	std::cout << "Received Packet Size: " + std::to_string(packet.getDataSize()) << " bytes" << std::endl;
+	std::cout << "World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)_size) * 100.0f) << std::endl;
 
 	uint8_t blockID = 0;
 	uint32_t pointer = 0;
