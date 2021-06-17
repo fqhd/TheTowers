@@ -11,6 +11,8 @@
 #include "NetworkManager.hpp"
 
 
+class NetworkManager;
+
 class EntityHandler {
 public:
 

@@ -14,7 +14,6 @@ void Window::create(unsigned int width, unsigned int height, const std::string& 
 		return;
 	}
 
-
 	//Setting Window settings
 	glfwWindowHint(GLFW_RED_BITS, 8);
 	glfwWindowHint(GLFW_GREEN_BITS, 8);

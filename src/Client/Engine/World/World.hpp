@@ -10,7 +10,7 @@
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
 
-
+class NetworkManager;
 
 struct BlockTexture {
 	BlockTexture(uint16_t _t){

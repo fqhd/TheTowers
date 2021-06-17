@@ -7,6 +7,9 @@
 #include "EntityHandler.hpp"
 #include "Engine/Utils/Camera.hpp"
 
+class World;
+class EntityHandler;
+
 class NetworkManager {
 public:
 

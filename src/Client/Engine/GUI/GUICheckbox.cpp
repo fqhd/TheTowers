@@ -15,7 +15,7 @@ void GUICheckbox::update() {
 
 	ColorRGBA8 color = isChecked ? m_onColor : m_offColor;
 
-	glm::vec2 mousePos = Utils::mapPoint(InputManager::getMousePosition(), glm::vec2(Window::getWidth(), Window::getHeight()), glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
+	glm::vec2 mousePos = Utils::mapPoint(InputManager::getMousePosition(), glm::vec2(Window::getWidth(), Window::getHeight()), glm::vec2(Window::getOriginalHeight(), SCREEN_HEIGHT));
 
 	m_currentColor = color;
 	if (Utils::isInside(Utils::flipCoords(mousePos, SCREEN_HEIGHT), m_destRect)) {
