@@ -1,4 +1,5 @@
 #include "PauseMenu.hpp"
+#include <iostream>
 
 void PauseMenu::init(InputManager* _manager, sf::Window* _window, GUIFont* font){
 

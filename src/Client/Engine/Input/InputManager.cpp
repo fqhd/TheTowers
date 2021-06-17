@@ -8,6 +8,9 @@ void InputManager::init(sf::Window * _window) {
 }
 
 bool InputManager::processInput() {
+	m_previousKeyMap = m_keymap;
+	m_previousMouseMap = m_mousemap;
+
 	while(m_window->pollEvent(m_event)){
 		if(m_event.type == sf::Event::Closed){
 			std::cout << "Closing Game..." << std::endl;
@@ -35,7 +38,7 @@ glm::vec2 InputManager::getScaledMousePosition(){
 
 void InputManager::centerMouseInWindow() {
 	sf::Vector2u size = m_window->getSize();
-	sf::Mouse::setPosition(sf::Vector2i(size.x / 2, size.y / 2));
+	sf::Mouse::setPosition(sf::Vector2i(size.x / 2, size.y / 2), *m_window);
 }
 
 float InputManager::getDeltaMouseWheel() {
