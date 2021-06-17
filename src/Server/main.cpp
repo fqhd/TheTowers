@@ -25,6 +25,13 @@ void sendPacketToAllClients(sf::Packet& packet);
 std::vector<Client> clients;
 bool isDone = false;
 
+
+
+const unsigned int WORLD_WIDTH = 32;
+const unsigned int WORLD_HEIGHT = 8;
+const unsigned int CHUNK_WIDTH = 32;
+const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH; 
+
 int main(){
 
 	// Server variables

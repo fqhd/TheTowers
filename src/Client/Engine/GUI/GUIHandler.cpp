@@ -9,7 +9,7 @@ void GUIHandler::init(GUIFont* font){
 	m_guiShader.init();
 	m_fontShader.init();
 
-	m_matrix = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);
+	m_matrix = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f);
 
 }
 

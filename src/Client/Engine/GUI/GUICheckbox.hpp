@@ -9,7 +9,7 @@ class GUICheckbox {
 public:
 
 	GUICheckbox(const glm::vec4& destRect, const ColorRGBA8& onColor, const ColorRGBA8& offColor, bool checked = false);
-	void update();
+	void update(InputManager& _manager);
 	void render(GUIRenderer& renderer);
 
 	bool isChecked = false;

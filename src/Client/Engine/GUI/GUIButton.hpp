@@ -4,12 +4,11 @@
 #include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
 
-
 class GUIButton {
 public:
 
 	GUIButton(const glm::vec4& destRect, const ColorRGBA8& color);
-	void update();
+	void update(InputManager& _manager);
 	void render(GUIRenderer& renderer);
 	bool isPressed();
 

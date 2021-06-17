@@ -1,5 +1,6 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
+
 #include <unordered_map>
 #include <SFML/Window.hpp>
 #include <glm/glm.hpp>
@@ -21,6 +22,7 @@ public:
 	bool wasButtonDown(unsigned int keyID);
 	float getDeltaMouseWheel();
 	void centerMouseInWindow();
+	glm::vec2 getScaledMousePosition();
 
 
 private:

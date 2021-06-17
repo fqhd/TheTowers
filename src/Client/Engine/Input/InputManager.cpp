@@ -25,7 +25,13 @@ bool InputManager::processInput() {
 	return false;
 }
 
-void InputManager::centerMouseInWindow(){
+glm::vec2 InputManager::getScaledMousePosition(){
+	sf::Vector2i mousePos = sf::Mouse::getPosition(*m_window);
+	sf::Vector2u windowSize = m_window->getSize();
+	return Utils::mapPoint(glm::vec2(mousePos.x, mousePos.y), glm::vec2(windowSize.x, windowSize.y), glm::vec2(1280.0f, 720.0f));
+}
+
+void InputManager::centerMouseInWindow() {
 	sf::Vector2u size = m_window->getSize();
 	sf::Mouse::setPosition(sf::Vector2i(size.x / 2, size.y / 2));
 }
