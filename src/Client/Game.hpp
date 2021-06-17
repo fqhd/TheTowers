@@ -45,6 +45,7 @@ private:
 	World m_world;
 
 	//Game Variables
+	sf::Clock m_msPerFramePrintClock;
 	sf::Clock m_dataFrequencyTimer;
 	sf::IpAddress m_serverIp;
 	sf::TcpSocket m_tcpSocket;

@@ -37,6 +37,10 @@ void Chunk::pushData(GLuint* vertices, unsigned int numVertices) {
 
 }
 
+unsigned int Chunk::getNumVertices(){
+	return m_numVertices;
+}
+
 
 void Chunk::render() {
 	glBindVertexArray(m_vaoID);

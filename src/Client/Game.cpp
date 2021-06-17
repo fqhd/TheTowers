@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <cstring>
+#include <iostream>
 #include <glm/gtc/noise.hpp>
 #include "Engine/Input/Window.hpp"
 #include "../Constants.hpp"
@@ -144,11 +145,19 @@ void Game::receiveGameUpdatePacket() {
 
 void Game::render(Player& player) {
 
+	sf::Clock tmp;
+	
+	tmp.restart();
 	m_world.render(m_camera);
 	m_blockOutline.render(player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
+
+	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
+		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
+		m_msPerFramePrintClock.restart();
+	}	
 
 }
 

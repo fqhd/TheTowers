@@ -61,9 +61,13 @@ void Camera::update(float deltaTime) {
 	movement(deltaTime);
 	calculateCameraVectors(0.3f);
 	updateViewMatrix();
+	updateViewFrustum();
 
 }
 
+void Camera::updateViewFrustum(){
+	viewFrustum.update(m_projectionMatrix * m_viewMatrix);
+}
 
 
 void Camera::calculateCameraVectors(float sensibility) {

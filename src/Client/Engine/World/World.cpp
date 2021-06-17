@@ -30,8 +30,6 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 
 void World::render(Camera& camera){
 
-	Frustum f(camera.getProjectionMatrix() * camera.getViewMatrix());
-
 	shader.bind();
 
 	texturePack.bind();
@@ -50,13 +48,15 @@ void World::render(Camera& camera){
 					c->needsUpdate = false;
 				}
 
-				unsigned int w = CHUNK_WIDTH;
-				glm::vec3 min = glm::vec3(c->x, c->y, c->z);
-				glm::vec3 max = min + glm::vec3(w, w, w);
+				if(c->getNumVertices()){
+					unsigned int w = CHUNK_WIDTH;
+					glm::vec3 min = glm::vec3(c->x, c->y, c->z);
+					glm::vec3 max = min + glm::vec3(w, w, w);
 
-				if(f.IsBoxVisible(min, max)){
-					shader.loadChunkPosition(c->x, c->y, c->z);
-					c->render();
+					if(camera.viewFrustum.IsBoxVisible(min, max)){
+						shader.loadChunkPosition(c->x, c->y, c->z);
+						c->render();
+					}
 				}
 
 			}

@@ -16,6 +16,7 @@ public:
 	void render();
 	void destroy();
 	void pushData(GLuint* vertices, unsigned int numVertices);
+	unsigned int getNumVertices();
 
 	int x = 0;
 	int y = 0;

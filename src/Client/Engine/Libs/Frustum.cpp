@@ -1,6 +1,6 @@
 #include "Frustum.hpp"
 
-Frustum::Frustum(glm::mat4 m) {
+void Frustum::update(glm::mat4 m) {
 	m = glm::transpose(m);
 	m_planes[Left] = m[3] + m[0];
 	m_planes[Right] = m[3] - m[0];
@@ -27,16 +27,14 @@ Frustum::Frustum(glm::mat4 m) {
 		glm::cross(glm::vec3(m_planes[Near]), glm::vec3(m_planes[Far]))
 	};
 
-	m_points[0] = intersection < Left, Bottom, Near > (crosses);
-	m_points[1] = intersection < Left, Top, Near > (crosses);
-	m_points[2] = intersection < Right, Bottom, Near > (crosses);
-	m_points[3] = intersection < Right, Top, Near > (crosses);
-	m_points[4] = intersection < Left, Bottom, Far > (crosses);
-	m_points[5] = intersection < Left, Top, Far > (crosses);
-	m_points[6] = intersection < Right, Bottom, Far > (crosses);
-	m_points[7] = intersection < Right, Top, Far > (crosses);
-
-
+	m_points[0] = intersection<Left, Bottom, Near>(crosses);
+	m_points[1] = intersection<Left, Top, Near>(crosses);
+	m_points[2] = intersection<Right, Bottom, Near>(crosses);
+	m_points[3] = intersection<Right, Top, Near>(crosses);
+	m_points[4] = intersection<Left, Bottom, Far>(crosses);
+	m_points[5] = intersection<Left, Top, Far>(crosses);
+	m_points[6] = intersection<Right, Bottom, Far>(crosses);
+	m_points[7] = intersection<Right, Top, Far>(crosses);
 }
 
 bool Frustum::IsBoxVisible(const glm::vec3 & minp,

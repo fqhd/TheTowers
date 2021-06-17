@@ -5,6 +5,7 @@
 #include "../Libs/glad.h"
 #include "../World/Chunk.hpp"
 #include "../Input/InputManager.hpp"
+#include "../Libs/Frustum.hpp"
 
 
 class Camera {
@@ -20,6 +21,7 @@ public:
 	const glm::mat4& getViewMatrix();
 	const glm::vec3& getPosition();
 	const glm::vec3& getForward();
+	Frustum viewFrustum;
 
 
 private:
@@ -28,6 +30,7 @@ private:
 	void calculateCameraVectors(float deltaTime);
 	void movement(float deltaTime);
 	void updateViewMatrix();
+	void updateViewFrustum();
 
 	float m_pitch = 0.0f;
 	float m_yaw = 90.0f;
