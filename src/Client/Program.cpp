@@ -12,23 +12,36 @@ void Program::run(sf::IpAddress& ip){
 }
 
 void Program::initSystems(sf::IpAddress& ip){
-
-	// Initializing game stuff
-	Window::create(SCREEN_WIDTH, SCREEN_HEIGHT, "BuildBattle", true, true);
-	Window::setMouseCursorGrabbed(true);
-	InputManager::init(Window::window);
+	initWindow();
+	initGL();
+	m_inputManager.init(&m_window);
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
 	m_game.init(ip);
 	m_pause.init(&m_font);
+}
 
+void Program::initWindow(){
+	sf::ContextSettings cSettings;
+	cSettings.majorVersion = 3;
+	cSettings.minorVersion = 3;
+	cSettings.depthBits = 24;
+	cSettings.antialiasingLevel = 4;
+	m_window.create(sf::VideoMode(1280.0f, 720.0f), "BuildBattle", sf::Style::Default, cSettings);
+	m_window.setVerticalSyncEnabled(true);
+	m_window.setMouseCursorGrabbed(true);
+}
+
+void Program::initGL(){
+	
 }
 
 void Program::gameloop(){
 
 	while(m_state != GameStates::EXIT){
-		Window::clear();
-		if(InputManager::processInput(Window::window)) m_state = GameStates::EXIT;
-		glViewport(0, 0, Window::getWidth(), Window::getHeight());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
+
+		glViewport(0, 0, m_window.getSize().x, m_window.getSize().y);
 
 		if(m_state == GameStates::PLAY){
 			m_game.update(m_clock.restart().asSeconds(), m_state, m_player);
@@ -38,7 +51,7 @@ void Program::gameloop(){
 			m_pause.render();
 		}
 
-		Window::update();
+		m_window.display();
 	}
 
 }

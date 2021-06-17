@@ -5,7 +5,6 @@
 #include <thread>
 #include "Structs.hpp"
 #include "Perlin.hpp"
-#include "../Constants.hpp"
 
 
 // Forward Declarations
@@ -31,6 +30,8 @@ const unsigned int WORLD_WIDTH = 32;
 const unsigned int WORLD_HEIGHT = 8;
 const unsigned int CHUNK_WIDTH = 32;
 const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH; 
+const unsigned int CLIENT_PORT = 7459;
+const unsigned int SERVER_PORT = 7456;
 
 int main(){
 

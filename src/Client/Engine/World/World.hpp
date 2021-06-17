@@ -5,7 +5,6 @@
 #include "../Utils/Camera.hpp"
 #include "../Utils/ChunkShader.hpp"
 #include "../Utils/TextureArray.hpp"
-#include "../../../Constants.hpp"
 #include "../../NetworkManager.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>

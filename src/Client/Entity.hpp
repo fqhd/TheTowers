@@ -3,7 +3,6 @@
 
 #include "Engine/Utils/Transform.hpp"
 #include "Engine/Utils/Vertex.hpp"
-#include "../Constants.hpp"
 
 class Entity {
 public:

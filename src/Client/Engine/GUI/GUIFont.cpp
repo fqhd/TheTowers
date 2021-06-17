@@ -2,7 +2,6 @@
 
 #include "GUIFont.hpp"
 #include "../Utils/Utils.hpp"
-#include "../../../Constants.hpp"
 
 void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
 
@@ -54,7 +53,7 @@ void GUIFont::updateMesh(GUITextMesh& mesh) {
 	//Going to take the mesh, create a set of vertices based on its string and upload the vertices to the meshes VAO.
 
 	std::vector<GUITextVertex> vertices;
-	float wh = SCREEN_HEIGHT;
+	float wh = 720.0f;
 	float xPos = 0.0f;
 	float yPos = wh - 0.0f;
 	std::string s = mesh.getString();
@@ -63,7 +62,7 @@ void GUIFont::updateMesh(GUITextMesh& mesh) {
 
 		stbtt_aligned_quad q;
 
-		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, & xPos, & yPos, & q, 1);
+		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, &xPos, &yPos, &q, 1);
 
 		renderQuad(vertices, glm::vec4(q.x0, wh - q.y0, q.x1, wh - q.y1), glm::vec4(q.s0, q.t0, q.s1, q.t1));
 
@@ -76,7 +75,7 @@ void GUIFont::updateMesh(GUITextMesh& mesh) {
 	mesh.needsMeshUpdate = false;
 }
 
-void GUIFont::renderQuad(std::vector < GUITextVertex > & vertices, const glm::vec4 & destRect, const glm::vec4 & uv) {
+void GUIFont::renderQuad(std::vector<GUITextVertex>& vertices, const glm::vec4& destRect, const glm::vec4& uv) {
 	vertices.emplace_back(glm::vec2(destRect.x, destRect.y), glm::vec2(uv.x, uv.y)); // Bottom Left
 	vertices.emplace_back(glm::vec2(destRect.x, destRect.w), glm::vec2(uv.x, uv.w)); // Top Left
 	vertices.emplace_back(glm::vec2(destRect.z, destRect.w), glm::vec2(uv.z, uv.w)); // Top Right

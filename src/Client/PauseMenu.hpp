@@ -2,7 +2,6 @@
 #define PAUSE_MENU_H
 
 #include "GameStates.hpp"
-#include "Engine/Input/Window.hpp"
 #include "Engine/GUI/GUIHandler.hpp"
 #include "Player.hpp"
 #include <fstream>

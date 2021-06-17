@@ -12,7 +12,6 @@
 #include "Engine/Utils/CubeMap.hpp"
 #include "Engine/Utils/ParticleHandler.hpp"
 #include "GameStates.hpp"
-#include "Engine/Input/Window.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
 
