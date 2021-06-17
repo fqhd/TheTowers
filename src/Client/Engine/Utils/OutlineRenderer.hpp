@@ -1,7 +1,7 @@
 #ifndef QUAD_H
 #define QUAD_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 enum Face {

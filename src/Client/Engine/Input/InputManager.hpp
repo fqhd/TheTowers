@@ -36,7 +36,7 @@ private:
 	std::unordered_map<unsigned int, bool> m_mousemap;
 	std::unordered_map<unsigned int, bool> m_previousMouseMap;
 
-	static float m_deltaMouseWheel;
+	float m_deltaMouseWheel;
 	sf::Window* m_window;
 	sf::Event m_event;
 

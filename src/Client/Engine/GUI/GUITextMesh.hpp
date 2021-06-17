@@ -1,7 +1,7 @@
 #ifndef TEXT_MESH_H
 #define TEXT_MESH_H
 
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>

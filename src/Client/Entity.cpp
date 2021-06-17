@@ -1,5 +1,4 @@
 #include "Entity.hpp"
-#include "../Constants.hpp"
 
 const float ENTITY_MOVEMENT_SHARPNESS = 8.0f;
 

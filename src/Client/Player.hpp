@@ -15,7 +15,7 @@ struct VisibleBlocks {
 class Player {
 public:
 
-	void update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _manager);
+	void update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _nManager, InputManager* _iManager);
 
 	uint8_t selectedBlock = 215;
 	VisibleBlocks visibleBlocks;

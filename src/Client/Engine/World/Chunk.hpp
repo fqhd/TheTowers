@@ -1,6 +1,5 @@
 #ifndef CHUNK_H
 #define CHUNK_H
-#include "../Libs/glad.h"
 #include <glm/glm.hpp>
 #include <vector>
 #include <cstddef>

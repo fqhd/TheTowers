@@ -1,5 +1,6 @@
 #include "InputManager.hpp"
 #include "../Utils/Utils.hpp"
+#include <iostream>
 
 
 void InputManager::init(sf::Window * _window) {
@@ -9,6 +10,7 @@ void InputManager::init(sf::Window * _window) {
 bool InputManager::processInput() {
 	while(m_window->pollEvent(m_event)){
 		if(m_event.type == sf::Event::Closed){
+			std::cout << "Closing Game..." << std::endl;
 			return true;
 		} else if (m_event.type == sf::Event::KeyPressed){
 			keyPressed(m_event.key.code);

@@ -1,5 +1,6 @@
 #ifndef CUBE_MAP_H
 #define CUBE_MAP_H
+
 #include "Cube.hpp"
 #include "CubeMapTexture.hpp"
 #include "CubeMapShader.hpp"

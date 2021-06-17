@@ -1,6 +1,5 @@
 #include "GUIButton.hpp"
 #include "../Utils/Utils.hpp"
-#include "../../../Constants.hpp"
 #include "../Utils/Vertex.hpp"
 
 

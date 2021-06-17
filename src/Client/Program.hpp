@@ -4,7 +4,6 @@
 #include "Player.hpp"
 #include "Game.hpp"
 #include "PauseMenu.hpp"
-#include "Engine/GUI/GUIFont.hpp"
 
 
 class Program {

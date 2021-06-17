@@ -2,47 +2,49 @@
 #include <cstring>
 #include <iostream>
 #include <glm/gtc/noise.hpp>
-#include "Engine/Input/Window.hpp"
-#include "../Constants.hpp"
 
 
 
-void Game::init(sf::IpAddress ip) {
-
+void Game::init(InputManager* _manager, sf::Window* _window, sf::IpAddress ip) {
 
 	m_networkManager.connectToServer(ip);
+	m_world.init(m_networkManager);
 	m_cubeMap.init();
 	m_particleHandler.init();
-	m_camera.init();
+	m_camera.init(_window, _manager);
 	m_entityHandler.init();
 	m_blockOutline.init();
+	m_inputManager = _manager;
+	m_window = _window;
 
 }
 
-void Game::update(float deltaTime, GameStates& state, Player& player) {
+void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 
 	//Switch state if key has been pressed
-	if (InputManager::isKeyPressed(GLFW_KEY_ESCAPE)) {
-		Window::setMouseCursorGrabbed(false);
-		state = GameStates::PAUSE;
+	if (m_inputManager->isKeyPressed(sf::Keyboard::Escape)) {
+		m_window->setMouseCursorGrabbed(false);
+		m_window->setMouseCursorVisible(true);
+		_state = GameStates::PAUSE;
 	}
 
-	m_entityHandler.update(m_networkManager, deltaTime);
+
+	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
-	m_camera.update(deltaTime);
-	player.update(m_camera, m_particleHandler, m_world, m_networkManager);
+	m_camera.update(_deltaTime);
+	_player.update(m_camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
 	m_cubeMap.update();
-	m_particleHandler.update(deltaTime);
+	m_particleHandler.update(_deltaTime);
 	m_networkManager.sendPositionDataToServer(m_camera);
 
 }
 
-void Game::render(Player& player) {
+void Game::render(Player& _player) {
 	sf::Clock tmp;
 	
 	tmp.restart();
 	m_world.render(m_camera);
-	m_blockOutline.render(player, m_camera);
+	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));

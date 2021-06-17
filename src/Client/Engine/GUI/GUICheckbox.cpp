@@ -1,5 +1,4 @@
 #include "GUICheckbox.hpp"
-#include "../../../Constants.hpp"
 #include <iostream>
 
 

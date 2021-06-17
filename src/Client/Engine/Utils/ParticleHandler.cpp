@@ -1,5 +1,4 @@
 #include "ParticleHandler.hpp"
-#include "../../../Constants.hpp"
 
 const unsigned int NUM_PARTICLES = 50;
 

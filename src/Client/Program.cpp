@@ -1,7 +1,5 @@
 #include "Program.hpp"
-
-const unsigned int SCREEN_WIDTH = 1280;
-const unsigned int SCREEN_HEIGHT = 720;
+#include <iostream>
 
 void Program::run(sf::IpAddress& ip){
 
@@ -16,8 +14,9 @@ void Program::initSystems(sf::IpAddress& ip){
 	initGL();
 	m_inputManager.init(&m_window);
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
-	m_game.init(ip);
-	m_pause.init(&m_font);
+	m_game.init(&m_inputManager, &m_window, ip);
+	m_pause.init(&m_inputManager, &m_window, &m_font);
+
 }
 
 void Program::initWindow(){
@@ -33,6 +32,22 @@ void Program::initWindow(){
 
 void Program::initGL(){
 	
+	if(glewInit() != GLEW_OK){
+		std::cout << "Failed to initialize glew" << std::endl;
+	}
+
+	//Enabling transparency
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//Enabling depth
+	glEnable(GL_DEPTH_TEST);
+	glClearDepth(1.0);
+
+	//Enabling back face culling
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
 }
 
 void Program::gameloop(){
@@ -40,14 +55,13 @@ void Program::gameloop(){
 	while(m_state != GameStates::EXIT){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
-
 		glViewport(0, 0, m_window.getSize().x, m_window.getSize().y);
 
 		if(m_state == GameStates::PLAY){
-			m_game.update(m_clock.restart().asSeconds(), m_state, m_player);
+			m_game.update(m_state, m_player, m_clock.restart().asSeconds());
 			m_game.render(m_player);
 		}else if(m_state == GameStates::PAUSE){
-			m_pause.update(m_state, m_player);
+			m_pause.update(m_state);
 			m_pause.render();
 		}
 
@@ -59,5 +73,5 @@ void Program::gameloop(){
 void Program::cleanUp(){
 	m_game.destroy();
 	m_pause.destroy();
-	Window::close();
+	m_window.close();
 }

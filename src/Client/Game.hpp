@@ -8,7 +8,7 @@
 #include "Engine/Utils/ChunkShader.hpp"
 #include "NetworkManager.hpp"
 #include "Engine/World/World.hpp"
-#include "Engine/Libs/glad.h"
+#include <GL/glew.h>
 #include "Engine/Utils/CubeMap.hpp"
 #include "Engine/Utils/ParticleHandler.hpp"
 #include "GameStates.hpp"
@@ -19,9 +19,9 @@
 class Game {
 public:
 
-	void init(sf::IpAddress ip);
-	void update(float deltaTime, GameStates& state, Player& player);
-	void render(Player& player);
+	void init(InputManager* _manager, sf::Window* _window, sf::IpAddress _ip);
+	void update(GameStates& _state, Player& _player, float _deltaTime);
+	void render(Player& _player);
 	void destroy();
 
 private:
@@ -34,6 +34,8 @@ private:
 	BlockOutline m_blockOutline;
 	World m_world;
 	NetworkManager m_networkManager;
+	InputManager* m_inputManager;
+	sf::Window* m_window;
 
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;

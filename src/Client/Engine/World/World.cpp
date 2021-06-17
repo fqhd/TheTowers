@@ -10,11 +10,11 @@ const unsigned int WORLD_WIDTH = 32;
 const unsigned int WORLD_HEIGHT = 8;
 
 
-void World::init(NetworkManager& manager){
+void World::init(NetworkManager& _manager){
 
 	// Downloading the world
-	data = static_cast<uint8_t*> (malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
-	manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
+	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	_manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
 
 	// Loading the texture atlass into a texture array
 	texturePack.init("res/textures/sprite_sheet.png", 512);

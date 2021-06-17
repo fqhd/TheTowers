@@ -1,8 +1,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include "../Libs/glad.h"
-
+#include <GL/glew.h>
 
 class Cube {
 public:

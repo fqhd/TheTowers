@@ -10,14 +10,16 @@
 class PauseMenu {
 public:
 
-	void init(GUIFont* font);
-	void update(GameStates& state, Player& player);
+	void init(InputManager* _manager, sf::Window* _window, GUIFont* font);
+	void update(GameStates& _state);
 	void render();
 	void destroy();
 
 private:
 
 	GUIHandler m_handler;
+	InputManager* m_manager;
+	sf::Window* m_window;
 
 	void addImages();
 	void addCheckboxes();

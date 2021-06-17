@@ -1,21 +1,22 @@
 #include "Player.hpp"
 #include "Engine/Utils/Utils.hpp"
+#include <iostream>
 
 const float PLAYER_REACH_DISTANCE = 5.0f;
-const float PRECISION = 50.0f;
+const unsigned int PRECISION = 50;
 
-void Player::update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _manager) {
+void Player::update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _nManager, InputManager* _iManager) {
 
 	getVisibleBlocks(camera, world);
 
 	if (!visibleBlocks.lookingAtBlock) return;
 
-	if (InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+	if (_iManager->isButtonPressed(sf::Mouse::Left)) {
 		breakBlock(handler, world);
-		_manager.sendBlockData(visibleBlocks.breakableBlock, 0);
-	} else if (InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
+		_nManager.sendBlockData(visibleBlocks.breakableBlock, 0);
+	} else if (_iManager->isButtonPressed(sf::Mouse::Left)) {
 		placeBlock(world);
-		_manager.sendBlockData(visibleBlocks.placeableBlock, selectedBlock);
+		_nManager.sendBlockData(visibleBlocks.placeableBlock, selectedBlock);
 	}
 
 	//We get the visible blocks again to update them after a block has been pressed
@@ -30,14 +31,14 @@ void Player::getVisibleBlocks(Camera& camera, World& world) {
 
 	glm::vec3 rayPosition = camera.getPosition();
 	for (unsigned int i = 0; i < PRECISION; i++) {
-		rayPosition += camera.getForward() * PLAYER_REACH_DISTANCE / PRECISION;
+		rayPosition += camera.getForward() * PLAYER_REACH_DISTANCE / (float)PRECISION;
 
 		visibleBlocks.breakableBlock = vecToBlock(rayPosition);
 		uint8_t blockID = world.getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 
 		if (blockID) {
 			visibleBlocks.lookingAtBlock = true;
-			rayPosition -= camera.getForward() * PLAYER_REACH_DISTANCE / PRECISION;
+			rayPosition -= camera.getForward() * PLAYER_REACH_DISTANCE / (float)PRECISION;
 			visibleBlocks.placeableBlock = vecToBlock(rayPosition);
 			break;
 		}

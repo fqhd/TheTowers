@@ -2,7 +2,6 @@
 #define CAMERA_H
 #include <glm/gtx/transform.hpp>
 #include <glm/glm.hpp>
-#include "../Libs/glad.h"
 #include "../World/Chunk.hpp"
 #include "../Input/InputManager.hpp"
 #include "../Libs/Frustum.hpp"
@@ -11,9 +10,9 @@
 class Camera {
 public:
 
-	void init();
+	void init(sf::Window* _window, InputManager* _manager);
 	void update(float deltaTime);
-	void updateProjectionMatrix();
+	void updateProjectionMatrix(sf::Window* _window);
 
 	float getPitch();
 	float getYaw();
@@ -37,9 +36,9 @@ private:
 	glm::vec3 m_forward;
 	glm::vec3 m_position;
 
-
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
+	InputManager* m_manager;
 
 
 };

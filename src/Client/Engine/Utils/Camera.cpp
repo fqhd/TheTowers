@@ -1,22 +1,22 @@
 #include "Camera.hpp"
-#include "../Input/Window.hpp"
-#include "../../../Constants.hpp"
 
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
 const float SPEED = 25.0f;
 
-void Camera::init() {
+void Camera::init(sf::Window* _window, InputManager* _manager) {
 	m_position = glm::vec3(0, 0, 0);
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
+	m_manager = _manager;
 
-	updateProjectionMatrix();
+	updateProjectionMatrix(_window);
 
 }
 
-void Camera::updateProjectionMatrix() {
-	m_projectionMatrix = glm::perspective(glm::radians(FOV), Window::getWidth() / (float) Window::getHeight(), NEAR_DIST, FAR_DIST);
+void Camera::updateProjectionMatrix(sf::Window* _window) {
+	sf::Vector2u size = _window->getSize();
+	m_projectionMatrix = glm::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
 float Camera::getPitch() {
@@ -32,27 +32,27 @@ void Camera::movement(float deltaTime) {
 	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
 	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (InputManager::isKeyDown(GLFW_KEY_W)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Z)) {
 		m_position += forward * SPEED * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(GLFW_KEY_S)) {
+	if (m_manager->isKeyDown(sf::Keyboard::S)) {
 		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(GLFW_KEY_A)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Q)) {
 		m_position -= side * SPEED * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(GLFW_KEY_D)) {
+	if (m_manager->isKeyDown(sf::Keyboard::D)) {
 		m_position += side * SPEED * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+	if (m_manager->isKeyDown(sf::Keyboard::LShift)) {
 		m_position.y -= SPEED * deltaTime;
 	}
 
-	if (InputManager::isKeyDown(GLFW_KEY_SPACE)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Space)) {
 		m_position.y += SPEED * deltaTime;
 	}
 
@@ -76,8 +76,13 @@ void Camera::updateViewFrustum(){
 
 void Camera::calculateCameraVectors(float sensibility) {
 
-	m_pitch -= InputManager::getDeltaMousePosition().y * sensibility;
-	m_yaw += InputManager::getDeltaMousePosition().x * sensibility;
+	sf::Vector2i previousMousePos = sf::Mouse::getPosition();
+	m_manager->centerMouseInWindow();
+	sf::Vector2i currentMousePos = sf::Mouse::getPosition();
+	glm::vec2 deltaMousePos = glm::vec2(previousMousePos.x - currentMousePos.x, previousMousePos.y - currentMousePos.y);
+
+	m_pitch -= deltaMousePos.y * sensibility;
+	m_yaw += deltaMousePos.x * sensibility;
 
 	if (m_pitch >= 89.0f) {
 		m_pitch = 89.0f;

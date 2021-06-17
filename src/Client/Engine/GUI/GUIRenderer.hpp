@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 #include "../Utils/Vertex.hpp"
 #include "../Utils/Utils.hpp"
 

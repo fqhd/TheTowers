@@ -1,5 +1,4 @@
 #include "Particle.hpp"
-#include "../../../Constants.hpp"
 
 const float GRAVITY = 12.0f;
 

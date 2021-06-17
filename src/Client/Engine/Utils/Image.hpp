@@ -2,7 +2,7 @@
 #define IMAGE_H
 
 #include <string>
-#include "../Libs/glad.h"
+#include <GL/glew.h>
 
 class Pixel {
 public:
