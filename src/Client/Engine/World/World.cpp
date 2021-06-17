@@ -1,24 +1,35 @@
 #include "World.hpp"
 #include <iostream>
 
-void World::init(uint8_t* d){
 
+const unsigned int CHUNK_WIDTH = 32;
+const unsigned int LOCAL_WORLD_WIDTH = 16;
+const unsigned int LOCAL_WORLD_HEIGHT = 8;
+constexpr unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
+const unsigned int WORLD_WIDTH = 32;
+const unsigned int WORLD_HEIGHT = 8;
+
+
+void World::init(NetworkManager& manager){
+
+	// Downloading the world
+	data = static_cast<uint8_t*> (malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
+
+	// Loading the texture atlass into a texture array
 	texturePack.init("res/textures/sprite_sheet.png", 512);
 
-	data = d;
+	// Initializing the chunks
 	chunks = new Chunk[LOCAL_WORLD_WIDTH * LOCAL_WORLD_WIDTH * LOCAL_WORLD_HEIGHT];
-
 	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
 		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
 			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
-				
-
 				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH);
-
 			}
 		}
 	}
 
+	// Initializing the shader
 	shader.init();
 
 }
@@ -70,21 +81,17 @@ void World::render(Camera& camera){
 }
 
 void World::destroy(){
-
 	for(unsigned int y = 0; y < LOCAL_WORLD_WIDTH; y++){
 		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
 			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
-
 				getChunk(x, y, z)->destroy();
-
 			}
 		}
 	}
-
 	texturePack.destroy();
 	shader.destroy();
 	delete[] chunks;
-
+	free(data);
 }
 
 void World::generateMesh(Chunk* chunk){

@@ -2,15 +2,16 @@
 #define GAME_H
 #include <SFML/Network.hpp>
 #include <glm/gtc/noise.hpp>
+#include "EntityHandler.hpp"
 #include "Engine/Input/InputManager.hpp"
 #include "Player.hpp"
 #include "Engine/Utils/ChunkShader.hpp"
+#include "NetworkManager.hpp"
 #include "Engine/World/World.hpp"
 #include "Engine/Libs/glad.h"
 #include "Engine/Utils/CubeMap.hpp"
 #include "Engine/Utils/ParticleHandler.hpp"
 #include "GameStates.hpp"
-#include "EntityHandler.hpp"
 #include "Engine/Input/Window.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
@@ -26,16 +27,6 @@ public:
 
 private:
 
-	//Game functions
-	void generateLocalWorld();
-	void sendPositionDataToServer();
-
-	//Game functions
-	void connectToServer();
-	void receiveAndDecompressWorld();
-	void receiveGameUpdatePacket();
-	void calcFps(float deltaTime);
-
 	//Engine Variables
 	CubeMap m_cubeMap;
 	ParticleHandler m_particleHandler;
@@ -43,15 +34,10 @@ private:
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;
 	World m_world;
+	NetworkManager m_networkManager;
 
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;
-	sf::Clock m_dataFrequencyTimer;
-	sf::IpAddress m_serverIp;
-	sf::TcpSocket m_tcpSocket;
-	sf::UdpSocket m_udpSocket;
-	uint8_t m_id = 0;
-	uint8_t* m_data = nullptr;
 
 
 };

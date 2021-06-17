@@ -2,6 +2,10 @@
 #include "../Input/Window.hpp"
 #include "../../../Constants.hpp"
 
+const float NEAR_DIST = 0.1f;
+const float FAR_DIST = 1000.0f;
+const float FOV = 70.0f;
+const float SPEED = 25.0f;
 
 void Camera::init() {
 	m_position = glm::vec3(0, 0, 0);

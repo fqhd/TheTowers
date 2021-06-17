@@ -4,7 +4,7 @@
 const float PLAYER_REACH_DISTANCE = 5.0f;
 const float PRECISION = 50.0f;
 
-void Player::update(Camera& camera, ParticleHandler& handler, World& world, float deltaTime, sf::TcpSocket& socket) {
+void Player::update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _manager) {
 
 	getVisibleBlocks(camera, world);
 
@@ -12,10 +12,10 @@ void Player::update(Camera& camera, ParticleHandler& handler, World& world, floa
 
 	if (InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		breakBlock(handler, world);
-		sendBlockData(visibleBlocks.breakableBlock, 0, socket);
+		_manager.sendBlockData(visibleBlocks.breakableBlock, 0);
 	} else if (InputManager::isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 		placeBlock(world);
-		sendBlockData(visibleBlocks.placeableBlock, selectedBlock, socket);
+		_manager.sendBlockData(visibleBlocks.placeableBlock, selectedBlock);
 	}
 
 	//We get the visible blocks again to update them after a block has been pressed
@@ -52,14 +52,6 @@ void Player::breakBlock(ParticleHandler& handler, World& world) {
 	// uint8_t blockID = world.getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 	world.setBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, 0);
 	// handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
-}
-
-void Player::sendBlockData(const glm::ivec3& blockUpdate, uint8_t block, sf::TcpSocket& socket) {
-
-	sf::Packet packet;
-	packet << (uint8_t) 0 << blockUpdate.x << blockUpdate.y << blockUpdate.z << block; // We send the keycode 0 because that is the code for a block update.
-	socket.send(packet);
-
 }
 
 glm::ivec3 Player::vecToBlock(const glm::vec3& vec) {

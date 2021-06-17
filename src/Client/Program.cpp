@@ -1,5 +1,8 @@
 #include "Program.hpp"
 
+const unsigned int SCREEN_WIDTH = 1280;
+const unsigned int SCREEN_HEIGHT = 720;
+
 void Program::run(sf::IpAddress& ip){
 
 	initSystems(ip);

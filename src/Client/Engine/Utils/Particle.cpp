@@ -1,6 +1,8 @@
 #include "Particle.hpp"
 #include "../../../Constants.hpp"
 
+const float GRAVITY = 12.0f;
+
 Particle::Particle(const glm::vec3 & position, const glm::vec3 & velocity, float lifelength, float rotation, float scale) {
 	m_position = position;
 	m_velocity = velocity;

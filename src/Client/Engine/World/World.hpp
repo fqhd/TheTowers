@@ -6,6 +6,7 @@
 #include "../Utils/ChunkShader.hpp"
 #include "../Utils/TextureArray.hpp"
 #include "../../../Constants.hpp"
+#include "../../NetworkManager.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
 
@@ -30,7 +31,7 @@ struct BlockTexture {
 class World {
 public:
 
-	void init(uint8_t* d);
+	void init(NetworkManager& manager);
 	void render(Camera& camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);

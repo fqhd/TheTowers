@@ -9,13 +9,13 @@ void EntityHandler::init() {
 
 }
 
-void EntityHandler::update(sf::UdpSocket & socket, float deltaTime) {
+void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
 	sf::Packet packet;
 	sf::IpAddress remoteIp;
 	unsigned short remotePort;
 
 
-	while (socket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
+	while (_manager.m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
 		glm::vec3 position;
 		float pitch, yaw;
 		uint8_t remoteID;
@@ -32,7 +32,7 @@ void EntityHandler::update(sf::UdpSocket & socket, float deltaTime) {
 
 	//Update Entities
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
-		it -> second.update(deltaTime);
+		it -> second.update(_deltaTime);
 	}
 
 }
