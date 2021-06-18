@@ -8,7 +8,7 @@ rule lnk
   command = clang++ -o $out $in $lflags
 
 build obj/clientMain.o: cc src/Client/main.cpp
-build obj/window.o: cc src/Client/Window.cpp
+build obj/window.o: cc src/Client/Engine/Input/Window.cpp
 build obj/program.o: cc src/Client/Program.cpp
 build obj/blockoutline.o: cc src/Client/BlockOutline.cpp
 build obj/outlinerenderer.o: cc src/Client/Engine/Utils/OutlineRenderer.cpp

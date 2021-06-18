@@ -1,11 +1,10 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, sf::Window* _window, GUIFont* font){
+void PauseMenu::init(InputManager* _manager, GUIFont* _font){
 
-	m_handler.init(font);
-	m_manager = _manager;
-	m_window = _window;
+	m_handler.init(_font);
+	m_inputManager = _manager;
 
 	addImages();
 	addCheckboxes();
@@ -29,9 +28,8 @@ void PauseMenu::addCheckboxes(){
 void PauseMenu::update(GameStates& _state){
 
 	// Change state back to game if the user presses on escape
-	if(m_manager->isKeyPressed(sf::Keyboard::Escape)){
-		m_window->setMouseCursorGrabbed(true);
-		// m_window->setMouseCursorVisible(false);
+	if(m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)){
+		m_inputManager->setMouseGrabbed(true);
 		_state = GameStates::PLAY;
 	}
 

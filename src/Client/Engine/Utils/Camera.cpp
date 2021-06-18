@@ -5,17 +5,14 @@ const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
 const float SPEED = 25.0f;
 
-void Camera::init(sf::Window* _window, InputManager* _manager) {
+void Camera::init(InputManager* _manager) {
 	m_position = glm::vec3(0, 0, 0);
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_manager = _manager;
-
-	updateProjectionMatrix(_window);
-
 }
 
-void Camera::updateProjectionMatrix(sf::Window* _window) {
-	sf::Vector2u size = _window->getSize();
+void Camera::updateProjectionMatrix() {
+	glm::vec2 size = m_manager->getWindowSize();
 	m_projectionMatrix = glm::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
@@ -32,27 +29,27 @@ void Camera::movement(float deltaTime) {
 	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
 	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (m_manager->isKeyDown(sf::Keyboard::Z)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_W)) {
 		m_position += forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::S)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_S)) {
 		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::Q)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_Q)) {
 		m_position -= side * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::D)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_D)) {
 		m_position += side * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::LShift)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
 		m_position.y -= SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::Space)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_SPACE)) {
 		m_position.y += SPEED * deltaTime;
 	}
 
@@ -75,11 +72,7 @@ void Camera::updateViewFrustum(){
 
 
 void Camera::calculateCameraVectors(float sensibility) {
-
-	sf::Vector2i previousMousePos = sf::Mouse::getPosition();
-	m_manager->centerMouseInWindow();
-	sf::Vector2i currentMousePos = sf::Mouse::getPosition();
-	glm::vec2 deltaMousePos = glm::vec2(previousMousePos.x - currentMousePos.x, previousMousePos.y - currentMousePos.y);
+	glm::vec2 deltaMousePos = m_manager->getMousePosition() - m_manager->getPreviousMousePosition();
 
 	m_pitch -= deltaMousePos.y * sensibility;
 	m_yaw += deltaMousePos.x * sensibility;

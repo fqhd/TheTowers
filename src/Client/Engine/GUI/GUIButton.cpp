@@ -15,9 +15,9 @@ void GUIButton::update(InputManager& _manager) {
 
 	if (Utils::isInside(Utils::flipCoords(mousePos, 720.0f), m_destRect)) {
 		m_currentColor = ColorRGBA8(m_baseColor.r * 0.8f, m_baseColor.g * 0.8f, m_baseColor.b * 0.8f, m_baseColor.a);
-		if (_manager.isButtonDown(sf::Mouse::Left)) {
+		if (_manager.isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_currentColor = ColorRGBA8(m_baseColor.r * 0.6f, m_baseColor.g * 0.6f, m_baseColor.b * 0.6f, m_baseColor.a);
-		} else if (_manager.isButtonReleased(sf::Mouse::Left)) {
+		} else if (_manager.isKeyReleased(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_isPressed = true;
 		}
 	}

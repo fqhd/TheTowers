@@ -19,12 +19,17 @@ public:
 	void setMouseGrabbed(bool _grabbed);
 	void setVerticalSync(bool _sync);
 	float getDeltaMouseWheel();
-	glm::vec2 getSize();
+	glm::vec2 getWindowSize();
 	glm::vec2 getMousePosition();
 	glm::vec2 getScaledMousePosition();
+	glm::vec2 getPreviousMousePosition();
 
 private:
 
+	void updateMousePos();
+
+	glm::vec2 m_previousMousePosition;
+	glm::vec2 m_mousePosition;
 	GLFWwindow* m_window;
 
 };

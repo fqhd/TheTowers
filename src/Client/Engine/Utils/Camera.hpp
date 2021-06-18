@@ -10,9 +10,9 @@
 class Camera {
 public:
 
-	void init(sf::Window* _window, InputManager* _manager);
+	void init(InputManager* _manager);
 	void update(float deltaTime);
-	void updateProjectionMatrix(sf::Window* _window);
+	void updateProjectionMatrix();
 
 	float getPitch();
 	float getYaw();

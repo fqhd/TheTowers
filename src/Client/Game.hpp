@@ -19,7 +19,7 @@
 class Game {
 public:
 
-	void init(InputManager* _manager, sf::Window* _window, sf::IpAddress _ip);
+	void init(InputManager* _manager, sf::IpAddress _ip);
 	void update(GameStates& _state, Player& _player, float _deltaTime);
 	void render(Player& _player);
 	void destroy();
@@ -35,7 +35,6 @@ private:
 	World m_world;
 	NetworkManager m_networkManager;
 	InputManager* m_inputManager;
-	sf::Window* m_window;
 
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;

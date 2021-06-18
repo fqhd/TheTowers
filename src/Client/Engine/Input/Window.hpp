@@ -14,6 +14,7 @@ public:
 	void clear();
 	void update();
 	void close();
+	GLFWwindow* getWindowPtr();
 
 	
 

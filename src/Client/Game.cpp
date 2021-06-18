@@ -5,26 +5,24 @@
 
 
 
-void Game::init(InputManager* _manager, sf::Window* _window, sf::IpAddress ip) {
+void Game::init(InputManager* _manager, sf::IpAddress ip) {
 
 	m_networkManager.connectToServer(ip);
 	m_world.init(m_networkManager);
 	m_cubeMap.init();
 	m_particleHandler.init();
-	m_camera.init(_window, _manager);
+	m_camera.init(_manager);
 	m_entityHandler.init();
 	m_blockOutline.init();
 	m_inputManager = _manager;
-	m_window = _window;
 
 }
 
 void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 
-	//Switch state if key has been pressed
-	if (m_inputManager->isKeyPressed(sf::Keyboard::Escape)) {
-		m_window->setMouseCursorGrabbed(false);
-		// m_window->setMouseCursorVisible(true);
+	// Switch state if key has been pressed
+	if (m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)) {
+		m_inputManager->setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
 
