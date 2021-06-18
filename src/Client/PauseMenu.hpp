@@ -20,12 +20,6 @@ private:
 	GUIHandler m_handler;
 	InputManager* m_inputManager;
 
-	void addImages();
-	void addCheckboxes();
-	void addText();
-	void addButtons();
-
-
 };
 
 #endif

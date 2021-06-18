@@ -11,13 +11,16 @@ void Program::run(sf::IpAddress& ip){
 
 void Program::initSystems(sf::IpAddress& ip){
 	m_window.create(1280, 720, "BuildBattle", false, true);
-	m_inputManager.init(m_window.getWindowPtr());
-	m_inputManager.setMouseGrabbed(true);
-	m_inputManager.setVerticalSync(true);
+	initInputManager();
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
 	m_game.init(&m_inputManager, ip);
 	m_pause.init(&m_inputManager, &m_font);
+}
 
+void Program::initInputManager(){
+	m_inputManager.init(m_window.getWindowPtr());
+	m_inputManager.setMouseGrabbed(true);
+	m_inputManager.setVerticalSync(true);
 }
 
 void Program::gameloop(){

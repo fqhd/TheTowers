@@ -18,6 +18,7 @@ private:
 	void initSystems(sf::IpAddress& ip);
 	void gameloop();
 	void cleanUp();
+	void initInputManager();
 
 	Player m_player;
 	GUIFont m_font;

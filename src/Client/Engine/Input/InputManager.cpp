@@ -3,28 +3,54 @@
 #include <iostream>
 
 
+glm::vec2 mousePosition;
+std::unordered_map<int, bool> keymap;
+
+void keyPressed(int _keyID){
+	keymap[_keyID] = true;
+}
+
+void keyReleased(int _keyID){
+	keymap[_keyID] = false;
+}
+
+void keyPressed(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
+	if(_action == GLFW_PRESS){
+		keyPressed(_key);
+	}else if(_action == GLFW_RELEASE){
+		keyReleased(_key);
+	}
+}
+
+void buttonPressed(GLFWwindow* _window, int _button, int _action, int _mods){
+	if(_action == GLFW_PRESS){
+		keyPressed(_button);
+	}else if(_action == GLFW_RELEASE){
+		keyReleased(_button);
+	}
+}
+
+void mouseMoved(GLFWwindow* window, double _xpos, double _ypos){
+	mousePosition = glm::vec2((float)_xpos, (float)_ypos);
+}
+
 void InputManager::init(GLFWwindow* _window) {
 	m_window = _window;
+	glfwSetKeyCallback(_window, keyPressed);
+	glfwSetMouseButtonCallback(_window, buttonPressed);
+	glfwSetCursorPosCallback(_window, mouseMoved);
 }
 
 bool InputManager::processInput() {
-	m_previousMousePosition = m_mousePosition;
+	m_previousMousePosition = mousePosition;
+	m_previousKeymap = keymap;
 
 	glfwPollEvents();
 	if(glfwWindowShouldClose(m_window)){
 		return true;
 	}
 
-	// Updating variables
-	updateMousePos();
-
 	return false;
-}
-
-void InputManager::updateMousePos(){
-	double x, y;
-	glfwGetCursorPos(m_window, &x, &y);
-	m_mousePosition = glm::vec2(x, y);
 }
 
 void InputManager::setMouseGrabbed(bool _grabbed){
@@ -50,7 +76,7 @@ glm::vec2 InputManager::getPreviousMousePosition(){
 }
 
 glm::vec2 InputManager::getMousePosition(){
-	return m_mousePosition;
+	return mousePosition;
 }
 
 glm::vec2 InputManager::getScaledMousePosition(){
@@ -59,16 +85,26 @@ glm::vec2 InputManager::getScaledMousePosition(){
 	return Utils::mapPoint(glm::vec2(mousePos.x, mousePos.y), glm::vec2(windowSize.x, windowSize.y), glm::vec2(1280.0f, 720.0f));
 }
 
-bool InputManager::isKeyPressed(unsigned int _keyID){
-	if(glfwGetKey(m_window, _keyID) == GLFW_PRESS){
-		return true;
+bool InputManager::isKeyDown(int _keyID){
+	auto it = keymap.find(_keyID);
+	if(it != keymap.end()){
+		return it->second;
 	}
 	return false;
 }
 
-bool InputManager::isKeyReleased(unsigned int _keyID){
-	if(glfwGetKey(m_window, _keyID) == GLFW_RELEASE){
-		return true;
+bool InputManager::wasKeyDown(int _keyID){
+	auto it = m_previousKeymap.find(_keyID);
+	if(it != m_previousKeymap.end()){
+		return it->second;
 	}
 	return false;
+}
+
+bool InputManager::isKeyPressed(int _keyID){
+	return (isKeyDown(_keyID) && !wasKeyDown(_keyID));
+}
+
+bool InputManager::isKeyReleased(int _keyID){
+	return (!isKeyDown(_keyID) && wasKeyDown(_keyID));
 }

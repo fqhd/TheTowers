@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <unordered_map>
 #include <glm/glm.hpp>
+#include <vector>
 
 
 class InputManager {
@@ -13,8 +14,10 @@ public:
 	void init(GLFWwindow* _window);
 	bool processInput();
 
-	bool isKeyPressed(unsigned int keyID);
-	bool isKeyReleased(unsigned int keyID);
+	bool isKeyPressed(int _keyID);
+	bool isKeyReleased(int _keyID);
+	bool isKeyDown(int _keyID);
+	bool wasKeyDown(int _keyID);
 
 	void setMouseGrabbed(bool _grabbed);
 	void setVerticalSync(bool _sync);
@@ -26,10 +29,9 @@ public:
 
 private:
 
-	void updateMousePos();
-
+	std::unordered_map<int, bool> m_previousKeymap;
 	glm::vec2 m_previousMousePosition;
-	glm::vec2 m_mousePosition;
+
 	GLFWwindow* m_window;
 
 };
