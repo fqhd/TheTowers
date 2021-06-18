@@ -9,6 +9,8 @@ void Camera::init(InputManager* _manager) {
 	m_position = glm::vec3(0, 0, 0);
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_manager = _manager;
+
+	updateProjectionMatrix();
 }
 
 void Camera::updateProjectionMatrix() {
@@ -37,7 +39,7 @@ void Camera::movement(float deltaTime) {
 		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyPressed(GLFW_KEY_Q)) {
+	if (m_manager->isKeyPressed(GLFW_KEY_A)) {
 		m_position -= side * SPEED * deltaTime;
 	}
 
