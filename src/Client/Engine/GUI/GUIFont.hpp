@@ -3,7 +3,7 @@
 
 #include <string>
 #include "GUITextMesh.hpp"
-#include "../Libs/stb_truetype.h"
+#include "../Libs/stb_truetype.hpp"
 
 
 class GUIFont {
