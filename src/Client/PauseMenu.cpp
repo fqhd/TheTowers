@@ -28,7 +28,7 @@ void PauseMenu::addCheckboxes(){
 void PauseMenu::update(GameStates& _state){
 
 	// Change state back to game if the user presses on escape
-	if(m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)){
+	if(m_inputManager->isKeyPressed(GLFW_KEY_G)){
 		m_inputManager->setMouseGrabbed(true);
 		_state = GameStates::PLAY;
 	}

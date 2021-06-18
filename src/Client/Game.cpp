@@ -21,7 +21,7 @@ void Game::init(InputManager* _manager, sf::IpAddress ip) {
 void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 
 	// Switch state if key has been pressed
-	if (m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)) {
+	if (m_inputManager->isKeyPressed(GLFW_KEY_P)) {
 		m_inputManager->setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
