@@ -59,8 +59,6 @@ void World::update(InputManager* _manager){
 
 void World::render(Camera& _camera){
 
-	std::cout << (unsigned int)getBlock(0, 43, 0) << std::endl;
-
 	shader.bind();
 
 	texturePack.bind();
@@ -142,11 +140,7 @@ uint8_t World::getBlock(int x, int y, int z){
 	z = z % maxW;
 	if(y < 0 || y >= maxH) return 0;
 
-	uint8_t block = getChunk(x / CHUNK_WIDTH, y / CHUNK_WIDTH, z / CHUNK_WIDTH)->getBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH);
-	if(block){
-		std::cout << "block" << std::endl;
-	}
-	return block;
+	return getChunk(x / CHUNK_WIDTH, y / CHUNK_WIDTH, z / CHUNK_WIDTH)->getBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH);
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
