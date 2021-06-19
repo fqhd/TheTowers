@@ -6,11 +6,12 @@ Chunk::Chunk() {
 	m_vboID = 0;
 }
 
-void Chunk::init(int _x, int _y, int _z) {
+void Chunk::init(int _x, int _y, int _z, uint8_t* _dataptr) {
 
 	x = _x;
 	y = _y;
 	z = _z;
+	m_data = _dataptr;
 
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
@@ -51,4 +52,20 @@ void Chunk::render() {
 void Chunk::destroy() {
 	glDeleteVertexArrays(1, & m_vaoID);
 	glDeleteBuffers(1, & m_vboID);
+}
+
+uint8_t Chunk::getBlock(uint8_t _x, uint8_t _y, uint8_t _z){
+	if(_x < 0 || _x >= CHUNK_WIDTH) return 0;
+	if(_y < 0 || _y >= CHUNK_WIDTH) return 0;
+	if(_z < 0 || _z >= CHUNK_WIDTH) return 0;
+
+	return m_data[(_y * CHUNK_WIDTH * CHUNK_WIDTH) + (_z * CHUNK_WIDTH) + _x];
+}
+
+void Chunk::setBlock(uint8_t _x, uint8_t _y, uint8_t _z, uint8_t _blockID){
+	if(_x < 0 || _x >= CHUNK_WIDTH) return;
+	if(_y < 0 || _y >= CHUNK_WIDTH) return;
+	if(_z < 0 || _z >= CHUNK_WIDTH) return;
+
+	m_data[(_y * CHUNK_WIDTH * CHUNK_WIDTH) + (_z * CHUNK_WIDTH) + _x] = _blockID;
 }

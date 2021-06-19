@@ -2,35 +2,38 @@
 #include <iostream>
 
 
-const unsigned int CHUNK_WIDTH = 32;
-const unsigned int LOCAL_WORLD_WIDTH = 16;
-const unsigned int LOCAL_WORLD_HEIGHT = 8;
-constexpr unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
-const unsigned int WORLD_WIDTH = 32;
+const unsigned int WORLD_WIDTH = 16;
 const unsigned int WORLD_HEIGHT = 8;
-
 
 void World::init(NetworkManager& _manager){
 
 	// Downloading the world
-	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
-	_manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
+	// data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	data = new uint8_t[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE];
+	// _manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
 
 	// Loading the texture atlass into a texture array
 	texturePack.init("res/textures/sprite_sheet.png", 512);
 
 	// Initializing the chunks
-	chunks = new Chunk[LOCAL_WORLD_WIDTH * LOCAL_WORLD_WIDTH * LOCAL_WORLD_HEIGHT];
-	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
-			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
-				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH);
+	chunks = new Chunk[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT];
+	unsigned int index = 0;
+	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
+		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
+			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
+				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH, data + index * CHUNK_SIZE);
+				index++;
 			}
 		}
 	}
 
 	// Initializing the shader
 	shader.init();
+
+	setBlock(0, 0, 0, 1);
+	setBlock(1, 1, 1, 1);
+	setBlock(0, 0, 3, 1);
+	setBlock(0, 43, 0, 4);
 
 }
 
@@ -55,7 +58,6 @@ void World::update(InputManager* _manager){
 }
 
 void World::render(Camera& _camera){
-
 	shader.bind();
 
 	texturePack.bind();
@@ -64,9 +66,9 @@ void World::render(Camera& _camera){
 	shader.loadViewMatrix(_camera.getViewMatrix());
 	shader.loadCameraPosition(_camera.getPosition());
 
-	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
-			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
+	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
+		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
+			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 
 				Chunk* c = getChunk(x, y, z);
 				if(c->needsUpdate){
@@ -96,9 +98,9 @@ void World::render(Camera& _camera){
 }
 
 void World::destroy(){
-	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
-			for(unsigned int x = 0; x < LOCAL_WORLD_WIDTH; x++){
+	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
+		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
+			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 				getChunk(x, y, z)->destroy();
 			}
 		}
@@ -110,15 +112,10 @@ void World::destroy(){
 }
 
 void World::generateMesh(Chunk* chunk){
-
 	vertices.clear();
-
 	for(unsigned int y = 0; y < CHUNK_WIDTH; y++){
-
 		for(unsigned int z = 0; z < CHUNK_WIDTH; z++){
-
 			for(unsigned int x = 0; x < CHUNK_WIDTH; x++){
-
 				//May be better to get the surrounding blocks and then check against them rather than get the surrounding blocks every time. Because then, they will be stored in the cache rather than having to go look through the entire array of data for the surrounding blocks in ram which is farther away from the cpu
 
 				uint8_t block = getBlock(chunk->x + x, chunk->y + y, chunk->z + z);
@@ -126,7 +123,6 @@ void World::generateMesh(Chunk* chunk){
 				if(block){
 					addBlock(chunk, x, y, z, block);
 				}
-
 			}
 		}
 	}
@@ -139,59 +135,62 @@ uint8_t World::getBlock(int x, int y, int z){
 	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
 	unsigned int maxH = CHUNK_WIDTH * WORLD_HEIGHT;
 
-	if(x < 0 || x >= maxW) return 0;
+	// Converting coords from global space to local space
+	x = x % maxW;
+	z = z % maxW;
 	if(y < 0 || y >= maxH) return 0;
-	if(z < 0 || z >= maxW) return 0;
-	
-	return data[(y * maxW * maxW) + (z * maxW) + x];
+
+	return getChunk(x / CHUNK_WIDTH, y / CHUNK_WIDTH, z / CHUNK_WIDTH)->getBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH);
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
 	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
 	unsigned int maxH = CHUNK_WIDTH * WORLD_HEIGHT;
 
-	//Checking if the X Y Z coordinate of the block is in bounds
+	// Converting coords from global space to local space
 	if(y < 0 || y >= maxH) return;
-	if(x < 0 || x >= maxW) return;
-	if(z < 0 || z >= maxW) return;
-
-	data[(y * maxW * maxW) + (z * maxW) + x] = block; //Updating the block in the array of block IDs
+	x = x % maxW;
+	z = z % maxW;
 
 	// Getting the chunk that the block is in
 	unsigned int posX = x / CHUNK_WIDTH;
 	unsigned int posY = y / CHUNK_WIDTH;
 	unsigned int posZ = z / CHUNK_WIDTH;
 
-	//Right now, we have the position of the chunk that the block has been placed in stored in posX, posY, and posZ
-	//So we first of all, queue this chunk up for updation
+	// Right now, we have the position of the chunk that the block has been placed in stored in posX, posY, and posZ
+	// So we first of all, queue this chunk up for a mesh update
 	getChunk(posX, posY, posZ)->needsUpdate = true;
+
+	// Setting the block based on chunk space coords
+	getChunk(posX, posY, posZ)->setBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH, block);
+	
 
 	//Next, we check if the placed block has been placed on any edge
 	//Update neighboring chunks if block is on the edge of the current chunk
-	if(x % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX - 1, posY, posZ);
-		if(chunk) chunk->needsUpdate = true;
-	}
-	if((x + 1) % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX + 1, posY, posZ);
-		if(chunk) chunk->needsUpdate = true;
-	}
-	if(z % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX, posY, posZ - 1);
-		if(chunk) chunk->needsUpdate = true;
-	}
-	if((z + 1) % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX, posY, posZ + 1);
-		if(chunk) chunk->needsUpdate = true;
-	}
-	if(y % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX, posY - 1, posZ);
-		if(chunk) chunk->needsUpdate = true;
-	}
-	if((y + 1) % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX, posY + 1, posZ);
-		if(chunk) chunk->needsUpdate = true;
-	}
+	// if(x % CHUNK_WIDTH == 0){
+	// 	Chunk* chunk = getChunk(posX - 1, posY, posZ);
+	// 	if(chunk) chunk->needsUpdate = true;
+	// }
+	// if((x + 1) % CHUNK_WIDTH == 0){
+	// 	Chunk* chunk = getChunk(posX + 1, posY, posZ);
+	// 	if(chunk) chunk->needsUpdate = true;
+	// }
+	// if(z % CHUNK_WIDTH == 0){
+	// 	Chunk* chunk = getChunk(posX, posY, posZ - 1);
+	// 	if(chunk) chunk->needsUpdate = true;
+	// }
+	// if((z + 1) % CHUNK_WIDTH == 0){
+	// 	Chunk* chunk = getChunk(posX, posY, posZ + 1);
+	// 	if(chunk) chunk->needsUpdate = true;
+	// }
+	// if(y % CHUNK_WIDTH == 0){
+	// 	Chunk* chunk = getChunk(posX, posY - 1, posZ);
+	// 	if(chunk) chunk->needsUpdate = true;
+	// }
+	// if((y + 1) % CHUNK_WIDTH == 0){
+	// 	Chunk* chunk = getChunk(posX, posY + 1, posZ);
+	// 	if(chunk) chunk->needsUpdate = true;
+	// }
 
 }
 
@@ -210,23 +209,32 @@ void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
 
 Chunk* World::getChunk(int x, int y, int z) {
 	x += m_chunkOffsetX;
-	x = x % LOCAL_WORLD_WIDTH;
+	x = x % WORLD_WIDTH;
 
 	z += m_chunkOffsetZ;
-	z = z % LOCAL_WORLD_WIDTH;
+	z = z % WORLD_WIDTH;
 
-	if(y < 0 || y >= LOCAL_WORLD_HEIGHT) return nullptr;
-	if(x < 0 || x >= LOCAL_WORLD_WIDTH) return nullptr;
-	if(z < 0 || z >= LOCAL_WORLD_WIDTH) return nullptr;
+	if(y < 0 || y >= WORLD_HEIGHT){
+		std::cout << "get chunk segfault" << std::endl;
+		return nullptr;
+	}
+	if(x < 0 || x >= WORLD_WIDTH){
+		std::cout << "get chunk segfault" << std::endl;
+		return nullptr;
+	}
+	if(z < 0 || z >= WORLD_WIDTH){
+		std::cout << "get chunk segfault" << std::endl;
+		return nullptr;
+	}
 	
-	return &chunks[(y * LOCAL_WORLD_WIDTH * LOCAL_WORLD_WIDTH) + (z * LOCAL_WORLD_WIDTH) + x];
+	return &chunks[(y * WORLD_WIDTH * WORLD_WIDTH) + (z * WORLD_WIDTH) + x];
 }
 
 void World::moveLeft(){
-	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
+	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(0, j, i);
-			c->x += LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+			c->x += WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
 	}
@@ -234,10 +242,10 @@ void World::moveLeft(){
 }
 
 void World::moveRight(){
-	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
-			Chunk* c = getChunk(LOCAL_WORLD_WIDTH - 1, j, i);
-			c->x -= LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
+			Chunk* c = getChunk(WORLD_WIDTH - 1, j, i);
+			c->x -= WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
 	}
@@ -245,10 +253,10 @@ void World::moveRight(){
 }
 
 void World::moveFront(){
-	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
+	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(i, j, 0);
-			c->z += LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+			c->z += WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
 	}
@@ -256,10 +264,10 @@ void World::moveFront(){
 }
 
 void World::moveBack(){
-	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, LOCAL_WORLD_WIDTH - 1);
-			c->z -= LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
+			Chunk* c = getChunk(i, j, WORLD_WIDTH - 1);
+			c->z -= WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
 	}
