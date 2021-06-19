@@ -10,7 +10,7 @@ void Program::run(sf::IpAddress& ip){
 }
 
 void Program::initSystems(sf::IpAddress& ip){
-	m_window.create(1280, 720, "BuildBattle", false, true);
+	m_window.create(1280, 720, "OpenCraft", false, true);
 	initInputManager();
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
 	m_game.init(&m_inputManager, ip);
