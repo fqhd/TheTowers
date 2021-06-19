@@ -2,14 +2,14 @@
 #include <iostream>
 
 
-const unsigned int WORLD_WIDTH = 16;
-const unsigned int WORLD_HEIGHT = 8;
+const unsigned int WORLD_WIDTH = 4;
+const unsigned int WORLD_HEIGHT = 2;
 
 void World::init(NetworkManager& _manager){
 
 	// Downloading the world
-	// data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
-	data = new uint8_t[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE];
+	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	// data = new uint8_t[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE];
 	// _manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
 
 	// Loading the texture atlass into a texture array
@@ -58,6 +58,9 @@ void World::update(InputManager* _manager){
 }
 
 void World::render(Camera& _camera){
+
+	std::cout << (unsigned int)getBlock(0, 43, 0) << std::endl;
+
 	shader.bind();
 
 	texturePack.bind();
@@ -117,7 +120,6 @@ void World::generateMesh(Chunk* chunk){
 		for(unsigned int z = 0; z < CHUNK_WIDTH; z++){
 			for(unsigned int x = 0; x < CHUNK_WIDTH; x++){
 				//May be better to get the surrounding blocks and then check against them rather than get the surrounding blocks every time. Because then, they will be stored in the cache rather than having to go look through the entire array of data for the surrounding blocks in ram which is farther away from the cpu
-
 				uint8_t block = getBlock(chunk->x + x, chunk->y + y, chunk->z + z);
 
 				if(block){
@@ -140,7 +142,11 @@ uint8_t World::getBlock(int x, int y, int z){
 	z = z % maxW;
 	if(y < 0 || y >= maxH) return 0;
 
-	return getChunk(x / CHUNK_WIDTH, y / CHUNK_WIDTH, z / CHUNK_WIDTH)->getBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH);
+	uint8_t block = getChunk(x / CHUNK_WIDTH, y / CHUNK_WIDTH, z / CHUNK_WIDTH)->getBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH);
+	if(block){
+		std::cout << "block" << std::endl;
+	}
+	return block;
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
@@ -208,12 +214,6 @@ void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
 }
 
 Chunk* World::getChunk(int x, int y, int z) {
-	x += m_chunkOffsetX;
-	x = x % WORLD_WIDTH;
-
-	z += m_chunkOffsetZ;
-	z = z % WORLD_WIDTH;
-
 	if(y < 0 || y >= WORLD_HEIGHT){
 		std::cout << "get chunk segfault" << std::endl;
 		return nullptr;
@@ -233,7 +233,7 @@ Chunk* World::getChunk(int x, int y, int z) {
 void World::moveLeft(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(0, j, i);
+			Chunk* c = getChunk(m_chunkOffsetX % WORLD_WIDTH, j, i);
 			c->x += WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
@@ -244,7 +244,7 @@ void World::moveLeft(){
 void World::moveRight(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(WORLD_WIDTH - 1, j, i);
+			Chunk* c = getChunk(((WORLD_WIDTH - 1) + m_chunkOffsetX) % WORLD_WIDTH, j, i);
 			c->x -= WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
@@ -255,7 +255,7 @@ void World::moveRight(){
 void World::moveFront(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, 0);
+			Chunk* c = getChunk(i, j, m_chunkOffsetZ % WORLD_WIDTH);
 			c->z += WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
@@ -266,7 +266,7 @@ void World::moveFront(){
 void World::moveBack(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, WORLD_WIDTH - 1);
+			Chunk* c = getChunk(i, j, ((WORLD_WIDTH - 1) + m_chunkOffsetZ) % WORLD_WIDTH);
 			c->z -= WORLD_WIDTH * CHUNK_WIDTH;
 			c->needsUpdate = true;
 		}
