@@ -30,8 +30,9 @@ struct BlockTexture {
 class World {
 public:
 
-	void init(NetworkManager& manager);
-	void render(Camera& camera);
+	void init(NetworkManager& _manager);
+	void update(InputManager* _manager);
+	void render(Camera& _camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);
@@ -44,6 +45,12 @@ private:
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
+
+	// World movement functions
+	void moveLeft();
+	void moveRight();
+	void moveFront();
+	void moveBack();
 
 	// Mesh generation functions
 	void addTopFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
@@ -60,7 +67,8 @@ private:
 	ChunkShader shader;
 	uint8_t* data = nullptr;
 	TextureArray texturePack;
-
+	unsigned int m_chunkOffsetX = 0;
+	unsigned int m_chunkOffsetZ = 0;
 
 };
 

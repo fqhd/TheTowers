@@ -39,15 +39,30 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 	return vertex;
 }
 
-void World::render(Camera& camera){
+void World::update(InputManager* _manager){
+	if(_manager->isKeyPressed(GLFW_KEY_L)){
+		moveLeft();
+	}
+	if(_manager->isKeyPressed(GLFW_KEY_R)){
+		moveRight();
+	}
+	if(_manager->isKeyPressed(GLFW_KEY_F)){
+		moveFront();
+	}
+	if(_manager->isKeyPressed(GLFW_KEY_B)){
+		moveBack();
+	}
+}
+
+void World::render(Camera& _camera){
 
 	shader.bind();
 
 	texturePack.bind();
 
-	shader.loadProjectionMatrix(camera.getProjectionMatrix());
-	shader.loadViewMatrix(camera.getViewMatrix());
-	shader.loadCameraPosition(camera.getPosition());
+	shader.loadProjectionMatrix(_camera.getProjectionMatrix());
+	shader.loadViewMatrix(_camera.getViewMatrix());
+	shader.loadCameraPosition(_camera.getPosition());
 
 	for(unsigned int y = 0; y < LOCAL_WORLD_HEIGHT; y++){
 		for(unsigned int z = 0; z < LOCAL_WORLD_WIDTH; z++){
@@ -64,7 +79,7 @@ void World::render(Camera& camera){
 					glm::vec3 min = glm::vec3(c->x, c->y, c->z);
 					glm::vec3 max = min + glm::vec3(w, w, w);
 
-					if(camera.viewFrustum.IsBoxVisible(min, max)){
+					if(_camera.viewFrustum.IsBoxVisible(min, max)){
 						shader.loadChunkPosition(c->x, c->y, c->z);
 						c->render();
 					}
@@ -194,11 +209,61 @@ void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
 }
 
 Chunk* World::getChunk(int x, int y, int z) {
+	x += m_chunkOffsetX;
+	x = x % LOCAL_WORLD_WIDTH;
+
+	z += m_chunkOffsetZ;
+	z = z % LOCAL_WORLD_WIDTH;
+
 	if(y < 0 || y >= LOCAL_WORLD_HEIGHT) return nullptr;
 	if(x < 0 || x >= LOCAL_WORLD_WIDTH) return nullptr;
 	if(z < 0 || z >= LOCAL_WORLD_WIDTH) return nullptr;
 	
 	return &chunks[(y * LOCAL_WORLD_WIDTH * LOCAL_WORLD_WIDTH) + (z * LOCAL_WORLD_WIDTH) + x];
+}
+
+void World::moveLeft(){
+	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
+			Chunk* c = getChunk(0, j, i);
+			c->x += LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+			c->needsUpdate = true;
+		}
+	}
+	m_chunkOffsetX++;
+}
+
+void World::moveRight(){
+	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
+			Chunk* c = getChunk(LOCAL_WORLD_WIDTH - 1, j, i);
+			c->x -= LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+			c->needsUpdate = true;
+		}
+	}
+	m_chunkOffsetX--;
+}
+
+void World::moveFront(){
+	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
+			Chunk* c = getChunk(i, j, 0);
+			c->z += LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+			c->needsUpdate = true;
+		}
+	}
+	m_chunkOffsetZ++;
+}
+
+void World::moveBack(){
+	for(unsigned int j = 0; j < LOCAL_WORLD_HEIGHT; j++){
+		for(unsigned int i = 0; i < LOCAL_WORLD_WIDTH; i++){
+			Chunk* c = getChunk(i, j, LOCAL_WORLD_WIDTH - 1);
+			c->z -= LOCAL_WORLD_WIDTH * CHUNK_WIDTH;
+			c->needsUpdate = true;
+		}
+	}
+	m_chunkOffsetZ--;
 }
 
 unsigned int calcAO(bool side1, bool side2, bool corner){

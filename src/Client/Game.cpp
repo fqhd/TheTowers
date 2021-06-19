@@ -26,7 +26,7 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 		_state = GameStates::PAUSE;
 	}
 
-
+	m_world.update(m_inputManager);
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
 	m_camera.update(_deltaTime);
