@@ -187,6 +187,10 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
 	unsigned int maxH = CHUNK_WIDTH * WORLD_HEIGHT;
 
+	if(!isBlockInLocalWorld(x, y, z)){
+		return;
+	}
+
 	// Converting coords from global space to local space
 	if(y < 0 || y >= maxH) return;
 	x = x % maxW;
@@ -273,6 +277,29 @@ Chunk* World::getChunk(int x, int y, int z) {
 	
 	return &chunks[(y * WORLD_WIDTH * WORLD_WIDTH) + (z * WORLD_WIDTH) + x];
 }
+
+// void World::updateEdgeChunks(Edge e){
+// 	if(e == LEFT){
+// 		for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
+// 			for(unsigned int i = 0; i < WORLD_WIDTH; i++){
+// 				Chunk* c = getChunk(0, j, i);
+// 				c->needsUpdate = true;
+// 			}
+// 		}
+// 	}else if(e == RIGHT){
+// 		for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
+// 			for(unsigned int i = 0; i < WORLD_WIDTH; i++){
+// 				Chunk* c = getChunk(0, j, i);
+// 				c->needsUpdate = true;
+// 			}
+// 		}
+
+// 	}else if(e == FRONT){
+
+// 	}else if(e == BACK){
+
+// 	}
+// }
 
 void World::moveLeft(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
