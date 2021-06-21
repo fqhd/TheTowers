@@ -11,6 +11,19 @@
 
 class NetworkManager;
 
+enum Edge {
+	NONE,
+	LEFT,
+	RIGHT,
+	FRONT,
+	BACK
+};
+
+struct Corner {
+	Edge e1 = NONE;
+	Edge e2 = NONE;
+};
+
 struct BlockTexture {
 	BlockTexture(uint16_t _t){
 		top = _t;
@@ -45,6 +58,8 @@ private:
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
+	bool isBlockInLocalWorld(int _x, int _y, int _z);
+	Corner isBlockOnEdge(int _x, int _y, int _z);
 
 	// World movement functions
 	void moveLeft();

@@ -18,6 +18,7 @@ public:
 	// Utility functions
 	void render();
 	void destroy();
+	void updateData();
 	void pushData(GLuint* vertices, unsigned int numVertices);
 	unsigned int getNumVertices();
 	uint8_t getBlock(uint8_t _x, uint8_t _y, uint8_t _z);

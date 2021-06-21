@@ -42,6 +42,17 @@ unsigned int Chunk::getNumVertices(){
 	return m_numVertices;
 }
 
+void Chunk::updateData(){
+	for(unsigned int y = 0; y < CHUNK_WIDTH; y++){
+		for(unsigned int z = 0; z < CHUNK_WIDTH; z++){
+			for(unsigned int x = 0; x < CHUNK_WIDTH; x++){
+				if(y == 0){
+					setBlock(x, y, z, 2);
+				}
+			}	
+		}	
+	}
+}
 
 void Chunk::render() {
 	glBindVertexArray(m_vaoID);

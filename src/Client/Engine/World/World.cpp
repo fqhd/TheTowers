@@ -22,6 +22,7 @@ void World::init(NetworkManager& _manager){
 		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH, data + index * CHUNK_SIZE);
+				getChunk(x, y, z)->updateData();
 				index++;
 			}
 		}
@@ -30,10 +31,7 @@ void World::init(NetworkManager& _manager){
 	// Initializing the shader
 	shader.init();
 
-	setBlock(0, 0, 0, 1);
-	setBlock(1, 1, 1, 1);
-	setBlock(0, 0, 3, 1);
-	setBlock(0, 43, 0, 4);
+	setBlock(CHUNK_WIDTH * WORLD_WIDTH - 1, 22, 20, 5);
 
 }
 
@@ -131,16 +129,58 @@ void World::generateMesh(Chunk* chunk){
 
 }
 
-uint8_t World::getBlock(int x, int y, int z){
+Corner World::isBlockOnEdge(int _x, int _y, int _z){
+	Corner corner;
+
+	int minChunkX = m_chunkOffsetX * CHUNK_WIDTH;
+	int minChunkZ = m_chunkOffsetZ * CHUNK_WIDTH;
+	int maxChunkX = minChunkX + CHUNK_WIDTH * WORLD_WIDTH;
+	int maxChunkZ = minChunkZ + CHUNK_WIDTH * WORLD_WIDTH;
+
+	if((_z >= minChunkZ && _z < maxChunkZ)){
+		if(_x == minChunkX){
+			corner.e1 = RIGHT;
+		}else if(_x == maxChunkX - 1){
+			corner.e1 = LEFT;
+		}
+	}
+	if((_x >= minChunkX && _x < maxChunkZ)){
+		if(_z == minChunkZ){
+			corner.e2 = FRONT;
+		}else if(_z == maxChunkZ - 1){
+			corner.e2 = BACK;
+		}
+	}
+
+	return corner;
+}
+
+bool World::isBlockInLocalWorld(int _x, int _y, int _z){
+	int minChunkX = m_chunkOffsetX * CHUNK_WIDTH;
+	int minChunkZ = m_chunkOffsetZ * CHUNK_WIDTH;
+	int maxChunkX = minChunkX + CHUNK_WIDTH * WORLD_WIDTH;
+	int maxChunkZ = minChunkZ + CHUNK_WIDTH * WORLD_WIDTH;
+
+	if(_x < minChunkX || _x >= maxChunkX || _z < minChunkZ || _z >= maxChunkZ) return false;
+	return true;
+}
+
+uint8_t World::getBlock(int _x, int _y, int _z){
 	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
 	unsigned int maxH = CHUNK_WIDTH * WORLD_HEIGHT;
 
-	// Converting coords from global space to local space
-	x = x % maxW;
-	z = z % maxW;
-	if(y < 0 || y >= maxH) return 0;
 
-	return getChunk(x / CHUNK_WIDTH, y / CHUNK_WIDTH, z / CHUNK_WIDTH)->getBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH);
+	if(!isBlockInLocalWorld(_x, _y, _z)){
+		return 0;
+	}
+
+
+	// Converting coords from global space to local space
+	_x = _x % maxW;
+	_z = _z % maxW;
+	if(_y < 0 || _y >= maxH) return 0;
+
+	return getChunk(_x / CHUNK_WIDTH, _y / CHUNK_WIDTH, _z / CHUNK_WIDTH)->getBlock(_x % CHUNK_WIDTH, _y % CHUNK_WIDTH, _z % CHUNK_WIDTH);
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
@@ -197,13 +237,23 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
 
 	BlockTexture blockTexture = getTextureFromBlockID(_blockType);
+	Corner c = isBlockOnEdge(_c->x + _x, _c->y + _y, _c->z + _z);
 
 	addTopFace(_c, _x, _y, _z, blockTexture.top);
 	addBottomFace(_c, _x, _y, _z, blockTexture.bot);
-	addLeftFace(_c, _x, _y, _z, blockTexture.side);
-	addRightFace(_c, _x, _y, _z, blockTexture.side);
-	addFrontFace(_c, _x, _y, _z, blockTexture.side);
-	addBackFace(_c, _x, _y, _z, blockTexture.side);
+
+	if(c.e1 != LEFT){
+		addLeftFace(_c, _x, _y, _z, blockTexture.side);
+	}
+	if(c.e1 != RIGHT){
+		addRightFace(_c, _x, _y, _z, blockTexture.side);
+	}
+	if(c.e2 != FRONT){
+		addFrontFace(_c, _x, _y, _z, blockTexture.side);
+	}
+	if(c.e2 != BACK){
+		addBackFace(_c, _x, _y, _z, blockTexture.side);
+	}
 
 }
 
