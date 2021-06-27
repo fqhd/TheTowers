@@ -82,8 +82,8 @@ private:
 	ChunkShader shader;
 	uint8_t* data = nullptr;
 	TextureArray texturePack;
-	unsigned int m_chunkOffsetX = 0;
-	unsigned int m_chunkOffsetZ = 0;
+	int m_chunkOffsetX = 0;
+	int m_chunkOffsetZ = 0;
 
 };
 

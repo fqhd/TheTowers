@@ -131,6 +131,8 @@ void World::generateMesh(Chunk* chunk){
 
 Corner World::isBlockOnEdge(int _x, int _y, int _z){
 	Corner corner;
+	corner.e1 = NONE;
+	corner.e2 = NONE;
 
 	int minChunkX = m_chunkOffsetX * CHUNK_WIDTH;
 	int minChunkZ = m_chunkOffsetZ * CHUNK_WIDTH;
@@ -144,7 +146,7 @@ Corner World::isBlockOnEdge(int _x, int _y, int _z){
 			corner.e1 = LEFT;
 		}
 	}
-	if((_x >= minChunkX && _x < maxChunkZ)){
+	if((_x >= minChunkX && _x < maxChunkX)){
 		if(_z == minChunkZ){
 			corner.e2 = FRONT;
 		}else if(_z == maxChunkZ - 1){
