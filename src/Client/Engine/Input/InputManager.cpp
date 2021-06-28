@@ -39,6 +39,13 @@ void InputManager::init(GLFWwindow* _window) {
 	glfwSetKeyCallback(_window, keyPressed);
 	glfwSetMouseButtonCallback(_window, buttonPressed);
 	glfwSetCursorPosCallback(_window, mouseMoved);
+
+	// We must inialize the mouse position function on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved.
+	double x, y;
+	glfwGetCursorPos(_window, &x, &y);
+	mousePosition = glm::vec2(x, y);
+
+	
 }
 
 bool InputManager::processInput() {
