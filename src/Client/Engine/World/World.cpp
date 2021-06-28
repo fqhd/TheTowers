@@ -210,33 +210,32 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	// Setting the block based on chunk space coords
 	getChunk(posX, posY, posZ)->setBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH, block);
 	
-
-	//Next, we check if the placed block has been placed on any edge
-	//Update neighboring chunks if block is on the edge of the current chunk
-	// if(x % CHUNK_WIDTH == 0){
-	// 	Chunk* chunk = getChunk(posX - 1, posY, posZ);
-	// 	if(chunk) chunk->needsUpdate = true;
-	// }
-	// if((x + 1) % CHUNK_WIDTH == 0){
-	// 	Chunk* chunk = getChunk(posX + 1, posY, posZ);
-	// 	if(chunk) chunk->needsUpdate = true;
-	// }
-	// if(z % CHUNK_WIDTH == 0){
-	// 	Chunk* chunk = getChunk(posX, posY, posZ - 1);
-	// 	if(chunk) chunk->needsUpdate = true;
-	// }
-	// if((z + 1) % CHUNK_WIDTH == 0){
-	// 	Chunk* chunk = getChunk(posX, posY, posZ + 1);
-	// 	if(chunk) chunk->needsUpdate = true;
-	// }
-	// if(y % CHUNK_WIDTH == 0){
-	// 	Chunk* chunk = getChunk(posX, posY - 1, posZ);
-	// 	if(chunk) chunk->needsUpdate = true;
-	// }
-	// if((y + 1) % CHUNK_WIDTH == 0){
-	// 	Chunk* chunk = getChunk(posX, posY + 1, posZ);
-	// 	if(chunk) chunk->needsUpdate = true;
-	// }
+	// Next, we check if the placed block has been placed on any edge
+	// Update neighboring chunks if block is on the edge of the current chunk
+	if(x % CHUNK_WIDTH == 0){
+		Chunk* chunk = getChunk((posX - 1) % WORLD_WIDTH, posY, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if((x + 1) % CHUNK_WIDTH == 0){
+		Chunk* chunk = getChunk((posX + 1) % WORLD_WIDTH, posY, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if(z % CHUNK_WIDTH == 0){
+		Chunk* chunk = getChunk(posX, posY, (posZ - 1) % WORLD_WIDTH);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if((z + 1) % CHUNK_WIDTH == 0){
+		Chunk* chunk = getChunk(posX, posY, (posZ + 1) % WORLD_WIDTH);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if(y % CHUNK_WIDTH == 0){
+		Chunk* chunk = getChunk(posX, (posY - 1) % WORLD_HEIGHT, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
+	if((y + 1) % CHUNK_WIDTH == 0){
+		Chunk* chunk = getChunk(posX, (posY + 1) % WORLD_HEIGHT, posZ);
+		if(chunk) chunk->needsUpdate = true;
+	}
 
 }
 
