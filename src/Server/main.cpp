@@ -8,7 +8,6 @@
 
 
 // Forward Declarations
-uint8_t* generateWorld();
 uint8_t createUniqueID();
 bool doesIDExist(uint8_t id);
 void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
@@ -16,31 +15,28 @@ void udpThread();
 void compressAndSendWorld(uint8_t* data);
 void freeWorldData(uint8_t* data);
 void updateWorldBasedOnPacket(sf::Packet& packet, uint8_t* data);
-uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet);
+uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex);
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
 void sendPacketToAllClients(sf::Packet& packet);
+void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID);
 
 // Global Variables
 std::vector<Client> clients;
 bool isDone = false;
 
-
-
 const unsigned int WORLD_WIDTH = 32;
 const unsigned int WORLD_HEIGHT = 8;
 const unsigned int CHUNK_WIDTH = 32;
-const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH; 
+const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 const unsigned int CLIENT_PORT = 7459;
 const unsigned int SERVER_PORT = 7456;
 
 int main(){
-
 	// Server variables
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
 
-	uint8_t* worldData = generateWorld(); // Creating the world data buffer
-	std::thread positionUpdater(udpThread); //Starting packet position thread
+	std::thread positionUpdater(udpThread); // Starting packet position thread
 
 	// Starting server
 	std::cout << "Listening for connection..." << std::endl;
@@ -48,34 +44,36 @@ int main(){
 	selector.add(listener);
 
 	while(!isDone){
-
-		if(selector.wait()){ // Wait for even to happen
+		if(selector.wait()){ // Wait for event to happen
 			if(selector.isReady(listener)){ // Got new connection, so we are going to handle that by creating a new client
-
 				addClient(listener, selector);
-				compressAndSendWorld(worldData);
-
-			}else{ // Got data from a connected client so we are going to send it to all other clients
-
+			} else { // Got data from a connected client so we are going to send it to all other clients
 				sf::Packet receivedPacket;
-				uint8_t remoteClientID = getReceivedPacket(selector, receivedPacket);
-				if(remoteClientID){
-					updateWorldBasedOnPacket(receivedPacket, worldData);
-					sendPacketToOtherClients(receivedPacket, remoteClientID);
+				unsigned int senderIndex;
+				uint8_t code = getReceivedPacket(selector, receivedPacket, senderIndex);
+				
+				switch(code){
+					case 1: // Disconnect
+						disconnectPlayer(selector, senderIndex);
+					break;
+					case 2: // Block Update
+						std::cout << "Got block update packet" << std::endl;
+						sendPacketToOtherClients(receivedPacket, senderIndex);
+					break;
+					case 3: // Chunk Request
+
+					break;
 				}
 			}
 		}
-
 	}
 
 	positionUpdater.join();
 
-
-     return 0;
+	return 0;
 }
 
 void udpThread(){
-
 	//Variables for algorithm
 	sf::UdpSocket socket;
 	sf::Packet receivedPacket;
@@ -90,7 +88,6 @@ void udpThread(){
 		receivedPacket.clear();
 
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
-
 			uint8_t id;
 			receivedPacket >> id;
 			receivedPacket << id;
@@ -98,50 +95,9 @@ void udpThread(){
 			for(auto& i : clients){
 				if(i.id != id) socket.send(receivedPacket, i.socket->getRemoteAddress(), CLIENT_PORT);
 			}
-
-
 		}
-
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
-
-}
-
-uint8_t* generateWorld(){
-
-	//Allocating memory for world data
-	uint8_t* data = (uint8_t*)malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
-	std::cout << "World Size(GB): " << (WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE) / 1000000000.0f << std::endl;
-
-	//Generating the world with perlin noise
-	Perlin perlin;
-	perlin.init(CHUNK_WIDTH * WORLD_WIDTH, 7, 0.3f);
-	for(unsigned int z = 0; z < CHUNK_WIDTH * WORLD_WIDTH; z++){
-		for(unsigned int x = 0; x < CHUNK_WIDTH * WORLD_WIDTH; x++){
-
-			unsigned int height = perlin.noise(x, z) * CHUNK_WIDTH * WORLD_HEIGHT;
-
-			for(unsigned int y = 0; y < CHUNK_WIDTH * WORLD_HEIGHT; y++){
-				data[(y * CHUNK_WIDTH * WORLD_WIDTH * CHUNK_WIDTH * WORLD_WIDTH) + (z * CHUNK_WIDTH * WORLD_WIDTH) + x] =  0;
-
-				if(y <= height){
-					if(y == height){
-						if(height > 32){
-							data[(y * CHUNK_WIDTH * WORLD_WIDTH * CHUNK_WIDTH * WORLD_WIDTH) + (z * CHUNK_WIDTH * WORLD_WIDTH) + x] =  3;
-						}else{
-							data[(y * CHUNK_WIDTH * WORLD_WIDTH * CHUNK_WIDTH * WORLD_WIDTH) + (z * CHUNK_WIDTH * WORLD_WIDTH) + x] =  1;
-						}
-					}else{
-						data[(y * CHUNK_WIDTH * WORLD_WIDTH * CHUNK_WIDTH * WORLD_WIDTH) + (z * CHUNK_WIDTH * WORLD_WIDTH) + x] =  4;
-					}
-				}
-				
-			}
-		}
-	}
-	perlin.destroy();
-
-	return data;
 }
 
 uint8_t createUniqueID(){
@@ -195,59 +151,37 @@ void compressAndSendWorld(uint8_t* data){
 
 	//Sending the packet containing the compressed world to the newly connected client
 	clients.back().socket->send(packet);
-
 }
 
-void updateWorldBasedOnPacket(sf::Packet& packet, uint8_t* data){
-
-	//Variables for received packet information
-	int x;
-	int y;
-	int z;
-	uint8_t b;
-	uint8_t code;
-
-	//Depackaging packet
-	packet >> code >> x >> y >> z >> b;
-
-	x = x % (WORLD_WIDTH * CHUNK_WIDTH);
-	y = y % (WORLD_HEIGHT * CHUNK_WIDTH);
-	z = z % (WORLD_WIDTH * CHUNK_WIDTH);
-
-	//Updating world data based on sent packet
-	if(!(x < 0 || x >= CHUNK_WIDTH * WORLD_WIDTH || y < 0 || y >= CHUNK_WIDTH * WORLD_HEIGHT || z < 0 || z >= CHUNK_WIDTH * WORLD_WIDTH)){
-		data[(y * CHUNK_WIDTH * WORLD_WIDTH * CHUNK_WIDTH * WORLD_WIDTH) + (z * CHUNK_WIDTH * WORLD_WIDTH) + x] = b;
-	}
-
-	//Repackaging packet
-	packet << code << x << y << z << b;
-}
-
-uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet){
+uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex) {
 	for(unsigned int i = 0; i < clients.size(); i++){
 		if(selector.isReady(*clients[i].socket)){
 			sf::Socket::Status status = clients[i].socket->receive(packet);
-
 			if(status == sf::Socket::Done){ // Got a valid packet
-				return clients[i].id;
-			}else if(status == sf::Socket::Disconnected){ // The client has disconnected
-
-				packet.clear();
-				packet << (uint8_t)1 << clients[i].id; // We send the keycode 1 because that is the code for a disconnection
-				sendPacketToAllClients(packet);
-
-				std::cout << "Client Disconnected with ID: " << (unsigned int)clients[i].id << std::endl;
-				selector.remove(*clients[i].socket);
-				delete clients[i].socket;
-				clients[i] = clients.back();
-				clients.pop_back();
-				return 0;
+				_senderIndex = i;
+				uint8_t code;
+				packet >> code;
+				return code;
+			} else if (status == sf::Socket::Disconnected) { // The client has disconnected
+				// We remove the client and send a packet to other clients that a player has disconnected
+				_senderIndex = i;
+				return 1; // We return 1 because 1 is the code for a disconnect request
 			}
-
-
 		}
 	}
 	return 0;
+}
+
+void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID){
+	sf::Packet packet;
+	packet.clear();
+	packet << (uint8_t)1 << clients[_playerID].id; // We send the keycode 1 because that is the code for a disconnection
+	sendPacketToAllClients(packet);
+	std::cout << "Client Disconnected with ID: " << (unsigned int)clients[_playerID].id << std::endl;
+	_selector.remove(*clients[_playerID].socket);
+	delete clients[_playerID].socket;
+	clients[_playerID] = clients.back();
+	clients.pop_back();
 }
 
 void sendPacketToAllClients(sf::Packet& packet){

@@ -27,33 +27,6 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip){
 
 }
 
-void NetworkManager::downloadWorld(uint8_t* _data, unsigned int _size){
-	// Allocating memory for the world
-
-	sf::Packet packet;
-
-	// Receiving the world in a packet
-	m_tcpSocket.setBlocking(true);
-	m_tcpSocket.receive(packet);
-	m_tcpSocket.setBlocking(false);
-
-	// Printing information
-	std::cout << "Received Packet Size: " + std::to_string(packet.getDataSize()) << " bytes" << std::endl;
-	std::cout << "World Compression Ratio: " + std::to_string((1.0f - packet.getDataSize() / (float)_size) * 100.0f) << std::endl;
-
-	uint8_t blockID = 0;
-	uint32_t pointer = 0;
-	uint32_t numBlocks = 0;
-	while (packet >> blockID) {
-		packet >> numBlocks;
-		for (uint32_t i = 0; i < numBlocks; i++) {
-			_data[pointer + i] = blockID;
-		}
-		pointer += numBlocks;
-	}
-
-}
-
 void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pHandler, EntityHandler& _eHandler){
 	sf::Packet packet;
 

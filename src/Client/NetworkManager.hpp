@@ -16,7 +16,6 @@ public:
 	friend class EntityHandler;
 
 	void connectToServer(sf::IpAddress& _ip);
-	void downloadWorld(uint8_t* _data, unsigned int _size);
 	void receiveGameUpdatePacket(World& _world, ParticleHandler& _pHandler, EntityHandler& _eHandler);
 	void sendPositionDataToServer(Camera& _camera);
 	void sendBlockData(const glm::ivec3& _blockPosition, uint8_t _blockType);

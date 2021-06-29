@@ -60,10 +60,10 @@ void World::updateChunkLine(Line _l, uint8_t _index){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			switch(_l){
 				case VERTICAL:
-					getChunk((_index + m_chunkOffsetX) % WORLD_WIDTH, y, i)->needsUpdate = true;
+					getChunk((_index + m_chunkOffsetX) % WORLD_WIDTH, y, i)->needsMeshUpdate = true;
 				break;
 				case HORIZONTAL:
-					getChunk(i, y, (_index + m_chunkOffsetZ) % WORLD_WIDTH)->needsUpdate = true;
+					getChunk(i, y, (_index + m_chunkOffsetZ) % WORLD_WIDTH)->needsMeshUpdate = true;
 				break;
 			}
 		}
@@ -86,9 +86,9 @@ void World::render(Camera& _camera){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 
 				Chunk* c = getChunk(x, y, z);
-				if(c->needsUpdate){
+				if(c->needsMeshUpdate){
 					generateMesh(c);
-					c->needsUpdate = false;
+					c->needsMeshUpdate = false;
 				}
 
 				if(c->getNumVertices()){
@@ -221,7 +221,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 
 	// Right now, we have the position of the chunk that the block has been placed in stored in posX, posY, and posZ
 	// So we first of all, queue this chunk up for a mesh update
-	getChunk(posX, posY, posZ)->needsUpdate = true;
+	getChunk(posX, posY, posZ)->needsMeshUpdate = true;
 
 	// Setting the block based on chunk space coords
 	getChunk(posX, posY, posZ)->setBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH, block);
@@ -230,27 +230,27 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	// Update neighboring chunks if block is on the edge of the current chunk
 	if(x % CHUNK_WIDTH == 0){
 		Chunk* chunk = getChunk((posX - 1) % WORLD_WIDTH, posY, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if((x + 1) % CHUNK_WIDTH == 0){
 		Chunk* chunk = getChunk((posX + 1) % WORLD_WIDTH, posY, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if(z % CHUNK_WIDTH == 0){
 		Chunk* chunk = getChunk(posX, posY, (posZ - 1) % WORLD_WIDTH);
-		if(chunk) chunk->needsUpdate = true;
+		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if((z + 1) % CHUNK_WIDTH == 0){
 		Chunk* chunk = getChunk(posX, posY, (posZ + 1) % WORLD_WIDTH);
-		if(chunk) chunk->needsUpdate = true;
+		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if(y % CHUNK_WIDTH == 0){
 		Chunk* chunk = getChunk(posX, (posY - 1) % WORLD_HEIGHT, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if((y + 1) % CHUNK_WIDTH == 0){
 		Chunk* chunk = getChunk(posX, (posY + 1) % WORLD_HEIGHT, posZ);
-		if(chunk) chunk->needsUpdate = true;
+		if(chunk) chunk->needsMeshUpdate = true;
 	}
 
 }
@@ -300,7 +300,7 @@ void World::moveLeft(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(m_chunkOffsetX % WORLD_WIDTH, j, i);
 			c->x += WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsUpdate = true;
+			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetX++;
@@ -314,7 +314,7 @@ void World::moveRight(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(((WORLD_WIDTH - 1) + m_chunkOffsetX) % WORLD_WIDTH, j, i);
 			c->x -= WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsUpdate = true;
+			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetX--;
@@ -328,7 +328,7 @@ void World::moveFront(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(i, j, m_chunkOffsetZ % WORLD_WIDTH);
 			c->z += WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsUpdate = true;
+			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetZ++;
@@ -342,7 +342,7 @@ void World::moveBack(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(i, j, ((WORLD_WIDTH - 1) + m_chunkOffsetZ) % WORLD_WIDTH);
 			c->z -= WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsUpdate = true;
+			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetZ--;

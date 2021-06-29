@@ -1,7 +1,7 @@
 #include "Chunk.hpp"
 
 Chunk::Chunk() {
-	needsUpdate = true;
+	needsMeshUpdate = true;
 	m_vaoID = 0;
 	m_vboID = 0;
 }
