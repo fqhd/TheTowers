@@ -11,6 +11,9 @@
 
 class NetworkManager;
 
+const unsigned int WORLD_WIDTH = 8;
+const unsigned int WORLD_HEIGHT = 2;
+
 enum Line {
 	VERTICAL,
 	HORIZONTAL
@@ -49,7 +52,7 @@ class World {
 public:
 
 	void init();
-	void update(InputManager* _manager, NetworkManager& _nManager);
+	void update(NetworkManager& _nManager, glm::ivec3 _deltaPos);
 	void render(Camera& _camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);

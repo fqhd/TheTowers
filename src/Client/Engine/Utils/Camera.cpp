@@ -3,10 +3,10 @@
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
-const float SPEED = 50.0f;
+const float SPEED = 20.0f;
 
-void Camera::init(InputManager* _manager) {
-	m_position = glm::vec3(0, 0, 0);
+void Camera::init(InputManager* _manager, unsigned int _ww, unsigned int _wh) {
+	m_position = glm::vec3(_ww / 2, _wh / 2, _ww / 2);
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_manager = _manager;
 

@@ -2,12 +2,7 @@
 #include <iostream>
 
 
-const unsigned int WORLD_WIDTH = 4;
-const unsigned int WORLD_HEIGHT = 2;
-
 void World::init(){
-
-	// Downloading the world
 	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
 
 	// Loading the texture atlass into a texture array
@@ -28,9 +23,6 @@ void World::init(){
 
 	// Initializing the shader
 	shader.init();
-
-	setBlock(CHUNK_WIDTH * WORLD_WIDTH - 1, 22, 20, 5);
-
 }
 
 GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
@@ -38,18 +30,16 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 	return vertex;
 }
 
-void World::update(InputManager* _iManager, NetworkManager& _nManager){
-	if(_iManager->isKeyPressed(GLFW_KEY_L)){
-		moveLeft();
-	}
-	if(_iManager->isKeyPressed(GLFW_KEY_R)){
-		moveRight();
-	}
-	if(_iManager->isKeyPressed(GLFW_KEY_F)){
+void World::update(NetworkManager& _nManager, glm::ivec3 _deltaPos){
+	if(_deltaPos.z == 1){
 		moveFront();
-	}
-	if(_iManager->isKeyPressed(GLFW_KEY_B)){
+	} else if (_deltaPos.z == -1){
 		moveBack();
+	}
+	if(_deltaPos.x == 1){
+		moveLeft();
+	} else if (_deltaPos.x == -1){
+		moveRight();
 	}
 
 	// Send requests for chunk data
@@ -147,7 +137,6 @@ void World::generateMesh(Chunk* chunk){
 	}
 
 	chunk->pushData(vertices.data(), vertices.size());
-
 }
 
 Corner World::isBlockOnEdge(int _x, int _y, int _z){
