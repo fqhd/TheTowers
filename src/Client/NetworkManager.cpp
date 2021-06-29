@@ -30,12 +30,16 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip){
 void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pHandler, EntityHandler& _eHandler){
 	sf::Packet packet;
 
-	if (m_tcpSocket.receive(packet) == sf::Socket::Done) {
-
-		uint8_t code = 0;
-
+	if (m_tcpSocket.receive(packet) == sf::Socket::Done) { // Should try changing this to a while loop
+		uint8_t code;
 		packet >> code;
-		if (code == 0) { // If the code is 0 then it is a block update packet
+
+		if(code == 1){ // A Player has Disconnected
+			uint8_t id;
+			packet >> id;
+			std::cout << "Person: " + std::to_string(id) + " has disconnected" << std::endl;
+			_eHandler.removeEntity(id);
+		} else if (code == 2){ // Block Update
 			int x = 0;
 			int y = 0;
 			int z = 0;
@@ -43,19 +47,13 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 
 			packet >> x >> y >> z >> b;
 
-			std::cout << "Got block update" << std::endl;
-
 			if (!b) {
 				_pHandler.placeParticlesAroundBlock(x, y, z);
 			}
 			_world.setBlock(x, y, z, b);
-		} else if (code == 1) { // If the code is not 0 then a client has disconnected
-			uint8_t id = 0;
-			packet >> id;
-			std::cout << "Person: " + std::to_string(id) + " has disconnected" << std::endl;
-			_eHandler.removeEntity(id);
+		} else if (code == 3){ // Chunk Data Request
+			std::cout << "Got chunk data back, now we must handle it" << std::endl;
 		}
-
 	}
 }
 
@@ -77,5 +75,11 @@ void NetworkManager::sendPositionDataToServer(Camera& _camera){
 void NetworkManager::sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType){
 	sf::Packet packet;
 	packet << (uint8_t)2 << _blockPosition.x << _blockPosition.y << _blockPosition.z << _blockType; // We send the keycode 0 because that is the code for a block update.
+	m_tcpSocket.send(packet);
+}
+
+void NetworkManager::sendChunkRequestPacket(const glm::ivec3& _chunkPosition){
+	sf::Packet packet;
+	packet << (uint8_t)3 << _chunkPosition.x << _chunkPosition.y << _chunkPosition.z;
 	m_tcpSocket.send(packet);
 }

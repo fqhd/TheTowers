@@ -19,6 +19,7 @@ public:
 	void receiveGameUpdatePacket(World& _world, ParticleHandler& _pHandler, EntityHandler& _eHandler);
 	void sendPositionDataToServer(Camera& _camera);
 	void sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType);
+	void sendChunkRequestPacket(const glm::ivec3& _chunkPosition);
 
 
 
