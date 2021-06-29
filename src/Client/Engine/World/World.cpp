@@ -55,6 +55,22 @@ void World::update(InputManager* _manager){
 	}
 }
 
+void World::updateChunkLine(Line _l, uint8_t _index){
+	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
+		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
+			switch(_l){
+				case VERTICAL:
+					getChunk((_index + m_chunkOffsetX) % WORLD_WIDTH, y, i)->needsUpdate = true;
+				break;
+				case HORIZONTAL:
+					getChunk(i, y, (_index + m_chunkOffsetZ) % WORLD_WIDTH)->needsUpdate = true;
+				break;
+			}
+		}
+	}
+}
+
+
 void World::render(Camera& _camera){
 
 	shader.bind();
@@ -279,29 +295,6 @@ Chunk* World::getChunk(int x, int y, int z) {
 	return &chunks[(y * WORLD_WIDTH * WORLD_WIDTH) + (z * WORLD_WIDTH) + x];
 }
 
-// void World::updateEdgeChunks(Edge e){
-// 	if(e == LEFT){
-// 		for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
-// 			for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-// 				Chunk* c = getChunk(0, j, i);
-// 				c->needsUpdate = true;
-// 			}
-// 		}
-// 	}else if(e == RIGHT){
-// 		for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
-// 			for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-// 				Chunk* c = getChunk(0, j, i);
-// 				c->needsUpdate = true;
-// 			}
-// 		}
-
-// 	}else if(e == FRONT){
-
-// 	}else if(e == BACK){
-
-// 	}
-// }
-
 void World::moveLeft(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
@@ -311,6 +304,9 @@ void World::moveLeft(){
 		}
 	}
 	m_chunkOffsetX++;
+
+	updateChunkLine(VERTICAL, 0);
+	updateChunkLine(VERTICAL, WORLD_WIDTH - 2);
 }
 
 void World::moveRight(){
@@ -322,6 +318,9 @@ void World::moveRight(){
 		}
 	}
 	m_chunkOffsetX--;
+
+	updateChunkLine(VERTICAL, 1);
+	updateChunkLine(VERTICAL, WORLD_WIDTH - 1);
 }
 
 void World::moveFront(){
@@ -333,6 +332,9 @@ void World::moveFront(){
 		}
 	}
 	m_chunkOffsetZ++;
+
+	updateChunkLine(HORIZONTAL, 0);
+	updateChunkLine(HORIZONTAL, WORLD_WIDTH - 2);
 }
 
 void World::moveBack(){
@@ -344,6 +346,9 @@ void World::moveBack(){
 		}
 	}
 	m_chunkOffsetZ--;
+
+	updateChunkLine(HORIZONTAL, 1);
+	updateChunkLine(HORIZONTAL, WORLD_WIDTH - 1);
 }
 
 unsigned int calcAO(bool side1, bool side2, bool corner){

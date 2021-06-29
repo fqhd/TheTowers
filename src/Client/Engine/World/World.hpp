@@ -11,6 +11,11 @@
 
 class NetworkManager;
 
+enum Line {
+	VERTICAL,
+	HORIZONTAL
+};
+
 enum Edge {
 	NONE,
 	LEFT,
@@ -60,6 +65,7 @@ private:
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
 	bool isBlockInLocalWorld(int _x, int _y, int _z);
 	Corner isBlockOnEdge(int _x, int _y, int _z);
+	void updateChunkLine(Line _l, uint8_t _index);
 
 	// World movement functions
 	void moveLeft();
