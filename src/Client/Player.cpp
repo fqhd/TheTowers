@@ -13,10 +13,10 @@ void Player::update(Camera& camera, ParticleHandler& handler, World& world, Netw
 
 	if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		breakBlock(handler, world);
-		_nManager.sendBlockData(visibleBlocks.breakableBlock, 0);
+		_nManager.sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
 	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 		placeBlock(world);
-		_nManager.sendBlockData(visibleBlocks.placeableBlock, selectedBlock);
+		_nManager.sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
 	}
 
 	//We get the visible blocks again to update them after a block has been pressed

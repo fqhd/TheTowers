@@ -74,8 +74,8 @@ void NetworkManager::sendPositionDataToServer(Camera& _camera){
 	}
 }
 
-void NetworkManager::sendBlockData(const glm::ivec3& _blockPosition, uint8_t _blockType){
+void NetworkManager::sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType){
 	sf::Packet packet;
-	packet << (uint8_t) 0 << _blockPosition.x << _blockPosition.y << _blockPosition.z << _blockType; // We send the keycode 0 because that is the code for a block update.
+	packet << (uint8_t)2 << _blockPosition.x << _blockPosition.y << _blockPosition.z << _blockType; // We send the keycode 0 because that is the code for a block update.
 	m_tcpSocket.send(packet);
 }
