@@ -48,8 +48,8 @@ struct BlockTexture {
 class World {
 public:
 
-	void init(NetworkManager& _manager);
-	void update(InputManager* _manager);
+	void init();
+	void update(InputManager* _manager, NetworkManager& _nManager);
 	void render(Camera& _camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);

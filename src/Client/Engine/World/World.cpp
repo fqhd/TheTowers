@@ -5,12 +5,10 @@
 const unsigned int WORLD_WIDTH = 4;
 const unsigned int WORLD_HEIGHT = 2;
 
-void World::init(NetworkManager& _manager){
+void World::init(){
 
 	// Downloading the world
 	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
-	// data = new uint8_t[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE];
-	// _manager.downloadWorld(data, WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE);
 
 	// Loading the texture atlass into a texture array
 	texturePack.init("res/textures/sprite_sheet.png", 512);
@@ -40,18 +38,27 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 	return vertex;
 }
 
-void World::update(InputManager* _manager){
-	if(_manager->isKeyPressed(GLFW_KEY_L)){
+void World::update(InputManager* _iManager, NetworkManager& _nManager){
+	if(_iManager->isKeyPressed(GLFW_KEY_L)){
 		moveLeft();
 	}
-	if(_manager->isKeyPressed(GLFW_KEY_R)){
+	if(_iManager->isKeyPressed(GLFW_KEY_R)){
 		moveRight();
 	}
-	if(_manager->isKeyPressed(GLFW_KEY_F)){
+	if(_iManager->isKeyPressed(GLFW_KEY_F)){
 		moveFront();
 	}
-	if(_manager->isKeyPressed(GLFW_KEY_B)){
+	if(_iManager->isKeyPressed(GLFW_KEY_B)){
 		moveBack();
+	}
+
+	// Send requests for chunk data
+	for(unsigned int i = 0; i < WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT; i++){
+		Chunk* c = &chunks[i];
+		if(c->needsDataUpdate){
+			_nManager.sendChunkRequestPacket(glm::ivec3(c->x, c->y, c->z));
+			c->needsDataUpdate = false;
+		}
 	}
 }
 
@@ -72,7 +79,6 @@ void World::updateChunkLine(Line _l, uint8_t _index){
 
 
 void World::render(Camera& _camera){
-
 	shader.bind();
 
 	texturePack.bind();
@@ -109,7 +115,6 @@ void World::render(Camera& _camera){
 	texturePack.unbind();
 
 	shader.unbind();
-
 }
 
 void World::destroy(){
@@ -300,7 +305,6 @@ void World::moveLeft(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(m_chunkOffsetX % WORLD_WIDTH, j, i);
 			c->x += WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetX++;
@@ -314,7 +318,6 @@ void World::moveRight(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(((WORLD_WIDTH - 1) + m_chunkOffsetX) % WORLD_WIDTH, j, i);
 			c->x -= WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetX--;
@@ -328,7 +331,6 @@ void World::moveFront(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(i, j, m_chunkOffsetZ % WORLD_WIDTH);
 			c->z += WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetZ++;
@@ -342,7 +344,6 @@ void World::moveBack(){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			Chunk* c = getChunk(i, j, ((WORLD_WIDTH - 1) + m_chunkOffsetZ) % WORLD_WIDTH);
 			c->z -= WORLD_WIDTH * CHUNK_WIDTH;
-			c->needsMeshUpdate = true;
 		}
 	}
 	m_chunkOffsetZ--;

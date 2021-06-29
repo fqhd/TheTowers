@@ -61,7 +61,7 @@ int main(){
 						sendPacketToOtherClients(receivedPacket, senderIndex);
 					break;
 					case 3: // Chunk Request
-						
+						std::cout << "Got chunk request packet" << std::endl;
 					break;
 				}
 			}

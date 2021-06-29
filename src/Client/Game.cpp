@@ -8,7 +8,7 @@
 void Game::init(InputManager* _manager, sf::IpAddress ip) {
 
 	m_networkManager.connectToServer(ip);
-	m_world.init(m_networkManager);
+	m_world.init();
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_camera.init(_manager);
@@ -26,7 +26,7 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 		_state = GameStates::PAUSE;
 	}
 
-	m_world.update(m_inputManager);
+	m_world.update(m_inputManager, m_networkManager);
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
 	m_camera.update(_deltaTime);
