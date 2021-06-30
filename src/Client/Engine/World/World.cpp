@@ -23,6 +23,7 @@ void World::init(){
 
 	// Initializing the shader
 	shader.init();
+
 }
 
 GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
@@ -46,7 +47,7 @@ void World::update(NetworkManager& _nManager, glm::ivec3 _deltaPos){
 	for(unsigned int i = 0; i < WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT; i++){
 		Chunk* c = &chunks[i];
 		if(c->needsDataUpdate){
-			_nManager.sendChunkRequestPacket(glm::ivec3(c->x, c->y, c->z));
+			_nManager.sendChunkRequestPacket(glm::ivec3(c->x / CHUNK_WIDTH, c->y / CHUNK_WIDTH, c->z / CHUNK_WIDTH));
 			c->needsDataUpdate = false;
 		}
 	}

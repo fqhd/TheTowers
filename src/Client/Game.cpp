@@ -48,7 +48,7 @@ glm::ivec3 Game::calcCameraDeltaPos(float _deltaTime){
 
 void Game::render(Player& _player) {
 	sf::Clock tmp;
-	
+
 	tmp.restart();
 	m_world.render(m_camera);
 	m_blockOutline.render(_player, m_camera);
@@ -59,7 +59,7 @@ void Game::render(Player& _player) {
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
 		m_msPerFramePrintClock.restart();
-	}	
+	}
 
 }
 

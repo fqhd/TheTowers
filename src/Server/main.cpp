@@ -19,6 +19,8 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsi
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
 void sendPacketToAllClients(sf::Packet& packet);
 void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID);
+void sendChunkToClient(sf::Packet& _receivedPacket, unsigned int _playerID);
+
 
 // Global Variables
 std::vector<Client> clients;
@@ -51,17 +53,16 @@ int main(){
 				sf::Packet receivedPacket;
 				unsigned int senderIndex;
 				uint8_t code = getReceivedPacket(selector, receivedPacket, senderIndex);
-				
+
 				switch(code){
 					case 1: // Disconnect
 						disconnectPlayer(selector, senderIndex);
 					break;
 					case 2: // Block Update
-						std::cout << "Got block update packet" << std::endl;
 						sendPacketToOtherClients(receivedPacket, senderIndex);
 					break;
 					case 3: // Chunk Request
-						std::cout << "Got chunk request packet" << std::endl;
+						sendChunkToClient(receivedPacket, senderIndex);
 					break;
 				}
 			}
@@ -98,6 +99,13 @@ void udpThread(){
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
+}
+
+void sendChunkToClient(sf::Packet& _receivedPacket, unsigned int _playerID){
+	glm::ivec3 chunkPosition;
+	_receivedPacket >> chunkPosition.x >> chunkPosition.y >> chunkPosition.z;
+
+
 }
 
 uint8_t createUniqueID(){
