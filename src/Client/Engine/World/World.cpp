@@ -219,7 +219,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 
 	// Setting the block based on chunk space coords
 	getChunk(posX, posY, posZ)->setBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH, block);
-	
+
 	// Next, we check if the placed block has been placed on any edge
 	// Update neighboring chunks if block is on the edge of the current chunk
 	if(x % CHUNK_WIDTH == 0){
@@ -285,7 +285,7 @@ Chunk* World::getChunk(int x, int y, int z) {
 		std::cout << "get chunk segfault" << std::endl;
 		return nullptr;
 	}
-	
+
 	return &chunks[(y * WORLD_WIDTH * WORLD_WIDTH) + (z * WORLD_WIDTH) + x];
 }
 
@@ -383,7 +383,7 @@ void World::addBottomFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _t
 	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x, c->y + y - 1, c->z + z + 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1));
 	unsigned int a10 = calcAO(getBlock(c->x + x, c->y + y - 1, c->z + z - 1), getBlock(c->x + x + 1, c->y + y - 1, c->z + z), getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1));
 	unsigned int a11 = calcAO(getBlock(c->x + x, c->y + y - 1, c->z + z + 1), getBlock(c->x + x + 1, c->y + y - 1, c->z + z), getBlock(c->x + x + 1, c->y + y - 1, c->z + z + 1));
-	
+
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
 		vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
@@ -431,7 +431,7 @@ void World::addRightFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _te
 		vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
 		vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
 	}
-	
+
 }
 
 void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _textureLayer){
@@ -465,7 +465,7 @@ void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _te
 BlockTexture World::getTextureFromBlockID(uint8_t _blockID) {
 	// Space reserved for uni-textured blocks(blocks that have the same texture on all sides)
 	uint16_t offset = 255;
-	
+
 	// List of exceptions
 	if (_blockID == 1) { // Grass
 		return BlockTexture(0, offset, 3);
