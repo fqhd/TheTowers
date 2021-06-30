@@ -23,6 +23,7 @@ void sendChunkToClient(sf::Packet& _receivedPacket, unsigned int _playerID);
 
 
 // Global Variables
+Chunk chunk;
 std::vector<Client> clients;
 bool isDone = false;
 
@@ -103,9 +104,13 @@ void udpThread(){
 
 void sendChunkToClient(sf::Packet& _receivedPacket, unsigned int _playerID){
 	glm::ivec3 chunkPosition;
-	_receivedPacket >> chunkPosition.x >> chunkPosition.y >> chunkPosition.z;
+	_receivedPacket >> chunkPosition.x >> chunkPosition.y >> chunkPosition.z; // Getting requested chunk position
 
-
+	// Clearing packet and storing requested chunk information into the packet to send it back
+	_receivedPacket.clear();
+	_receivedPacket << (uint8_t)3 << chunkPosition.x << chunkPosition.y << chunkPosition.z;
+	_receivedPacket.append(chunk.bytes.data(), chunk.bytes.size() * sizeof(chunk.bytes[0]));
+	clients[_playerID].socket->send(_receivedPacket);
 }
 
 uint8_t createUniqueID(){

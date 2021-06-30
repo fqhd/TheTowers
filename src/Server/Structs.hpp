@@ -11,12 +11,20 @@ public:
 };
 
 struct CompressionSegment {
+	CompressionSegment(uint8_t _blockType, uint16_t _numBlocks){
+		blockType = _blockType;
+		numBlocks = _numBlocks;
+	}
 	uint8_t blockType;
 	uint16_t numBlocks;
 };
 
 class Chunk {
 public:
+
+	Chunk(){
+		bytes.push_back(CompressionSegment(1, 32));
+	}
 
 	void compressData(uint8_t* _data){
 		// Compress data and store it into bytes array

@@ -15,7 +15,6 @@ void World::init(){
 		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH, data + index * CHUNK_SIZE);
-				getChunk(x, y, z)->updateData();
 				index++;
 			}
 		}
@@ -25,6 +24,14 @@ void World::init(){
 	shader.init();
 
 }
+
+Chunk* World::getGlobalChunk(int x, int y, int z){
+	x += chunkOffsetX;
+	z += chunkOffsetZ;
+
+	return getChunk(x % WORLD_WIDTH, y, z % WORLD_WIDTH);
+}
+
 
 GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
 	GLuint vertex = x | y << 6 | z << 12 | lightLevel << 18 | textureCoordinateIndex << 21 | textureArrayIndex << 23;
@@ -58,10 +65,10 @@ void World::updateChunkLine(Line _l, uint8_t _index){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
 			switch(_l){
 				case VERTICAL:
-					getChunk((_index + m_chunkOffsetX) % WORLD_WIDTH, y, i)->needsMeshUpdate = true;
+					getChunk((_index + chunkOffsetX) % WORLD_WIDTH, y, i)->needsMeshUpdate = true;
 				break;
 				case HORIZONTAL:
-					getChunk(i, y, (_index + m_chunkOffsetZ) % WORLD_WIDTH)->needsMeshUpdate = true;
+					getChunk(i, y, (_index + chunkOffsetZ) % WORLD_WIDTH)->needsMeshUpdate = true;
 				break;
 			}
 		}
@@ -145,8 +152,8 @@ Corner World::isBlockOnEdge(int _x, int _y, int _z){
 	corner.e1 = NONE;
 	corner.e2 = NONE;
 
-	int minChunkX = m_chunkOffsetX * CHUNK_WIDTH;
-	int minChunkZ = m_chunkOffsetZ * CHUNK_WIDTH;
+	int minChunkX = chunkOffsetX * CHUNK_WIDTH;
+	int minChunkZ = chunkOffsetZ * CHUNK_WIDTH;
 	int maxChunkX = minChunkX + CHUNK_WIDTH * WORLD_WIDTH;
 	int maxChunkZ = minChunkZ + CHUNK_WIDTH * WORLD_WIDTH;
 
@@ -169,8 +176,8 @@ Corner World::isBlockOnEdge(int _x, int _y, int _z){
 }
 
 bool World::isBlockInLocalWorld(int _x, int _y, int _z){
-	int minChunkX = m_chunkOffsetX * CHUNK_WIDTH;
-	int minChunkZ = m_chunkOffsetZ * CHUNK_WIDTH;
+	int minChunkX = chunkOffsetX * CHUNK_WIDTH;
+	int minChunkZ = chunkOffsetZ * CHUNK_WIDTH;
 	int maxChunkX = minChunkX + CHUNK_WIDTH * WORLD_WIDTH;
 	int maxChunkZ = minChunkZ + CHUNK_WIDTH * WORLD_WIDTH;
 
@@ -293,11 +300,11 @@ Chunk* World::getChunk(int x, int y, int z) {
 void World::moveLeft(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(m_chunkOffsetX % WORLD_WIDTH, j, i);
+			Chunk* c = getChunk(chunkOffsetX % WORLD_WIDTH, j, i);
 			c->x += WORLD_WIDTH * CHUNK_WIDTH;
 		}
 	}
-	m_chunkOffsetX++;
+	chunkOffsetX++;
 
 	updateChunkLine(VERTICAL, 0);
 	updateChunkLine(VERTICAL, WORLD_WIDTH - 2);
@@ -306,11 +313,11 @@ void World::moveLeft(){
 void World::moveRight(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(((WORLD_WIDTH - 1) + m_chunkOffsetX) % WORLD_WIDTH, j, i);
+			Chunk* c = getChunk(((WORLD_WIDTH - 1) + chunkOffsetX) % WORLD_WIDTH, j, i);
 			c->x -= WORLD_WIDTH * CHUNK_WIDTH;
 		}
 	}
-	m_chunkOffsetX--;
+	chunkOffsetX--;
 
 	updateChunkLine(VERTICAL, 1);
 	updateChunkLine(VERTICAL, WORLD_WIDTH - 1);
@@ -319,11 +326,11 @@ void World::moveRight(){
 void World::moveFront(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, m_chunkOffsetZ % WORLD_WIDTH);
+			Chunk* c = getChunk(i, j, chunkOffsetZ % WORLD_WIDTH);
 			c->z += WORLD_WIDTH * CHUNK_WIDTH;
 		}
 	}
-	m_chunkOffsetZ++;
+	chunkOffsetZ++;
 
 	updateChunkLine(HORIZONTAL, 0);
 	updateChunkLine(HORIZONTAL, WORLD_WIDTH - 2);
@@ -332,11 +339,11 @@ void World::moveFront(){
 void World::moveBack(){
 	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
 		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, ((WORLD_WIDTH - 1) + m_chunkOffsetZ) % WORLD_WIDTH);
+			Chunk* c = getChunk(i, j, ((WORLD_WIDTH - 1) + chunkOffsetZ) % WORLD_WIDTH);
 			c->z -= WORLD_WIDTH * CHUNK_WIDTH;
 		}
 	}
-	m_chunkOffsetZ--;
+	chunkOffsetZ--;
 
 	updateChunkLine(HORIZONTAL, 1);
 	updateChunkLine(HORIZONTAL, WORLD_WIDTH - 1);

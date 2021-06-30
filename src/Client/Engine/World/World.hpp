@@ -57,12 +57,12 @@ public:
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);
+	Chunk* getGlobalChunk(int x, int y, int z);
 
 
 private:
 
 	void generateMesh(Chunk* chunk);
-	Chunk* getChunk(int x, int y, int z);
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
@@ -83,6 +83,7 @@ private:
 	void addLeftFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
 	void addFrontFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
 	void addBackFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
+	Chunk* getChunk(int x, int y, int z);
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<GLuint> vertices;
@@ -91,9 +92,8 @@ private:
 	ChunkShader shader;
 	uint8_t* data = nullptr;
 	TextureArray texturePack;
-	int m_chunkOffsetX = 0;
-	int m_chunkOffsetZ = 0;
-
+	int chunkOffsetX = 0;
+	int chunkOffsetZ = 0;
 };
 
 

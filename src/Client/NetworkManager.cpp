@@ -52,7 +52,15 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 			}
 			_world.setBlock(x, y, z, b);
 		} else if (code == 3){ // Chunk Data Request
-			std::cout << "Got chunk data back, now we must handle it" << std::endl;
+			glm::ivec3 chunkPosition;
+			packet >> chunkPosition.x >> chunkPosition.y >> chunkPosition.z;
+
+			// Remember to add a check if chunk position is inside world bounds function into the world class to make sure we aren't registering a chunk that is outside the bounds of the world
+
+			Chunk* c = _world.getGlobalChunk(chunkPosition.x, chunkPosition.y, chunkPosition.z);
+
+			c->updateData(packet);
+
 		}
 	}
 }

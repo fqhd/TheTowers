@@ -5,6 +5,7 @@
 #include <cstddef>
 #include "../Utils/Vertex.hpp"
 #include <iostream>
+#include <SFML/Network.hpp>
 
 const unsigned int CHUNK_WIDTH = 32;
 const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
@@ -18,7 +19,7 @@ public:
 	// Utility functions
 	void render();
 	void destroy();
-	void updateData();
+	void updateData(sf::Packet& _p);
 	void pushData(GLuint* vertices, unsigned int numVertices);
 	unsigned int getNumVertices();
 	uint8_t getBlock(uint8_t _x, uint8_t _y, uint8_t _z);
