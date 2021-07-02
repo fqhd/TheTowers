@@ -1,7 +1,6 @@
 # The Towers
 ---
 
-![Markdown Logo](https://static.planetminecraft.com/files/resource_media/screenshot/1352/The-Towers-PvP_6879627.jpg)  
 ![Markdown Logo](https://img.shields.io/badge/build-stable-brightgreen)
 ![Markdown Logo](https://img.shields.io/badge/version-1.1.0-blue)
 
