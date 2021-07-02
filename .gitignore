@@ -1,7 +1,3 @@
 .ninja_deps
 .ninja_log
-*.o
-client
-server
-out
 .vscode/
