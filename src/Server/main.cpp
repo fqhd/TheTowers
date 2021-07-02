@@ -12,15 +12,14 @@ uint8_t createUniqueID();
 bool doesIDExist(uint8_t id);
 void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
 void udpThread();
-void compressAndSendWorld(uint8_t* data);
-void freeWorldData(uint8_t* data);
+void compressAndSendWorld();
+void freeWorldData();
 void updateWorldBasedOnPacket(sf::Packet& packet, uint8_t* data);
 uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex);
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
 void sendPacketToAllClients(sf::Packet& packet);
 void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID);
-void sendWorldToClient(unsigned int _playerID);
-void generateWorld(uint8_t* _data);
+void generateWorld();
 
 
 // Global Variables
@@ -28,15 +27,15 @@ uint8_t* worldData = nullptr;
 std::vector<Client> clients;
 bool isDone = false;
 
-const unsigned int WORLD_WIDTH = 32;
-const unsigned int WORLD_HEIGHT = 8;
+const unsigned int WORLD_WIDTH = 8;
+const unsigned int WORLD_HEIGHT = 4;
 const unsigned int CHUNK_WIDTH = 32;
 const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 const unsigned int CLIENT_PORT = 7459;
 const unsigned int SERVER_PORT = 7456;
 
 int main(){
-	generateWorld(worldData);
+	generateWorld();
 
 	// Server variables
 	sf::TcpListener listener;
@@ -53,7 +52,7 @@ int main(){
 		if(selector.wait()){ // Wait for event to happen
 			if(selector.isReady(listener)){ // Got new connection, so we are going to handle that by creating a new client
 				addClient(listener, selector);
-				sendWorldToClient(clients.back().id);
+				compressAndSendWorld();
 			} else { // Got data from a connected client so we are going to send it to all other clients
 				sf::Packet receivedPacket;
 				unsigned int senderIndex;
@@ -72,6 +71,7 @@ int main(){
 	}
 
 	positionUpdater.join();
+	freeWorldData();
 
 	return 0;
 }
@@ -103,50 +103,26 @@ void udpThread(){
 	}
 }
 
-void generateWorld(uint8_t* _data){
+void generateWorld(){
 	// Allocate memory for the world
-	_data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	worldData = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
 
 	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	std::cout << "started world generation" << std::endl;
 
 	// Fill in the memory
 	for(unsigned int y = 0; y < WORLD_HEIGHT * CHUNK_WIDTH; y++){
 		for(unsigned int z = 0; z < WORLD_WIDTH * CHUNK_WIDTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH * CHUNK_WIDTH; x++){
 				if(y < 20){
-					_data[(y * maxW * maxW) + (z * maxW) + x] = 5;
+					worldData[(y * maxW * maxW) + (z * maxW) + x] = 5;
 				}else{
-					_data[(y * maxW * maxW) + (z * maxW) + x] = 0;
+					worldData[(y * maxW * maxW) + (z * maxW) + x] = 0;
 				}
 			}
 		}
 	}
-}
-
-void sendWorldToClient(unsigned int _playerID){
-	sf::Packet packet;
-	packet.clear();
-
-	packet << (uint8_t)3; // This is the code to let the client know we are sending it the world
-
-	// Compress the server into packet
-	uint32_t numBlocks = 1;
-	packet << worldData[0];
-	for(unsigned int i = 1; i < WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE; i++){
-		if(i == 0){
-		}else{
-			if(worldData[i] == worldData[i - 1]){
-				numBlocks++;
-			}else{
-				packet << numBlocks;
-				packet << worldData[i];
-				numBlocks = 1;
-			}
-		}
-	}
-	packet << numBlocks;
-
-	clients[_playerID].socket->send(packet);
+	std::cout << "finished world generation" << std::endl;
 }
 
 uint8_t createUniqueID(){
@@ -180,23 +156,27 @@ void addClient(sf::TcpListener& listener, sf::SocketSelector& selector) {
 	std::cout << "New client connected with ID: " << (unsigned int)client.id << std::endl;
 }
 
-void freeWorldData(uint8_t* data){
-	free(data);
+void freeWorldData(){
+	free(worldData);
 }
 
-void compressAndSendWorld(uint8_t* data){
-	//Compressing the world into a packet
+void compressAndSendWorld(){
 	sf::Packet packet;
+	packet.clear();
+
+	packet << (uint8_t)3; // We add this code at the beginning of the packet because it indicates to the client that this packet contains the world
+
+	//Compressing the world into a packet
 	uint32_t numBlocks = 1;
 	for(uint32_t i = 1; i < (WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE); i++){
-		if(data[i - 1] != data[i]){
-			packet << (uint8_t)data[i - 1] << numBlocks;
+		if(worldData[i - 1] != worldData[i]){
+			packet << (uint8_t)worldData[i - 1] << numBlocks;
 			numBlocks = 1;
 		}else{
 			numBlocks++;
 		}
 	}
-	packet << (uint8_t)data[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE - 1] << numBlocks;
+	packet << (uint8_t)worldData[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE - 1] << numBlocks;
 
 	//Sending the packet containing the compressed world to the newly connected client
 	clients.back().socket->send(packet);

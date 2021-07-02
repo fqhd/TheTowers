@@ -55,6 +55,20 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 				_pHandler.placeParticlesAroundBlock(x, y, z);
 			}
 			_world.setBlock(x, y, z, b);
+		} else if(code == 3) { // Got world data
+			std::cout << "Received world data" << std::endl;
+			
+			uint8_t blockID = 0;
+			uint32_t numBlocks = 0;
+			uint32_t index = 0;
+
+			while(packet >> blockID){
+				packet >> numBlocks;
+				for(unsigned int i = 0; i < numBlocks; i++){
+					_world.data[index] = blockID;
+					index++;
+				}
+			}
 		}
 	}
 }

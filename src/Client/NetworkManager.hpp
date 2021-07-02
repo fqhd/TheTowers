@@ -21,7 +21,6 @@ public:
 	void sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType);
 
 
-
 private:
 
 	sf::Clock m_dataFrequencyTimer;

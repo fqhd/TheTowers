@@ -12,7 +12,7 @@
 class NetworkManager;
 
 const unsigned int WORLD_WIDTH = 8;
-const unsigned int WORLD_HEIGHT = 2;
+const unsigned int WORLD_HEIGHT = 4;
 
 struct BlockTexture {
 	BlockTexture(uint16_t _t){
@@ -32,6 +32,8 @@ struct BlockTexture {
 
 class World {
 public:
+
+	friend class NetworkManager;
 
 	void init(NetworkManager& _manager);
 	void render(Camera& _camera);
