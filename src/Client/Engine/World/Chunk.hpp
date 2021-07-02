@@ -14,27 +14,21 @@ class Chunk {
 public:
 
 	Chunk();
-	void init(int _x, int _y, int _z, uint8_t* _dataptr);
+	void init(int _x, int _y, int _z);
 
 	// Utility functions
 	void render();
 	void destroy();
-	void updateData(sf::Packet& _p);
 	void pushData(GLuint* vertices, unsigned int numVertices);
 	unsigned int getNumVertices();
-	uint8_t getBlock(uint8_t _x, uint8_t _y, uint8_t _z);
-	void setBlock(uint8_t _x, uint8_t _y, uint8_t _z, uint8_t _blockID);
 
 	// Public variables
 	int x = 0;
 	int y = 0;
 	int z = 0;
 	bool needsMeshUpdate = true;
-	bool needsDataUpdate = true;
 
 private:
-
-	uint8_t* m_data = nullptr;
 
 	// Opengl Variables
 	GLuint m_vaoID = 0;

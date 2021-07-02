@@ -30,10 +30,14 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip){
 void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pHandler, EntityHandler& _eHandler){
 	sf::Packet packet;
 
-	if (m_tcpSocket.receive(packet) == sf::Socket::Done) { // Should try changing this to a while loop
+	// Receiving packet
+	if (m_tcpSocket.receive(packet) == sf::Socket::Done) {
+
+		// Getting packet operation code
 		uint8_t code;
 		packet >> code;
 
+		// Doing different operations based on the packet code
 		if(code == 1){ // A Player has Disconnected
 			uint8_t id;
 			packet >> id;
@@ -51,16 +55,6 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 				_pHandler.placeParticlesAroundBlock(x, y, z);
 			}
 			_world.setBlock(x, y, z, b);
-		} else if (code == 3){ // Chunk Data Request
-			glm::ivec3 chunkPosition;
-			packet >> chunkPosition.x >> chunkPosition.y >> chunkPosition.z;
-
-			// Remember to add a check if chunk position is inside world bounds function into the world class to make sure we aren't registering a chunk that is outside the bounds of the world
-
-			Chunk* c = _world.getGlobalChunk(chunkPosition.x, chunkPosition.y, chunkPosition.z);
-
-			c->updateData(packet);
-
 		}
 	}
 }
@@ -83,11 +77,5 @@ void NetworkManager::sendPositionDataToServer(Camera& _camera){
 void NetworkManager::sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType){
 	sf::Packet packet;
 	packet << (uint8_t)2 << _blockPosition.x << _blockPosition.y << _blockPosition.z << _blockType; // We send the keycode 0 because that is the code for a block update.
-	m_tcpSocket.send(packet);
-}
-
-void NetworkManager::sendChunkRequestPacket(const glm::ivec3& _chunkPosition){
-	sf::Packet packet;
-	packet << (uint8_t)3 << _chunkPosition.x << _chunkPosition.y << _chunkPosition.z;
 	m_tcpSocket.send(packet);
 }

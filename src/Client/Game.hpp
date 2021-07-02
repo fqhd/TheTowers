@@ -26,8 +26,6 @@ public:
 
 private:
 
-	glm::ivec3 calcCameraDeltaPos(float _deltaTime);
-
 	//Engine Variables
 	CubeMap m_cubeMap;
 	ParticleHandler m_particleHandler;

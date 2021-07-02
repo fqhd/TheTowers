@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-void World::init(){
+void World::init(NetworkManager& _manager){
 	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
 
 	// Loading the texture atlass into a texture array
@@ -10,71 +10,22 @@ void World::init(){
 
 	// Initializing the chunks
 	chunks = new Chunk[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT];
-	unsigned int index = 0;
 	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
 		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
-				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH, data + index * CHUNK_SIZE);
-				index++;
+				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH);
 			}
 		}
 	}
 
 	// Initializing the shader
 	shader.init();
-
 }
-
-Chunk* World::getGlobalChunk(int x, int y, int z){
-	x += chunkOffsetX;
-	z += chunkOffsetZ;
-
-	return getChunk(x % WORLD_WIDTH, y, z % WORLD_WIDTH);
-}
-
 
 GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
 	GLuint vertex = x | y << 6 | z << 12 | lightLevel << 18 | textureCoordinateIndex << 21 | textureArrayIndex << 23;
 	return vertex;
 }
-
-void World::update(NetworkManager& _nManager, glm::ivec3 _deltaPos){
-	if(_deltaPos.z == 1){
-		moveFront();
-	} else if (_deltaPos.z == -1){
-		moveBack();
-	}
-	if(_deltaPos.x == 1){
-		moveLeft();
-	} else if (_deltaPos.x == -1){
-		moveRight();
-	}
-
-	// Send requests for chunk data
-	for(unsigned int i = 0; i < WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT; i++){
-		Chunk* c = &chunks[i];
-		if(c->needsDataUpdate){
-			_nManager.sendChunkRequestPacket(glm::ivec3(c->x / CHUNK_WIDTH, c->y / CHUNK_WIDTH, c->z / CHUNK_WIDTH));
-			c->needsDataUpdate = false;
-		}
-	}
-}
-
-void World::updateChunkLine(Line _l, uint8_t _index){
-	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
-		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			switch(_l){
-				case VERTICAL:
-					getChunk((_index + chunkOffsetX) % WORLD_WIDTH, y, i)->needsMeshUpdate = true;
-				break;
-				case HORIZONTAL:
-					getChunk(i, y, (_index + chunkOffsetZ) % WORLD_WIDTH)->needsMeshUpdate = true;
-				break;
-			}
-		}
-	}
-}
-
 
 void World::render(Camera& _camera){
 	shader.bind();
@@ -147,76 +98,32 @@ void World::generateMesh(Chunk* chunk){
 	chunk->pushData(vertices.data(), vertices.size());
 }
 
-Corner World::isBlockOnEdge(int _x, int _y, int _z){
-	Corner corner;
-	corner.e1 = NONE;
-	corner.e2 = NONE;
-
-	int minChunkX = chunkOffsetX * CHUNK_WIDTH;
-	int minChunkZ = chunkOffsetZ * CHUNK_WIDTH;
-	int maxChunkX = minChunkX + CHUNK_WIDTH * WORLD_WIDTH;
-	int maxChunkZ = minChunkZ + CHUNK_WIDTH * WORLD_WIDTH;
-
-	if((_z >= minChunkZ && _z < maxChunkZ)){
-		if(_x == minChunkX){
-			corner.e1 = RIGHT;
-		}else if(_x == maxChunkX - 1){
-			corner.e1 = LEFT;
-		}
-	}
-	if((_x >= minChunkX && _x < maxChunkX)){
-		if(_z == minChunkZ){
-			corner.e2 = FRONT;
-		}else if(_z == maxChunkZ - 1){
-			corner.e2 = BACK;
-		}
-	}
-
-	return corner;
-}
-
 bool World::isBlockInLocalWorld(int _x, int _y, int _z){
-	int minChunkX = chunkOffsetX * CHUNK_WIDTH;
-	int minChunkZ = chunkOffsetZ * CHUNK_WIDTH;
-	int maxChunkX = minChunkX + CHUNK_WIDTH * WORLD_WIDTH;
-	int maxChunkZ = minChunkZ + CHUNK_WIDTH * WORLD_WIDTH;
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	unsigned int maxH = WORLD_HEIGHT * CHUNK_WIDTH;
 
-	if(_x < minChunkX || _x >= maxChunkX || _z < minChunkZ || _z >= maxChunkZ) return false;
+	if(_x < 0 || _x >= maxW || _z < 0 || _z >= maxW || _y < 0 || _y >= maxH) return false;
 	return true;
 }
 
 uint8_t World::getBlock(int _x, int _y, int _z){
-	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
-	unsigned int maxH = CHUNK_WIDTH * WORLD_HEIGHT;
-
-
 	if(!isBlockInLocalWorld(_x, _y, _z)){
 		return 0;
 	}
 
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
 
-	// Converting coords from global space to local space
-	_x = _x % maxW;
-	_z = _z % maxW;
-	if(_y < 0 || _y >= maxH) return 0;
-
-	return getChunk(_x / CHUNK_WIDTH, _y / CHUNK_WIDTH, _z / CHUNK_WIDTH)->getBlock(_x % CHUNK_WIDTH, _y % CHUNK_WIDTH, _z % CHUNK_WIDTH);
+	return data[(_y * maxW * maxW) + (_z * maxW) + _x];
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
-	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
-	unsigned int maxH = CHUNK_WIDTH * WORLD_HEIGHT;
-
 	if(!isBlockInLocalWorld(x, y, z)){
 		return;
 	}
 
-	// Converting coords from global space to local space
-	if(y < 0 || y >= maxH) return;
-	x = x % maxW;
-	z = z % maxW;
+	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
 
-	// Getting the chunk that the block is in
+	// Getting the chunk the block is in
 	unsigned int posX = x / CHUNK_WIDTH;
 	unsigned int posY = y / CHUNK_WIDTH;
 	unsigned int posZ = z / CHUNK_WIDTH;
@@ -226,7 +133,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	getChunk(posX, posY, posZ)->needsMeshUpdate = true;
 
 	// Setting the block based on chunk space coords
-	getChunk(posX, posY, posZ)->setBlock(x % CHUNK_WIDTH, y % CHUNK_WIDTH, z % CHUNK_WIDTH, block);
+	data[(y * maxW * maxW) + (z * maxW) + x] = block;
 
 	// Next, we check if the placed block has been placed on any edge
 	// Update neighboring chunks if block is on the edge of the current chunk
@@ -258,26 +165,14 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 }
 
 void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
-
 	BlockTexture blockTexture = getTextureFromBlockID(_blockType);
-	Corner c = isBlockOnEdge(_c->x + _x, _c->y + _y, _c->z + _z);
 
 	addTopFace(_c, _x, _y, _z, blockTexture.top);
 	addBottomFace(_c, _x, _y, _z, blockTexture.bot);
-
-	if(c.e1 != LEFT){
-		addLeftFace(_c, _x, _y, _z, blockTexture.side);
-	}
-	if(c.e1 != RIGHT){
-		addRightFace(_c, _x, _y, _z, blockTexture.side);
-	}
-	if(c.e2 != FRONT){
-		addFrontFace(_c, _x, _y, _z, blockTexture.side);
-	}
-	if(c.e2 != BACK){
-		addBackFace(_c, _x, _y, _z, blockTexture.side);
-	}
-
+	addLeftFace(_c, _x, _y, _z, blockTexture.side);
+	addRightFace(_c, _x, _y, _z, blockTexture.side);
+	addFrontFace(_c, _x, _y, _z, blockTexture.side);
+	addBackFace(_c, _x, _y, _z, blockTexture.side);
 }
 
 Chunk* World::getChunk(int x, int y, int z) {
@@ -295,58 +190,6 @@ Chunk* World::getChunk(int x, int y, int z) {
 	}
 
 	return &chunks[(y * WORLD_WIDTH * WORLD_WIDTH) + (z * WORLD_WIDTH) + x];
-}
-
-void World::moveLeft(){
-	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(chunkOffsetX % WORLD_WIDTH, j, i);
-			c->x += WORLD_WIDTH * CHUNK_WIDTH;
-		}
-	}
-	chunkOffsetX++;
-
-	updateChunkLine(VERTICAL, 0);
-	updateChunkLine(VERTICAL, WORLD_WIDTH - 2);
-}
-
-void World::moveRight(){
-	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(((WORLD_WIDTH - 1) + chunkOffsetX) % WORLD_WIDTH, j, i);
-			c->x -= WORLD_WIDTH * CHUNK_WIDTH;
-		}
-	}
-	chunkOffsetX--;
-
-	updateChunkLine(VERTICAL, 1);
-	updateChunkLine(VERTICAL, WORLD_WIDTH - 1);
-}
-
-void World::moveFront(){
-	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, chunkOffsetZ % WORLD_WIDTH);
-			c->z += WORLD_WIDTH * CHUNK_WIDTH;
-		}
-	}
-	chunkOffsetZ++;
-
-	updateChunkLine(HORIZONTAL, 0);
-	updateChunkLine(HORIZONTAL, WORLD_WIDTH - 2);
-}
-
-void World::moveBack(){
-	for(unsigned int j = 0; j < WORLD_HEIGHT; j++){
-		for(unsigned int i = 0; i < WORLD_WIDTH; i++){
-			Chunk* c = getChunk(i, j, ((WORLD_WIDTH - 1) + chunkOffsetZ) % WORLD_WIDTH);
-			c->z -= WORLD_WIDTH * CHUNK_WIDTH;
-		}
-	}
-	chunkOffsetZ--;
-
-	updateChunkLine(HORIZONTAL, 1);
-	updateChunkLine(HORIZONTAL, WORLD_WIDTH - 1);
 }
 
 unsigned int calcAO(bool side1, bool side2, bool corner){

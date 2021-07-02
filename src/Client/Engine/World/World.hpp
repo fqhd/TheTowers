@@ -14,24 +14,6 @@ class NetworkManager;
 const unsigned int WORLD_WIDTH = 8;
 const unsigned int WORLD_HEIGHT = 2;
 
-enum Line {
-	VERTICAL,
-	HORIZONTAL
-};
-
-enum Edge {
-	NONE,
-	LEFT,
-	RIGHT,
-	FRONT,
-	BACK
-};
-
-struct Corner {
-	Edge e1 = NONE;
-	Edge e2 = NONE;
-};
-
 struct BlockTexture {
 	BlockTexture(uint16_t _t){
 		top = _t;
@@ -51,30 +33,21 @@ struct BlockTexture {
 class World {
 public:
 
-	void init();
-	void update(NetworkManager& _nManager, glm::ivec3 _deltaPos);
+	void init(NetworkManager& _manager);
 	void render(Camera& _camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);
-	Chunk* getGlobalChunk(int x, int y, int z);
 
 
 private:
 
+	// Utility functions
 	void generateMesh(Chunk* chunk);
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
 	bool isBlockInLocalWorld(int _x, int _y, int _z);
-	Corner isBlockOnEdge(int _x, int _y, int _z);
-	void updateChunkLine(Line _l, uint8_t _index);
-
-	// World movement functions
-	void moveLeft();
-	void moveRight();
-	void moveFront();
-	void moveBack();
 
 	// Mesh generation functions
 	void addTopFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
@@ -92,8 +65,6 @@ private:
 	ChunkShader shader;
 	uint8_t* data = nullptr;
 	TextureArray texturePack;
-	int chunkOffsetX = 0;
-	int chunkOffsetZ = 0;
 };
 
 

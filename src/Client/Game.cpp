@@ -7,7 +7,7 @@
 
 void Game::init(InputManager* _manager, sf::IpAddress ip) {
 	m_networkManager.connectToServer(ip);
-	m_world.init();
+	m_world.init(m_networkManager);
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_camera.init(_manager, WORLD_WIDTH * CHUNK_WIDTH, WORLD_HEIGHT * CHUNK_WIDTH);
@@ -23,10 +23,6 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 		_state = GameStates::PAUSE;
 	}
 
-	// Calculate delta position
-	glm::ivec3 deltaPos = calcCameraDeltaPos(_deltaTime);
-
-	m_world.update(m_networkManager, deltaPos);
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
 	_player.update(m_camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
@@ -35,22 +31,11 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 	m_networkManager.sendPositionDataToServer(m_camera);
 }
 
-glm::ivec3 Game::calcCameraDeltaPos(float _deltaTime){
-	glm::vec3 camPos = m_camera.getPosition();
-	glm::ivec3 previousPosition(camPos.x / CHUNK_WIDTH, camPos.y / CHUNK_WIDTH, camPos.z / CHUNK_WIDTH);
-	m_camera.update(_deltaTime);
-	camPos = m_camera.getPosition();
-	glm::ivec3 currentPosition(camPos.x / CHUNK_WIDTH, camPos.y / CHUNK_WIDTH, camPos.z / CHUNK_WIDTH);
-	glm::ivec3 deltaPos = currentPosition - previousPosition;
-
-	return deltaPos;
-}
-
 void Game::render(Player& _player) {
 	sf::Clock tmp;
 
 	tmp.restart();
-	m_world.render(m_camera);
+	// m_world.render(m_camera);
 	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
