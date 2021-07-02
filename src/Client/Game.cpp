@@ -46,7 +46,6 @@ void Game::render(Player& _player) {
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
 		m_msPerFramePrintClock.restart();
 	}
-
 }
 
 void Game::destroy() {

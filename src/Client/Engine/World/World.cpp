@@ -4,6 +4,7 @@
 
 void World::init(NetworkManager& _manager){
 	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	_manager.downloadWorld(data);
 
 	// Loading the texture atlass into a texture array
 	texturePack.init("res/textures/sprite_sheet.png", 512);

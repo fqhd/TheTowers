@@ -7,22 +7,23 @@ const unsigned int PACKET_TRANSMISSION_FREQUENCY = 10;
 
 void NetworkManager::connectToServer(sf::IpAddress& _ip){
 	m_serverIp = _ip;
-
 	m_udpSocket.bind(CLIENT_PORT);
 	m_udpSocket.setBlocking(false);
 
+	// Connecting to server
 	std::cout << "Connecting..." << std::endl;
-	sf::Socket::Status status = m_tcpSocket.connect(m_serverIp, SERVER_PORT);
-
-	if (status != sf::Socket::Status::Done) {
-		Utils::log("Game: Failed to connect to server");
-	} else {
+	if (m_tcpSocket.connect(m_serverIp, SERVER_PORT) == sf::Socket::Status::Done) {
+		Utils::log("NetworkManager: Connected to server with ID: " + std::to_string(m_id));
 		sf::Packet packet;
 		m_tcpSocket.setBlocking(true);
-		m_tcpSocket.receive(packet);
+		if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
+			Utils::log("Failed to receive packet from server");
+			return;
+		}
 		m_tcpSocket.setBlocking(false);
 		packet >> m_id;
-		Utils::log("Game: Connected to server with ID: " + std::to_string(m_id));
+	} else {
+		Utils::log("NetworkManager: Failed to connect to server");
 	}
 
 }
@@ -55,24 +56,35 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 				_pHandler.placeParticlesAroundBlock(x, y, z);
 			}
 			_world.setBlock(x, y, z, b);
-		} else if(code == 3) { // Got world data
-			std::cout << "Received world data" << std::endl;
-			double totalWorldSize = WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE ;
-			double packetSize = packet.getDataSize();
-			unsigned int ratio = (1.0 - packetSize / totalWorldSize) * 100;
-			std::cout << "Compression Ratio: " << ratio << "%" << std::endl;
+		}
+	}
+}
 
-			uint8_t blockID = 0;
-			uint32_t numBlocks = 0;
-			uint32_t index = 0;
+void NetworkManager::downloadWorld(uint8_t* _data){
+	// Receive compressed world packet
+	sf::Packet packet;
+	m_tcpSocket.setBlocking(true);
+	if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
+		Utils::log("Failed to compressed world data packet from server");
+		return;
+	}
+	m_tcpSocket.setBlocking(false);
 
-			while(packet >> blockID){
-				packet >> numBlocks;
-				for(unsigned int i = 0; i < numBlocks; i++){
-					_world.data[index] = blockID;
-					index++;
-				}
-			}
+	// Calculate and print compression ratio
+	double totalWorldSize = WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE;
+	double packetSize = packet.getDataSize();
+	double ratio = (1.0 - packetSize / totalWorldSize) * 100;
+	std::cout << "Compression Ratio: " << ratio << "%" << std::endl;
+
+	// Decompress world
+	uint8_t blockID = 0;
+	uint32_t numBlocks = 0;
+	uint32_t index = 0;
+	while(packet >> blockID){
+		packet >> numBlocks;
+		for(unsigned int i = 0; i < numBlocks; i++){
+			_data[index] = blockID;
+			index++;
 		}
 	}
 }

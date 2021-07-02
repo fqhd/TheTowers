@@ -33,14 +33,11 @@ struct BlockTexture {
 class World {
 public:
 
-	friend class NetworkManager;
-
 	void init(NetworkManager& _manager);
 	void render(Camera& _camera);
 	void destroy();
 	uint8_t getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, uint8_t block);
-
 
 private:
 

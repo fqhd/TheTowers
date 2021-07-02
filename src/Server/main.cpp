@@ -165,8 +165,6 @@ void compressAndSendWorld(){
 	sf::Packet packet;
 	packet.clear();
 
-	packet << (uint8_t)3; // We add this code at the beginning of the packet because it indicates to the client that this packet contains the world
-
 	//Compressing the world into a packet
 	uint32_t numBlocks = 1;
 	for(uint32_t i = 1; i < (WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE); i++){
