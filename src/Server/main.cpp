@@ -12,12 +12,13 @@ void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
 void udpThread();
 void compressAndSendWorld();
 void freeWorldData();
-void updateWorldBasedOnPacket(sf::Packet& packet, uint8_t* data);
 uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex);
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
 void sendPacketToAllClients(sf::Packet& packet);
 void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID);
 void generateWorld();
+void setBlock(int _x, int _y, int _z);
+void updateWorldWithBlockUpdatePacket(sf::Packet& _packet);
 
 
 // Global Variables
@@ -62,6 +63,7 @@ int main(){
 						disconnectPlayer(selector, senderIndex);
 					break;
 					case 2: // Block Update
+						updateWorldWithBlockUpdatePacket(receivedPacket);
 						sendPacketToOtherClients(receivedPacket, senderIndex);
 					break;
 				}
@@ -221,4 +223,21 @@ void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID){
 	for(auto& i : clients){
 		if(i.id != senderID) i.socket->send(packet);
 	}
+}
+
+void setBlock(int _x, int _y, int _z, uint8_t _block){
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	worldData[(_y * maxW * maxW) + (_z * maxW) + _x] = _block;
+}
+
+void updateWorldWithBlockUpdatePacket(sf::Packet& _packet){
+	std::cout << "updating world with block" << std::endl;
+	int x = 0;
+	int y = 0;
+	int z = 0;
+	uint8_t block = 0;
+
+	_packet >> x >> y >> z >> block;
+
+	setBlock(x, y, z, block);
 }

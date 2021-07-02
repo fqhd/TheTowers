@@ -52,10 +52,9 @@ build obj/objloader.o: cc src/Client/Engine/Libs/OBJLoader.cpp
 build obj/guitextmesh.o: cc src/Client/Engine/GUI/GUITextMesh.cpp
 
 build obj/serverMain.o: cc src/Server/main.cpp
-build obj/perlin.o: cc src/Server/Perlin.cpp
 
 
 
-build bin/Server/server: lnk obj/serverMain.o obj/perlin.o
+build bin/Server/server: lnk obj/serverMain.o
 
 build bin/Client/client: lnk obj/clientMain.o obj/window.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/cubemaptexture.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guiimage.o obj/checkbox.o obj/image.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guitextmesh.o obj/textureArray.o obj/program.o obj/network.o
