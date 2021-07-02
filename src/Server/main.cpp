@@ -108,7 +108,6 @@ void generateWorld(){
 	worldData = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
 
 	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
-	std::cout << "started world generation" << std::endl;
 
 	// Fill in the memory
 	for(unsigned int y = 0; y < WORLD_HEIGHT * CHUNK_WIDTH; y++){
@@ -119,10 +118,12 @@ void generateWorld(){
 				}else{
 					worldData[(y * maxW * maxW) + (z * maxW) + x] = 0;
 				}
+				if(x == z){
+					worldData[(y * maxW * maxW) + (z * maxW) + x] = 2;
+				}
 			}
 		}
 	}
-	std::cout << "finished world generation" << std::endl;
 }
 
 uint8_t createUniqueID(){

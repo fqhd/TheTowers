@@ -57,7 +57,11 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 			_world.setBlock(x, y, z, b);
 		} else if(code == 3) { // Got world data
 			std::cout << "Received world data" << std::endl;
-			
+			double totalWorldSize = WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE ;
+			double packetSize = packet.getDataSize();
+			unsigned int ratio = (1.0 - packetSize / totalWorldSize) * 100;
+			std::cout << "Compression Ratio: " << ratio << "%" << std::endl;
+
 			uint8_t blockID = 0;
 			uint32_t numBlocks = 0;
 			uint32_t index = 0;
