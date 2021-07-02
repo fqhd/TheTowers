@@ -19,6 +19,7 @@ void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID);
 void generateWorld();
 void setBlock(int _x, int _y, int _z);
 void updateWorldWithBlockUpdatePacket(sf::Packet& _packet);
+void addCodeToBlockUpdatePacket(sf::Packet& _packet);
 
 
 // Global Variables
@@ -64,6 +65,7 @@ int main(){
 					break;
 					case 2: // Block Update
 						updateWorldWithBlockUpdatePacket(receivedPacket);
+						addCodeToBlockUpdatePacket(receivedPacket);
 						sendPacketToOtherClients(receivedPacket, senderIndex);
 					break;
 				}
@@ -231,7 +233,6 @@ void setBlock(int _x, int _y, int _z, uint8_t _block){
 }
 
 void updateWorldWithBlockUpdatePacket(sf::Packet& _packet){
-	std::cout << "updating world with block" << std::endl;
 	int x = 0;
 	int y = 0;
 	int z = 0;
@@ -240,4 +241,13 @@ void updateWorldWithBlockUpdatePacket(sf::Packet& _packet){
 	_packet >> x >> y >> z >> block;
 
 	setBlock(x, y, z, block);
+}
+
+void addCodeToBlockUpdatePacket(sf::Packet& _packet){
+	int x, y, z;
+	uint8_t block;
+
+	_packet >> x >> y >> z >> block;
+	_packet.clear();
+	_packet << (uint8_t)2 << x << y << z << block;
 }
