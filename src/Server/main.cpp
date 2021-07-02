@@ -4,8 +4,6 @@
 #include <fstream>
 #include <thread>
 #include "Structs.hpp"
-#include "Perlin.hpp"
-
 
 // Forward Declarations
 uint8_t createUniqueID();
@@ -41,12 +39,13 @@ int main(){
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
 
-	std::thread positionUpdater(udpThread); // Starting packet position thread
-
 	// Starting server
 	std::cout << "Listening for connection..." << std::endl;
 	listener.listen(SERVER_PORT);
 	selector.add(listener);
+
+	// Starting threads
+	std::thread positionUpdater(udpThread); // Starting packet position thread
 
 	while(!isDone){
 		if(selector.wait()){ // Wait for event to happen
