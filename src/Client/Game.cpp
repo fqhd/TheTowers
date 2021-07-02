@@ -25,6 +25,7 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
+	m_camera.update(_deltaTime);
 	_player.update(m_camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
 	m_cubeMap.update();
 	m_particleHandler.update(_deltaTime);
@@ -35,7 +36,7 @@ void Game::render(Player& _player) {
 	sf::Clock tmp;
 
 	tmp.restart();
-	// m_world.render(m_camera);
+	m_world.render(m_camera);
 	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);

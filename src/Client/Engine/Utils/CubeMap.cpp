@@ -1,8 +1,8 @@
 #include "CubeMap.hpp"
+#include <iostream>
 
 void CubeMap::init() {
-
-	std::vector < std::string > locations;
+	std::vector <std::string> locations;
 
 	locations.push_back("res/textures/cubemap/right.png");
 	locations.push_back("res/textures/cubemap/left.png");
@@ -14,15 +14,13 @@ void CubeMap::init() {
 	m_dayTexture.init(locations);
 	m_cube.init();
 	m_shader.init();
-
 }
 
 void CubeMap::update() {
 
 }
 
-void CubeMap::render(const glm::mat4 & projection,
-	const glm::mat4 & view) {
+void CubeMap::render(const glm::mat4& projection, const glm::mat4& view) {
 	glDepthFunc(GL_LEQUAL);
 	m_shader.bind();
 	m_dayTexture.bind();
