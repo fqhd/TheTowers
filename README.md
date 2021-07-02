@@ -63,3 +63,4 @@
 - Transition to make instead of ninja as the buildsystem
 - Fix particle handler
 - Add instanced block models rendering(for block drops)
+- Server instruction processing on separate thread

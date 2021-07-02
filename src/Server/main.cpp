@@ -19,11 +19,12 @@ uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsi
 void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);
 void sendPacketToAllClients(sf::Packet& packet);
 void disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID);
-void sendChunkToClient(sf::Packet& _receivedPacket, unsigned int _playerID);
+void sendWorldToClient(unsigned int _playerID);
+void generateWorld(uint8_t* _data);
 
 
 // Global Variables
-Chunk chunk;
+uint8_t* worldData = nullptr;
 std::vector<Client> clients;
 bool isDone = false;
 
@@ -35,6 +36,8 @@ const unsigned int CLIENT_PORT = 7459;
 const unsigned int SERVER_PORT = 7456;
 
 int main(){
+	generateWorld(worldData);
+
 	// Server variables
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
@@ -50,6 +53,7 @@ int main(){
 		if(selector.wait()){ // Wait for event to happen
 			if(selector.isReady(listener)){ // Got new connection, so we are going to handle that by creating a new client
 				addClient(listener, selector);
+				sendWorldToClient(clients.back().id);
 			} else { // Got data from a connected client so we are going to send it to all other clients
 				sf::Packet receivedPacket;
 				unsigned int senderIndex;
@@ -61,9 +65,6 @@ int main(){
 					break;
 					case 2: // Block Update
 						sendPacketToOtherClients(receivedPacket, senderIndex);
-					break;
-					case 3: // Chunk Request
-						sendChunkToClient(receivedPacket, senderIndex);
 					break;
 				}
 			}
@@ -102,15 +103,50 @@ void udpThread(){
 	}
 }
 
-void sendChunkToClient(sf::Packet& _receivedPacket, unsigned int _playerID){
-	glm::ivec3 chunkPosition;
-	_receivedPacket >> chunkPosition.x >> chunkPosition.y >> chunkPosition.z; // Getting requested chunk position
+void generateWorld(uint8_t* _data){
+	// Allocate memory for the world
+	_data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
 
-	// Clearing packet and storing requested chunk information into the packet to send it back
-	_receivedPacket.clear();
-	_receivedPacket << (uint8_t)3 << chunkPosition.x << chunkPosition.y << chunkPosition.z;
-	_receivedPacket.append(chunk.bytes.data(), chunk.bytes.size() * sizeof(chunk.bytes[0]));
-	clients[_playerID].socket->send(_receivedPacket);
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+
+	// Fill in the memory
+	for(unsigned int y = 0; y < WORLD_HEIGHT * CHUNK_WIDTH; y++){
+		for(unsigned int z = 0; z < WORLD_WIDTH * CHUNK_WIDTH; z++){
+			for(unsigned int x = 0; x < WORLD_WIDTH * CHUNK_WIDTH; x++){
+				if(y < 20){
+					_data[(y * maxW * maxW) + (z * maxW) + x] = 5;
+				}else{
+					_data[(y * maxW * maxW) + (z * maxW) + x] = 0;
+				}
+			}
+		}
+	}
+}
+
+void sendWorldToClient(unsigned int _playerID){
+	sf::Packet packet;
+	packet.clear();
+
+	packet << (uint8_t)3; // This is the code to let the client know we are sending it the world
+
+	// Compress the server into packet
+	uint32_t numBlocks = 1;
+	packet << worldData[0];
+	for(unsigned int i = 1; i < WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE; i++){
+		if(i == 0){
+		}else{
+			if(worldData[i] == worldData[i - 1]){
+				numBlocks++;
+			}else{
+				packet << numBlocks;
+				packet << worldData[i];
+				numBlocks = 1;
+			}
+		}
+	}
+	packet << numBlocks;
+
+	clients[_playerID].socket->send(packet);
 }
 
 uint8_t createUniqueID(){
