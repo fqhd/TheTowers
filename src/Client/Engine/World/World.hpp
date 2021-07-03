@@ -36,9 +36,9 @@ public:
 
 	void init(NetworkManager& _manager);
 	void render(Camera& _camera);
+	uint8_t getBlock(int _x, int _y, int _z);
+	void setBlock(int _x, int _y, int _z, uint8_t _block);
 	void destroy();
-	uint8_t getBlock(int x, int y, int z);
-	void setBlock(int x, int y, int z, uint8_t block);
 
 private:
 
@@ -59,12 +59,12 @@ private:
 	Chunk* getChunk(int x, int y, int z);
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
-	std::vector<GLuint> vertices;
+	std::vector<GLuint> m_vertices;
 
-	Chunk* chunks = nullptr;
-	ChunkShader shader;
-	uint8_t* data = nullptr;
-	TextureArray texturePack;
+	Chunk* m_chunks = nullptr;
+	ChunkShader m_shader;
+	uint8_t* m_data = nullptr;
+	TextureArray m_texturePack;
 };
 
 
