@@ -1,6 +1,7 @@
 # The Towers
 ---
 
+![Markdown Logo](https://i.imgur.com/O5hvb38.png)  
 ![Markdown Logo](https://img.shields.io/badge/build-stable-brightgreen)
 ![Markdown Logo](https://img.shields.io/badge/version-1.1.0-blue)
 
