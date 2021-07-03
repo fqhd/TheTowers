@@ -1,6 +1,6 @@
 .ninja_deps
 .ninja_log
-client
-server
-*.o
+bin/Client/client
+bin/Server/server
+obj/*.o
 .vscode/
