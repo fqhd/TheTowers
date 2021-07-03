@@ -3,16 +3,16 @@
 
 
 void World::init(NetworkManager& _manager){
-	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE));
+	data = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_LENGTH * WORLD_HEIGHT * CHUNK_SIZE));
 	_manager.downloadWorld(data);
 
 	// Loading the texture atlass into a texture array
 	texturePack.init("res/textures/sprite_sheet.png", 512);
 
 	// Initializing the chunks
-	chunks = new Chunk[WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT];
+	chunks = new Chunk[WORLD_WIDTH * WORLD_LENGTH * WORLD_HEIGHT];
 	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
+		for(unsigned int z = 0; z < WORLD_LENGTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 				getChunk(x, y, z)->init(x * CHUNK_WIDTH, y * CHUNK_WIDTH, z * CHUNK_WIDTH);
 			}
@@ -38,7 +38,7 @@ void World::render(Camera& _camera){
 	shader.loadCameraPosition(_camera.getPosition());
 
 	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
+		for(unsigned int z = 0; z < WORLD_LENGTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 
 				Chunk* c = getChunk(x, y, z);
@@ -69,7 +69,7 @@ void World::render(Camera& _camera){
 
 void World::destroy(){
 	for(unsigned int y = 0; y < WORLD_HEIGHT; y++){
-		for(unsigned int z = 0; z < WORLD_WIDTH; z++){
+		for(unsigned int z = 0; z < WORLD_LENGTH; z++){
 			for(unsigned int x = 0; x < WORLD_WIDTH; x++){
 				getChunk(x, y, z)->destroy();
 			}
@@ -101,9 +101,10 @@ void World::generateMesh(Chunk* chunk){
 
 bool World::isBlockInLocalWorld(int _x, int _y, int _z){
 	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
 	unsigned int maxH = WORLD_HEIGHT * CHUNK_WIDTH;
 
-	if(_x < 0 || _x >= maxW || _z < 0 || _z >= maxW || _y < 0 || _y >= maxH) return false;
+	if(_x < 0 || _x >= maxW || _z < 0 || _z >= maxL || _y < 0 || _y >= maxH) return false;
 	return true;
 }
 
@@ -113,8 +114,9 @@ uint8_t World::getBlock(int _x, int _y, int _z){
 	}
 
 	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
 
-	return data[(_y * maxW * maxW) + (_z * maxW) + _x];
+	return data[(_y * maxW * maxL) + (_z * maxW) + _x];
 }
 
 void World::setBlock(int x, int y, int z, uint8_t block) {
@@ -122,7 +124,8 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 		return;
 	}
 
-	unsigned int maxW = CHUNK_WIDTH * WORLD_WIDTH;
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
 
 	// Getting the chunk the block is in
 	unsigned int posX = x / CHUNK_WIDTH;
@@ -134,7 +137,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 	getChunk(posX, posY, posZ)->needsMeshUpdate = true;
 
 	// Setting the block based on chunk space coords
-	data[(y * maxW * maxW) + (z * maxW) + x] = block;
+	data[(y * maxW * maxL) + (z * maxW) + x] = block;
 
 	// Next, we check if the placed block has been placed on any edge
 	// Update neighboring chunks if block is on the edge of the current chunk
@@ -147,11 +150,11 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if(z % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX, posY, (posZ - 1) % WORLD_WIDTH);
+		Chunk* chunk = getChunk(posX, posY, (posZ - 1) % WORLD_LENGTH);
 		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if((z + 1) % CHUNK_WIDTH == 0){
-		Chunk* chunk = getChunk(posX, posY, (posZ + 1) % WORLD_WIDTH);
+		Chunk* chunk = getChunk(posX, posY, (posZ + 1) % WORLD_LENGTH);
 		if(chunk) chunk->needsMeshUpdate = true;
 	}
 	if(y % CHUNK_WIDTH == 0){
@@ -185,12 +188,12 @@ Chunk* World::getChunk(int x, int y, int z) {
 		std::cout << "get chunk segfault" << std::endl;
 		return nullptr;
 	}
-	if(z < 0 || z >= WORLD_WIDTH){
+	if(z < 0 || z >= WORLD_LENGTH){
 		std::cout << "get chunk segfault" << std::endl;
 		return nullptr;
 	}
 
-	return &chunks[(y * WORLD_WIDTH * WORLD_WIDTH) + (z * WORLD_WIDTH) + x];
+	return &chunks[(y * WORLD_WIDTH * WORLD_LENGTH) + (z * WORLD_WIDTH) + x];
 }
 
 unsigned int calcAO(bool side1, bool side2, bool corner){

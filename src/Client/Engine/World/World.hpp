@@ -11,8 +11,9 @@
 
 class NetworkManager;
 
+const unsigned int WORLD_LENGTH = 4;
 const unsigned int WORLD_WIDTH = 8;
-const unsigned int WORLD_HEIGHT = 4;
+const unsigned int WORLD_HEIGHT = 2;
 
 struct BlockTexture {
 	BlockTexture(uint16_t _t){
