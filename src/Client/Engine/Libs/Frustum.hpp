@@ -3,6 +3,9 @@
 
 #include <glm/matrix.hpp>
 
+// This is NOT my code
+// This is a modification of this class: https://gist.github.com/podgorskiy/e698d18879588ada9014768e3e82a644
+// The original author is Stanislav Pidhorskyi and here is his github: https://gist.github.com/podgorskiy
 
 class Frustum {
 public:
