@@ -17,7 +17,7 @@ public:
 
 	void update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _nManager, InputManager* _iManager);
 
-	uint8_t selectedBlock = 215;
+	uint8_t selectedBlock = 1;
 	VisibleBlocks visibleBlocks;
 
 private:
