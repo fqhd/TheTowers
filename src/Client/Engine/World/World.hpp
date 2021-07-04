@@ -48,6 +48,7 @@ private:
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
 	bool isBlockInLocalWorld(int _x, int _y, int _z);
+	void loadBlockTexturesFromFile();
 
 	// Mesh generation functions
 	void addTopFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
@@ -60,6 +61,7 @@ private:
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<GLuint> m_vertices;
+	std::vector<BlockTexture> m_blockTextures;
 
 	Chunk* m_chunks = nullptr;
 	ChunkShader m_shader;

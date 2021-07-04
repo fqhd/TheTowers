@@ -8,6 +8,7 @@ void World::init(NetworkManager& _manager){
 
 	// Loading the texture atlass into a texture array
 	m_texturePack.init("res/textures/sprite_sheet.png", 512);
+	loadBlockTexturesFromFile();
 
 	// Initializing the m_chunks
 	m_chunks = new Chunk[WORLD_WIDTH * WORLD_LENGTH * WORLD_HEIGHT];
@@ -82,7 +83,9 @@ void World::destroy(){
 }
 
 void World::generateMesh(Chunk* _chunk){
-	m_vertices.clear();
+	sf::Clock c;
+	m_vertices.resize(0);
+
 	for(unsigned int y = 0; y < CHUNK_WIDTH; y++){
 		for(unsigned int z = 0; z < CHUNK_WIDTH; z++){
 			for(unsigned int x = 0; x < CHUNK_WIDTH; x++){
@@ -357,17 +360,39 @@ void World::addBackFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _tex
 }
 
 BlockTexture World::getTextureFromBlockID(uint8_t _blockID) {
-	// Space reserved for uni-textured blocks(blocks that have the same texture on all sides)
-	uint16_t offset = 255;
+	return m_blockTextures[_blockID - 1];
+}
 
-	// List of exceptions
-	if (_blockID == 1) { // Grass
-		return BlockTexture(0, offset, 3);
-	} else if (_blockID == 3) { // Snow
-		return BlockTexture(2, offset + 1, 3);
-	} else if (_blockID == 6) { // Wood Log
-		return BlockTexture(5, offset + 2, 5);
+void tokenizeString(const std::string& _str, std::vector<std::string>& _tokens){
+	_tokens.clear();
+	_tokens.push_back(std::string());
+	for(unsigned int i = 0; i < _str.size(); i++){
+		if(_str[i] == ' '){
+			_tokens.push_back(std::string());
+		}else{
+			_tokens.back().push_back(_str[i]);
+		}
+	}
+}
+
+void World::loadBlockTexturesFromFile(){
+	std::ifstream is;
+	is.open("res/textures/texture_arrangement.txt");
+	if(is.fail()){
+		std::cout << "Failed to open texture arrangment file, it should be under res/textures/texture_arrangement.txt" << std::endl;
+		return;
 	}
 
-	return BlockTexture(_blockID - 1);
+	std::string line;
+	std::vector<std::string> tokens;
+	while(std::getline(is, line)){
+		tokenizeString(line, tokens);
+		uint16_t top = std::stoi(tokens.at(0));
+		uint16_t side = std::stoi(tokens.at(1));
+		uint16_t bot = std::stoi(tokens.at(2));
+		m_blockTextures.push_back(BlockTexture(top, side, bot));
+	}
+
+	is.close();
 }
+
