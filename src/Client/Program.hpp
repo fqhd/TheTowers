@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "PauseMenu.hpp"
 #include "Engine/Input/Window.hpp"
+#include "Config.hpp"
 
 
 class Program {
@@ -27,6 +28,7 @@ private:
 	GameStates m_state = GameStates::PLAY;
 	InputManager m_inputManager;
 	Window m_window;
+	Config m_config;
 	sf::Clock m_clock;
 
 };

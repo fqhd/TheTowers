@@ -10,7 +10,7 @@
 class Camera {
 public:
 
-	void init(InputManager* _manager, unsigned int _ww, unsigned int _wh);
+	void init(InputManager* _manager);
 	void update(float deltaTime);
 	void updateProjectionMatrix();
 

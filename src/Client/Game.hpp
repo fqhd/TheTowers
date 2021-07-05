@@ -14,12 +14,13 @@
 #include "GameStates.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
+#include "Config.hpp"
 
 
 class Game {
 public:
 
-	void init(InputManager* _manager, sf::IpAddress _ip);
+	void init(InputManager* _manager, sf::IpAddress& _ip, Config& _c);
 	void update(GameStates& _state, Player& _player, float _deltaTime);
 	void render(Player& _player);
 	void destroy();

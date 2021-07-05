@@ -1,18 +1,15 @@
 #include "NetworkManager.hpp"
 #include <iostream>
 
-const unsigned int CLIENT_PORT = 7459;
-const unsigned int SERVER_PORT = 7456;
-const unsigned int PACKET_TRANSMISSION_FREQUENCY = 10;
-
-void NetworkManager::connectToServer(sf::IpAddress& _ip){
+void NetworkManager::connectToServer(sf::IpAddress& _ip, Config& _c){
+	m_config = _c;
 	m_serverIp = _ip;
-	m_udpSocket.bind(CLIENT_PORT);
+	m_udpSocket.bind(m_config.getClientPort());
 	m_udpSocket.setBlocking(false);
 
 	// Connecting to server
 	std::cout << "Connecting..." << std::endl;
-	if (m_tcpSocket.connect(m_serverIp, SERVER_PORT) == sf::Socket::Status::Done) {
+	if (m_tcpSocket.connect(m_serverIp, m_config.getServerPort()) == sf::Socket::Status::Done) {
 		Utils::log("NetworkManager: Connected to server with ID: " + std::to_string(m_id));
 		sf::Packet packet;
 		m_tcpSocket.setBlocking(true);
@@ -71,7 +68,11 @@ void NetworkManager::downloadWorld(uint8_t* _data){
 	m_tcpSocket.setBlocking(false);
 
 	// Calculate and print compression ratio
-	double totalWorldSize = WORLD_WIDTH * WORLD_WIDTH * WORLD_HEIGHT * CHUNK_SIZE;
+	unsigned int ww = m_config.getWorldWidth();
+	unsigned int wl = m_config.getWorldLength();
+	unsigned int wh = m_config.getWorldHeight();
+	unsigned int cw = m_config.getChunkWidth();
+	double totalWorldSize = ww * wl * wh * cw * cw *cw;
 	double packetSize = packet.getDataSize();
 	double ratio = (1.0 - packetSize / totalWorldSize) * 100;
 	std::cout << "Compression Ratio: " << ratio << "%" << std::endl;
@@ -90,7 +91,7 @@ void NetworkManager::downloadWorld(uint8_t* _data){
 }
 
 void NetworkManager::sendPositionDataToServer(Camera& _camera){
-	float timeBetweenPackets = 1.0f / PACKET_TRANSMISSION_FREQUENCY;
+	float timeBetweenPackets = 1.0f / m_config.getPacketTransmissionFrequency();
 	if (m_dataFrequencyTimer.getElapsedTime().asSeconds() >= timeBetweenPackets) {
 		m_dataFrequencyTimer.restart();
 
@@ -100,7 +101,7 @@ void NetworkManager::sendPositionDataToServer(Camera& _camera){
 		sf::Packet packet;
 		glm::vec3 p = _camera.getPosition(); // Camera Position
 		packet << m_id << p.x << p.y << p.z << _camera.getPitch() << _camera.getYaw();
-		m_udpSocket.send(packet, m_serverIp, SERVER_PORT);
+		m_udpSocket.send(packet, m_serverIp, m_config.getServerPort());
 	}
 }
 

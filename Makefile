@@ -23,7 +23,7 @@ bin/Client/client: ${CLIENT_OBJS}
 	${CXX} ${LFLAGS} $^ -o bin/Client/client
 
 bin/Server/server: ${SERVER_OBJS}
-	mkdir bin/Server/
+	mkdir bin/Server
 	${CXX} ${LFLAGS} $^ -o bin/Server/server
 
 

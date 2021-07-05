@@ -6,14 +6,11 @@
 #include "../Utils/ChunkShader.hpp"
 #include "../Utils/TextureArray.hpp"
 #include "../../NetworkManager.hpp"
+#include "../../Config.hpp"
 #include <glm/gtc/noise.hpp>
 #include <cstdint>
 
 class NetworkManager;
-
-const unsigned int WORLD_LENGTH = 4;
-const unsigned int WORLD_WIDTH = 8;
-const unsigned int WORLD_HEIGHT = 2;
 
 struct BlockTexture {
 	BlockTexture(uint16_t _t){
@@ -34,7 +31,7 @@ struct BlockTexture {
 class World {
 public:
 
-	void init(NetworkManager& _manager);
+	void init(NetworkManager& _manager, Config& _c);
 	void render(Camera& _camera);
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
@@ -67,6 +64,8 @@ private:
 	ChunkShader m_shader;
 	uint8_t* m_data = nullptr;
 	TextureArray m_texturePack;
+	Config m_config;
+
 };
 
 

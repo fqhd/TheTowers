@@ -5,12 +5,12 @@
 
 
 
-void Game::init(InputManager* _manager, sf::IpAddress ip) {
-	m_networkManager.connectToServer(ip);
-	m_world.init(m_networkManager);
+void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c) {
+	m_networkManager.connectToServer(_ip, _c);
+	m_world.init(m_networkManager, _c);
 	m_cubeMap.init();
 	m_particleHandler.init();
-	m_camera.init(_manager, WORLD_WIDTH * CHUNK_WIDTH, WORLD_HEIGHT * CHUNK_WIDTH);
+	m_camera.init(_manager);
 	m_entityHandler.init();
 	m_blockOutline.init();
 	m_inputManager = _manager;

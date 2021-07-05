@@ -9,11 +9,12 @@ void Program::run(sf::IpAddress& ip){
 
 }
 
-void Program::initSystems(sf::IpAddress& ip){
+void Program::initSystems(sf::IpAddress& _ip){
+	m_config.loadFromFile();
 	m_window.create(1280, 720, "OpenCraft", false, true);
 	initInputManager();
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
-	m_game.init(&m_inputManager, ip);
+	m_game.init(&m_inputManager, _ip, m_config);
 	m_pause.init(&m_inputManager, &m_font);
 }
 
