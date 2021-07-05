@@ -4,6 +4,7 @@
 #include <fstream>
 #include <thread>
 #include "Structs.hpp"
+#include "Config.hpp"
 
 // Forward Declarations
 uint8_t createUniqueID();
@@ -25,17 +26,11 @@ void addCodeToBlockUpdatePacket(sf::Packet& _packet);
 // Global Variables
 uint8_t* worldData = nullptr;
 std::vector<Client> clients;
+Config config;
 bool isDone = false;
 
-const unsigned int WORLD_LENGTH = 4;
-const unsigned int WORLD_WIDTH = 8;
-const unsigned int WORLD_HEIGHT = 2;
-const unsigned int CHUNK_WIDTH = 32;
-const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
-const unsigned int CLIENT_PORT = 7459;
-const unsigned int SERVER_PORT = 7456;
-
 int main(){
+	config.loadFromFile();
 	generateWorld();
 
 	// Server variables
@@ -44,7 +39,7 @@ int main(){
 
 	// Starting server
 	std::cout << "Listening for connection..." << std::endl;
-	listener.listen(SERVER_PORT);
+	listener.listen(config.getServerPort());
 	selector.add(listener);
 
 	// Starting threads
@@ -88,7 +83,7 @@ void udpThread(){
 	unsigned short remotePort;
 
 	//Initializing variables
-	socket.bind(SERVER_PORT);
+	socket.bind(config.getServerPort());
 	socket.setBlocking(false);
 
 	while(!isDone){
@@ -100,7 +95,7 @@ void udpThread(){
 			receivedPacket << id;
 
 			for(auto& i : clients){
-				if(i.id != id) socket.send(receivedPacket, i.socket->getRemoteAddress(), CLIENT_PORT);
+				if(i.id != id) socket.send(receivedPacket, i.socket->getRemoteAddress(), config.getClientPort());
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -108,16 +103,21 @@ void udpThread(){
 }
 
 void generateWorld(){
-	// Allocate memory for the world
-	worldData = static_cast<uint8_t*>(malloc(WORLD_WIDTH * WORLD_LENGTH * WORLD_HEIGHT * CHUNK_SIZE));
+	unsigned int ww = config.getWorldWidth();
+	unsigned int wl = config.getWorldLength();
+	unsigned int wh = config.getWorldHeight();
+	unsigned int cw = config.getChunkWidth();
 
-	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
-	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
+	// Allocate memory for the world
+	worldData = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
+
+	unsigned int maxW = ww * cw;
+	unsigned int maxL = wl * cw;
 
 	// Fill in the memory
-	for(unsigned int y = 0; y < WORLD_HEIGHT * CHUNK_WIDTH; y++){
-		for(unsigned int z = 0; z < WORLD_LENGTH * CHUNK_WIDTH; z++){
-			for(unsigned int x = 0; x < WORLD_WIDTH * CHUNK_WIDTH; x++){
+	for(unsigned int y = 0; y < wh * cw; y++){
+		for(unsigned int z = 0; z < wl * cw; z++){
+			for(unsigned int x = 0; x < ww * cw; x++){
 				if(y < 20){
 					worldData[(y * maxW * maxL) + (z * maxW) + x] = 5;
 				}else{
@@ -167,12 +167,17 @@ void freeWorldData(){
 }
 
 void compressAndSendWorld(){
+	unsigned int ww = config.getWorldWidth();
+	unsigned int wl = config.getWorldLength();
+	unsigned int wh = config.getWorldHeight();
+	unsigned int cw = config.getChunkWidth();
+
 	sf::Packet packet;
 	packet.clear();
 
 	// Compressing the world into a packet
 	uint32_t numBlocks = 1;
-	for(uint32_t i = 1; i < (WORLD_WIDTH * WORLD_LENGTH * WORLD_HEIGHT * CHUNK_SIZE); i++){
+	for(uint32_t i = 1; i < (ww * wl * wh * cw * cw * cw); i++){
 		if(worldData[i - 1] != worldData[i]){
 			packet << (uint8_t)worldData[i - 1] << numBlocks;
 			numBlocks = 1;
@@ -180,7 +185,7 @@ void compressAndSendWorld(){
 			numBlocks++;
 		}
 	}
-	packet << (uint8_t)worldData[WORLD_WIDTH * WORLD_LENGTH * WORLD_HEIGHT * CHUNK_SIZE - 1] << numBlocks;
+	packet << (uint8_t)worldData[ww * wl * wh * cw * cw * cw - 1] << numBlocks;
 
 	//Sending the packet containing the compressed world to the newly connected client
 	clients.back().socket->send(packet);
@@ -230,8 +235,8 @@ void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID){
 }
 
 void setBlock(int _x, int _y, int _z, uint8_t _block){
-	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
-	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
+	unsigned int maxW = config.getWorldWidth() * config.getChunkWidth();
+	unsigned int maxL = config.getWorldLength() * config.getChunkWidth();
 	worldData[(_y * maxW * maxL) + (_z * maxW) + _x] = _block;
 }
 
