@@ -395,4 +395,3 @@ void World::loadBlockTexturesFromFile(){
 
 	is.close();
 }
-
