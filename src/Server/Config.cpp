@@ -10,9 +10,7 @@ void Config::loadFromFile(){
     }
     std::string type;
     while(is >> type){
-        if(type == "CAMERA_SPEED:"){
-            is >> m_cameraSpeed;
-        }else if(type == "WORLD_WIDTH:"){
+        if(type == "WORLD_WIDTH:"){
             is >> m_worldWidth;
         }else if(type == "WORLD_HEIGHT:"){
             is >> m_worldHeight;
@@ -24,18 +22,8 @@ void Config::loadFromFile(){
             is >> m_clientPort;
         }else if(type == "SERVER_PORT:"){
             is >> m_serverPort;
-        }else if(type == "PACKET_TRANSMISSION_FRQUENCY:"){
-            is >> m_packetTransmissionFrequency;
         }
     }
-}
-
-float Config::getCameraSpeed(){
-    return m_cameraSpeed;
-}
-
-unsigned int Config::getPacketTransmissionFrequency(){
-    return m_packetTransmissionFrequency;
 }
 
 unsigned int Config::getWorldWidth(){
