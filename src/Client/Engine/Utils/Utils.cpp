@@ -39,7 +39,7 @@ std::string Utils::readFileToString(const std::string& shaderName) {
 	std::ifstream is;
 	is.open(shaderName);
 	if(is.fail()){
-		log("Failed to find file: " + shaderName);
+		std::cout << "Failed to find file: " << shaderName << std::endl;
 		is.close();
 		return shaderCode;
 	}
@@ -58,10 +58,6 @@ bool Utils::isInside(const glm::vec2& pos, const glm::vec4& destRect){
 
 bool Utils::isInRange(const glm::vec3& a, const glm::vec3& b, float range){
 	return std::fabs(glm::length(b - a)) < range;
-}
-
-void Utils::log(const std::string& message){
-	printf("%s\n", message.c_str());
 }
 
 glm::vec2 Utils::flipCoords(const glm::vec2& coords, float height){

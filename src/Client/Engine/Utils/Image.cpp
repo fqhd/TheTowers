@@ -2,12 +2,13 @@
 #include "Utils.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../Libs/stb_image.h"
+#include <iostream>
 
 
 void Image::loadFromFile(const std::string& path, int desiredChannels){
 	m_imageData = stbi_load(path.c_str(), &m_width, &m_height, &m_numChannels, desiredChannels);
 	if(!m_imageData){
-		Utils::log("Image: Failed to load image: " + path);
+		std::cout << "Image: Failed to load image" << std::endl;
 		return;
 	}
 }

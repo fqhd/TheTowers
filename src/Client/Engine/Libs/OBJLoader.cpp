@@ -46,7 +46,7 @@ OBJModel::OBJModel(const std::string& fileName) {
 			};
 		}
 	} else {
-		Utils::log("Unable to load mesh: " + fileName);
+		std::cout << "Unable to load mesh: " << fileName << std::endl;
 	}
 }
 

@@ -13,14 +13,14 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip, Config& _c){
 		sf::Packet packet;
 		m_tcpSocket.setBlocking(true);
 		if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
-			Utils::log("Failed to receive packet from server");
+			std::cout << "Failed to receive packet from server" << std::endl;
 			return;
 		}
 		m_tcpSocket.setBlocking(false);
 		packet >> m_id;
-		Utils::log("NetworkManager: Connected to server with ID: " + std::to_string(m_id));
+		std::cout << "NetworkManager: Connected to server with ID: " << std::endl;
 	} else {
-		Utils::log("NetworkManager: Failed to connect to server");
+		std::cout << "NetworkManager: Failed to connect to server" << std::endl;
 	}
 
 }
@@ -62,7 +62,7 @@ void NetworkManager::downloadWorld(uint8_t* _data){
 	sf::Packet packet;
 	m_tcpSocket.setBlocking(true);
 	if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
-		Utils::log("Failed to compressed world data packet from server");
+		std::cout << "Failed to compressed world data packet from server" << std::endl;
 		return;
 	}
 	m_tcpSocket.setBlocking(false);

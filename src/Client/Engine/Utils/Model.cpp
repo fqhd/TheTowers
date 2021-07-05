@@ -1,6 +1,7 @@
 #include "Model.hpp"
 #include "../Libs/OBJLoader.hpp"
 #include "Utils.hpp"
+#include <iostream>
 
 
 void Model::loadFromFile(const std::string& path) {
@@ -37,8 +38,7 @@ void Model::loadFromFile(const std::string& path) {
 
 	m_numVertices = model.indices.size();
 
-	Utils::log("Loaded model " + path + " with " + std::to_string(m_numVertices) + " vertices");
-
+	std::cout << "Loaded model " << path << " with " << m_numVertices << " vertices" << std::endl;
 }
 
 GLuint Model::getNumVertices() {
