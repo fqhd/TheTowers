@@ -16,15 +16,14 @@ SERVER_SOURCES = $(wildcard src/Server/*.cpp)
 CLIENT_OBJS = $(patsubst %.cpp, %.o, ${WORLD_SOURCES} ${UTILS_SOURCES} ${GUI_SOURCES} ${INPUT_SOURCES} ${LIB_SOURCES} ${CLIENT_SOURCES})
 SERVER_OBJS = $(patsubst %.cpp, %.o, ${SERVER_SOURCES})
 
-all: bin/Client/client bin/Server/server
+all: client server
 
 # Linking Targets
-bin/Client/client: ${CLIENT_OBJS}
-	${CXX} ${LFLAGS} $^ -o bin/Client/client
+client: ${CLIENT_OBJS}
+	${CXX} ${LFLAGS} $^ -o client
 
-bin/Server/server: ${SERVER_OBJS}
-	mkdir bin/Server
-	${CXX} ${LFLAGS} $^ -o bin/Server/server
+server: ${SERVER_OBJS}
+	${CXX} ${LFLAGS} $^ -o server
 
 
 %.o: %.cpp
@@ -32,5 +31,5 @@ bin/Server/server: ${SERVER_OBJS}
 
 clean:
 	find . -name "*.o" -delete
-	rm -rf bin/Client/client
-	rm -rf bin/Server/server
+	rm -rf client
+	rm -rf server

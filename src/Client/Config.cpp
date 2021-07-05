@@ -3,7 +3,7 @@
 
 void Config::loadFromFile(){
     std::ifstream is;
-    is.open("../../Config");
+    is.open("Config");
     if(is.fail()){
         std::cout << "Failed to open config" << std::endl;
         return;

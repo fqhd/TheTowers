@@ -11,6 +11,7 @@ void Program::run(sf::IpAddress& ip){
 
 void Program::initSystems(sf::IpAddress& _ip){
 	m_config.loadFromFile();
+	std::cout << m_config.getServerPort() << std::endl;
 	m_window.create(1280, 720, "OpenCraft", false, true);
 	initInputManager();
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);

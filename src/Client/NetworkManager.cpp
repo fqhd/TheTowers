@@ -10,7 +10,6 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip, Config& _c){
 	// Connecting to server
 	std::cout << "Connecting..." << std::endl;
 	if (m_tcpSocket.connect(m_serverIp, m_config.getServerPort()) == sf::Socket::Status::Done) {
-		Utils::log("NetworkManager: Connected to server with ID: " + std::to_string(m_id));
 		sf::Packet packet;
 		m_tcpSocket.setBlocking(true);
 		if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
@@ -19,6 +18,7 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip, Config& _c){
 		}
 		m_tcpSocket.setBlocking(false);
 		packet >> m_id;
+		Utils::log("NetworkManager: Connected to server with ID: " + std::to_string(m_id));
 	} else {
 		Utils::log("NetworkManager: Failed to connect to server");
 	}

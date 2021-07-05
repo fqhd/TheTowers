@@ -9,7 +9,7 @@ void World::init(NetworkManager& _manager, Config& _c){
 	unsigned int wh = m_config.getWorldHeight();
 	unsigned int cw = m_config.getChunkWidth();
 
-	m_data = static_cast<uint8_t*>(malloc(ww * wl * wh * cw));
+	m_data = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
 	_manager.downloadWorld(m_data);
 
 	// Loading the texture atlass into a texture array
@@ -132,7 +132,7 @@ uint8_t World::getBlock(int _x, int _y, int _z){
 	}
 
 	unsigned int maxW = m_config.getWorldWidth() * m_config.getChunkWidth();
-	unsigned int maxL = m_config.getWorldWidth() * m_config.getChunkWidth();
+	unsigned int maxL = m_config.getWorldLength() * m_config.getChunkWidth();
 
 	return m_data[(_y * maxW * maxL) + (_z * maxW) + _x];
 }
