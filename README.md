@@ -50,18 +50,17 @@
 - After that, you should be able to build and run the project without any difficulties
 ---
 ## In Progress
-- Add server world class
-- Server `sendWorldToClient(clientID)`
-- Client `NetworkManager::downloadWorld()`
-- Add world compression to server and world decompression function to network manager in client
 - Remove fog and change cubemap to something more adecuate
 - Add clouds underneath the world to mkae it look like the map is floating
+- Use hashmap for clients on server code
+- Chat
+- Packet Authentification
+- Server client-instruction processing
 - Add server `loadWorldFromFile()` function
-- Add HUD and GUI to gameplay
+- Server `saveWorldToFile()` function
 - Add proper settings menu to pause menu
+- Add HUD and GUI to gameplay
 - Add player inventory state
 - Fix particle handler
-- Transition to make instead of ninja as the buildsystem
-- Fix particle handler
 - Add instanced block models rendering(for block drops)
-- Server instruction processing on separate thread
+- Improve random clientID
