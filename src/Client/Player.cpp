@@ -6,7 +6,6 @@ const float PLAYER_REACH_DISTANCE = 5.0f;
 const unsigned int PRECISION = 50;
 
 void Player::update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _nManager, InputManager* _iManager) {
-
 	getVisibleBlocks(camera, world);
 
 	if (!visibleBlocks.lookingAtBlock) return;
@@ -21,7 +20,6 @@ void Player::update(Camera& camera, ParticleHandler& handler, World& world, Netw
 
 	//We get the visible blocks again to update them after a block has been pressed
 	getVisibleBlocks(camera, world);
-
 }
 
 void Player::getVisibleBlocks(Camera& camera, World& world) {

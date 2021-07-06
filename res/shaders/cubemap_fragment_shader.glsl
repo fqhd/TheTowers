@@ -12,14 +12,10 @@ uniform samplerCube skybox;
 //Constants
 const float upperLimit = 0.2;
 const float lowerLimit = 0.0;
-const vec3 skyColor = vec3(0.5444, 0.62, 0.69);
+const vec3 topColor = vec3(132.0/255.0, 174.0/255.0, 255.0/255.0);
+const vec3 bottomColor = vec3(178.0/255.0, 206.0/255.0, 254.0/255.0);
 
 void main(){
-
-    out_color = texture(skybox, textureCoords);
-
-    float factor = (textureCoords.y - lowerLimit) / (upperLimit - lowerLimit);
-    factor = clamp(factor, 0.0, 1.0);
-    out_color = mix(vec4(skyColor, 1.0), out_color, factor);
-
+    float blendFactor = clamp((normalize(textureCoords).y - lowerLimit) / (upperLimit - lowerLimit), 0.0, 1.0);
+    out_color = vec4(mix(bottomColor, topColor, blendFactor), 1.0);
 }
