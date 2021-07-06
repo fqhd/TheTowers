@@ -11,6 +11,7 @@ uint8_t createUniqueID();
 bool doesIDExist(uint8_t id);
 void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
 void udpThread();
+void tcpThread();
 void compressAndSendWorld();
 void freeWorldData();
 uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex);
@@ -33,6 +34,22 @@ int main(){
 	config.loadFromFile();
 	generateWorld();
 
+	// Starting threads
+	std::thread positionUpdater(udpThread); // Starting packet position thread
+	std::thread packetHandler(tcpThread);
+
+
+
+	packetHandler.join();
+	positionUpdater.join();
+	freeWorldData();
+
+
+
+	return 0;
+}
+
+void tcpThread(){
 	// Server variables
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
@@ -41,9 +58,6 @@ int main(){
 	std::cout << "Listening for connection..." << std::endl;
 	listener.listen(config.getServerPort());
 	selector.add(listener);
-
-	// Starting threads
-	std::thread positionUpdater(udpThread); // Starting packet position thread
 
 	while(!isDone){
 		if(selector.wait()){ // Wait for event to happen
@@ -68,11 +82,6 @@ int main(){
 			}
 		}
 	}
-
-	positionUpdater.join();
-	freeWorldData();
-
-	return 0;
 }
 
 void udpThread(){
