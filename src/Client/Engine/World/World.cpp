@@ -401,7 +401,7 @@ void tokenizeString(const std::string& _str, std::vector<std::string>& _tokens){
 
 void World::loadBlockTexturesFromFile(){
 	std::ifstream is;
-	is.open("res/textures/texture_arrangement.txt");
+	is.open("TextureArrangement");
 	if(is.fail()){
 		std::cout << "Failed to open texture arrangment file, it should be under res/textures/texture_arrangement.txt" << std::endl;
 		return;

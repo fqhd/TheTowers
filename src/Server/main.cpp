@@ -129,12 +129,12 @@ void generateWorld(){
 			for(unsigned int x = 0; x < ww * cw; x++){
 				if(y < 20){
 					worldData[(y * maxW * maxL) + (z * maxW) + x] = 5;
+				}else if(x == z){
+					worldData[(y * maxW * maxL) + (z * maxW) + x] = 2;
 				}else{
 					worldData[(y * maxW * maxL) + (z * maxW) + x] = 0;
 				}
-				if(x == z){
-					worldData[(y * maxW * maxL) + (z * maxW) + x] = 2;
-				}
+
 			}
 		}
 	}
