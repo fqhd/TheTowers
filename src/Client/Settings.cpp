@@ -1,6 +1,6 @@
 #include "Settings.hpp"
 
-void loadFromFile(){
+void Settings::loadFromFile(){
     std::ifstream is;
     is.open("Settings.txt");
     if(is.fail()){
@@ -15,8 +15,8 @@ void loadFromFile(){
     }
 }
 
-void writeToFile(){
-    std::ostream os;
+void Settings::writeToFile(){
+    std::ofstream os;
     os.open("Settings.txt");
     if(os.fail()){
         std::cout << "Failed to open settings" << std::endl;

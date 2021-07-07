@@ -7,20 +7,21 @@
 #include "GUIShader.hpp"
 #include "GUIFontShader.hpp"
 #include "GUIFont.hpp"
-#include "GUIImage.hpp"
+#include "GUIRect.hpp"
 #include "GUICheckbox.hpp"
+#include "../Input/InputManager.hpp"
 
 class GUIHandler {
 public:
 
 	void init(GUIFont* m_font);
-	void update();
+	void update(InputManager* _manager);
 	void render();
 	void destroy();
 
 
 	std::vector<GUIButton> buttons;
-	std::vector<GUIImage> images;
+	std::vector<GUIRect> rects;
 	std::vector<GUICheckbox> checkboxes;
 	std::vector<GUITextMesh> textMeshes;
 

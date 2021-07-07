@@ -1,7 +1,6 @@
 #include "GUIHandler.hpp"
 
 void GUIHandler::init(GUIFont* font){
-
 	m_font = font;
 
 	m_guiRenderer.init();
@@ -9,28 +8,31 @@ void GUIHandler::init(GUIFont* font){
 	m_fontShader.init();
 
 	m_matrix = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f);
-
 }
 
-void GUIHandler::update() {
-
+void GUIHandler::update(InputManager* _manger) {
+	for(auto& i : buttons){
+		i.update(_manger);
+	}
+	for(auto& i : checkboxes){
+		i.update(_manger);
+	}
 }
 
 void GUIHandler::render() {
 	for(auto& i : buttons){
 		i.render(m_guiRenderer);
 	}
-	for(auto& i : buttons){
+	for(auto& i : checkboxes){
 		i.render(m_guiRenderer);
 	}
-	for(auto& i : buttons){
+	for(auto& i : rects){
 		i.render(m_guiRenderer);
 	}
 	for(auto& i : textMeshes){
 		if(i.needsMeshUpdate) m_font->updateMesh(i);
 		i.render();
 	}
-	
 }
 
 void GUIHandler::destroy(){

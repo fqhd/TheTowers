@@ -1,15 +1,15 @@
-#ifndef GUI_IMAGE_H
-#define GUI_IMAGE_H
+#ifndef GUI_RECT_H
+#define GUI_RECT_H
 
 #include "../Utils/Vertex.hpp"
 #include "GUIRenderer.hpp"
 #include <glm/glm.hpp>
 
-class GUIImage {
+class GUIRect {
 public:
 
 
-	GUIImage(const glm::vec4& d, const ColorRGBA8& c);
+	GUIRect(const glm::vec4& d, const ColorRGBA8& c);
 	void render(GUIRenderer& renderer);
 
 	glm::vec4 destRect;

@@ -13,7 +13,7 @@ void PauseMenu::update(GameStates& _state){
 		_state = GameStates::PLAY;
 	}
 
-	m_handler.update();
+	m_handler.update(m_inputManager);
 }
 
 void PauseMenu::render(){

@@ -9,16 +9,16 @@ GUICheckbox::GUICheckbox(const glm::vec4 & destRect, const ColorRGBA8 & onColor,
 	isChecked = checked;
 }
 
-void GUICheckbox::update(InputManager& _manager) {
+void GUICheckbox::update(InputManager* _manager) {
 	ColorRGBA8 color = isChecked ? m_onColor : m_offColor;
-	glm::vec2 mousePos = _manager.getScaledMousePosition();
+	glm::vec2 mousePos = _manager->getScaledMousePosition();
 
 	m_currentColor = color;
 	if (Utils::isInside(Utils::flipCoords(mousePos, 720.0f), m_destRect)) {
 		m_currentColor = ColorRGBA8(color.r * 0.6f, color.g * 0.6f, color.b * 0.6f, color.a);
-		if (_manager.isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+		if (_manager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_currentColor = ColorRGBA8(color.r * 0.3f, color.g * 0.3f, color.b * 0.3f, color.a);
-		} else if (_manager.isKeyReleased(GLFW_MOUSE_BUTTON_LEFT)) {
+		} else if (_manager->isKeyReleased(GLFW_MOUSE_BUTTON_LEFT)) {
 			isChecked = !isChecked;
 		}
 	}
