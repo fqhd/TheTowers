@@ -24,6 +24,7 @@ void Config::loadFromFile(){
             is >> m_serverPort;
         }
     }
+    is.close();
 }
 
 unsigned int Config::getWorldWidth(){

@@ -28,6 +28,7 @@ void Config::loadFromFile(){
             is >> m_packetTransmissionFrequency;
         }
     }
+    is.close();
 }
 
 float Config::getCameraSpeed(){
