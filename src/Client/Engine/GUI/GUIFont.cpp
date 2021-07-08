@@ -4,17 +4,16 @@
 #include "../Utils/Utils.hpp"
 
 void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
-
 	// Variables
 	m_bitmapWidth = w;
 	m_bitmapHeight = h;
 
 	// Allocating data for font loading and bitmap
-	unsigned char * fontData = Utils::readFileToBuffer(fontLocation);
-	uint8_t * bitmapBuffer = (uint8_t*) malloc(m_bitmapWidth * m_bitmapHeight);
+	unsigned char* fontData = Utils::readFileToBuffer(fontLocation);
+	uint8_t* bitmapBuffer = (uint8_t*)malloc(m_bitmapWidth * m_bitmapHeight);
 
 	//Creating the bitmap
-	m_charData = (stbtt_bakedchar*) malloc(sizeof(stbtt_bakedchar) * numChars);
+	m_charData = (stbtt_bakedchar*)malloc(sizeof(stbtt_bakedchar) * numChars);
 	stbtt_BakeFontBitmap(fontData, 0, pixelHeight, bitmapBuffer, m_bitmapWidth, m_bitmapHeight, firstChar, numChars, m_charData);
 
 	//Storing the bitmap into a texture
@@ -31,7 +30,6 @@ void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned 
 
 	free(bitmapBuffer);
 	Utils::freeBuffer(fontData);
-
 }
 
 void GUIFont::bindTexture() {
@@ -46,12 +44,11 @@ void GUIFont::unbindTexture() {
 
 void GUIFont::destroy() {
 	free(m_charData);
-	glDeleteTextures(1, & m_textureID);
+	glDeleteTextures(1, &m_textureID);
 }
 
 void GUIFont::updateMesh(GUILabel& mesh) {
 	//Going to take the mesh, create a set of vertices based on its string and upload the vertices to the meshes VAO.
-
 	std::vector<GUITextVertex> vertices;
 	float wh = 720.0f;
 	float xPos = 0.0f;

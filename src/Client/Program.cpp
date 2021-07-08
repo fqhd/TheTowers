@@ -8,12 +8,13 @@ void Program::run(sf::IpAddress& ip){
 }
 
 void Program::initSystems(sf::IpAddress& _ip){
+	m_settings.loadFromFile();
 	m_config.loadFromFile();
-	m_window.create(1280, 720, "OpenCraft", false, true);
+	m_window.create(m_settings.screenWidth, m_settings.screenHeight, "OpenCraft", false, true);
 	m_inputManager.init(m_window.getWindowPtr());
-	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
+	m_font.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
 	m_game.init(&m_inputManager, _ip, m_config);
-	m_pause.init(&m_inputManager, &m_font);
+	m_pause.init(&m_inputManager, &m_font, &m_settings);
 }
 
 void Program::gameloop(){
@@ -38,6 +39,7 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
+	m_font.destroy();
 	m_game.destroy();
 	m_pause.destroy();
 	m_window.close();

@@ -14,9 +14,7 @@ uniform vec3 color;
 
 
 void main() {
-
     float red = texture(ourTexture, pass_uv).r;
 
 	out_color = vec4(color, red);
-
 }

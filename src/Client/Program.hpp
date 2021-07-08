@@ -6,6 +6,7 @@
 #include "PauseMenu.hpp"
 #include "Engine/Input/Window.hpp"
 #include "Config.hpp"
+#include "Settings.hpp"
 
 
 class Program {
@@ -29,6 +30,7 @@ private:
 	InputManager m_inputManager;
 	Window m_window;
 	Config m_config;
+	Settings m_settings;
 	sf::Clock m_clock;
 
 };

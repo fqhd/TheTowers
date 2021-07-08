@@ -32,7 +32,7 @@ void GUILabel::pushData(const std::vector<GUITextVertex>& vertices){
 	m_numVertices = vertices.size();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GUITextVertex), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), vertices.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

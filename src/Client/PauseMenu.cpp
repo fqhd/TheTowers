@@ -1,8 +1,9 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, GUIFont* _font){
-	m_handler.init(_font);
+void PauseMenu::init(InputManager* _manager, GUIFont* _font, Settings* _settings){
+	m_settings = _settings;
+	m_handler.init(_font, _settings);
 	m_inputManager = _manager;
 	initGUI();
 }

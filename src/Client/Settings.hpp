@@ -13,6 +13,8 @@ public:
 
     // Variables
     bool isFogToggled = true;
+    unsigned int screenWidth = 0;
+    unsigned int screenHeight = 0;
 };
 
 #endif

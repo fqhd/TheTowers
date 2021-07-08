@@ -11,6 +11,10 @@ void Settings::loadFromFile(){
     while(is >> type){
         if(type == "isFogToggled:"){
             is >> isFogToggled;
+        }else if(type == "ScreenWidth:"){
+            is >> screenWidth;
+        }else if(type == "ScreenHeight:"){
+            is >> screenHeight;
         }
     }
     is.close();
@@ -24,5 +28,7 @@ void Settings::writeToFile(){
         return;
     }
     os << "isFogToggled: " << isFogToggled;
+    os << "ScreenWidth: " << screenWidth;
+    os << "ScreenHeight: " << screenHeight;
     os.close();
 }

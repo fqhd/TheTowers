@@ -4,13 +4,14 @@
 #include "GameStates.hpp"
 #include "Engine/GUI/GUIHandler.hpp"
 #include "Player.hpp"
+#include "Settings.hpp"
 #include <fstream>
 
 
 class PauseMenu {
 public:
 
-	void init(InputManager* _manager, GUIFont* _font);
+	void init(InputManager* _manager, GUIFont* _font, Settings* _settings);
 	void update(GameStates& _state, float deltaTime);
 	void render();
 	void destroy();
@@ -20,7 +21,8 @@ private:
 	void initGUI();
 
 	GUIHandler m_handler;
-	InputManager* m_inputManager;
+	InputManager* m_inputManager = nullptr;
+	Settings* m_settings = nullptr;
 
 };
 

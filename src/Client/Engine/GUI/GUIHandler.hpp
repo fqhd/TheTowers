@@ -9,12 +9,13 @@
 #include "GUIFont.hpp"
 #include "GUIRect.hpp"
 #include "GUICheckbox.hpp"
+#include "../../Settings.hpp"
 #include "../Input/InputManager.hpp"
 
 class GUIHandler {
 public:
 
-	void init(GUIFont* m_font);
+	void init(GUIFont* _font, Settings* _settings);
 	void update(InputManager* _manager, float deltaTime);
 	void render();
 	void destroy();
