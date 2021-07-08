@@ -27,8 +27,15 @@ void PauseMenu::destroy(){
 }
 
 void PauseMenu::initGUI(){
-	m_handler.rects.push_back(GUIRect(glm::vec4(0, 0, 200, 200), ColorRGBA8()));
-	m_handler.buttons.push_back(GUIButton(glm::vec4(100, 100, 200, 30)));
-	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(100, 200, 200, 30)));
-	m_handler.labels.push_back(GUILabel("THIS IS THE CODING TRAIN EXAMPLE", glm::vec2(200, 200), ColorRGBA8(255, 255, 255, 255)));
+	float w = m_settings->screenWidth;
+	float h = m_settings->screenHeight;
+
+	m_handler.rects.push_back(GUIRect(glm::vec4(w * 0.078, h * 0.075, w * 0.844, h * 0.85), ColorRGBA8(240, 210, 38, 255)));
+	m_handler.rects.push_back(GUIRect(glm::vec4(w * 0.08, h * 0.08, w * 0.84, h * 0.84), ColorRGBA8(20, 20, 20, 255)));
+
+	m_handler.labels.push_back(GUILabel("Fog: ", glm::vec2(w * 0.15, h * 0.75), ColorRGBA8(255, 255, 255, 255)));
+	m_handler.labels.push_back(GUILabel("SAVE SETTINGS", glm::vec2(w * 0.43, h * 0.13), ColorRGBA8(255, 255, 255, 255)));
+	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(w * 0.215, h * 0.75, w * 0.02, h * 0.032)));
+
+	m_handler.buttons.push_back(GUIButton(glm::vec4(w * 0.4125, h * 0.12, w * 0.175, h * 0.05)));
 }
