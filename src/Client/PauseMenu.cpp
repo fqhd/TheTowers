@@ -26,6 +26,7 @@ void PauseMenu::destroy(){
 }
 
 void PauseMenu::initGUI(){
-	m_handler.rects.push_back(GUIRect(glm::vec4(0, 0, 200, 200), ColorRGBA8(255, 0, 255, 255)));
-	m_handler.buttons.push_back(GUIButton(glm::vec4(100, 100, 200, 30), ColorRGBA8(120, 255, 255, 255), ColorRGBA8(0, 0, 0, 128)));
+	m_handler.rects.push_back(GUIRect(glm::vec4(0, 0, 200, 200), ColorRGBA8()));
+	m_handler.buttons.push_back(GUIButton(glm::vec4(100, 100, 200, 30)));
+	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(100, 200, 200, 30)));
 }

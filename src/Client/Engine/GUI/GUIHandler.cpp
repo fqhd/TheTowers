@@ -16,7 +16,7 @@ void GUIHandler::update(InputManager* _manger, float deltaTime) {
 		i.update(_manger, deltaTime);
 	}
 	for(auto& i : checkboxes){
-		i.update(_manger);
+		i.update(_manger, deltaTime);
 	}
 }
 
