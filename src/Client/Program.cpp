@@ -29,11 +29,13 @@ void Program::gameloop(){
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
 		glViewport(0, 0, m_inputManager.getWindowSize().x, m_inputManager.getWindowSize().y);
 
+		float deltaTime = m_clock.restart().asSeconds();
+
 		if(m_state == GameStates::PLAY){
-			m_game.update(m_state, m_player, m_clock.restart().asSeconds());
+			m_game.update(m_state, m_player, deltaTime);
 			m_game.render(m_player);
 		}else if(m_state == GameStates::PAUSE){
-			m_pause.update(m_state);
+			m_pause.update(m_state, deltaTime);
 			m_game.render(m_player);
 			m_pause.render();
 		}

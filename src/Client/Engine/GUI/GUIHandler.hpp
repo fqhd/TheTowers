@@ -15,7 +15,7 @@ class GUIHandler {
 public:
 
 	void init(GUIFont* m_font);
-	void update(InputManager* _manager);
+	void update(InputManager* _manager, float deltaTime);
 	void render();
 	void destroy();
 

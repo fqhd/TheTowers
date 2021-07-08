@@ -11,7 +11,7 @@ class PauseMenu {
 public:
 
 	void init(InputManager* _manager, GUIFont* _font);
-	void update(GameStates& _state);
+	void update(GameStates& _state, float deltaTime);
 	void render();
 	void destroy();
 

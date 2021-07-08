@@ -7,8 +7,8 @@
 class GUIButton {
 public:
 
-	GUIButton(const glm::vec4& destRect, const ColorRGBA8& color);
-	void update(InputManager* _manager);
+	GUIButton(const glm::vec4& destRect, const ColorRGBA8& buttonColor, const ColorRGBA8& shadowColor);
+	void update(InputManager* _manager, float deltaTime);
 	void render(GUIRenderer& renderer);
 	bool isPressed();
 
@@ -16,9 +16,14 @@ private:
 
 	bool m_isPressed = false;
 	ColorRGBA8 m_baseColor;
+	ColorRGBA8 m_shadowColor;
 	ColorRGBA8 m_currentColor;
-	glm::vec4 m_destRect;
 	std::string m_string;
+
+	glm::vec4 m_originalRect;
+	glm::vec4 m_targetRect;
+	glm::vec4 m_shadowRect;
+	glm::vec4 m_destRect;
 
 };
 

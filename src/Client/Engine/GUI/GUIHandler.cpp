@@ -11,9 +11,9 @@ void GUIHandler::init(GUIFont* font){
 
 }
 
-void GUIHandler::update(InputManager* _manger) {
+void GUIHandler::update(InputManager* _manger, float deltaTime) {
 	for(auto& i : buttons){
-		i.update(_manger);
+		i.update(_manger, deltaTime);
 	}
 	for(auto& i : checkboxes){
 		i.update(_manger);
@@ -22,13 +22,13 @@ void GUIHandler::update(InputManager* _manger) {
 
 void GUIHandler::render() {
 	m_guiRenderer.begin();
+	for(auto& i : rects){
+		i.render(m_guiRenderer);
+	}
 	for(auto& i : buttons){
 		i.render(m_guiRenderer);
 	}
 	for(auto& i : checkboxes){
-		i.render(m_guiRenderer);
-	}
-	for(auto& i : rects){
 		i.render(m_guiRenderer);
 	}
 	for(auto& i : textMeshes){
