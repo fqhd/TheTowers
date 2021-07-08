@@ -11,10 +11,6 @@ void Settings::loadFromFile(){
     while(is >> type){
         if(type == "isFogToggled:"){
             is >> isFogToggled;
-        }else if(type == "ScreenWidth:"){
-            is >> screenWidth;
-        }else if(type == "ScreenHeight:"){
-            is >> screenHeight;
         }
     }
     is.close();
@@ -27,8 +23,6 @@ void Settings::writeToFile(){
         std::cout << "Failed to open settings" << std::endl;
         return;
     }
-    os << "isFogToggled: " << isFogToggled;
-    os << "ScreenWidth: " << screenWidth;
-    os << "ScreenHeight: " << screenHeight;
+    os << "isFogToggled: " << isFogToggled << std::endl;
     os.close();
 }

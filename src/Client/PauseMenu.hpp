@@ -19,6 +19,7 @@ public:
 private:
 
 	void initGUI();
+	void handleInputs();
 
 	GUIHandler m_handler;
 	InputManager* m_inputManager = nullptr;

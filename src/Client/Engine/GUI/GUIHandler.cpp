@@ -1,13 +1,13 @@
 #include "GUIHandler.hpp"
 
-void GUIHandler::init(GUIFont* _font, Settings* _settings){
+void GUIHandler::init(GUIFont* _font){
 	m_font = _font;
 
 	m_guiRenderer.init();
 	m_guiShader.init();
 	m_fontShader.init();
 
-	m_matrix = glm::ortho(0.0f, (float)_settings->screenWidth, 0.0f, (float)_settings->screenHeight);
+	m_matrix = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f);
 }
 
 void GUIHandler::update(InputManager* _manger, float deltaTime) {

@@ -8,7 +8,7 @@ out vec4 out_color;
 
 //Uniforms
 uniform sampler2D ourTexture;
-uniform vec3 color;
+uniform vec4 color;
 
 //Constants
 
@@ -16,5 +16,5 @@ uniform vec3 color;
 void main() {
     float red = texture(ourTexture, pass_uv).r;
 
-	out_color = vec4(color, red);
+	out_color = vec4(color.rgb, red * color.a);
 }

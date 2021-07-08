@@ -23,11 +23,12 @@ void GUIFontShader::loadPosition(const glm::vec2& position){
 }
 
 void GUIFontShader::loadColor(const ColorRGBA8& color){
-	glm::vec3 c;
+	glm::vec4 c;
 
 	c.x = color.r/255.0f;
 	c.y = color.g/255.0f;
 	c.z = color.b/255.0f;
+	c.w = color.a/255.0f;
 
-	glUniform3fv(m_colorLocation, 1, &c[0]);
+	glUniform4fv(m_colorLocation, 1, &c[0]);
 }
