@@ -13,6 +13,7 @@ void Settings::loadFromFile(){
             is >> isFogToggled;
         }
     }
+    is.close();
 }
 
 void Settings::writeToFile(){

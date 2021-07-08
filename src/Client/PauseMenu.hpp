@@ -17,6 +17,8 @@ public:
 
 private:
 
+	void initGUI();
+
 	GUIHandler m_handler;
 	InputManager* m_inputManager;
 

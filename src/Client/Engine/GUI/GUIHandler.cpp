@@ -8,6 +8,7 @@ void GUIHandler::init(GUIFont* font){
 	m_fontShader.init();
 
 	m_matrix = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f);
+
 }
 
 void GUIHandler::update(InputManager* _manger) {
@@ -20,6 +21,7 @@ void GUIHandler::update(InputManager* _manger) {
 }
 
 void GUIHandler::render() {
+	m_guiRenderer.begin();
 	for(auto& i : buttons){
 		i.render(m_guiRenderer);
 	}
@@ -33,6 +35,12 @@ void GUIHandler::render() {
 		if(i.needsMeshUpdate) m_font->updateMesh(i);
 		i.render();
 	}
+	m_guiRenderer.end();
+
+	m_guiShader.bind();
+	m_guiShader.loadMatrix(m_matrix);
+	m_guiRenderer.render();
+	m_guiShader.unbind();
 }
 
 void GUIHandler::destroy(){

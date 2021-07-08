@@ -22,7 +22,6 @@ void GUICheckbox::update(InputManager* _manager) {
 			isChecked = !isChecked;
 		}
 	}
-
 }
 
 void GUICheckbox::render(GUIRenderer& renderer) {

@@ -4,6 +4,7 @@
 void PauseMenu::init(InputManager* _manager, GUIFont* _font){
 	m_handler.init(_font);
 	m_inputManager = _manager;
+	initGUI();
 }
 
 void PauseMenu::update(GameStates& _state){
@@ -22,4 +23,8 @@ void PauseMenu::render(){
 
 void PauseMenu::destroy(){
 	m_handler.destroy();
+}
+
+void PauseMenu::initGUI(){
+	m_handler.rects.push_back(GUIRect(glm::vec4(0, 0, 200, 200), ColorRGBA8(255, 0, 255, 255)));
 }

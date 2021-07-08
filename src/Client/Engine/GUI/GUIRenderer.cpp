@@ -19,7 +19,7 @@ void GUIRenderer::end() {
 	uploadData();
 }
 
-void GUIRenderer::draw(const glm::vec4& destRect, const ColorRGBA8 & color) {
+void GUIRenderer::draw(const glm::vec4& destRect, const ColorRGBA8& color) {
 	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color);
 	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y + destRect.w), color);
 	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color);
@@ -44,23 +44,19 @@ void GUIRenderer::render() {
 }
 
 void GUIRenderer::createVAO() {
-	if (m_vao == 0) {
-		glGenVertexArrays(1, &m_vao);
-	}
-
+	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
-	if (m_vbo == 0) {
-		glGenBuffers(1, &m_vbo);
-	}
+	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*) offsetof(GUIVertex, position));
-	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*) offsetof(GUIVertex, color));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, position));
+	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, color));
 
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 

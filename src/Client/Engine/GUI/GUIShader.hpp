@@ -17,7 +17,7 @@ private:
 
 	void getUniformLocations();
 	//Uniforms
-	GLint m_matrix = 0;
+	GLint m_matrixLocation = 0;
 
 
 };

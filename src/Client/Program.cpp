@@ -2,11 +2,9 @@
 #include <iostream>
 
 void Program::run(sf::IpAddress& ip){
-
 	initSystems(ip);
 	gameloop();
 	cleanUp();
-
 }
 
 void Program::initSystems(sf::IpAddress& _ip){
@@ -26,7 +24,6 @@ void Program::initInputManager(){
 }
 
 void Program::gameloop(){
-
 	while(m_state != GameStates::EXIT){
 		m_window.clear();
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
@@ -37,13 +34,12 @@ void Program::gameloop(){
 			m_game.render(m_player);
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state);
-			m_pause.render();
 			m_game.render(m_player);
+			m_pause.render();
 		}
 
 		m_window.update();
 	}
-
 }
 
 void Program::cleanUp(){

@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include "ColorRGBA8.hpp"
 
 struct vec2 {
 	vec2(){}
@@ -12,16 +13,6 @@ struct vec2 {
 	}
 	GLubyte x = 0;
 	GLubyte y = 0;
-};
-
-struct ColorRGBA8 {
-	ColorRGBA8() : r(255), g(255), b(255), a(255) { }
-	ColorRGBA8(GLubyte R, GLubyte G, GLubyte B, GLubyte A) :
-		r(R), g(G), b(B), a(A) { }
-	GLubyte r;
-	GLubyte g;
-	GLubyte b;
-	GLubyte a;
 };
 
 struct ModelVertex {

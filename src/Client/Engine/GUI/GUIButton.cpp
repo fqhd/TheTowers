@@ -21,8 +21,6 @@ void GUIButton::update(InputManager* _manager) {
 			m_isPressed = true;
 		}
 	}
-
-
 }
 
 void GUIButton::render(GUIRenderer& renderer) {

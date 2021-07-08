@@ -8,7 +8,6 @@
 class GUIRect {
 public:
 
-
 	GUIRect(const glm::vec4& d, const ColorRGBA8& c);
 	void render(GUIRenderer& renderer);
 
