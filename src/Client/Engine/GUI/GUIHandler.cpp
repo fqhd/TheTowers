@@ -31,9 +31,18 @@ void GUIHandler::render() {
 	for(auto& i : checkboxes){
 		i.render(m_guiRenderer);
 	}
-	for(auto& i : textMeshes){
+	for(auto& i : labels){
 		if(i.needsMeshUpdate) m_font->updateMesh(i);
+
+		m_fontShader.bind();
+		
+		m_fontShader.loadMatrix(m_matrix);
+		m_fontShader.loadColor(i.color);
+		m_fontShader.loadPosition(i.position);
+
 		i.render();
+
+		m_fontShader.unbind();
 	}
 	m_guiRenderer.end();
 

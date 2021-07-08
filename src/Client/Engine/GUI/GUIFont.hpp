@@ -2,7 +2,7 @@
 #define GUI_FONT_H
 
 #include <string>
-#include "GUITextMesh.hpp"
+#include "GUILabel.hpp"
 #include "../Libs/stb_truetype.h"
 
 
@@ -12,7 +12,7 @@ public:
 	void init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar = 32, unsigned int numChars = 95);
 	void bindTexture();
 	void unbindTexture();
-	void updateMesh(GUITextMesh& mesh);
+	void updateMesh(GUILabel& mesh);
 	void destroy();
 
 

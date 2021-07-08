@@ -1,8 +1,8 @@
-#include "GUITextMesh.hpp"
+#include "GUILabel.hpp"
 #include "../Utils/Utils.hpp"
 
 
-GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const ColorRGBA8& c, unsigned int fontIndex, bool visible){
+GUILabel::GUILabel(const std::string& string, const glm::vec2& p, const ColorRGBA8& c){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
@@ -19,22 +19,16 @@ GUITextMesh::GUITextMesh(const std::string& string, const glm::vec2& p, const Co
 	glBindVertexArray(0);
 
 	m_string = string;
-	m_fontIndex = fontIndex;
-	isVisible = visible;
 	color = c;
 	position = p;
 }
 
-unsigned int GUITextMesh::getFontIndex(){
-	return m_fontIndex;
-}
-
-void GUITextMesh::setString(const std::string& string){
+void GUILabel::setString(const std::string& string){
 	m_string = string;
 	needsMeshUpdate = true;
 }
 
-void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
+void GUILabel::pushData(const std::vector<GUITextVertex>& vertices){
 	m_numVertices = vertices.size();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
@@ -42,7 +36,7 @@ void GUITextMesh::pushData(const std::vector<GUITextVertex>& vertices){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void GUITextMesh::render(){
+void GUILabel::render(){
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
@@ -54,11 +48,11 @@ void GUITextMesh::render(){
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GUITextMesh::destroy(){
+void GUILabel::destroy(){
 	glDeleteBuffers(1, &m_vboID);
 	glDeleteVertexArrays(1, &m_vaoID);
 }
 
-const std::string& GUITextMesh::getString(){
+const std::string& GUILabel::getString(){
 	return m_string;
 }

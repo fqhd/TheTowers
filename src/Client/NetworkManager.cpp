@@ -18,7 +18,7 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip, Config& _c){
 		}
 		m_tcpSocket.setBlocking(false);
 		packet >> m_id;
-		std::cout << "NetworkManager: Connected to server with ID: " << std::endl;
+		std::cout << "NetworkManager: Connected to server with ID: " << (unsigned int)m_id << std::endl;
 	} else {
 		std::cout << "NetworkManager: Failed to connect to server" << std::endl;
 	}

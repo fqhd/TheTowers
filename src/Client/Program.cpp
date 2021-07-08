@@ -9,18 +9,11 @@ void Program::run(sf::IpAddress& ip){
 
 void Program::initSystems(sf::IpAddress& _ip){
 	m_config.loadFromFile();
-	std::cout << m_config.getServerPort() << std::endl;
 	m_window.create(1280, 720, "OpenCraft", false, true);
-	initInputManager();
+	m_inputManager.init(m_window.getWindowPtr());
 	m_font.init("res/fonts/default.ttf", 32.0f, 512, 512);
 	m_game.init(&m_inputManager, _ip, m_config);
 	m_pause.init(&m_inputManager, &m_font);
-}
-
-void Program::initInputManager(){
-	m_inputManager.init(m_window.getWindowPtr());
-	m_inputManager.setMouseGrabbed(true);
-	m_inputManager.setVerticalSync(true);
 }
 
 void Program::gameloop(){

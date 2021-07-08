@@ -25,7 +25,7 @@ private:
 	GUIFont m_font;
 	Game m_game;
 	PauseMenu m_pause;
-	GameStates m_state = GameStates::PLAY;
+	GameStates m_state = GameStates::PAUSE;
 	InputManager m_inputManager;
 	Window m_window;
 	Config m_config;

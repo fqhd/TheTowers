@@ -23,7 +23,7 @@ public:
 	std::vector<GUIButton> buttons;
 	std::vector<GUIRect> rects;
 	std::vector<GUICheckbox> checkboxes;
-	std::vector<GUITextMesh> textMeshes;
+	std::vector<GUILabel> labels;
 
 private:
 

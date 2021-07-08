@@ -49,7 +49,7 @@ void GUIFont::destroy() {
 	glDeleteTextures(1, & m_textureID);
 }
 
-void GUIFont::updateMesh(GUITextMesh& mesh) {
+void GUIFont::updateMesh(GUILabel& mesh) {
 	//Going to take the mesh, create a set of vertices based on its string and upload the vertices to the meshes VAO.
 
 	std::vector<GUITextVertex> vertices;
@@ -59,18 +59,14 @@ void GUIFont::updateMesh(GUITextMesh& mesh) {
 	std::string s = mesh.getString();
 
 	for (unsigned int i = 0; i < s.size(); i++) {
-
 		stbtt_aligned_quad q;
 
 		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, &xPos, &yPos, &q, 1);
 
 		renderQuad(vertices, glm::vec4(q.x0, wh - q.y0, q.x1, wh - q.y1), glm::vec4(q.s0, q.t0, q.s1, q.t1));
-
 	}
 
-
 	mesh.pushData(vertices);
-
 
 	mesh.needsMeshUpdate = false;
 }

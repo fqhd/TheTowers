@@ -10,6 +10,7 @@ void Camera::init(InputManager* _manager) {
 	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_manager = _manager;
 
+	updateViewMatrix();
 	updateProjectionMatrix();
 }
 
@@ -54,24 +55,18 @@ void Camera::movement(float deltaTime) {
 	if (m_manager->isKeyDown(GLFW_KEY_SPACE)) {
 		m_position.y += SPEED * deltaTime;
 	}
-
 }
 
-
-
 void Camera::update(float deltaTime) {
-
 	movement(deltaTime);
 	calculateCameraVectors(0.3f);
 	updateViewMatrix();
 	updateViewFrustum();
-
 }
 
 void Camera::updateViewFrustum(){
 	viewFrustum.update(m_projectionMatrix * m_viewMatrix);
 }
-
 
 void Camera::calculateCameraVectors(float sensibility) {
 	glm::vec2 deltaMousePos = m_manager->getMousePosition() - m_manager->getPreviousMousePosition();
@@ -89,7 +84,6 @@ void Camera::calculateCameraVectors(float sensibility) {
 	m_forward.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
 	m_forward.y = sin(glm::radians(m_pitch));
 	m_forward.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-
 }
 
 const glm::mat4& Camera::getViewMatrix() {

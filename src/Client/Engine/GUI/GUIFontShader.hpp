@@ -15,13 +15,9 @@ public:
 	void loadColor(const ColorRGBA8& color);
 	void loadPosition(const glm::vec2& position);
 
-
-
 private:
 
 	void getUniformLocations();
-
-
 
 	//Uniforms
 	GLint m_matrixLocation = 0;
