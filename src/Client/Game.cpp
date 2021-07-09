@@ -6,6 +6,7 @@
 
 
 void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureArray* _textureArray, GUIFont* _font) {
+	m_textureArray = _textureArray;
 	m_networkManager.connectToServer(_ip, _c);
 	m_world.init(m_networkManager, _c, _textureArray);
 	m_cubeMap.init();
@@ -44,7 +45,9 @@ void Game::render(Player& _player) {
 	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 
+	m_textureArray->bind();
 	m_guiHandler.render();
+	m_textureArray->unbind();
 
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;

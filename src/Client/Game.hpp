@@ -39,6 +39,7 @@ private:
 	World m_world;
 	NetworkManager m_networkManager;
 	InputManager* m_inputManager;
+	TextureArray* m_textureArray;
 	GUIHandler m_guiHandler;
 
 	//Game Variables
