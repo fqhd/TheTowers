@@ -15,9 +15,6 @@ public:
 	ColorRGBA8 color;
 	unsigned int layer;
 
-private:
-
-
 };
 
 #endif

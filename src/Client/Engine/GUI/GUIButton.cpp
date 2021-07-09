@@ -3,7 +3,8 @@
 #include "../Utils/Vertex.hpp"
 
 
-GUIButton::GUIButton(const glm::vec4& destRect) {
+GUIButton::GUIButton(const glm::vec4& destRect, unsigned int _layer) {
+	layer = _layer;
 	m_baseColor = ColorRGBA8(120, 255, 255, 255);
 	m_destRect = destRect;
 	m_originalRect = destRect;
@@ -41,8 +42,8 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 }
 
 void GUIButton::render(GUIRenderer& renderer) {
-	renderer.draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128), 0); // Rendering shadow
-	renderer.draw(m_destRect, m_currentColor, 0); // Rendering rect
+	renderer.draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128), layer); // Rendering shadow
+	renderer.draw(m_destRect, m_currentColor, layer); // Rendering rect
 }
 
 bool GUIButton::isPressed() {

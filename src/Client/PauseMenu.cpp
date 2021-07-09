@@ -30,18 +30,18 @@ void PauseMenu::destroy(){
 
 void PauseMenu::initGUI(){
 	// Rects
-	m_handler.rects.push_back(GUIRect(glm::vec4(70, 30, 1140, 630), ColorRGBA8(240, 210, 38, 255), 0)); // Outline
-	m_handler.rects.push_back(GUIRect(glm::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255), 0)); // Background
+	m_handler.rects.push_back(GUIRect(glm::vec4(70, 30, 1140, 630), ColorRGBA8(240, 210, 38, 255), 1)); // Outline
+	m_handler.rects.push_back(GUIRect(glm::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255), 1)); // Background
 
 	// Labels
 	m_handler.labels.push_back(GUILabel("Fog: ", glm::vec2(150, 525), ColorRGBA8(255, 255, 255, 255)));
 	m_handler.labels.push_back(GUILabel("SAVE SETTINGS", glm::vec2(525, 68), ColorRGBA8(255, 255, 255, 255)));
 
 	// Checkboxes
-	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(250, 525, 32, 32), m_settings->isFogToggled)); // Fog checkbox
+	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(250, 525, 32, 32), m_settings->isFogToggled, 1)); // Fog checkbox
 
 	// Buttons
-	m_handler.buttons.push_back(GUIButton(glm::vec4(500, 58, 240, 38))); // Save Settings Button
+	m_handler.buttons.push_back(GUIButton(glm::vec4(500, 58, 240, 38), 1)); // Save Settings Button
 }
 
 void PauseMenu::handleInputs(){

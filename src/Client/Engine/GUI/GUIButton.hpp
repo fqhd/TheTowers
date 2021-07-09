@@ -7,10 +7,12 @@
 class GUIButton {
 public:
 
-	GUIButton(const glm::vec4& destRect);
+	GUIButton(const glm::vec4& destRect, unsigned int _layer);
 	void update(InputManager* _manager, float deltaTime);
 	void render(GUIRenderer& renderer);
 	bool isPressed();
+
+	unsigned int layer = 0;
 
 private:
 
