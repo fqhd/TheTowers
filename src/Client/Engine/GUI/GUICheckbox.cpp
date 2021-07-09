@@ -4,8 +4,8 @@
 
 GUICheckbox::GUICheckbox(const glm::vec4& destRect, unsigned int _layer, bool checked) {
 	layer = _layer;
-	m_onColor = ColorRGBA8(37, 250, 100, 255);
-	m_offColor = ColorRGBA8(250, 15, 28, 255);
+	m_onColor = ColorRGBA8(0, 255, 0, 255);
+	m_offColor = ColorRGBA8(255, 0, 0, 255);
 	m_isChecked = checked;
 
 	m_destRect = destRect;
