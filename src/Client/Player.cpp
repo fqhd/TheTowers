@@ -9,6 +9,7 @@ void Player::update(Camera& camera, ParticleHandler& handler, World& world, Netw
 	getVisibleBlocks(camera, world);
 
 	if (!visibleBlocks.lookingAtBlock) return;
+	if (visibleBlocks.isInsideBlock) return;
 
 	if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		breakBlock(handler, world);
