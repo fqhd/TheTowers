@@ -1,8 +1,9 @@
 #include "GUIHandler.hpp"
 
-void GUIHandler::init(GUIFont* _font){
+void GUIHandler::init(GUIFont* _font, TextureArray* _textureArray){
 	m_font = _font;
 
+	m_textureArray = _textureArray;
 	m_guiRenderer.init();
 	m_guiShader.init();
 	m_fontShader.init();
@@ -33,7 +34,13 @@ void GUIHandler::render() {
 	m_guiRenderer.end();
 	m_guiShader.bind();
 	m_guiShader.loadMatrix(m_matrix);
+
+	m_textureArray->bind();
+
 	m_guiRenderer.render();
+
+	m_textureArray->unbind();
+
 	m_guiShader.unbind();
 
 	for(auto& i : labels){

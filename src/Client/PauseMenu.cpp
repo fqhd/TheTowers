@@ -1,9 +1,9 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, GUIFont* _font, Settings* _settings){
+void PauseMenu::init(InputManager* _manager, GUIFont* _font, Settings* _settings, TextureArray* _textureArray){
 	m_settings = _settings;
-	m_handler.init(_font);
+	m_handler.init(_font, _textureArray);
 	m_inputManager = _manager;
 	initGUI();
 }
@@ -30,8 +30,8 @@ void PauseMenu::destroy(){
 
 void PauseMenu::initGUI(){
 	// Rects
-	m_handler.rects.push_back(GUIRect(glm::vec4(70, 30, 1140, 630), ColorRGBA8(240, 210, 38, 255))); // Outline
-	m_handler.rects.push_back(GUIRect(glm::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255))); // Background
+	m_handler.rects.push_back(GUIRect(glm::vec4(70, 30, 1140, 630), ColorRGBA8(240, 210, 38, 255), 0)); // Outline
+	m_handler.rects.push_back(GUIRect(glm::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255), 0)); // Background
 
 	// Labels
 	m_handler.labels.push_back(GUILabel("Fog: ", glm::vec2(150, 525), ColorRGBA8(255, 255, 255, 255)));

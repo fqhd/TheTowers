@@ -25,12 +25,14 @@ struct ModelVertex {
 };
 
 struct GUIVertex {
-	GUIVertex(const glm::vec2& p, const ColorRGBA8& c){
+	GUIVertex(const glm::vec2& p, const ColorRGBA8& c, const glm::vec2& tInfo){
 		position = p;
 		color = c;
+		textureInfo = tInfo;
 	}
 	glm::vec2 position;
 	ColorRGBA8 color;
+	glm::vec2 textureInfo;
 };
 
 #endif

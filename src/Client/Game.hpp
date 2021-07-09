@@ -14,18 +14,21 @@
 #include "GameStates.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
+#include "Engine/GUI/GUIHandler.hpp"
 #include "Config.hpp"
 
 
 class Game {
 public:
 
-	void init(InputManager* _manager, sf::IpAddress& _ip, Config& _c);
+	void init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureArray* _textureArray, GUIFont* _font);
 	void update(GameStates& _state, Player& _player, float _deltaTime);
 	void render(Player& _player);
 	void destroy();
 
 private:
+
+	void addGUI();
 
 	//Engine Variables
 	CubeMap m_cubeMap;
@@ -36,6 +39,7 @@ private:
 	World m_world;
 	NetworkManager m_networkManager;
 	InputManager* m_inputManager;
+	GUIHandler m_guiHandler;
 
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;

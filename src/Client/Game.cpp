@@ -5,14 +5,16 @@
 
 
 
-void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c) {
+void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureArray* _textureArray, GUIFont* _font) {
 	m_networkManager.connectToServer(_ip, _c);
-	m_world.init(m_networkManager, _c);
+	m_world.init(m_networkManager, _c, _textureArray);
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_camera.init(_manager);
 	m_entityHandler.init();
 	m_blockOutline.init();
+	m_guiHandler.init(_font, _textureArray);
+	addGUI();
 	m_inputManager = _manager;
 }
 
@@ -42,6 +44,8 @@ void Game::render(Player& _player) {
 	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
 
+	m_guiHandler.render();
+
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
 		m_msPerFramePrintClock.restart();
@@ -49,10 +53,15 @@ void Game::render(Player& _player) {
 }
 
 void Game::destroy() {
+	m_guiHandler.destroy();
 	m_cubeMap.destroy();
 	m_entityHandler.destroy();
 	m_world.destroy();
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
+}
+
+void Game::addGUI(){
+	m_guiHandler.rects.push_back(GUIRect(glm::vec4(638, 358, 4, 4), ColorRGBA8(20, 20, 20, 255), 0));
 }

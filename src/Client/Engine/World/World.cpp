@@ -2,7 +2,8 @@
 #include <iostream>
 
 
-void World::init(NetworkManager& _manager, Config& _c){
+void World::init(NetworkManager& _manager, Config& _c, TextureArray* _textureArray){
+	m_textureArray = _textureArray;
 	m_config = _c;
 	unsigned int ww = m_config.getWorldWidth();
 	unsigned int wl = m_config.getWorldLength();
@@ -12,8 +13,7 @@ void World::init(NetworkManager& _manager, Config& _c){
 	m_data = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
 	_manager.downloadWorld(m_data);
 
-	// Loading the texture atlass into a texture array
-	m_texturePack.init("res/textures/sprite_sheet.png", 512);
+	// Populating blockTextures array
 	loadBlockTexturesFromFile();
 
 	// Initializing the m_chunks
@@ -38,7 +38,7 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 void World::render(Camera& _camera){
 	m_shader.bind();
 
-	m_texturePack.bind();
+	m_textureArray->bind();
 
 	m_shader.loadProjectionMatrix(_camera.getProjectionMatrix());
 	m_shader.loadViewMatrix(_camera.getViewMatrix());
@@ -73,7 +73,7 @@ void World::render(Camera& _camera){
 		}
 	}
 
-	m_texturePack.unbind();
+	m_textureArray->unbind();
 
 	m_shader.unbind();
 }
@@ -90,7 +90,6 @@ void World::destroy(){
 			}
 		}
 	}
-	m_texturePack.destroy();
 	m_shader.destroy();
 	delete[] m_chunks;
 	free(m_data);

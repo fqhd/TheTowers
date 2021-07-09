@@ -9,12 +9,13 @@
 #include "GUIFont.hpp"
 #include "GUIRect.hpp"
 #include "GUICheckbox.hpp"
+#include "../Utils/TextureArray.hpp"
 #include "../Input/InputManager.hpp"
 
 class GUIHandler {
 public:
 
-	void init(GUIFont* _font);
+	void init(GUIFont* _font, TextureArray* _textureArray);
 	void update(InputManager* _manager, float deltaTime);
 	void render();
 	void destroy();
@@ -31,6 +32,7 @@ private:
 	void renderFonts();
 
 	GUIFont* m_font;
+	TextureArray* m_textureArray = nullptr;
 	GUIRenderer m_guiRenderer;
 	GUIShader m_guiShader;
 	GUIFontShader m_fontShader;

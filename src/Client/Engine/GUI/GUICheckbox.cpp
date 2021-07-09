@@ -42,9 +42,9 @@ void GUICheckbox::update(InputManager* _manager, float deltaTime) {
 }
 
 void GUICheckbox::render(GUIRenderer& renderer) {
-	renderer.draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	renderer.draw(glm::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), ColorRGBA8(100, 100, 100, 255)); // Rendering outline
-	renderer.draw(m_destRect, m_currentColor); // Rendering on/off rect
+	renderer.draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128), 0); // Rendering shadow
+	renderer.draw(glm::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), ColorRGBA8(100, 100, 100, 255), 0); // Rendering outline
+	renderer.draw(m_destRect, m_currentColor, 0); // Rendering on/off rect
 }
 
 bool GUICheckbox::isChecked(){

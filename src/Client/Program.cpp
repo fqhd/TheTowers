@@ -13,8 +13,10 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_window.create(1280.0f, 720.0f, "OpenCraft", false, true);
 	m_inputManager.init(m_window.getWindowPtr());
 	m_font.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
-	m_game.init(&m_inputManager, _ip, m_config);
-	m_pause.init(&m_inputManager, &m_font, &m_settings);
+	// Loading the texture atlass into a texture array
+	m_texturePack.init("res/textures/sprite_sheet.png", 512);
+	m_game.init(&m_inputManager, _ip, m_config, &m_texturePack, &m_font);
+	m_pause.init(&m_inputManager, &m_font, &m_settings, &m_texturePack);
 }
 
 void Program::gameloop(){
@@ -39,6 +41,7 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
+	m_texturePack.destroy();
 	m_font.destroy();
 	m_game.destroy();
 	m_pause.destroy();

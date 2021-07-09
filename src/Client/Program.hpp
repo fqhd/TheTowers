@@ -22,6 +22,7 @@ private:
 	void cleanUp();
 	void initInputManager();
 
+	TextureArray m_texturePack;
 	Player m_player;
 	GUIFont m_font;
 	Game m_game;

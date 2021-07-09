@@ -19,14 +19,14 @@ void GUIRenderer::end() {
 	uploadData();
 }
 
-void GUIRenderer::draw(const glm::vec4& destRect, const ColorRGBA8& color) {
-	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color);
-	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y + destRect.w), color);
-	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color);
+void GUIRenderer::draw(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int layer) {
+	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color, glm::vec2(0, layer));
+	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y + destRect.w), color, glm::vec2(1, layer));
+	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, glm::vec2(2, layer));
 
-	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color);
-	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color);
-	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y), color);
+	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color, glm::vec2(0, layer));
+	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, glm::vec2(2, layer));
+	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y), color, glm::vec2(3, layer));
 }
 
 void GUIRenderer::render() {
@@ -52,9 +52,11 @@ void GUIRenderer::createVAO() {
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, position));
 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, color));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, textureInfo));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

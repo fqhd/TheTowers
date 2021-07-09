@@ -41,8 +41,8 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 }
 
 void GUIButton::render(GUIRenderer& renderer) {
-	renderer.draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	renderer.draw(m_destRect, m_currentColor); // Rendering rect
+	renderer.draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128), 0); // Rendering shadow
+	renderer.draw(m_destRect, m_currentColor, 0); // Rendering rect
 }
 
 bool GUIButton::isPressed() {

@@ -8,11 +8,12 @@
 class GUIRect {
 public:
 
-	GUIRect(const glm::vec4& d, const ColorRGBA8& c);
+	GUIRect(const glm::vec4& d, const ColorRGBA8& c, unsigned int _layer);
 	void render(GUIRenderer& renderer);
 
 	glm::vec4 destRect;
 	ColorRGBA8 color;
+	unsigned int layer;
 
 private:
 
