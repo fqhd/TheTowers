@@ -4,6 +4,7 @@
 
 
 glm::vec2 mousePosition;
+glm::vec2 windowSize;
 std::unordered_map<int, bool> keymap;
 
 void keyPressed(int _keyID){
@@ -20,6 +21,11 @@ void keyPressed(GLFWwindow* _window, int _key, int _scancode, int _action, int _
 	}else if(_action == GLFW_RELEASE){
 		keyReleased(_key);
 	}
+}
+
+void windowResized(GLFWwindow* _window, int _width, int _height){
+	windowSize.x = _width;
+	windowSize.y = _height;
 }
 
 void buttonPressed(GLFWwindow* _window, int _button, int _action, int _mods){
@@ -39,13 +45,17 @@ void InputManager::init(GLFWwindow* _window) {
 	glfwSetKeyCallback(_window, keyPressed);
 	glfwSetMouseButtonCallback(_window, buttonPressed);
 	glfwSetCursorPosCallback(_window, mouseMoved);
+	glfwSetWindowSizeCallback(_window, windowResized);
 
-	// We must inialize the mouse position function on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved.
+	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved.
 	double x, y;
 	glfwGetCursorPos(_window, &x, &y);
 	mousePosition = glm::vec2(x, y);
 
-	
+	// We must inialize the window size on init because the windowResized() callback function only sets the window size when the window is resized.
+	int w, h;
+	glfwGetWindowSize(m_window, &w, &h);
+	windowSize = glm::vec2(w, h);
 }
 
 bool InputManager::processInput() {
@@ -73,9 +83,7 @@ void InputManager::setVerticalSync(bool _sync){
 }
 
 glm::vec2 InputManager::getWindowSize(){
-	int w, h;
-	glfwGetWindowSize(m_window, &w, &h);
-	return glm::vec2(w, h);
+	return windowSize;
 }
 
 glm::vec2 InputManager::getPreviousMousePosition(){
