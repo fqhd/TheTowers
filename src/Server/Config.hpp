@@ -1,5 +1,4 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once 
 
 #include <fstream>
 
@@ -25,4 +24,3 @@ private:
     unsigned int m_serverPort = 0;
 };
 
-#endif

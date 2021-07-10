@@ -1,5 +1,4 @@
-#ifndef FRUSTUM_H
-#define FRUSTUM_H
+#pragma once
 
 #include <glm/matrix.hpp>
 

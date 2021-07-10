@@ -1,5 +1,4 @@
-#ifndef WORLD_H
-#define WORLD_H
+#pragma once
 #include "../World/Chunk.hpp"
 #include "../Libs/Frustum.hpp"
 #include "../Utils/Camera.hpp"

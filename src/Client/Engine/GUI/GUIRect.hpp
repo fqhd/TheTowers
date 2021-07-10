@@ -1,5 +1,4 @@
-#ifndef GUI_RECT_H
-#define GUI_RECT_H
+#pragma once
 
 #include "../Utils/Vertex.hpp"
 #include "GUIRenderer.hpp"

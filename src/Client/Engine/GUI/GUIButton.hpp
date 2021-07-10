@@ -1,5 +1,4 @@
-#ifndef GUI_BUTTON_H
-#define GUI_BUTTON_H
+#pragma once
 
 #include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
@@ -28,4 +27,3 @@ private:
 
 };
 
-#endif

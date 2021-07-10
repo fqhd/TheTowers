@@ -1,6 +1,4 @@
-#ifndef INPUT_MANAGER_H
-#define INPUT_MANAGER_H
-
+#pragma once
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <unordered_map>

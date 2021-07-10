@@ -1,6 +1,4 @@
-#ifndef MODEL_SHADER_H
-#define MODEL_SHADER_H
-
+#pragma once
 #include "Shader.hpp"
 #include "Vertex.hpp"
 #include <glm/glm.hpp>

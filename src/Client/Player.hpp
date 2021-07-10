@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
+
 #include "Engine/Utils/Camera.hpp"
 #include "Engine/World/World.hpp"
 #include "Engine/Utils/ParticleHandler.hpp"
@@ -29,4 +29,4 @@ private:
 
 };
 
-#endif
+

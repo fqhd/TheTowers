@@ -1,5 +1,4 @@
-#ifndef CUBEMAP_TEXTURE_H
-#define CUBEMAP_TEXTURE_H
+#pragma once
 
 #include <GL/glew.h>
 #include <vector>

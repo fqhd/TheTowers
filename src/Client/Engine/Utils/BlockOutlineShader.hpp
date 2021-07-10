@@ -1,6 +1,4 @@
-#ifndef QUAD_SHADER_H
-#define QUAD_SHADER_H
-
+#pragma once
 #include "Shader.hpp"
 #include <glm/glm.hpp>
 

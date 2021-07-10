@@ -1,5 +1,4 @@
-#ifndef CUBEMAP_SHADER_H
-#define CUBEMAP_SHADER_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include "Shader.hpp"

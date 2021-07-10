@@ -1,5 +1,4 @@
-#ifndef BLOCK_OUTLINE_H
-#define BLOCK_OUTLINE_H
+#pragma once 
 
 #include "Engine/Utils/OutlineRenderer.hpp"
 #include "Engine/Utils/BlockOutlineShader.hpp"
@@ -23,4 +22,3 @@ private:
 
 };
 
-#endif

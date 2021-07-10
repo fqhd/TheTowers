@@ -1,5 +1,4 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -16,4 +15,4 @@ public:
     bool isVignetteToggled = true;
 };
 
-#endif
+

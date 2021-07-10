@@ -1,5 +1,4 @@
-#ifndef CHUNK_SHADER_H
-#define CHUNK_SHADER_H
+#pragma once
 #include <string>
 #include <fstream>
 #include <glm/glm.hpp>

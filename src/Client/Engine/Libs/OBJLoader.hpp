@@ -1,5 +1,4 @@
-#ifndef OBJLOADER_H
-#define OBJLOADER_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <vector>
@@ -47,4 +46,4 @@ private:
     OBJIndex ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals);
 };
 
-#endif
+

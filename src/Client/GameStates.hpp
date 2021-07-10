@@ -1,8 +1,5 @@
-#ifndef GAMESTATES_H
-#define GAMESTATES_H
-
+#pragma once
 enum class GameStates {
 	PLAY, PAUSE, EXIT
 };
 
-#endif
