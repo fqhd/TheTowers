@@ -8,7 +8,7 @@
 class GUICheckbox {
 public:
 
-	GUICheckbox(const glm::vec4& destRect, unsigned int _layer, bool checked = false);
+	GUICheckbox(const glm::vec4& destRect, bool _checked, unsigned int _layer);
 	void update(InputManager* _manager, float deltaTime);
 	void render(GUIRenderer& renderer);
 	bool isChecked();

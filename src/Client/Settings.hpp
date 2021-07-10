@@ -13,6 +13,7 @@ public:
 
     // Variables
     bool isFogToggled = true;
+    bool isVignetteToggled = true;
 };
 
 #endif

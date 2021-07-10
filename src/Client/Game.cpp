@@ -74,3 +74,7 @@ void Game::destroy() {
 void Game::addGUI(){
 	m_guiHandler.rects.push_back(GUIRect(glm::vec4(638, 358, 4, 4), ColorRGBA8(20, 20, 20, 255), 0));
 }
+
+void Game::syncGameWithSettings(Settings* _settings){
+	m_vignette.setToggle(_settings->isVignetteToggled);
+}

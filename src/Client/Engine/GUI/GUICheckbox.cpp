@@ -2,11 +2,11 @@
 #include <iostream>
 
 
-GUICheckbox::GUICheckbox(const glm::vec4& destRect, unsigned int _layer, bool checked) {
+GUICheckbox::GUICheckbox(const glm::vec4& destRect, bool _checked, unsigned int _layer) {
 	layer = _layer;
 	m_onColor = ColorRGBA8(0, 255, 0, 255);
 	m_offColor = ColorRGBA8(255, 0, 0, 255);
-	m_isChecked = checked;
+	m_isChecked = _checked;
 
 	m_destRect = destRect;
 	m_originalRect = destRect;

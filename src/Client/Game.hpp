@@ -17,6 +17,7 @@
 #include "Engine/GUI/GUIHandler.hpp"
 #include "Config.hpp"
 #include "Vignette.hpp"
+#include "Settings.hpp"
 
 class Game {
 public:
@@ -25,6 +26,8 @@ public:
 	void update(GameStates& _state, Player& _player, float _deltaTime);
 	void render(Player& _player);
 	void destroy();
+
+	void syncGameWithSettings(Settings* _settings);
 
 private:
 

@@ -1,16 +1,18 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, GUIFont* _font, Settings* _settings, TextureArray* _textureArray){
+void PauseMenu::init(InputManager* _manager, GUIFont* _font, Settings* _settings, TextureArray* _textureArray, Game* _game){
 	m_settings = _settings;
 	m_handler.init(_font, _textureArray);
 	m_inputManager = _manager;
+	m_game = _game;
 	initGUI();
 }
 
 void PauseMenu::update(GameStates& _state, float deltaTime){
 	// Change state back to game if the user presses on escape
 	if(m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)){
+		m_game->syncGameWithSettings(m_settings);
 		m_inputManager->setMouseGrabbed(true);
 		_state = GameStates::PLAY;
 	}
@@ -35,10 +37,12 @@ void PauseMenu::initGUI(){
 
 	// Labels
 	m_handler.labels.push_back(GUILabel("Fog: ", glm::vec2(150, 525), ColorRGBA8(255, 255, 255, 255)));
+	m_handler.labels.push_back(GUILabel("Vignette: ", glm::vec2(150, 475), ColorRGBA8(255, 255, 255, 255)));
 	m_handler.labels.push_back(GUILabel("SAVE SETTINGS", glm::vec2(525, 68), ColorRGBA8(255, 255, 255, 255)));
 
 	// Checkboxes
-	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(250, 525, 32, 32), m_settings->isFogToggled, 1)); // Fog checkbox
+	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(325, 525, 32, 32), m_settings->isFogToggled, 1)); // Fog checkbox
+	m_handler.checkboxes.push_back(GUICheckbox(glm::vec4(325, 475, 32, 32), m_settings->isVignetteToggled, 1)); // Vignette checkbox
 
 	// Buttons
 	m_handler.buttons.push_back(GUIButton(glm::vec4(500, 58, 240, 38), 1)); // Save Settings Button
@@ -51,4 +55,5 @@ void PauseMenu::handleInputs(){
 	}
 
 	m_settings->isFogToggled = m_handler.checkboxes[0].isChecked();
+	m_settings->isVignetteToggled = m_handler.checkboxes[1].isChecked();
 }

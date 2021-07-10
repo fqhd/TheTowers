@@ -16,7 +16,8 @@ void Program::initSystems(sf::IpAddress& _ip){
 	// Loading the texture atlass into a texture array
 	m_texturePack.init("res/textures/sprite_sheet.png", 512);
 	m_game.init(&m_inputManager, _ip, m_config, &m_texturePack, &m_font);
-	m_pause.init(&m_inputManager, &m_font, &m_settings, &m_texturePack);
+	m_game.syncGameWithSettings(&m_settings);
+	m_pause.init(&m_inputManager, &m_font, &m_settings, &m_texturePack, &m_game);
 }
 
 void Program::gameloop(){
