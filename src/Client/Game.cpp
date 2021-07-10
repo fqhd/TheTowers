@@ -4,7 +4,6 @@
 #include <glm/gtc/noise.hpp>
 
 
-
 void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureArray* _textureArray, GUIFont* _font) {
 	m_textureArray = _textureArray;
 	m_networkManager.connectToServer(_ip, _c);
@@ -12,6 +11,7 @@ void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureA
 	m_cubeMap.init();
 	m_particleHandler.init();
 	m_camera.init(_manager);
+	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
 	m_guiHandler.init(_font, _textureArray);
@@ -37,17 +37,20 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 
 void Game::render(Player& _player) {
 	sf::Clock tmp;
-
 	tmp.restart();
+
+	m_vignette.bindBuffer();
 	m_world.render(m_camera);
 	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
-
 	m_textureArray->bind();
 	m_guiHandler.render();
 	m_textureArray->unbind();
+	m_vignette.unbindBuffer();
+
+	m_vignette.renderVignette();
 
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
@@ -56,6 +59,7 @@ void Game::render(Player& _player) {
 }
 
 void Game::destroy() {
+	m_vignette.destroy();
 	m_guiHandler.destroy();
 	m_cubeMap.destroy();
 	m_entityHandler.destroy();

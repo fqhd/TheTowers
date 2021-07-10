@@ -23,7 +23,7 @@ void Program::gameloop(){
 	while(m_state != GameStates::EXIT){
 		m_window.clear();
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
-		glViewport(0, 0, m_inputManager.getWindowSize().x, m_inputManager.getWindowSize().y);
+		// glViewport(0, 0, m_inputManager.getWindowSize().x, m_inputManager.getWindowSize().y);
 
 		float deltaTime = m_clock.restart().asSeconds();
 

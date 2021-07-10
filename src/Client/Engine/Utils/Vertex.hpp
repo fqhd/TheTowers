@@ -1,6 +1,4 @@
-#ifndef VERTEX_H
-#define VERTEX_H
-
+#pragma once
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "ColorRGBA8.hpp"
@@ -13,6 +11,15 @@ struct vec2 {
 	}
 	GLubyte x = 0;
 	GLubyte y = 0;
+};
+
+struct QuadVertex {
+	QuadVertex(const glm::vec2& _pos, const glm::vec2& _uv){
+		position = _pos;
+		uv = _uv;
+	}
+	glm::vec2 position;
+	glm::vec2 uv;
 };
 
 struct ModelVertex {
@@ -34,5 +41,3 @@ struct GUIVertex {
 	ColorRGBA8 color;
 	glm::vec2 textureInfo;
 };
-
-#endif

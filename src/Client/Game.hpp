@@ -1,5 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
+
 #include <SFML/Network.hpp>
 #include <glm/gtc/noise.hpp>
 #include "EntityHandler.hpp"
@@ -8,7 +9,6 @@
 #include "Engine/Utils/ChunkShader.hpp"
 #include "NetworkManager.hpp"
 #include "Engine/World/World.hpp"
-#include <GL/glew.h>
 #include "Engine/Utils/CubeMap.hpp"
 #include "Engine/Utils/ParticleHandler.hpp"
 #include "GameStates.hpp"
@@ -16,7 +16,7 @@
 #include "BlockOutline.hpp"
 #include "Engine/GUI/GUIHandler.hpp"
 #include "Config.hpp"
-
+#include "Vignette.hpp"
 
 class Game {
 public:
@@ -41,6 +41,7 @@ private:
 	InputManager* m_inputManager;
 	TextureArray* m_textureArray;
 	GUIHandler m_guiHandler;
+	Vignette m_vignette;
 
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;
