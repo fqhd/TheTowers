@@ -1,5 +1,4 @@
-#ifndef GUI_SHADER_H
-#define GUI_SHADER_H
+#pragma once
 
 #include "../Utils/Shader.hpp"
 #include <glm/glm.hpp>

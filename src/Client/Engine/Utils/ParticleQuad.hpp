@@ -1,5 +1,4 @@
-#ifndef PARTICLE_QUAD_H
-#define PARTICLE_QUAD_H
+#pragma once
 
 #include <GL/glew.h>
 #include <vector>

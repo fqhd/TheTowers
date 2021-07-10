@@ -1,6 +1,4 @@
-#ifndef ENTITY_H
-#define ENTITY_H
-
+#pragma once
 #include "Engine/Utils/Transform.hpp"
 #include "Engine/Utils/Vertex.hpp"
 
@@ -30,4 +28,3 @@ private:
 
 };
 
-#endif

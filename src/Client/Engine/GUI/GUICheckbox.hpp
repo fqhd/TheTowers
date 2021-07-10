@@ -1,5 +1,4 @@
-#ifndef GUI_CHECKBOX_H
-#define GUI_CHECKBOX_H
+#pragma once
 
 #include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
@@ -29,4 +28,4 @@ private:
 
 };
 
-#endif
+

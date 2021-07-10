@@ -1,6 +1,4 @@
-#ifndef PARTICLE_SHADER_H
-#define PARTICLE_SHADER_H
-
+#pragma once
 #include "Shader.hpp"
 #include <glm/glm.hpp>
 

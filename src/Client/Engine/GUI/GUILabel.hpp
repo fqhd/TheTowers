@@ -1,5 +1,4 @@
-#ifndef TEXT_MESH_H
-#define TEXT_MESH_H
+#pragma once
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>

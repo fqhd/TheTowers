@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 #include <glm/gtx/transform.hpp>
 #include <glm/glm.hpp>
 #include "../World/Chunk.hpp"

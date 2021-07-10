@@ -1,5 +1,4 @@
-#ifndef CUBE_MAP_H
-#define CUBE_MAP_H
+#pragma once
 
 #include "Cube.hpp"
 #include "CubeMapTexture.hpp"

@@ -1,5 +1,4 @@
-#ifndef PARTICLE_H
-#define PARTICLE_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include "Vertex.hpp"

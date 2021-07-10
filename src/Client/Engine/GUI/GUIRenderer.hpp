@@ -1,5 +1,4 @@
-#ifndef GUI_RENDERER_H
-#define GUI_RENDERER_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <vector>

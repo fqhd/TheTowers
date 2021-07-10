@@ -1,5 +1,4 @@
-#ifndef GUI_FONT_H
-#define GUI_FONT_H
+#pragma once
 
 #include <string>
 #include "GUILabel.hpp"
@@ -27,4 +26,3 @@ private:
 
 };
 
-#endif

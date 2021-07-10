@@ -1,5 +1,4 @@
-#ifndef GUI_HANDLER_H
-#define GUI_HANDLER_H
+#pragma once
 
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
@@ -42,4 +41,4 @@ private:
 
 };
 
-#endif
+

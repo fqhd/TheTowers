@@ -1,5 +1,4 @@
-#ifndef PARTICLE_HANDLER_H
-#define PARTICLE_HANDLER_H
+#pragma once
 
 #include "ParticleQuad.hpp"
 #include "ParticleShader.hpp"

@@ -1,5 +1,4 @@
-#ifndef GUI_FONT_SHADER_H
-#define GUI_FONT_SHADER_H
+#pragma once
 
 #include "../Utils/Shader.hpp"
 #include <glm/glm.hpp>
@@ -26,4 +25,3 @@ private:
 
 };
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef COLORRGBA8_H
-#define COLORRGBA8_H
+#pragma once
 
 struct ColorRGBA8 {
 	ColorRGBA8(){}

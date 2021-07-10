@@ -1,5 +1,4 @@
-#ifndef PROGRAM_H
-#define PROGRAM_H
+#pragma once
 
 #include "Player.hpp"
 #include "Game.hpp"
@@ -36,4 +35,3 @@ private:
 
 };
 
-#endif

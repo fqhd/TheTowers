@@ -1,5 +1,4 @@
-#ifndef NETWORK_MANAGER_H
-#define NETWORK_MANAGER_H
+#pragma once
 
 #include <SFML/Network.hpp>
 #include "Engine/World/World.hpp"
@@ -33,4 +32,3 @@ private:
 
 };
 
-#endif

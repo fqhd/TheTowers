@@ -1,5 +1,4 @@
-#ifndef ENTITY_HANDLER_H
-#define ENTITY_HANDLER_H
+#pragma once
 
 #include "Entity.hpp"
 #include "Engine/Utils/ModelShader.hpp"
@@ -38,4 +37,3 @@ private:
 
 };
 
-#endif

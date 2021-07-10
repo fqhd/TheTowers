@@ -1,5 +1,4 @@
-#ifndef CHUNK_H
-#define CHUNK_H
+#pragma once
 #include <glm/glm.hpp>
 #include <vector>
 #include <cstddef>
