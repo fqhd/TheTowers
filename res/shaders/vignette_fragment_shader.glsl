@@ -1,12 +1,15 @@
 #version 330 core
 
-in vec2 pass_uv;
+in vec2 pass_coords;
 
 out vec4 out_color;
 
-uniform sampler2D ourTexture;
-
 void main(){
-    vec3 textureColor = texture(ourTexture, pass_uv).rgb;
-    out_color = vec4(textureColor, 1.0);
+
+    float factor = abs(pass_coords.x) + abs(pass_coords.y);
+    factor = factor / 2.0;
+    factor = factor * factor;
+    factor *= 0.8;
+
+    out_color = vec4(0, 0, 0, factor);
 }

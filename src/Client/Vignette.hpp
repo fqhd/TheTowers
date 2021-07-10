@@ -7,7 +7,7 @@ class Vignette {
 public:
 
     void init();
-    void renderVignette(); // Renders a quad with the vignette shader
+    void render(); // Renders a quad with the vignette shader
     void destroy();
 
 private:

@@ -39,11 +39,17 @@ void Game::render(Player& _player) {
 	sf::Clock tmp;
 	tmp.restart();
 
+	// Rendering gameplay
 	m_world.render(m_camera);
 	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
+
+	// Rendering vignette
+	m_vignette.render();
+
+	// Rendering UI
 	m_textureArray->bind();
 	m_guiHandler.render();
 	m_textureArray->unbind();

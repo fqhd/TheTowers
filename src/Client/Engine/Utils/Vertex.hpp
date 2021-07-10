@@ -14,12 +14,10 @@ struct vec2 {
 };
 
 struct QuadVertex {
-	QuadVertex(const glm::vec2& _pos, const glm::vec2& _uv){
+	QuadVertex(const glm::vec2& _pos){
 		position = _pos;
-		uv = _uv;
 	}
 	glm::vec2 position;
-	glm::vec2 uv;
 };
 
 struct ModelVertex {
