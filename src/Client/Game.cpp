@@ -39,7 +39,6 @@ void Game::render(Player& _player) {
 	sf::Clock tmp;
 	tmp.restart();
 
-	m_vignette.bindBuffer();
 	m_world.render(m_camera);
 	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
@@ -48,9 +47,6 @@ void Game::render(Player& _player) {
 	m_textureArray->bind();
 	m_guiHandler.render();
 	m_textureArray->unbind();
-	m_vignette.unbindBuffer();
-
-	m_vignette.renderVignette();
 
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
