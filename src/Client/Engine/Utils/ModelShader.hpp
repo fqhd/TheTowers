@@ -29,4 +29,4 @@ private:
 	GLint m_lightDirectionLocation = 0;
 };
 
-#endif
+
