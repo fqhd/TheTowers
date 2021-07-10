@@ -14,4 +14,3 @@ struct ColorRGBA8 {
 	GLubyte a = 255;
 };
 
-#endif

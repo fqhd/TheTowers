@@ -42,4 +42,3 @@ private:
 	glm::vec3 m_points[8];
 };
 
-#endif
