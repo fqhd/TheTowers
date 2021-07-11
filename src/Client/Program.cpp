@@ -36,6 +36,7 @@ void Program::gameloop(){
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state, deltaTime);
 			m_game.render(m_player);
+			if(m_settings.isDebugToggled) m_debugMenu.render();
 			m_pause.render();
 		}
 
