@@ -1,5 +1,7 @@
 #include "Camera.hpp"
 
+#include "Math.hpp"
+
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
@@ -16,7 +18,7 @@ void Camera::init(InputManager* _manager) {
 
 void Camera::updateProjectionMatrix() {
 	glm::vec2 size = m_manager->getWindowSize();
-	m_projectionMatrix = glm::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
+	m_projectionMatrix = math::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
 float Camera::getPitch() {
