@@ -26,7 +26,6 @@ void BlockOutline::render(Player& player, Camera& camera){
 }
 
 Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
-
 	glm::ivec3 deltaBlockFace = visibleBlocks.placeableBlock - visibleBlocks.breakableBlock;
 
 	if(deltaBlockFace.x == 1){
@@ -43,9 +42,7 @@ Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
 		return FACE_5;
 	}
 
-
 	return FACE_0;
-
 }
 
 void BlockOutline::destroy(){

@@ -2,28 +2,26 @@
 #include <cmath>
 
 namespace math {
-
 	// vectors
-	vec2::vec2(f32 val) {
+	vec2::vec2(float val) {
 		for (int i = 0; i < 2; i++) { v[i] = val; }
 	}
 
-	vec3::vec3(f32 val) {
+	vec3::vec3(float val) {
 		for (int i = 0; i < 3; i++) { v[i] = val; }
 	}
 
-	vec4::vec4(f32 val) {
+	vec4::vec4(float val) {
 		for (int i = 0; i < 4; i++) { v[i] = val; }
 	}
 
 
 	// mat4 struct
-	mat4::mat4(f32 val) {
+	mat4::mat4(float val) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {m[i][j] = val;}
 		}
 	}
-
 
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar) {
 		float const tanHalfFovy = tan(fovy / 2);
@@ -36,5 +34,5 @@ namespace math {
 		Result.m[3][2] = -(zFar * zNear) / (zFar - zNear);
 		return Result;
 	} 
-
+x
 };

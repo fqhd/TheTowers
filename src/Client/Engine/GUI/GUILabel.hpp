@@ -6,15 +6,6 @@
 #include <vector>
 #include "../Utils/Vertex.hpp"
 
-struct GUITextVertex {
-	GUITextVertex(const glm::vec2& p, const glm::vec2& u){
-		position = p;
-		uv = u;
-	}
-	glm::vec2 position;
-	glm::vec2 uv;
-};
-
 class GUILabel {
 public:
 
@@ -22,7 +13,6 @@ public:
 	void render();
 	void destroy();
 	void pushData(const std::vector<GUITextVertex>& vertices);
-
 	void setString(const std::string& string);
 
 	ColorRGBA8 color;

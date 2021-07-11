@@ -1,2 +1,3 @@
 isFogToggled: 0
 isVignetteToggled: 0
+isDebugToggled: 1

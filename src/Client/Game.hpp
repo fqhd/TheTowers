@@ -28,6 +28,9 @@ public:
 
 	void syncGameWithSettings(Settings* _settings);
 
+	Camera camera;
+
+
 private:
 
 	void addGUI();
@@ -35,7 +38,6 @@ private:
 	//Engine Variables
 	CubeMap m_cubeMap;
 	ParticleHandler m_particleHandler;
-	Camera m_camera;
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;
 	World m_world;

@@ -13,6 +13,15 @@ struct vec2 {
 	GLubyte y = 0;
 };
 
+struct GUITextVertex {
+	GUITextVertex(const glm::vec2& p, const glm::vec2& u){
+		position = p;
+		uv = u;
+	}
+	glm::vec2 position;
+	glm::vec2 uv;
+};
+
 struct QuadVertex {
 	QuadVertex(const glm::vec2& _pos){
 		position = _pos;

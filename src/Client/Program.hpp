@@ -7,6 +7,7 @@
 #include "Config.hpp"
 #include "Settings.hpp"
 #include "Engine/GUI/GUIHandler.hpp"
+#include "DebugMenu.hpp"
 
 
 class Program {
@@ -33,6 +34,7 @@ private:
 	Window m_window;
 	Config m_config;
 	Settings m_settings;
+	DebugMenu m_debugMenu;
 	sf::Clock m_clock;
 
 };

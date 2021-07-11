@@ -18,6 +18,7 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_game.init(&m_inputManager, _ip, m_config, m_guiHandler.createCanvas(), &m_texturePack);
 	m_game.syncGameWithSettings(&m_settings);
 	m_pause.init(&m_inputManager, &m_settings, m_guiHandler.createCanvas(), &m_game);
+	m_debugMenu.init(&m_game, m_guiHandler.createCanvas());
 }
 
 void Program::gameloop(){
@@ -31,6 +32,7 @@ void Program::gameloop(){
 		if(m_state == GameStates::PLAY){
 			m_game.update(m_state, m_player, deltaTime);
 			m_game.render(m_player);
+			if(m_settings.isDebugToggled) m_debugMenu.render();
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state, deltaTime);
 			m_game.render(m_player);

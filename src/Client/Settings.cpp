@@ -13,6 +13,8 @@ void Settings::loadFromFile(){
             is >> isFogToggled;
         }else if(type == "isVignetteToggled:"){
             is >> isVignetteToggled;
+        }else if(type == "isDebugToggled:"){
+            is >> isDebugToggled;
         }
     }
     is.close();
@@ -27,5 +29,6 @@ void Settings::writeToFile(){
     }
     os << "isFogToggled: " << isFogToggled << std::endl;
     os << "isVignetteToggled: " << isVignetteToggled << std::endl;
+    os << "isDebugToggled: " << isDebugToggled << std::endl;
     os.close();
 }

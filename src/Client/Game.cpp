@@ -10,7 +10,7 @@ void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, GUICanva
 	m_world.init(m_networkManager, _c, _textureArray);
 	m_cubeMap.init();
 	m_particleHandler.init();
-	m_camera.init(_manager);
+	camera.init(_manager);
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
@@ -27,10 +27,10 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
-	m_camera.update(_deltaTime);
-	_player.update(m_camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
+	camera.update(_deltaTime);
+	_player.update(camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
 	m_particleHandler.update(_deltaTime);
-	m_networkManager.sendPositionDataToServer(m_camera);
+	m_networkManager.sendPositionDataToServer(camera);
 }
 
 void Game::render(Player& _player) {
@@ -38,11 +38,11 @@ void Game::render(Player& _player) {
 	tmp.restart();
 
 	// Rendering gameplay
-	m_world.render(m_camera);
-	m_blockOutline.render(_player, m_camera);
-	m_particleHandler.render(m_camera);
-	m_entityHandler.render(m_camera);
-	m_cubeMap.render(m_camera.getProjectionMatrix(), m_camera.getViewMatrix());
+	m_world.render(camera);
+	m_blockOutline.render(_player, camera);
+	m_particleHandler.render(camera);
+	m_entityHandler.render(camera);
+	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
 
 	// Rendering vignette
 	m_vignette.render();
