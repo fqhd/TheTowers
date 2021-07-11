@@ -42,7 +42,7 @@ void Game::render(Player& _player) {
 	m_blockOutline.render(_player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
-	m_cubeMap.render(m_camera.getProjectionMatrix(), glm::mat4(glm::mat3(m_camera.getViewMatrix())));
+	m_cubeMap.render(m_camera.getProjectionMatrix(), m_camera.getViewMatrix());
 
 	// Rendering vignette
 	m_vignette.render();
