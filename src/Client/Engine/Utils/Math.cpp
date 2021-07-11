@@ -4,18 +4,23 @@
 namespace math {
 
 	// vectors
+	vec2::vec2(f32 val) {
+		for (int i = 0; i < 2; i++) { v[i] = val; }
+	}
 
-	template<typename T, size_t len> 
-	vec<T, len>::vec(T val) {
-		for (int i = 0; i < len; i++) { v[i] = val; }
+	vec3::vec3(f32 val) {
+		for (int i = 0; i < 3; i++) { v[i] = val; }
+	}
+
+	vec4::vec4(f32 val) {
+		for (int i = 0; i < 4; i++) { v[i] = val; }
 	}
 
 
-
 	// mat4 struct
-	mat4::mat4(int n) {
+	mat4::mat4(f32 val) {
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {m[i][j] = n;}
+			for (int j = 0; j < 4; j++) {m[i][j] = val;}
 		}
 	}
 
