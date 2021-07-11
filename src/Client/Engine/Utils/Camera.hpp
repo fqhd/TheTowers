@@ -4,7 +4,7 @@
 #include "../World/Chunk.hpp"
 #include "../Input/InputManager.hpp"
 #include "../Libs/Frustum.hpp"
-
+#include "Math.hpp"
 
 class Camera {
 public:
@@ -35,7 +35,7 @@ private:
 	glm::vec3 m_forward;
 	glm::vec3 m_position;
 
-	glm::mat4 m_projectionMatrix;
+	math::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
 	InputManager* m_manager;
 
