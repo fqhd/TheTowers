@@ -1,5 +1,6 @@
 #include "Math.hpp"
 #include <cmath>
+#include <string>
 
 namespace math {
 	// vectors
@@ -34,5 +35,9 @@ namespace math {
 		Result.m[3][2] = -(zFar * zNear) / (zFar - zNear);
 		return Result;
 	} 
-x
+
+	// returns float with specified decimals
+	float round(double f, size_t decimals) {
+		return ((int)(f*pow(10, decimals)))/pow(10, decimals);
+	}
 };

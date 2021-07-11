@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 namespace math {
+
 	// vectors
 	struct vec2{
 		vec2(float val);
@@ -31,5 +32,8 @@ namespace math {
 
 	// functions
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar);
+
+	// returns float with specified decimals
+	float round(double f, size_t decimals);
 
 };
