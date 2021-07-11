@@ -4,41 +4,32 @@
 #include <cstdlib>
 
 namespace math {
+	// vectors
+	struct vec2{
+		vec2(float val);
+		vec2();
+		float v[2];
+	};
 
-    typedef float f32;
-    typedef double f64;
+	struct vec3{
+		vec3(float val);
+		vec3();
+		float v[3];
+	};
 
-    // vectors
-
-    
-    struct vec2{
-        vec2(f32 val);
-        vec2();
-        f32 v[2];
-    };
-
-    struct vec3{
-        vec3(f32 val);
-        vec3();
-        f32 v[3];
-    };
-
-    struct vec4 {
-        vec4(f32 val);
-        vec4();
-        f32 v[4];
-    };
+	struct vec4 {
+		vec4(float val);
+		vec4();
+		float v[4];
+	};
 
     // matrices
-    struct mat4
-	{	
-        // inits all values to param f
-		mat4(float n);
+	struct mat4 {
+		mat4(float n); // inits all values to param f
 		float m[4][4]; 
 	};
 
-
-    // functions
-    mat4 perspective(f32 fovy, f32 aspect, f32 zNear, f32 zFar);
+	// functions
+	mat4 perspective(float fovy, float aspect, float zNear, float zFar);
 
 };
