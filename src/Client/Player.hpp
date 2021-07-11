@@ -28,5 +28,3 @@ private:
 	glm::ivec3 vecToBlock(const glm::vec3& vector);
 
 };
-
-

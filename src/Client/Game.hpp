@@ -13,7 +13,7 @@
 #include "GameStates.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
-#include "Engine/GUI/GUIHandler.hpp"
+#include "Engine/GUI/GUICanvas.hpp"
 #include "Config.hpp"
 #include "Vignette.hpp"
 #include "Settings.hpp"
@@ -21,7 +21,7 @@
 class Game {
 public:
 
-	void init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureArray* _textureArray, GUIFont* _font);
+	void init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, GUICanvas* _canvas, TextureArray* _textureArray);
 	void update(GameStates& _state, Player& _player, float _deltaTime);
 	void render(Player& _player);
 	void destroy();
@@ -40,15 +40,12 @@ private:
 	BlockOutline m_blockOutline;
 	World m_world;
 	NetworkManager m_networkManager;
-	InputManager* m_inputManager;
-	TextureArray* m_textureArray;
-	GUIHandler m_guiHandler;
+	InputManager* m_inputManager = nullptr;
 	Vignette m_vignette;
+	GUICanvas* m_canvas = nullptr;
 
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;
 
 
 };
-
-

@@ -6,6 +6,7 @@
 #include "Engine/Input/Window.hpp"
 #include "Config.hpp"
 #include "Settings.hpp"
+#include "Engine/GUI/GUIHandler.hpp"
 
 
 class Program {
@@ -21,6 +22,7 @@ private:
 	void cleanUp();
 	void initInputManager();
 
+	GUIHandler m_guiHandler;
 	TextureArray m_texturePack;
 	Player m_player;
 	GUIFont m_font;
@@ -34,4 +36,3 @@ private:
 	sf::Clock m_clock;
 
 };
-

@@ -4,8 +4,8 @@
 #include <glm/gtc/noise.hpp>
 
 
-void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureArray* _textureArray, GUIFont* _font) {
-	m_textureArray = _textureArray;
+void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, GUICanvas* _canvas, TextureArray* _textureArray) {
+	m_canvas = _canvas;
 	m_networkManager.connectToServer(_ip, _c);
 	m_world.init(m_networkManager, _c, _textureArray);
 	m_cubeMap.init();
@@ -14,7 +14,6 @@ void Game::init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, TextureA
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
-	m_guiHandler.init(_font, _textureArray);
 	addGUI();
 	m_inputManager = _manager;
 }
@@ -49,9 +48,7 @@ void Game::render(Player& _player) {
 	m_vignette.render();
 
 	// Rendering UI
-	m_textureArray->bind();
-	m_guiHandler.render();
-	m_textureArray->unbind();
+	m_canvas->render();
 
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
 		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
@@ -61,7 +58,6 @@ void Game::render(Player& _player) {
 
 void Game::destroy() {
 	m_vignette.destroy();
-	m_guiHandler.destroy();
 	m_entityHandler.destroy();
 	m_world.destroy();
 	m_cubeMap.destroy();
@@ -70,7 +66,7 @@ void Game::destroy() {
 }
 
 void Game::addGUI(){
-	m_guiHandler.rects.push_back(GUIRect(glm::vec4(638, 358, 4, 4), ColorRGBA8(20, 20, 20, 255), 0));
+	m_canvas->rects.push_back(GUIRect(glm::vec4(638, 358, 4, 4), ColorRGBA8(20, 20, 20, 255), 0));
 }
 
 void Game::syncGameWithSettings(Settings* _settings){

@@ -9,7 +9,7 @@ public:
 
 	GUICheckbox(const glm::vec4& destRect, bool _checked, unsigned int _layer);
 	void update(InputManager* _manager, float deltaTime);
-	void render(GUIRenderer& renderer);
+	void render(GUIRenderer* renderer);
 	bool isChecked();
 
 	unsigned int layer;
@@ -27,5 +27,3 @@ private:
 	ColorRGBA8 m_currentColor;
 
 };
-
-

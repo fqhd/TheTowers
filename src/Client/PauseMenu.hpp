@@ -11,7 +11,7 @@
 class PauseMenu {
 public:
 
-	void init(InputManager* _manager, GUIFont* _font, Settings* _settings, TextureArray* _textureArray, Game* _game);
+	void init(InputManager* _manager, Settings* _settings, GUICanvas* _canvas, Game* _game);
 	void update(GameStates& _state, float deltaTime);
 	void render();
 	void destroy();
@@ -21,11 +21,9 @@ private:
 	void initGUI();
 	void handleInputs();
 
-	GUIHandler m_handler;
+	GUICanvas* m_canvas = nullptr;
 	InputManager* m_inputManager = nullptr;
 	Settings* m_settings = nullptr;
 	Game* m_game = nullptr;
 
 };
-
-
