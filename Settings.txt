@@ -1,2 +1,2 @@
 isFogToggled: 0
-isVignetteToggled: 1
+isVignetteToggled: 0

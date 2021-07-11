@@ -30,3 +30,7 @@ void Entity::setForward(float pitch, float yaw) {
 void Entity::updateRotation() {
 	transform.setRotation(glm::vec3(glm::radians(-m_currentPitch), glm::radians(-(m_currentYaw - 90)), 0));
 }
+
+bool Entity::isBlueTeam(){
+	return m_isBlueTeam;
+}

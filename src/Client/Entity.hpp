@@ -12,6 +12,7 @@ public:
 
 	void setTargetPosition(const glm::vec3& position);
 	void setForward(float pitch, float yaw);
+	bool isBlueTeam();
 
 	Transform transform;
 
@@ -25,6 +26,6 @@ private:
 	float m_targetYaw = 0.0f;
 	float m_currentPitch = 0.0f;
 	float m_currentYaw = 0.0f;
+	bool m_isBlueTeam = false;
 
 };
-

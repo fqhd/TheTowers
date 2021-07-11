@@ -12,6 +12,7 @@ public:
 	void loadProjectionMatrix(const glm::mat4& matrix);
 	void loadViewMatrix(const glm::mat4& matrix);
 	void loadModelMatrix(const glm::mat4& matrix);
+	void loadTeam(bool isBlueTeam);
 	void loadGradient(float gradient);
 	void loadDensity(float density);
 
@@ -21,6 +22,7 @@ private:
 	void getUniformLocations();
 
 	//Uniform Locations
+	GLint m_teamLocation = 0;
 	GLint m_viewMatrixLocation = 0;
 	GLint m_projectionMatrixLocation = 0;
 	GLint m_modelMatrixLocation = 0;
@@ -28,5 +30,3 @@ private:
 	GLint m_gradientLocation = 0;
 	GLint m_lightDirectionLocation = 0;
 };
-
-

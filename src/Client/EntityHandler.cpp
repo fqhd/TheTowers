@@ -6,7 +6,6 @@ void EntityHandler::init() {
 	//Connecting to server?
 	m_shader.init();
 	m_model.loadFromFile("res/models/suzane.obj");
-
 }
 
 void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
@@ -50,7 +49,6 @@ void EntityHandler::removeEntity(uint8_t id) {
 }
 
 void EntityHandler::render(Camera& camera) {
-
 	m_shader.bind();
 
 	m_shader.loadViewMatrix(camera.getViewMatrix());
@@ -59,13 +57,11 @@ void EntityHandler::render(Camera& camera) {
 
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
 		m_shader.loadModelMatrix(it -> second.transform.getMatrix());
-
+		m_shader.loadTeam(it->second.isBlueTeam());
 		m_model.render();
-
 	}
 
 	m_shader.unbind();
-
 }
 
 void EntityHandler::destroy() {

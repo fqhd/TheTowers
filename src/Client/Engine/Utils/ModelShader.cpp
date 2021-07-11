@@ -15,6 +15,7 @@ void ModelShader::getUniformLocations(){
 	m_gradientLocation = glGetUniformLocation(m_programID, "gradient");
 	m_densityLocation = glGetUniformLocation(m_programID, "density");
 	m_lightDirectionLocation = glGetUniformLocation(m_programID, "lightDir");
+	m_teamLocation = glGetUniformLocation(m_programID, "isBlueTeam");
 }
 
 void ModelShader::loadLightDirection(const glm::vec3& lightDir){
@@ -31,6 +32,10 @@ void ModelShader::loadProjectionMatrix(const glm::mat4& matrix){
 
 void ModelShader::loadModelMatrix(const glm::mat4& matrix){
 	glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
+}
+
+void ModelShader::loadTeam(bool isBlueTeam){
+	glUniform1i(m_teamLocation, isBlueTeam);
 }
 
 void ModelShader::loadGradient(float gradient){
