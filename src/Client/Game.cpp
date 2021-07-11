@@ -30,7 +30,6 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
 	m_camera.update(_deltaTime);
 	_player.update(m_camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
-	m_cubeMap.update();
 	m_particleHandler.update(_deltaTime);
 	m_networkManager.sendPositionDataToServer(m_camera);
 }
@@ -63,7 +62,6 @@ void Game::render(Player& _player) {
 void Game::destroy() {
 	m_vignette.destroy();
 	m_guiHandler.destroy();
-	m_cubeMap.destroy();
 	m_entityHandler.destroy();
 	m_world.destroy();
 	m_cubeMap.destroy();

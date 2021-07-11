@@ -6,9 +6,6 @@ in vec3 textureCoords;
 //Outs
 out vec4 out_color;
 
-//Uniforms
-uniform samplerCube skybox;
-
 //Constants
 const float upperLimit = 0.2;
 const float lowerLimit = 0.0;
