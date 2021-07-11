@@ -55,7 +55,7 @@ build obj/settings.o: cc src/Client/Settings.cpp
 build obj/quad.o: cc src/Client/Engine/Utils/Quad.cpp
 build obj/quadshader.o: cc src/Client/Engine/Utils/QuadShader.cpp
 build obj/vignette.o: cc src/Client/Vignette.cpp
-
+build obj/math.o: cc src/Client/Engine/Utils/Math.cpp
 build obj/serverMain.o: cc src/Server/main.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
 
