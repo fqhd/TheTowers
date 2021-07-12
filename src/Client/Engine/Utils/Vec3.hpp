@@ -13,6 +13,10 @@ namespace math {
 		: x(x), y(y), z(z)
 		{}
 
+		base_vec2()
+		: x(NULL), y(NULL)
+		{}
+
 		float length() {
 
 		}

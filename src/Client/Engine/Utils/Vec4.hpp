@@ -13,6 +13,9 @@ namespace math {
 		: x(x), y(y), z(z), w(w)
 		{}
 
+		base_vec2()
+		: x(NULL), y(NULL)
+		{}
 
 		const base_vec4<T> operator+(const base_vec4<T>& other) {
 			return base_vec4<T>(x+other.x, y+other.y, z+other.z, w+other.w);

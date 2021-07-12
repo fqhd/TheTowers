@@ -13,6 +13,10 @@ namespace math {
 		: x(x), y(y)
 		{}
 
+		base_vec2()
+		: x(NULL), y(NULL)
+		{}
+
 		float length() {
 			return (float)sqrt(pow(x, 2)+pow(y, 2));
 		}
