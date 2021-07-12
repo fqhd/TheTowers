@@ -17,7 +17,10 @@ void Camera::init(InputManager* _manager) {
 
 void Camera::updateProjectionMatrix() {
 	glm::vec2 size = m_manager->getWindowSize();
-	m_projectionMatrix = glm::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
+	math::mat4 perspective = math::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
+
+	// Convert mat::mat4 to glm::mat4
+	
 }
 
 float Camera::getPitch() {

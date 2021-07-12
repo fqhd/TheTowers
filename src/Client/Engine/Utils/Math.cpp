@@ -24,6 +24,6 @@ namespace math {
 	}
 
 	float toRadians(float degrees){
-		return degrees * PI/180.0f;
+		return degrees * M_PI/180.0f;
 	}
 };
