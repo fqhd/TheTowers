@@ -6,5 +6,7 @@ namespace math {
 		mat4(float n); // inits all values to param f
 		float m[4][4];
 
+		void setIdentity();
+
 	};
 }

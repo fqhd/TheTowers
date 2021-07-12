@@ -6,6 +6,8 @@
 
 namespace math {
 
+	mat4 view()
+
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar) {
 		float yScale = (1.0f / tan(toRadians(fovy / 2.0f))) * aspect;
 		float xScale = yScale / aspect;
