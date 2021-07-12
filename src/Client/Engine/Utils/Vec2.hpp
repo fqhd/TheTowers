@@ -14,8 +14,9 @@ namespace math {
 		{}
 
 		base_vec2()
-		: x(NULL), y(NULL)
 		{}
+
+		~base_vec2() {}
 
 		float length() {
 			return (float)sqrt(pow(x, 2)+pow(y, 2));
