@@ -3,7 +3,7 @@
 
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
-const float FOV = 70.0f;
+const float FOV = 90.0f;
 const float SPEED = 25.5f;
 
 void Camera::init(InputManager* _manager) {

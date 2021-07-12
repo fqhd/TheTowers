@@ -1,4 +1,5 @@
 #include "Transform.hpp"
+#include "Math.hpp"
 
 Transform::Transform(){
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -19,8 +20,9 @@ void Transform::init(const glm::vec3& position, const glm::vec3& rotation, const
 }
 
 const glm::mat4& Transform::getMatrix() {
-	if(!m_needsUpdate)
+	if(!m_needsUpdate){
 		return m_matrix;
+	}
 
 	glm::mat4 positionMatrix = glm::translate(m_position);
 	glm::mat4 rotX = glm::rotate(m_rotation.x, glm::vec3(1, 0, 0));

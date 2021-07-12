@@ -6,8 +6,21 @@
 
 namespace math {
 
-	mat4 translate(const vec3& vec, const mat4& matrix){
+	vec3 cross(vec3 a, vec3 b){
+		vec3 r;
+		r.x = a.y * b.z - a.z * b.y;
+		r.y = b.x * a.z - b.z * a.x;
+		r.z = a.x * b.y - a.y * b.x;
+		return r;
+	}
+
+	mat4 translate(const vec3& vec, const mat4& src){
 		mat4 r;
+
+		r.m[3][0] += src.m[0][0] * vec.x + src.m[1][0] * vec.y + src.m[2][0] * vec.z;
+		r.m[3][1] += src.m[0][1] * vec.x + src.m[1][1] * vec.y + src.m[2][1] * vec.z;
+		r.m[3][2] += src.m[0][2] * vec.x + src.m[1][2] * vec.y + src.m[2][2] * vec.z;
+		r.m[3][3] += src.m[0][3] * vec.x + src.m[1][3] * vec.y + src.m[2][3] * vec.z;
 
 		return r;
 	}
