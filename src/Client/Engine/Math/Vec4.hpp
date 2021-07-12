@@ -18,6 +18,38 @@ namespace math {
 
 		~base_vec4() {}
 
+		base_vec4<T>operator+=(const base_vec4<T>& other) {
+			x += other.x;
+			y += other.y;
+			z += other.z;
+			w += other.w;
+			return *this;
+		}
+
+		base_vec4<T>operator-=(const base_vec4<T>& other) {
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+			w -= other.w;
+			return *this;
+		}
+
+		base_vec4<T>operator*=(const base_vec4<T>& other) {
+			x *= other.x;
+			y *= other.y;
+			z *= other.z;
+			w +/= other.w;
+			return *this;
+		}
+
+		base_vec4<T>operator/=(const base_vec4<T>& other) {
+			x /= other.x;
+			y /= other.y;
+			z /= other.z;
+			w /= other.w;
+			return *this;
+		}
+
 		const base_vec4<T> operator+(const base_vec4<T>& other) {
 			return base_vec4<T>(x+other.x, y+other.y, z+other.z, w+other.w);
 		}

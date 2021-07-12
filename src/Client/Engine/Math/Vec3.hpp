@@ -20,6 +20,34 @@ namespace math {
 
 		~base_vec3() {}
 
+		base_vec3<T>operator+=(const base_vec3<T>& other) {
+			x += other.x;
+			y += other.y;
+			z += other.z;
+			return *this;
+		}
+
+		base_vec3<T>operator-=(const base_vec3<T>& other) {
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+			return *this;
+		}
+
+		base_vec3<T>operator*=(const base_vec3<T>& other) {
+			x *= other.x;
+			y *= other.y;
+			z *= other.z;
+			return *this;
+		}
+
+		base_vec3<T>operator/=(const base_vec3<T>& other) {
+			x /= other.x;
+			y /= other.y;
+			z /= other.z;
+			return *this;
+		}
+
 		const base_vec3<T> operator+(const base_vec3<T>& other) {
 			return base_vec3<T>(x+other.x, y+other.y, z+other.z);
 		}
