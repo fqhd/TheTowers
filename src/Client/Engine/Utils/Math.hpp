@@ -12,9 +12,9 @@ namespace math {
 
 	// functions
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar);
+	mat4 translate(const vec3& vec, const mat4& matrix);
 
-	// returns float with specified decimals
-	float round(float f, size_t decimals);
-	float toRadians(float degrees);
+	float round(float f, size_t decimals); // Returns rounded float with specified decimals
+	float toRadians(float degrees); // Converts degrees to radians
 
 };

@@ -6,7 +6,11 @@
 
 namespace math {
 
-	mat4 view()
+	mat4 translate(const vec3& vec, const mat4& matrix){
+		mat4 r;
+
+		return r;
+	}
 
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar) {
 		float yScale = (1.0f / tan(toRadians(fovy / 2.0f))) * aspect;

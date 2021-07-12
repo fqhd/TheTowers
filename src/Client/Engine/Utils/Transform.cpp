@@ -18,7 +18,6 @@ void Transform::init(const glm::vec3& position, const glm::vec3& rotation, const
 	m_scale = scale;
 }
 
-
 const glm::mat4& Transform::getMatrix() {
 	if(!m_needsUpdate)
 		return m_matrix;
@@ -33,7 +32,6 @@ const glm::mat4& Transform::getMatrix() {
 	m_matrix = positionMatrix * rotationMatrix * scaleMatrix;
 	return m_matrix;
 }
-
 
 void Transform::setPosition(const glm::vec3& position) {
 	m_position = position;
