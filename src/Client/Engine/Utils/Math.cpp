@@ -16,10 +16,14 @@ namespace math {
 		Result.m[2][3] = 1;
 		Result.m[3][2] = -(zFar * zNear) / (zFar - zNear);
 		return Result;
-	} 
+	}
 
 	// returns float with specified decimals
-	float round(double f, size_t decimals) {
+	float round(float f, size_t decimals) {
 		return ((int)(f*pow(10, decimals)))/pow(10, decimals);
+	}
+
+	float toRadians(float degrees){
+		return degrees * PI/180.0f;
 	}
 };

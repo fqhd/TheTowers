@@ -14,6 +14,7 @@ namespace math {
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar);
 
 	// returns float with specified decimals
-	float round(double f, size_t decimals);
+	float round(float f, size_t decimals);
+	float toRadians(float degrees);
 
 };
