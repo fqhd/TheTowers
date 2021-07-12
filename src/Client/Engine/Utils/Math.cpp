@@ -100,28 +100,27 @@ namespace math {
 		return degrees * M_PI/180.0f;
 	}
 
-	const vec2 normalize(const vec2& v) {
+	vec2 normalize(const vec2& v) {
 		float len = length(v);
 		return vec2(v.x/len, v.y/len);
 	}
-	const vec3 normalize(const vec3& v) {
+	vec3 normalize(const vec3& v) {
 		float len = length(v);
 		return vec3(v.x/len, v.y/len, v.z/len);
 	}
-	const vec4 normalize(const vec4& v) {
+	vec4 normalize(const vec4& v) {
 		float len = length(v);
 		return vec4(v.x/len, v.y/len, v.z/len, v.w/len);
 	}
 
-	const vec2 scale(const vec2& v, float scale) {
-		return vec2(v.x*scale, v.y*scale);
-	}
-
-	const vec3 scale(const vec3& v, float scale) {
-		return vec3(v.x*scale, v.y*scale, v.z*scale);
-	}
-	const vec4 scale(const vec4& v, float scale) {
-		return vec4(v.x*scale, v.y*scale, v.z*scale, v.w*scale);
+	mat4 scale(const mat4& m, const vec3& vec) {
+		mat4 m4;
+		for (int i = 0; i < 4; i++) {
+			m4.m[i][0] = m.m[i][0]*vec.x;
+			m4.m[i][1] = m.m[i][1]*vec.y;
+			m4.m[i][2] = m.m[i][2]*vec.z;
+		}
+		return m4;
 	}
 
 	float length(const vec2& vec){
@@ -135,4 +134,5 @@ namespace math {
 	float length(const vec4& vec){
 		return (float)sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
 	}
+
 };
