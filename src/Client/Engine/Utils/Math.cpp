@@ -2,27 +2,9 @@
 #include <cmath>
 #include <string>
 
+#include "Mat4.hpp"
+
 namespace math {
-	// vectors
-	vec2::vec2(float val) {
-		for (int i = 0; i < 2; i++) { v[i] = val; }
-	}
-
-	vec3::vec3(float val) {
-		for (int i = 0; i < 3; i++) { v[i] = val; }
-	}
-
-	vec4::vec4(float val) {
-		for (int i = 0; i < 4; i++) { v[i] = val; }
-	}
-
-
-	// mat4 struct
-	mat4::mat4(float val) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {m[i][j] = val;}
-		}
-	}
 
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar) {
 		float const tanHalfFovy = tan(fovy / 2);
