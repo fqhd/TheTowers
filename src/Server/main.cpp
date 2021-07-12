@@ -105,7 +105,6 @@ void udpThread(){
 
 			for(auto& i : clients){
 				if(i.id != id){
-					std::cout << "Sending data to client: " << i.id << std::endl;
 					socket.send(receivedPacket, i.socket->getRemoteAddress(), config.getClientPort());
 				}
 			}
