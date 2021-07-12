@@ -8,14 +8,38 @@ namespace math {
 	// vectors
 	struct vec2{
 		vec2(float val);
+		vec2(float x, float y);
 		vec2();
-		float v[2];
+		float x, y;
+
+		vec2 operator+(const vec2& vec){
+			return vec2(x + vec.x, y + vec.y);	
+		}
+
+		vec2 operator+(float val){
+			return vec2(x + val, y + val);	
+		}
+
+		vec2 operator-(const vec2& vec){
+			return vec2(x - vec.x, y - vec.y);	
+		}
+
+		vec2 operator-(float val){
+			return vec2(x - val, y - val);	
+		}
+
+		vec2 operator*(const vec2& vec){
+			return vec2(x * vec.x, y * vec.y);	
+		}
+
+		vec2 operator*(float val){
+			return vec2(x * val, y * val);
+		}
 	};
 
 	struct vec3{
 		vec3(float val);
 		vec3();
-		float v[3];
 	};
 
 	struct vec4 {
@@ -27,7 +51,7 @@ namespace math {
     // matrices
 	struct mat4 {
 		mat4(float n); // inits all values to param f
-		float m[4][4]; 
+		float m[4][4];
 	};
 
 	// functions
