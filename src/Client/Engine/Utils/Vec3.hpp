@@ -18,11 +18,6 @@ namespace math {
 
 		~base_vec3() {}
 
-		float length() {
-
-		}
-
-
 		const base_vec3<T> operator+(const base_vec3<T>& other) {
 			return base_vec3<T>(x+other.x, y+other.y, z+other.z);
 		}

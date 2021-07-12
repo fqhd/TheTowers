@@ -6,6 +6,8 @@
 
 namespace math {
 
+	
+
 	vec3 cross(vec3 a, vec3 b){
 		vec3 r;
 		r.x = a.y * b.z - a.z * b.y;
