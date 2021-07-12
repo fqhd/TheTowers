@@ -13,13 +13,12 @@ void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
 	sf::IpAddress remoteIp;
 	unsigned short remotePort;
 
-
 	while (_manager.m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
 		glm::vec3 position;
 		float pitch, yaw;
 		uint8_t remoteID;
 
-		packet >> position.x >> position.y >> position.z >> pitch >> yaw >> remoteID;
+		packet >> remoteID >> position.x >> position.y >> position.z >> pitch >> yaw;
 
 		if (m_entities.find(remoteID) != m_entities.end()) {
 			m_entities[remoteID].setTargetPosition(position);
