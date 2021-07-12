@@ -14,6 +14,9 @@ void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
 	unsigned short remotePort;
 
 	while (_manager.m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
+
+		printf("got packet");
+
 		glm::vec3 position;
 		float pitch, yaw;
 		uint8_t remoteID;
