@@ -19,7 +19,7 @@ void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
 		float pitch, yaw;
 		uint8_t remoteID;
 
-		packet >> remoteID >> position.x >> position.y >> position.z >> pitch >> yaw;
+		packet >> position.x >> position.y >> position.z >> pitch >> yaw >> remoteID;
 
 		if (m_entities.find(remoteID) != m_entities.end()) {
 			m_entities[remoteID].setTargetPosition(position);
@@ -33,7 +33,6 @@ void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
 		it -> second.update(_deltaTime);
 	}
-
 }
 
 void EntityHandler::addEntity(uint8_t id,

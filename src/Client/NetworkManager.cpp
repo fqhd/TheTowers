@@ -99,6 +99,7 @@ void NetworkManager::sendPositionDataToServer(Camera& _camera){
 		// This code sends the position and camera angles to the server
 		// Which will in turn send it to other connected clients except ourselves
 		sf::Packet packet;
+		packet.clear();
 		glm::vec3 p = _camera.getPosition(); // Camera Position
 		packet << m_id << p.x << p.y << p.z << _camera.getPitch() << _camera.getYaw();
 		m_udpSocket.send(packet, m_serverIp, m_config.getServerPort());
