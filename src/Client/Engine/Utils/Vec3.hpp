@@ -13,6 +13,11 @@ namespace math {
 		: x(x), y(y), z(z)
 		{}
 
+		float length() {
+
+		}
+
+
 		const base_vec3<T> operator+(const base_vec3<T>& other) {
 			return base_vec3<T>(x+other.x, y+other.y, z+other.z);
 		}
@@ -48,5 +53,5 @@ namespace math {
 
 	typedef base_vec3<float> vec3;
 	typedef base_vec3<int> ivec3;
-	typedef base_vec3<int8_t> uvec3;
+	typedef base_vec3<unsigned int> uvec3;
 }

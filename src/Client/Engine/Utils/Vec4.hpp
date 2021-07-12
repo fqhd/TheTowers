@@ -13,6 +13,7 @@ namespace math {
 		: x(x), y(y), z(z), w(w)
 		{}
 
+
 		const base_vec4<T> operator+(const base_vec4<T>& other) {
 			return base_vec4<T>(x+other.x, y+other.y, z+other.z, w+other.w);
 		}
@@ -49,5 +50,5 @@ namespace math {
 
 	typedef base_vec4<float> vec4;
 	typedef base_vec4<int> ivec4;
-	typedef base_vec4<int8_t> uvec4; 
+	typedef base_vec4<unsigned int> uvec4; 
 }

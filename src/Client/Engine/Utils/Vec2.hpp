@@ -12,6 +12,10 @@ namespace math {
 		base_vec2(T x, T y)
 		: x(x), y(y)
 		{}
+
+		float length() {
+			return (float)sqrt(pow(x, 2)+pow(y, 2));
+		}
 		
 		const base_vec2<T> operator+(const base_vec2<T>& other) {
 			return base_vec2<T>(x+other.x, y+other.y);
@@ -51,5 +55,5 @@ namespace math {
 
 	typedef base_vec2<float> vec2;
 	typedef base_vec2<int> ivec2;
-	typedef base_vec2<int8_t> uvec2;
+	typedef base_vec2<unsigned int> uvec2;
 }
