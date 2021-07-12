@@ -12,7 +12,42 @@ namespace math {
 		base_vec2(T x, T y)
 		: x(x), y(y)
 		{}
+		
+		base_vec2<T>& operator+(const base_vec2<T>& other) {
+			return base_vec2<T>(x+other.x, y+other.y);
+		}
+
+		base_vec2<T>& operator+(const T& other) {
+			return base_vec2<T>(x+other, y+other);
+		}
+
+		base_vec2<T>& operator-(const base_vec2<T>& other) {
+			return base_vec2<T>(x-other.x, y-other.y);
+		}
+
+		base_vec2<T>& operator-(const T& other) {
+			return base_vec2<T>(x-other, y-other);
+		}
+
+		base_vec2<T>& operator*(const base_vec2<T>& other) {
+			return base_vec2<T>(x*other.x, y*other.y);
+		}
+
+		base_vec2<T>& operator*(const T& other) {
+			return base_vec2<T>(x*other, y*other);
+		}
+
+		base_vec2<T>& operator/(const base_vec2<T>& other) {
+			return base_vec2<T>(x/other.x, y/other.y);
+		}
+
+		base_vec2<T>& operator/(const T& other) {
+			return base_vec2<T>(x/other, y/other);
+		}
+		
 	};
+
+	
 
 	typedef base_vec2<float> vec2;
 	typedef base_vec2<int> ivec2;

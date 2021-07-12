@@ -12,6 +12,39 @@ namespace math {
 		base_vec4(T x, T y, T z, T w) 
 		: x(x), y(y), z(z), w(w)
 		{}
+
+		base_vec4<T>& operator+(const base_vec4<T>& other) {
+			return base_vec4<T>(x+other.x, y+other.y, z+other.z, w+other.w);
+		}
+
+		base_vec4<T>& operator+(const T& other) {
+			return base_vec4<T>(x+other, y+other, z+other, w+other);
+		}
+
+		base_vec4<T>& operator-(const base_vec4<T>& other) {
+			return base_vec4<T>(x-other.x, y-other.y, z-other.z, w-other.w));
+		}
+
+		base_vec4<T>& operator-(const T& other) {
+			return base_vec4<T>(x-other, y-other, z-other, w-other.);
+		}
+
+		base_vec4<T>& operator*(const base_vec4<T>& other) {
+			return base_vec4<T>(x*other.x, y*other.y, z*other.z, w*other.w));
+		}
+
+		base_vec4<T>& operator*(const T& other) {
+			return base_vec4<T>(x*other, y*other, z*other, w*other.);
+		}
+
+		base_vec4<T>& operator/(const base_vec4<T>& other) {
+			return base_vec4<T>(x/other.x, y/other.y, z/other.z, w/other.w));
+		}
+
+		base_vec4<T>& operator/(const T& other) {
+			return base_vec4<T>(x/other, y/other, z/other, w/other);
+		}
+
 	};
 
 	typedef base_vec4<float> vec4;
