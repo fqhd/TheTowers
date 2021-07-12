@@ -6,6 +6,15 @@
 
 namespace math {
 
+	mat4 view(const vec3& position, float pitch, float yaw){
+		mat4 r;
+		r.setIdentity();
+		r = rotate(toRadians(pitch), vec3(1, 0, 0), r);
+		r = rotate(toRadians(yaw), vec3(0, 1, 0), r);
+		r = translate(-position, r);
+		return r;
+	}
+
 	mat4 rotate(float angle, const vec3& axis, const mat4& matrix){
 		mat4 r;
 

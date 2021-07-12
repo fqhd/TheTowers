@@ -13,6 +13,7 @@ namespace math {
 	// functions
 	mat4 perspective(float fovy, float aspect, float zNear, float zFar);
 	mat4 translate(const vec3& vec, const mat4& matrix);
+	mat4 view();
 	mat4 rotate(float angle, const vec3& axis, const mat4& matrix);
 	vec3 cross(const vec3& a, const vec3& b);
 	float length(const vec3& v);
