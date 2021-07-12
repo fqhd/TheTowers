@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdlib>
 
+#include "Vec2.hpp"
+
 namespace math {
 
 	template<typename T>
@@ -19,7 +21,8 @@ namespace math {
 		~base_vec3() {}
 
 		float length() {
-
+			float len_xy = vec2(x, y).length();
+			return vec2(z, len_xy).length();
 		}
 
 
