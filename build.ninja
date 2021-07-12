@@ -57,6 +57,7 @@ build obj/vignette.o: cc src/Client/Vignette.cpp
 build obj/debugmenu.o: cc src/Client/DebugMenu.cpp
 build obj/guicanvas.o: cc src/Client/Engine/GUI/GUICanvas.cpp
 build obj/math.o: cc src/Client/Engine/Utils/Math.cpp
+build obj/mat4.o: cc src/Client/Engine/Utils/Mat4.cpp
 build obj/serverMain.o: cc src/Server/main.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
 
@@ -64,4 +65,4 @@ build obj/serverConfig.o: cc src/Server/Config.cpp
 
 build server: lnk obj/serverMain.o obj/serverConfig.o
 
-build client: lnk obj/clientMain.o obj/window.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guirect.o obj/checkbox.o obj/image.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guilabel.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/guicanvas.o obj/debugmenu.o obj/math.o
+build client: lnk obj/clientMain.o obj/window.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guirect.o obj/checkbox.o obj/image.o obj/transform.o obj/model.o obj/modelshader.o obj/entityhandler.o obj/entity.o obj/objloader.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guilabel.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/guicanvas.o obj/debugmenu.o obj/math.o obj/mat4.o
