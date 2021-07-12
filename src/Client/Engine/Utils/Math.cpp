@@ -6,7 +6,57 @@
 
 namespace math {
 
-	
+	mat4 rotate(float angle, const vec3& axis, const mat4& matrix){
+		mat4 r;
+
+		float c = (float)cos(angle);
+		float s = (float)sin(angle);
+
+		float oneminusc = 1.0f - c;
+		float xy = axis.x * axis.y;
+		float yz = axis.y * axis.z;
+		float xz = axis.x * axis.z;
+		float xs = axis.x * s;
+		float ys = axis.y * s;
+		float zs = axis.z * s;
+
+		float f00 = axis.x * axis.x * oneminusc+c;
+		float f01 = xy * oneminusc + zs;
+		float f02 = xz * oneminusc - ys;
+
+		float f10 = xy * oneminusc - zs;
+		float f11 = axis.y * axis.y * oneminusc + c;
+		float f12 = yz * oneminusc + xs;
+
+		float f20 = xz * oneminusc + ys;
+		float f21 = yz * oneminusc - xs;
+		float f22 = axis.z * axis.z * oneminusc + c;
+
+		float t00 = matrix.m[0][0] * f00 + matrix.m[1][0] * f01 + matrix.m[2][0] * f02;
+		float t01 = matrix.m[0][1] * f00 + matrix.m[1][1] * f01 + matrix.m[2][1] * f02;
+		float t02 = matrix.m[0][2] * f00 + matrix.m[1][2] * f01 + matrix.m[2][2] * f02;
+		float t03 = matrix.m[0][3] * f00 + matrix.m[1][3] * f01 + matrix.m[2][3] * f02;
+		float t10 = matrix.m[0][0] * f10 + matrix.m[1][0] * f11 + matrix.m[2][0] * f12;
+		float t11 = matrix.m[0][1] * f10 + matrix.m[1][1] * f11 + matrix.m[2][1] * f12;
+		float t12 = matrix.m[0][2] * f10 + matrix.m[1][2] * f11 + matrix.m[2][2] * f12;
+		float t13 = matrix.m[0][3] * f10 + matrix.m[1][3] * f11 + matrix.m[2][3] * f12;
+
+
+		r.m[2][0] = matrix.m[0][0] * f20 + matrix.m[1][0] * f21 + matrix.m[2][0] * f22;
+		r.m[2][1] = matrix.m[0][1] * f20 + matrix.m[1][1] * f21 + matrix.m[2][1] * f22;
+		r.m[2][2] = matrix.m[0][2] * f20 + matrix.m[1][2] * f21 + matrix.m[2][2] * f22;
+		r.m[2][3] = matrix.m[0][3] * f20 + matrix.m[1][3] * f21 + matrix.m[2][3] * f22;
+		r.m[0][0] = t00;
+		r.m[0][1] = t01;
+		r.m[0][2] = t02;
+		r.m[0][3] = t03;
+		r.m[1][0] = t10;
+		r.m[1][1] = t11;
+		r.m[1][2] = t12;
+		r.m[1][3] = t13;
+
+		return r;
+	}
 
 	vec3 cross(vec3 a, vec3 b){
 		vec3 r;
@@ -69,7 +119,7 @@ namespace math {
 
 	const vec3 scale(const vec3& v, float scale) {
 		return vec3(v.x*scale, v.y*scale, v.z*scale);
-	}	
+	}
 	const vec4 scale(const vec4& v, float scale) {
 		return vec4(v.x*scale, v.y*scale, v.z*scale, v.w*scale);
 	}
