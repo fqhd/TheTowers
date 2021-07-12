@@ -38,7 +38,7 @@ namespace math {
 			x *= other.x;
 			y *= other.y;
 			z *= other.z;
-			w +/= other.w;
+			w *= other.w;
 			return *this;
 		}
 
