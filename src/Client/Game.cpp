@@ -51,7 +51,7 @@ void Game::render(Player& _player) {
 	m_canvas->render();
 
 	if(m_msPerFramePrintClock.getElapsedTime().asSeconds() >= 1.0f){
-		std::cout << "ms: " << tmp.getElapsedTime().asMilliseconds() << std::endl;
+		std::cout << "ms: " << tmp.getElapsedTime().asSeconds() * 1000.0f << std::endl;
 		m_msPerFramePrintClock.restart();
 	}
 }
