@@ -47,4 +47,16 @@ namespace math {
 	float toRadians(float degrees){
 		return degrees * M_PI/180.0f;
 	}
+
+	float length(const vec2& vec){
+		return (float)sqrt(vec.x * vec.x + vec.y * vec.y);
+	}
+
+	float length(const vec3& vec){
+		return (float)sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	}
+
+	float length(const vec4& vec){
+		return (float)sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
+	}
 };
