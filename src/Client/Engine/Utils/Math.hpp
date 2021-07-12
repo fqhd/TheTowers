@@ -17,7 +17,12 @@ namespace math {
 	float length(const vec3& v);
 	float length(const vec2& v);
 	float length(const vec4& v);
+	const vec2 scale(const vec2& v, float scale);
+	const vec3 scale(const vec3& v, float scale);
+	const vec4 scale(const vec4& v, float scale);
 	float round(float f, size_t decimals); // Returns rounded float with specified decimals
 	float toRadians(float degrees); // Converts degrees to radians
-
+	const vec2 normalize(const vec2& v);
+	const vec3 normalize(const vec3& v);
+	const vec4 normalize(const vec4& v);
 };
