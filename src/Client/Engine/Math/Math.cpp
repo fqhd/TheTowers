@@ -6,12 +6,12 @@
 
 namespace math {
 
-	mat4 view(const vec3& position, float pitch, float yaw){
+	mat4 view(vec3 position, float pitch, float yaw){
 		mat4 r;
 		r.setIdentity();
 		r = rotate(toRadians(pitch), vec3(1, 0, 0), r);
 		r = rotate(toRadians(yaw), vec3(0, 1, 0), r);
-		r = translate(-position, r);
+		r = translate(position * -1.0f, r);
 		return r;
 	}
 

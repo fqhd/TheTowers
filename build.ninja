@@ -56,11 +56,11 @@ build obj/quadshader.o: cc src/Client/Engine/Utils/QuadShader.cpp
 build obj/vignette.o: cc src/Client/Vignette.cpp
 build obj/debugmenu.o: cc src/Client/DebugMenu.cpp
 build obj/guicanvas.o: cc src/Client/Engine/GUI/GUICanvas.cpp
-build obj/math.o: cc src/Client/Engine/Utils/Math.cpp
-build obj/mat4.o: cc src/Client/Engine/Utils/Mat4.cpp
-build obj/vec2.o: cc src/Client/Engine/Utils/Vec2.cpp
-build obj/vec3.o: cc src/Client/Engine/Utils/Vec3.cpp
-build obj/vec4.o: cc src/Client/Engine/Utils/Vec4.cpp
+build obj/math.o: cc src/Client/Engine/Math/Math.cpp
+build obj/mat4.o: cc src/Client/Engine/Math/Mat4.cpp
+build obj/vec2.o: cc src/Client/Engine/Math/Vec2.cpp
+build obj/vec3.o: cc src/Client/Engine/Math/Vec3.cpp
+build obj/vec4.o: cc src/Client/Engine/Math/Vec4.cpp
 build obj/serverMain.o: cc src/Server/main.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
 

@@ -1,5 +1,4 @@
 #include "Transform.hpp"
-#include "Math.hpp"
 
 Transform::Transform(){
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
