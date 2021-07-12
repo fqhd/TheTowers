@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdlib>
 
+#include "Vec2.hpp"
+
 namespace math {
 
 	template<typename T>
