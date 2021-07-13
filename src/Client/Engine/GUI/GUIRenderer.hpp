@@ -20,7 +20,6 @@ public:
 private:
 
 	void uploadData();
-	void createVAO();
 
 	GLuint m_vbo = 0;
 	GLuint m_vao = 0;

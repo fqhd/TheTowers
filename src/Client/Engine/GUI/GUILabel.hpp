@@ -28,4 +28,3 @@ private:
 	GLuint m_numVertices = 0;
 
 };
-

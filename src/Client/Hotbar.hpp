@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Engine/GUI/GUIHandler.hpp"
+#include "Engine/GUI/GUIRenderer.hpp"
 
 class Hotbar {
 public:
 
-    void render(GUIHandler* _handler);
+    void render(GUIRenderer& _renderer);
 
     uint8_t items[9];
 };

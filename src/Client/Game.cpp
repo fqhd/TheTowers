@@ -58,6 +58,7 @@ void Game::renderGUI(){
 	m_guiHandler->guiRenderer.begin();
 
 	m_guiHandler->guiRenderer.draw(glm::vec4(638, 358, 4, 4), ColorRGBA8(0, 0, 0, 255), 0);
+	m_player->hotbar.render(m_guiHandler->guiRenderer);
 
 	m_guiHandler->guiRenderer.end();
 

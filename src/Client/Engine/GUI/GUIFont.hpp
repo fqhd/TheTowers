@@ -25,4 +25,3 @@ private:
 	GLuint m_textureID = 0;
 
 };
-
