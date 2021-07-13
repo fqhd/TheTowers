@@ -1,8 +1,8 @@
 #pragma once
 
-// of many frames are used to calculate average
+// how many frames are used to calculate average frame rate
 #define FRAMES_SIZE 50
-#define UNDEFINED_FRAME -1.0f
+
 class FrameCounter
 {
 public:
