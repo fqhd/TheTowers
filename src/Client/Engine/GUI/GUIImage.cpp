@@ -1,29 +1,31 @@
 #include "GUIImage.hpp"
 
-void GUIImage::init(const glm::vec2& size, GLuint _textureID){
+void GUIImage::init(const glm::vec4& destRect, GLuint _textureID){
     m_textureID = _textureID;
+    position.x = destRect.x;
+    position.y = destRect.y;
 
-    GUIImageVertex vertices = {
+    GUIImageVertex vertices[] = {
         GUIImageVertex(glm::vec2(0, 0), 0),
-        GUIImageVertex(glm::vec2(0, size.y), 1),
-        GUIImageVertex(glm::vec2(size.x, size.y), 2),
+        GUIImageVertex(glm::vec2(0, destRect.w), 1),
+        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 2),
 
         GUIImageVertex(glm::vec2(0, 0), 0),
-        GUIImageVertex(glm::vec2(size.x, size.y), 2),
-        GUIImageVertex(glm::vec2(size.x, 0), 3)
+        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 2),
+        GUIImageVertex(glm::vec2(destRect.z, 0), 3)
     };
 
-    glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
+    glGenVertexArrays(1, &m_vaoID);
+	glBindVertexArray(m_vaoID);
 
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glGenBuffers(1, &m_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, position));
-	glVertexAttribPointer(1, 1, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, textureInfo));
+	glVertexAttribPointer(1, 1, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, uv));
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
