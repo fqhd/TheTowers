@@ -3,8 +3,8 @@
 #include <SFML/Network.hpp>
 #include <glm/gtc/noise.hpp>
 #include "EntityHandler.hpp"
-#include "Engine/Input/InputManager.hpp"
 #include "Player.hpp"
+#include "Engine/Input/InputManager.hpp"
 #include "Engine/Utils/ChunkShader.hpp"
 #include "NetworkManager.hpp"
 #include "Engine/World/World.hpp"
@@ -17,11 +17,14 @@
 #include "Vignette.hpp"
 #include "Settings.hpp"
 #include "FrameCounter.hpp"
+#include "Engine/GUI/GUIHandler.hpp"
+
+
 
 class Game {
 public:
 
-	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player);
+	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player, GUIHandler* _guiHandler);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
@@ -33,7 +36,7 @@ public:
 
 private:
 
-	void addGUI();
+	void renderGUI();
 
 	//Engine Variables
 	CubeMap m_cubeMap;
@@ -42,14 +45,11 @@ private:
 	BlockOutline m_blockOutline;
 	Vignette m_vignette;
 
-
+	// Pointers
+	GUIHandler* m_guiHandler = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	InputManager* m_inputManager = nullptr;
 	World* m_world = nullptr;
 	Player* m_player = nullptr;
-
-	//Game Variables
-	sf::Clock m_msPerFramePrintClock;
-
 
 };

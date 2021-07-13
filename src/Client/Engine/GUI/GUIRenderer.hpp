@@ -19,7 +19,6 @@ public:
 
 private:
 
-
 	void uploadData();
 	void createVAO();
 
@@ -29,4 +28,3 @@ private:
 	std::vector<GUIVertex> m_vertices;
 
 };
-
