@@ -3,6 +3,7 @@
 #include "../Utils/Shader.hpp"
 #include <glm/glm.hpp>
 #include "../Utils/Vertex.hpp"
+#include "../Math/Math.hpp"
 
 class GUIFontShader : public Shader {
 public:

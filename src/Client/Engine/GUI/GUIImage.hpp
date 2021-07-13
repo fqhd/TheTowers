@@ -1,11 +1,11 @@
 #pragma once
 
 #include "../Utils/Vertex.hpp"
-
+#include "../Math/Math.hpp"
 class GUIImage {
 public:
 
-    GUIImage(const glm::vec4& destRect, GLuint _textureID);
+    GUIImage(const math::vec4& destRect, GLuint _textureID);
     void render();
     void destroy();
     GLuint getTextureID();

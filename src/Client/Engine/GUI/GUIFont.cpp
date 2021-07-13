@@ -60,7 +60,7 @@ void GUIFont::updateMesh(GUILabel& mesh) {
 
 		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, &xPos, &yPos, &q, 1);
 
-		renderQuad(vertices, glm::vec4(q.x0, wh - q.y0, q.x1, wh - q.y1), glm::vec4(q.s0, q.t0, q.s1, q.t1));
+		renderQuad(vertices, math::vec4(q.x0, wh - q.y0, q.x1, wh - q.y1), math::vec4(q.s0, q.t0, q.s1, q.t1));
 	}
 
 	mesh.pushData(vertices);
@@ -68,7 +68,7 @@ void GUIFont::updateMesh(GUILabel& mesh) {
 	mesh.needsMeshUpdate = false;
 }
 
-void GUIFont::renderQuad(std::vector<GUITextVertex>& vertices, const glm::vec4& destRect, const glm::vec4& uv) {
+void GUIFont::renderQuad(std::vector<GUITextVertex>& vertices, const math::vec4& destRect, const math::vec4& uv) {
 	vertices.emplace_back(glm::vec2(destRect.x, destRect.y), glm::vec2(uv.x, uv.y)); // Bottom Left
 	vertices.emplace_back(glm::vec2(destRect.x, destRect.w), glm::vec2(uv.x, uv.w)); // Top Left
 	vertices.emplace_back(glm::vec2(destRect.z, destRect.w), glm::vec2(uv.z, uv.w)); // Top Right

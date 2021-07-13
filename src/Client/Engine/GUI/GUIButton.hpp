@@ -2,11 +2,12 @@
 
 #include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
+#include "../Math/Math.hpp"
 
 class GUIButton {
 public:
 
-	GUIButton(const glm::vec4& destRect, unsigned int _layer);
+	GUIButton(const math::vec4& destRect, unsigned int _layer);
 	void update(InputManager* _manager, float deltaTime);
 	void render(GUIRenderer* renderer);
 	bool isPressed();
@@ -20,9 +21,9 @@ private:
 	ColorRGBA8 m_currentColor;
 	std::string m_string;
 
-	glm::vec4 m_originalRect;
-	glm::vec4 m_targetRect;
-	glm::vec4 m_shadowRect;
-	glm::vec4 m_destRect;
+	math::vec4 m_originalRect;
+	math::vec4 m_targetRect;
+	math::vec4 m_shadowRect;
+	math::vec4 m_destRect;
 
 };

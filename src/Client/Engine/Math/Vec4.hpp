@@ -50,35 +50,35 @@ namespace math {
 			return *this;
 		}
 
-		const base_vec4<T> operator+(const base_vec4<T>& other) {
+		base_vec4<T> operator+(const base_vec4<T>& other) {
 			return base_vec4<T>(x+other.x, y+other.y, z+other.z, w+other.w);
 		}
 
-		const base_vec4<T> operator+(const T& other) {
+		base_vec4<T> operator+(const T& other) {
 			return base_vec4<T>(x+other, y+other, z+other, w+other);
 		}
-
-		const base_vec4<T> operator-(const base_vec4<T>& other) {
+		
+		base_vec4<T> operator-(const base_vec4<T>& other) {
 			return base_vec4<T>(x-other.x, y-other.y, z-other.z, w-other.w);
 		}
 
-		const base_vec4<T> operator-(const T& other) {
+		base_vec4<T> operator-(const T& other) {
 			return base_vec4<T>(x-other, y-other, z-other, w-other);
 		}
 
-		const base_vec4<T> operator*(const base_vec4<T>& other) {
+		base_vec4<T> operator*(const base_vec4<T>& other) {
 			return base_vec4<T>(x*other.x, y*other.y, z*other.z, w*other.w);
 		}
 
-		const base_vec4<T> operator*(const T& other) {
+		base_vec4<T> operator*(const T& other) {
 			return base_vec4<T>(x*other, y*other, z*other, w*other);
 		}
 
-		const base_vec4<T> operator/(const base_vec4<T>& other) {
+		base_vec4<T> operator/(const base_vec4<T>& other) {
 			return base_vec4<T>(x/other.x, y/other.y, z/other.z, w/other.w);
 		}
 
-		const base_vec4<T> operator/(const T& other) {
+		base_vec4<T> operator/(const T& other) {
 			return base_vec4<T>(x/other, y/other, z/other, w/other);
 		}
 

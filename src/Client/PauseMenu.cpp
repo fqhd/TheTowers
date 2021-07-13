@@ -31,8 +31,8 @@ void PauseMenu::destroy(){
 
 void PauseMenu::initGUI(){
 	// Rects
-	m_canvas->rects.push_back(GUIRect(glm::vec4(70, 30, 1140, 630), ColorRGBA8(240, 210, 38, 255), 1)); // Outline
-	m_canvas->rects.push_back(GUIRect(glm::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255), 1)); // Background
+	m_canvas->rects.push_back(GUIRect(math::vec4(70, 30, 1140, 630), ColorRGBA8(240, 210, 38, 255), 1)); // Outline
+	m_canvas->rects.push_back(GUIRect(math::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255), 1)); // Background
 
 	// Labels
 	m_canvas->labels.push_back(GUILabel("Fog: ", glm::vec2(150, 525), ColorRGBA8(255, 255, 255, 255)));
@@ -41,12 +41,12 @@ void PauseMenu::initGUI(){
 	m_canvas->labels.push_back(GUILabel("SAVE SETTINGS", glm::vec2(525, 68), ColorRGBA8(255, 255, 255, 255)));
 
 	// Checkboxes
-	m_canvas->checkboxes.push_back(GUICheckbox(glm::vec4(325, 525, 32, 32), m_settings->isFogToggled, 1)); // Fog checkbox
-	m_canvas->checkboxes.push_back(GUICheckbox(glm::vec4(325, 475, 32, 32), m_settings->isVignetteToggled, 1)); // Vignette checkbox
-	m_canvas->checkboxes.push_back(GUICheckbox(glm::vec4(325, 425, 32, 32), m_settings->isDebugToggled, 1)); // Vignette checkbox
+	m_canvas->checkboxes.push_back(GUICheckbox(math::vec4(325, 525, 32, 32), m_settings->isFogToggled, 1)); // Fog checkbox
+	m_canvas->checkboxes.push_back(GUICheckbox(math::vec4(325, 475, 32, 32), m_settings->isVignetteToggled, 1)); // Vignette checkbox
+	m_canvas->checkboxes.push_back(GUICheckbox(math::vec4(325, 425, 32, 32), m_settings->isDebugToggled, 1)); // Vignette checkbox
 
 	// Buttons
-	m_canvas->buttons.push_back(GUIButton(glm::vec4(500, 58, 240, 38), 1)); // Save Settings Button
+	m_canvas->buttons.push_back(GUIButton(math::vec4(500, 58, 240, 38), 1)); // Save Settings Button
 }
 
 void PauseMenu::handleInputs(){

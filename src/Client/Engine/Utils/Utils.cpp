@@ -52,7 +52,7 @@ std::string Utils::readFileToString(const std::string& shaderName) {
 	return shaderCode;
 }
 
-bool Utils::isInside(const glm::vec2& pos, const glm::vec4& destRect){
+bool Utils::isInside(const glm::vec2& pos, const math::vec4& destRect){
 	return (pos.x >= destRect.x && pos.x <= destRect.x + destRect.z && pos.y >= destRect.y && pos.y <= destRect.y + destRect.w);
 }
 

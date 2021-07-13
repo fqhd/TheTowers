@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <iostream>
 
+#include "../Math/Math.hpp"
+
 
 namespace Utils {
 
@@ -14,7 +16,7 @@ namespace Utils {
 	uint8_t* readFileToBuffer(const std::string& filePath);
 	void freeBuffer(uint8_t* buffer);
 	std::string readFileToString(const std::string& shaderName);
-	bool isInside(const glm::vec2& mousePos, const glm::vec4& destRect);
+	bool isInside(const glm::vec2& mousePos, const math::vec4& destRect);
 	bool isInRange(const glm::vec3& a, const glm::vec3& b, float range);
 	glm::vec2 flipCoords(const glm::vec2& coords, float height);
 	glm::vec2 mapPoint(const glm::vec2& point, const glm::vec2& pointDimensions, const glm::vec2& desiredDimensions);

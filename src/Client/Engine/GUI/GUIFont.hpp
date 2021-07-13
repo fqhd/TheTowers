@@ -3,6 +3,7 @@
 #include <string>
 #include "GUILabel.hpp"
 #include "../Libs/stb_truetype.h"
+#include "../Math/Math.hpp"
 
 
 class GUIFont {
@@ -17,7 +18,7 @@ public:
 
 private:
 
-	void renderQuad(std::vector<GUITextVertex>& vertices, const glm::vec4& destRect, const glm::vec4& uv);
+	void renderQuad(std::vector<GUITextVertex>& vertices, const math::vec4& destRect, const math::vec4& uv);
 
 	unsigned int m_bitmapWidth = 0;
 	unsigned int m_bitmapHeight = 0;

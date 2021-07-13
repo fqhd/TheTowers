@@ -11,7 +11,7 @@ public:
 
 	void init();
 	void begin();
-	void draw(const glm::vec4& destRect, const ColorRGBA8& color, unsigned int layer);
+	void draw(const math::vec4& destRect, const ColorRGBA8& color, unsigned int layer);
 	void end();
 	void render();
 

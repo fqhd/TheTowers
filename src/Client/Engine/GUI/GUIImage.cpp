@@ -1,6 +1,6 @@
 #include "GUIImage.hpp"
 
-GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
+GUIImage::GUIImage(const math::vec4& destRect, GLuint _textureID){
     m_textureID = _textureID;
     position.x = destRect.x;
     position.y = destRect.y;
