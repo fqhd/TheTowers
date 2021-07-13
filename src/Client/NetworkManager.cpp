@@ -63,7 +63,7 @@ void NetworkManager::downloadWorld(uint8_t* _data){
 	sf::Packet packet;
 	m_tcpSocket.setBlocking(true);
 	if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
-		std::cout << "Failed to compressed world data packet from server" << std::endl;
+		std::cout << "Failed to receive compressed world data packet from server" << std::endl;
 		return;
 	}
 	m_tcpSocket.setBlocking(false);
