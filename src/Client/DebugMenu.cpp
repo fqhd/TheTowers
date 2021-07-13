@@ -1,4 +1,5 @@
 #include "DebugMenu.hpp"
+#include "FrameCounter.hpp"
 
 void DebugMenu::init(Game* _game, GUICanvas* _canvas){
 	m_game = _game;
@@ -21,7 +22,9 @@ void DebugMenu::initGUI(){
 void DebugMenu::updateGUI(){
 	glm::vec3 camPos = m_game->camera.getPosition();
 	
-	m_canvas->labels[0].setString("FPS: " + std::to_string(m_game->m_framecounter.get_average()));
+	if (m_game->m_framecounter.get_current_frame() == FRAMES_SIZE-1) {
+		m_canvas->labels[0].setString("FPS: " + std::to_string((int)m_game->m_framecounter.get_average()));
+	}
 	m_canvas->labels[1].setString("X: " + std::to_string(camPos.x));
 	m_canvas->labels[2].setString("Y: " + std::to_string(camPos.y));
 	m_canvas->labels[3].setString("Z: " + std::to_string(camPos.z));

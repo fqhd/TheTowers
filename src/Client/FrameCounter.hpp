@@ -9,8 +9,8 @@ public:
 
 	FrameCounter();
 	void tick(float delta_time);
-	float get_average();
-
+	float get_average();	
+	int get_current_frame();
 private:
 
 	float frames[FRAMES_SIZE];
