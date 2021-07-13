@@ -47,7 +47,6 @@ build obj/inputmanager.o: cc src/Client/Engine/Input/InputManager.cpp
 
 # Math
 build obj/math.o: cc src/Client/Engine/Math/Math.cpp
-build obj/mat4.o: cc src/Client/Engine/Math/Mat4.cpp
 
 # Utils
 build obj/outlinerenderer.o: cc src/Client/Engine/Utils/OutlineRenderer.cpp
