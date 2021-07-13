@@ -3,18 +3,9 @@
 #include <glm/glm.hpp>
 #include "ColorRGBA8.hpp"
 
-struct vec2 {
-	vec2(){}
-	vec2(GLubyte u, GLubyte v){
-		x = u;
-		y = v;
-	}
-	GLubyte x = 0;
-	GLubyte y = 0;
-};
 
 struct GUIImageVertex {
-	GUITextVertex(const glm::vec2& _p, GLubyte _uv){
+	GUIImageVertex(const glm::vec2& _p, GLubyte _uv){
 		position = _p;
 		uv = _uv;
 	}
