@@ -1,7 +1,7 @@
 #pragma once
 
 // of many frames are used to calculate average
-#define FRAMES_SIZE 10
+#define FRAMES_SIZE 50
 #define UNDEFINED_FRAME -1.0f
 class FrameCounter
 {
@@ -9,7 +9,7 @@ public:
 
 	FrameCounter();
 	void tick(float delta_time);
-	float get_average();	
+	float get_average();
 	int get_current_frame();
 private:
 

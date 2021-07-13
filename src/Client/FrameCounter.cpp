@@ -6,12 +6,12 @@ FrameCounter::FrameCounter() {
 		frames[i] = UNDEFINED_FRAME;
 	}
 	current_frame = 0;
-} 
+}
 
 
 void FrameCounter::tick(float delta_time) {
-	frames[current_frame] = 1/delta_time;
-	current_frame = current_frame < FRAMES_SIZE ? current_frame+1 : 0;
+	frames[current_frame] = 1.0f / delta_time;
+	current_frame = current_frame < FRAMES_SIZE ? current_frame + 1 : 0;
 }
 
 float FrameCounter::get_average() {
