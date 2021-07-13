@@ -14,7 +14,6 @@
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
 #include "Engine/GUI/GUICanvas.hpp"
-#include "Config.hpp"
 #include "Vignette.hpp"
 #include "Settings.hpp"
 #include "FrameCounter.hpp"
@@ -22,15 +21,15 @@
 class Game {
 public:
 
-	void init(InputManager* _manager, sf::IpAddress& _ip, Config& _c, GUICanvas* _canvas, TextureArray* _textureArray);
-	void update(GameStates& _state, Player& _player, float _deltaTime);
-	void render(Player& _player);
+	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player);
+	void update(GameStates& _state, float _deltaTime);
+	void render();
 	void destroy();
 
 	void syncGameWithSettings(Settings* _settings);
 
 	Camera camera;
-	FrameCounter m_framecounter;
+	FrameCounter frameCounter;
 
 private:
 
@@ -41,11 +40,14 @@ private:
 	ParticleHandler m_particleHandler;
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;
-	World m_world;
-	NetworkManager m_networkManager;
-	InputManager* m_inputManager = nullptr;
 	Vignette m_vignette;
-	GUICanvas* m_canvas = nullptr;
+
+
+	NetworkManager* m_networkManager = nullptr;
+	InputManager* m_inputManager = nullptr;
+	World* m_world = nullptr;
+	Player* m_player = nullptr;
+
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;
 

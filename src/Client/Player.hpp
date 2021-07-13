@@ -3,6 +3,7 @@
 #include "Engine/Utils/Camera.hpp"
 #include "Engine/World/World.hpp"
 #include "Engine/Utils/ParticleHandler.hpp"
+#include "Hotbar.hpp"
 #include <SFML/Network.hpp>
 
 struct VisibleBlocks {
@@ -15,16 +16,17 @@ struct VisibleBlocks {
 class Player {
 public:
 
-	void update(Camera& camera, ParticleHandler& handler, World& world, NetworkManager& _nManager, InputManager* _iManager);
+	void update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
 
 	uint8_t selectedBlock = 1;
 	VisibleBlocks visibleBlocks;
+	Hotbar hotbar;
 
 private:
 
-	void getVisibleBlocks(Camera& camera, World& world);
-	void placeBlock(World& world);
-	void breakBlock(ParticleHandler& handler, World& world);
+	void getVisibleBlocks(Camera& camera, World* world);
+	void placeBlock(World* world);
+	void breakBlock(ParticleHandler& handler, World* world);
 	glm::ivec3 vecToBlock(const glm::vec3& vector);
 
 };

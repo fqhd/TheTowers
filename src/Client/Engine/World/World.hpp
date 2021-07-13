@@ -66,6 +66,3 @@ private:
 	Config m_config;
 
 };
-
-
-

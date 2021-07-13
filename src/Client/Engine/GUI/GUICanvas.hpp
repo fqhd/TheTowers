@@ -18,6 +18,9 @@ public:
     void update(InputManager* _manager, float _deltaTime);
 	void render();
 
+    GUIRenderer* guiRenderer = nullptr;
+    GUIShader* guiShader = nullptr;
+
 	std::vector<GUIButton> buttons;
 	std::vector<GUIRect> rects;
 	std::vector<GUICheckbox> checkboxes;
@@ -25,8 +28,7 @@ public:
 
 private:
 
-    GUIRenderer* m_guiRenderer = nullptr;
-    GUIShader* m_guiShader = nullptr;
+
     GUIFontShader* m_fontShader = nullptr;
     GUIFont* m_font = nullptr;
     TextureArray* m_textureArray = nullptr;

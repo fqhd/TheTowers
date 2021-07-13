@@ -15,7 +15,9 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_font.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
 	m_texturePack.init("res/textures/sprite_sheet.png", 512);
 	m_guiHandler.init(&m_font, &m_texturePack);
-	m_game.init(&m_inputManager, _ip, m_config, m_guiHandler.createCanvas(), &m_texturePack);
+	m_networkManager.connectToServer(_ip, m_config);
+	m_world.init(m_networkManager, m_config, &m_texturePack);
+	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_player);
 	m_game.syncGameWithSettings(&m_settings);
 	m_pause.init(&m_inputManager, &m_settings, m_guiHandler.createCanvas(), &m_game);
 	m_debugMenu.init(&m_game, m_guiHandler.createCanvas());
@@ -30,12 +32,12 @@ void Program::gameloop(){
 		float deltaTime = m_clock.restart().asSeconds();
 
 		if(m_state == GameStates::PLAY){
-			m_game.update(m_state, m_player, deltaTime);
-			m_game.render(m_player);
+			m_game.update(m_state, deltaTime);
+			m_game.render();
 			if(m_settings.isDebugToggled) m_debugMenu.render();
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state, deltaTime);
-			m_game.render(m_player);
+			m_game.render();
 			if(m_settings.isDebugToggled) m_debugMenu.render();
 			m_pause.render();
 		}

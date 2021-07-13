@@ -28,6 +28,8 @@ private:
 	Player m_player;
 	GUIFont m_font;
 	Game m_game;
+	World m_world;
+	NetworkManager m_networkManager;
 	PauseMenu m_pause;
 	GameStates m_state = GameStates::PAUSE;
 	InputManager m_inputManager;

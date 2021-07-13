@@ -26,7 +26,7 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip, Config& _c){
 
 }
 
-void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pHandler, EntityHandler& _eHandler){
+void NetworkManager::receiveGameUpdatePacket(World* _world, ParticleHandler& _pHandler, EntityHandler& _eHandler){
 	sf::Packet packet;
 
 	// Receiving packet
@@ -53,7 +53,7 @@ void NetworkManager::receiveGameUpdatePacket(World& _world, ParticleHandler& _pH
 			if (!b) {
 				_pHandler.placeParticlesAroundBlock(x, y, z);
 			}
-			_world.setBlock(x, y, z, b);
+			_world->setBlock(x, y, z, b);
 		}
 	}
 }

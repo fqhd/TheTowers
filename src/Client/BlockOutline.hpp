@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Engine/Utils/OutlineRenderer.hpp"
 #include "Engine/Utils/BlockOutlineShader.hpp"
@@ -8,7 +8,7 @@ class BlockOutline {
 public:
 
 	void init();
-	void render(Player& player, Camera& camera);
+	void render(Player* player, Camera& camera);
 	void destroy();
 
 private:
@@ -21,4 +21,3 @@ private:
 	BlockOutlineShader m_shader;
 
 };
-

@@ -8,12 +8,12 @@ void EntityHandler::init() {
 	m_model.loadFromFile("res/models/suzane.obj");
 }
 
-void EntityHandler::update(NetworkManager& _manager, float _deltaTime) {
+void EntityHandler::update(NetworkManager* _manager, float _deltaTime) {
 	sf::Packet packet;
 	sf::IpAddress remoteIp;
 	unsigned short remotePort;
 
-	while (_manager.m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
+	while (_manager->m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
 		glm::vec3 position;
 		float pitch, yaw;
 		uint8_t remoteID;

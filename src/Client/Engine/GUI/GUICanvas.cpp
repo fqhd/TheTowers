@@ -2,8 +2,8 @@
 
 GUICanvas::GUICanvas(GUIRenderer* _renderer, GUIShader* _guiShader, GUIFont* _font, GUIFontShader* _fontShader, TextureArray* _textureArray){
     m_font = _font;
-    m_guiRenderer = _renderer;
-    m_guiShader = _guiShader;
+    guiRenderer = _renderer;
+    guiShader = _guiShader;
     m_fontShader = _fontShader;
     m_textureArray = _textureArray;
 }
@@ -18,26 +18,26 @@ void GUICanvas::update(InputManager* _manager, float _deltaTime){
 }
 
 void GUICanvas::render(){
-    m_guiRenderer->begin();
+    guiRenderer->begin();
 	for(auto& i : rects){
-		i.render(m_guiRenderer);
+		i.render(guiRenderer);
 	}
 	for(auto& i : buttons){
-		i.render(m_guiRenderer);
+		i.render(guiRenderer);
 	}
 	for(auto& i : checkboxes){
-		i.render(m_guiRenderer);
+		i.render(guiRenderer);
 	}
-	m_guiRenderer->end();
-	m_guiShader->bind();
+	guiRenderer->end();
+	guiShader->bind();
 
 	m_textureArray->bind();
 
-	m_guiRenderer->render();
+	guiRenderer->render();
 
 	m_textureArray->unbind();
 
-	m_guiShader->unbind();
+	guiShader->unbind();
 
 	for(auto& i : labels){
 		if(i.needsMeshUpdate) m_font->updateMesh(i);

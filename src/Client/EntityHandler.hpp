@@ -17,7 +17,7 @@ public:
 
 
 	void init();
-	void update(NetworkManager& _manager, float _deltaTime);
+	void update(NetworkManager* _manager, float _deltaTime);
 	void render(Camera& camera);
 	void destroy();
 	void removeEntity(uint8_t entity);
@@ -36,4 +36,3 @@ private:
 	std::unordered_map<uint8_t, Entity> m_entities;
 
 };
-
