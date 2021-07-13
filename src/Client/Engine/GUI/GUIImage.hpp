@@ -5,7 +5,7 @@
 class GUIImage {
 public:
 
-    void init(const glm::vec4& destRect, GLuint _textureID);
+    GUIImage(const glm::vec4& destRect, GLuint _textureID);
     void render();
     void destroy();
     GLuint getTextureID();
