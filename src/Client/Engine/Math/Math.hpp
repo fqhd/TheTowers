@@ -20,6 +20,7 @@ namespace math {
 	float length(const vec2& v);
 	float length(const vec4& v);
 	mat4 scale(const mat4& m, const vec3& vec);
+	mat4 ortho(float left, float right, float bottom, float top);
 	float round(float f, size_t decimals); // Returns rounded float with specified decimals
 	float toRadians(float degrees); // Converts degrees to radians
 	vec2 normalize(const vec2& v);

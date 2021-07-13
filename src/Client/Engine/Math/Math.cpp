@@ -100,6 +100,17 @@ namespace math {
 		return Result;
 	}
 
+	mat4 ortho(float left, float right, float bottom, float top)
+	{
+		mat4 Result;
+		Result.m[0][0] = 2 / (right - left);
+		Result.m[1][1] = 2 / (top - bottom);
+		Result.m[2][2] = - 1;
+		Result.m[3][0] = - (right + left) / (right - left);
+		Result.m[3][1] = - (top + bottom) / (top - bottom);
+		return Result;
+	}
+
 	// returns float with specified decimals
 	float round(float f, size_t decimals) {
 		return ((int)(f*pow(10, decimals)))/pow(10, decimals);
