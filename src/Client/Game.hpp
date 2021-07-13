@@ -36,7 +36,7 @@ public:
 
 private:
 
-	void addGUI();
+	void renderGUI();
 
 	//Engine Variables
 	CubeMap m_cubeMap;

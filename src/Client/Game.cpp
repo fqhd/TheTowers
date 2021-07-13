@@ -17,7 +17,6 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
-	addGUI();
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -43,7 +42,7 @@ void Game::render() {
 	m_entityHandler.render(camera);
 	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
 	m_vignette.render();
-	m_player->hotbar.render(m_guiHandler);
+	renderGUI();
 }
 
 void Game::destroy() {
@@ -55,7 +54,16 @@ void Game::destroy() {
 	m_blockOutline.destroy();
 }
 
-void Game::addGUI(){
+void Game::renderGUI(){
+	m_guiHandler->guiRenderer.begin();
+
+	m_guiHandler->guiRenderer.draw(glm::vec4(638, 358, 4, 4), ColorRGBA8(0, 0, 0, 255), 0);
+
+	m_guiHandler->guiRenderer.end();
+
+	m_guiHandler->guiShader.bind();
+	m_guiHandler->guiRenderer.render();
+	m_guiHandler->guiShader.unbind();
 }
 
 void Game::syncGameWithSettings(Settings* _settings){
