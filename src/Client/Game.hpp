@@ -17,6 +17,7 @@
 #include "Config.hpp"
 #include "Vignette.hpp"
 #include "Settings.hpp"
+#include "FrameCounter.hpp"
 
 class Game {
 public:
@@ -29,7 +30,7 @@ public:
 	void syncGameWithSettings(Settings* _settings);
 
 	Camera camera;
-
+	FrameCounter m_framecounter;
 
 private:
 
@@ -45,7 +46,6 @@ private:
 	InputManager* m_inputManager = nullptr;
 	Vignette m_vignette;
 	GUICanvas* m_canvas = nullptr;
-
 	//Game Variables
 	sf::Clock m_msPerFramePrintClock;
 

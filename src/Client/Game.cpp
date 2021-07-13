@@ -24,7 +24,7 @@ void Game::update(GameStates& _state, Player& _player, float _deltaTime) {
 		m_inputManager->setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
-
+	m_framecounter.tick(_deltaTime);
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager.receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
 	camera.update(_deltaTime);
