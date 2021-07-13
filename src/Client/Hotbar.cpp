@@ -1,4 +1,5 @@
 #include "Hotbar.hpp"
 
-void Hotbar::render(GUICanvas* _canvas){
+void Hotbar::render(GUIHandler* _handler){
+
 }

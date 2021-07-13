@@ -4,7 +4,8 @@
 #include <glm/gtc/noise.hpp>
 
 
-void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player) {
+void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player, GUIHandler* _guiHandler) {
+	m_guiHandler = _guiHandler;
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
 	m_player = _player;
@@ -41,9 +42,8 @@ void Game::render() {
 	m_particleHandler.render(camera);
 	m_entityHandler.render(camera);
 	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
-
-	// Rendering vignette
 	m_vignette.render();
+	m_player->hotbar.render(m_guiHandler);
 }
 
 void Game::destroy() {
