@@ -7,30 +7,59 @@ rule cc
 rule lnk
   command = clang++ -o $out $in $lflags
 
+# src/Client/*.cpp
 build obj/clientMain.o: cc src/Client/main.cpp
-build obj/window.o: cc src/Client/Engine/Input/Window.cpp
 build obj/program.o: cc src/Client/Program.cpp
 build obj/clientConfig.o: cc src/Client/Config.cpp
 build obj/blockoutline.o: cc src/Client/BlockOutline.cpp
+build obj/entity.o: cc src/Client/Entity.cpp
+build obj/framecounter.o : cc src/Client/FrameCounter.cpp
+build obj/debugmenu.o: cc src/Client/DebugMenu.cpp
+build obj/vignette.o: cc src/Client/Vignette.cpp
+build obj/settings.o: cc src/Client/Settings.cpp
+build obj/pausemenu.o: cc src/Client/PauseMenu.cpp
+build obj/player.o: cc src/Client/Player.cpp
+build obj/game.o: cc src/Client/Game.cpp
+build obj/network.o: cc src/Client/NetworkManager.cpp
+build obj/entityhandler.o: cc src/Client/EntityHandler.cpp
+build obj/hotbar.o: cc src/Client/Hotbar.cpp
+
+# GUI
+build obj/guibutton.o: cc src/Client/Engine/GUI/GUIButton.cpp
+build obj/guifont.o: cc src/Client/Engine/GUI/GUIFont.cpp
+build obj/guifontshader.o: cc src/Client/Engine/GUI/GUIFontShader.cpp
+build obj/guihandler.o: cc src/Client/Engine/GUI/GUIHandler.cpp
+build obj/guirenderer.o: cc src/Client/Engine/GUI/GUIRenderer.cpp
+build obj/guishader.o: cc src/Client/Engine/GUI/GUIShader.cpp
+build obj/guirect.o: cc src/Client/Engine/GUI/GUIRect.cpp
+build obj/checkbox.o: cc src/Client/Engine/GUI/GUICheckbox.cpp
+build obj/guicanvas.o: cc src/Client/Engine/GUI/GUICanvas.cpp
+build obj/guilabel.o: cc src/Client/Engine/GUI/GUILabel.cpp
+
+
+# libs
+build obj/objloader.o: cc src/Client/Engine/Libs/OBJLoader.cpp
+build obj/frustum.o: cc src/Client/Engine/Libs/Frustum.cpp
+
+# input
+build obj/window.o: cc src/Client/Engine/Input/Window.cpp
+build obj/inputmanager.o: cc src/Client/Engine/Input/InputManager.cpp
+
+# Math
+build obj/math.o: cc src/Client/Engine/Math/Math.cpp
+build obj/mat4.o: cc src/Client/Engine/Math/Mat4.cpp
+
+# Utils
 build obj/outlinerenderer.o: cc src/Client/Engine/Utils/OutlineRenderer.cpp
 build obj/blockoutlineshader.o: cc src/Client/Engine/Utils/BlockOutlineShader.cpp
 build obj/textureArray.o: cc src/Client/Engine/Utils/TextureArray.cpp
-build obj/frustum.o: cc src/Client/Engine/Libs/Frustum.cpp
-build obj/inputmanager.o: cc src/Client/Engine/Input/InputManager.cpp
 build obj/model.o: cc src/Client/Engine/Utils/Model.cpp
 build obj/modelshader.o: cc src/Client/Engine/Utils/ModelShader.cpp
 build obj/transform.o: cc src/Client/Engine/Utils/Transform.cpp
-build obj/entity.o: cc src/Client/Entity.cpp
-build obj/entityhandler.o: cc src/Client/EntityHandler.cpp
-build obj/player.o: cc src/Client/Player.cpp
-build obj/chunk.o: cc src/Client/Engine/World/Chunk.cpp
 build obj/shader.o: cc src/Client/Engine/Utils/Shader.cpp
 build obj/utils.o: cc src/Client/Engine/Utils/Utils.cpp
 build obj/chunkshader.o: cc src/Client/Engine/Utils/ChunkShader.cpp
-build obj/game.o: cc src/Client/Game.cpp
 build obj/camera.o: cc src/Client/Engine/Utils/Camera.cpp
-build obj/network.o: cc src/Client/NetworkManager.cpp
-build obj/world.o: cc src/Client/Engine/World/World.cpp
 build obj/cubemap.o: cc src/Client/Engine/Utils/CubeMap.cpp
 build obj/cube.o: cc src/Client/Engine/Utils/Cube.cpp
 build obj/cubemapshader.o: cc src/Client/Engine/Utils/CubeMapShader.cpp
@@ -38,33 +67,20 @@ build obj/particlehandler.o: cc src/Client/Engine/Utils/ParticleHandler.cpp
 build obj/particle.o: cc src/Client/Engine/Utils/Particle.cpp
 build obj/particlequad.o: cc src/Client/Engine/Utils/ParticleQuad.cpp
 build obj/particleshader.o: cc src/Client/Engine/Utils/ParticleShader.cpp
-build obj/guibutton.o: cc src/Client/Engine/GUI/GUIButton.cpp
-build obj/guifont.o: cc src/Client/Engine/GUI/GUIFont.cpp
-build obj/guifontshader.o: cc src/Client/Engine/GUI/GUIFontShader.cpp
-build obj/guihandler.o: cc src/Client/Engine/GUI/GUIHandler.cpp
-build obj/guirenderer.o: cc src/Client/Engine/GUI/GUIRenderer.cpp
-build obj/guishader.o: cc src/Client/Engine/GUI/GUIShader.cpp
-build obj/pausemenu.o: cc src/Client/PauseMenu.cpp
-build obj/guirect.o: cc src/Client/Engine/GUI/GUIRect.cpp
-build obj/checkbox.o: cc src/Client/Engine/GUI/GUICheckbox.cpp
 build obj/image.o: cc src/Client/Engine/Utils/Image.cpp
-build obj/objloader.o: cc src/Client/Engine/Libs/OBJLoader.cpp
-build obj/guilabel.o: cc src/Client/Engine/GUI/GUILabel.cpp
-build obj/settings.o: cc src/Client/Settings.cpp
 build obj/quad.o: cc src/Client/Engine/Utils/Quad.cpp
 build obj/quadshader.o: cc src/Client/Engine/Utils/QuadShader.cpp
-build obj/vignette.o: cc src/Client/Vignette.cpp
-build obj/debugmenu.o: cc src/Client/DebugMenu.cpp
-build obj/guicanvas.o: cc src/Client/Engine/GUI/GUICanvas.cpp
-build obj/math.o: cc src/Client/Engine/Math/Math.cpp
-build obj/mat4.o: cc src/Client/Engine/Math/Mat4.cpp
-build obj/framecounter.o : cc src/Client/FrameCounter.cpp
+
+# world
+build obj/chunk.o: cc src/Client/Engine/World/Chunk.cpp
+build obj/world.o: cc src/Client/Engine/World/World.cpp
+
+
+# server
 build obj/serverMain.o: cc src/Server/main.cpp
-build obj/hotbar.o: cc src/Client/Hotbar.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
 build obj/guiimageshader.o: cc src/Client/Engine/GUI/GUIImageShader.cpp
 build obj/guiimage.o: cc src/Client/Engine/GUI/GUIImage.cpp
-
 
 
 build server: lnk obj/serverMain.o obj/serverConfig.o
