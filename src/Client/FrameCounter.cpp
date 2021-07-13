@@ -2,9 +2,6 @@
 
 
 FrameCounter::FrameCounter() {
-	for (int i = 0; i < FRAMES_SIZE; i++) {
-		frames[i] = UNDEFINED_FRAME;
-	}
 	current_frame = 0;
 }
 
@@ -15,15 +12,12 @@ void FrameCounter::tick(float delta_time) {
 }
 
 float FrameCounter::get_average() {
-	int defined = 0;
 	float sum = 0.0f;
-	for (int i = 0; i < FRAMES_SIZE; i++) {
-		if (frames[i] != UNDEFINED_FRAME) {
-			defined++;
-			sum += frames[i];
-		}
+	for (int i = 0; i < current_frame; i++) {
+		sum += frames[i];
+		
 	}
-	return sum/defined;
+	return sum/current_frame;
 }
 
 int FrameCounter::get_current_frame() {return current_frame;}
