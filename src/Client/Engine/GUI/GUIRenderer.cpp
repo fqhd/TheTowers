@@ -33,7 +33,7 @@ void GUIRenderer::begin() {
 void GUIRenderer::end() {
 	uploadData();
 }
-
+ 
 void GUIRenderer::draw(const math::vec4& destRect, const ColorRGBA8& color, unsigned int layer) {
 	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color, glm::vec2(0, layer));
 	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y + destRect.w), color, glm::vec2(1, layer));
