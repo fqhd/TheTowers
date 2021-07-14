@@ -1,4 +1,5 @@
 #include "GUIImageRenderer.hpp"
+#include "../Utils/Image.hpp"
 
 void GUIImageRenderer::init(){
     m_shader.init();
@@ -11,27 +12,32 @@ void GUIImageRenderer::init(){
 }
 
 void GUIImageRenderer::renderImage(unsigned int _imageID){
+	GUIImage& img = m_images[_imageID];
     m_shader.bind();
+	
+	glBindTexture(GL_TEXTURE_2D, img.getTextureID());
 
-    m_shader.loadPosition(i.position);
-    images[_imageID].render();
+    m_shader.loadPosition(img.getPosition());
+    img.render();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 
     m_shader.unbind();
 }
 
 void GUIImageRenderer::destroy(){
-    for(auto& i : images){
+    for(auto& i : m_images){
         i.destroy();
     }
-	for(auto i : textures){
+	for(auto i : m_textures){
 		glDeleteTextures(1, &i);
     }
     m_shader.destroy();
 }
 
-GLuint GUIImageRenderer::loadTexture(const std::string& path){
+GLuint GUIImageRenderer::loadTexture(const std::string& _path){
 	Image image;
-	image.loadFromFile(path);
+	image.loadFromFile(_path);
 
 	GLuint tID;
 	glGenTextures(1, &tID);
@@ -49,4 +55,12 @@ GLuint GUIImageRenderer::loadTexture(const std::string& path){
 	image.free();
 
 	return tID;
+}
+
+void GUIImageRenderer::addImage(const glm::vec4& _destRect, GLuint _index){
+	m_images.push_back(GUIImage(_destRect, m_textures[_index]));
+}
+
+void GUIImageRenderer::addTexture(const std::string& _path){
+	m_textures.push_back(loadTexture(_path));
 }

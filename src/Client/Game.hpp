@@ -18,7 +18,7 @@
 #include "Settings.hpp"
 #include "FrameCounter.hpp"
 #include "Engine/GUI/GUIHandler.hpp"
-
+#include "HUD.hpp"
 
 
 class Game {
@@ -44,6 +44,8 @@ private:
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;
 	Vignette m_vignette;
+	GUIImageRenderer m_imageRenderer;
+	HUD m_hud;
 
 	// Pointers
 	GUIHandler* m_guiHandler = nullptr;

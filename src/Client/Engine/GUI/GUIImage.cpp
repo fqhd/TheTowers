@@ -1,9 +1,9 @@
 #include "GUIImage.hpp"
 
-GUIImage::GUIImage(const math::vec4& destRect, GLuint _textureID){
+GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
     m_textureID = _textureID;
-    position.x = destRect.x;
-    position.y = destRect.y;
+    m_position.x = destRect.x;
+    m_position.y = destRect.y;
 
     GUIImageVertex vertices[] = {
         GUIImageVertex(glm::vec2(0, 0), 0),
@@ -46,4 +46,8 @@ void GUIImage::destroy(){
 
 GLuint GUIImage::getTextureID(){
     return m_textureID;
+}
+
+const glm::vec2& GUIImage::getPosition(){
+    return m_position;
 }

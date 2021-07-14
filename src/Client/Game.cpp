@@ -17,6 +17,7 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
+	m_hud.init();
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -42,10 +43,11 @@ void Game::render() {
 	m_entityHandler.render(camera);
 	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
 	m_vignette.render();
-	renderGUI();
+	m_hud.render();
 }
 
 void Game::destroy() {
+	m_hud.destroy();
 	m_vignette.destroy();
 	m_entityHandler.destroy();
 	m_world->destroy();
@@ -54,18 +56,6 @@ void Game::destroy() {
 	m_blockOutline.destroy();
 }
 
-void Game::renderGUI(){
-	m_guiHandler->guiRenderer.begin();
-
-	m_guiHandler->guiRenderer.draw(math::vec4(638, 358, 4, 4), ColorRGBA8(0, 0, 0, 255), 0);
-	m_player->hotbar.render(m_guiHandler->guiRenderer);
-
-	m_guiHandler->guiRenderer.end();
-
-	m_guiHandler->guiShader.bind();
-	m_guiHandler->guiRenderer.render();
-	m_guiHandler->guiShader.unbind();
-}
 
 void Game::syncGameWithSettings(Settings* _settings){
 	m_vignette.setToggle(_settings->isVignetteToggled);
