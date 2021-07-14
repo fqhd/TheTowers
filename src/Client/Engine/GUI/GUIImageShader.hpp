@@ -8,6 +8,7 @@ public:
 
     void init();
 
+    void loadMatrix(const glm::mat4& matrix);
     void loadPosition(const glm::vec2& position);
 
 private:
@@ -15,5 +16,6 @@ private:
     void getUniformLocations();
 
     GLint m_positionLocation = 0;
+    GLint m_matrixLocation = 0;
 
 };
