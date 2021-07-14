@@ -1,5 +1,42 @@
 #include "Utils.hpp"
 
+
+
+void Utils::debug_log(const char *fmt, ...) {
+#ifdef DEBUG
+	va_list va_l;
+	va_start(va_l, fmt);
+	while (*fmt != '\0') {
+
+		if (*fmt == '%') {
+			*fmt++;
+			
+			if (*fmt == 's') {
+				char *s = va_arg(va_l, char *);
+				fputs(s, stdout);
+			}
+			else if (*fmt == 'c') {
+				char c = va_arg(va_l, int);
+				fputc(c, stdout);
+			}
+			else if (*fmt == 'd') {
+				int n = va_arg(va_l, int);
+				fprintf(stdout, "%d", n);
+			}
+
+			else if (*fmt == 'b') {
+				int b = va_arg(va_l, int);
+				fputs(( b ? "true" : "false"), stdout);
+			}
+		}
+		else {
+			fputc(*fmt, stdout);
+		}
+		fmt++;
+	}
+#endif // DEBUG
+}
+
 void Utils::printDividor(const std::string& name){
 	printf("%s\n", ("--------------------------- " + name + " ---------------------------").c_str());
 }
