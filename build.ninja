@@ -39,11 +39,11 @@ build obj/guilabel.o: cc src/Client/Engine/GUI/GUILabel.cpp
 build obj/guiimagerenderer.o: cc src/Client/Engine/GUI/GUIImageRenderer.cpp
 
 
-# libs
+# Libs
 build obj/objloader.o: cc src/Client/Engine/Libs/OBJLoader.cpp
 build obj/frustum.o: cc src/Client/Engine/Libs/Frustum.cpp
 
-# input
+# Input
 build obj/window.o: cc src/Client/Engine/Input/Window.cpp
 build obj/inputmanager.o: cc src/Client/Engine/Input/InputManager.cpp
 
@@ -72,12 +72,12 @@ build obj/image.o: cc src/Client/Engine/Utils/Image.cpp
 build obj/quad.o: cc src/Client/Engine/Utils/Quad.cpp
 build obj/quadshader.o: cc src/Client/Engine/Utils/QuadShader.cpp
 
-# world
+# World
 build obj/chunk.o: cc src/Client/Engine/World/Chunk.cpp
 build obj/world.o: cc src/Client/Engine/World/World.cpp
 
 
-# server
+# Server
 build obj/serverMain.o: cc src/Server/main.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
 build obj/guiimageshader.o: cc src/Client/Engine/GUI/GUIImageShader.cpp
