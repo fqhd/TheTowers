@@ -4,7 +4,7 @@
 #include "../Math/Mat4.hpp"
 #include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
-#include <ctime>
+
 
 class GUIInput {
 public:
@@ -18,7 +18,7 @@ public:
 
 private:
 
-	time_t m_last_pressed;
+	int64_t m_last_pressed;
 	bool m_active;
 	//std::string m_input;
 
