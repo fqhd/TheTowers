@@ -4,7 +4,7 @@
 void GUIImageRenderer::init(){
     m_shader.init();
 
-    glm::mat4 matrix = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f);
+    glm::mat4 matrix = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 
     m_shader.bind();
     m_shader.loadMatrix(matrix);

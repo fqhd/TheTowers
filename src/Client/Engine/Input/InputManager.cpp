@@ -53,10 +53,6 @@ bool InputManager::processInput() {
 				m_mousePosition.x = m_event.mouseMove.x;
 				m_mousePosition.y = m_event.mouseMove.y;
 			break;
-			case sf::Event::Resized:
-				m_windowSize.x = m_event.size.width;
-				m_windowSize.y = m_event.size.height;
-			break;
 			case sf::Event::LostFocus:
 				m_hasFocus = false;
 			break;
@@ -106,9 +102,7 @@ glm::vec2 InputManager::getMousePosition(){
 }
 
 glm::vec2 InputManager::getScaledMousePosition(){
-	glm::vec2 mousePos = getMousePosition();
-	glm::vec2 windowSize = getWindowSize();
-	return Utils::mapPoint(glm::vec2(mousePos.x, mousePos.y), glm::vec2(windowSize.x, windowSize.y), glm::vec2(1280.0f, 720.0f));
+	return Utils::mapPoint(glm::vec2(m_mousePosition.x, m_mousePosition.y), glm::vec2(m_windowSize.x, m_windowSize.y), glm::vec2(1280.0f, 720.0f));
 }
 
 bool InputManager::isKeyDown(int _keyID){
