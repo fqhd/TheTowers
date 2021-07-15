@@ -13,8 +13,6 @@
 
 namespace Utils {
 
-	uint64_t getTimeMs();
-	void printDividor(const std::string& name);
 	uint8_t* readFileToBuffer(const std::string& filePath);
 	void freeBuffer(uint8_t* buffer);
 	std::string readFileToString(const std::string& shaderName);

@@ -64,8 +64,3 @@ void GUIInput::render(GUIRenderer* renderer) {
 	renderer->draw(m_outlineRect, (m_focused ? ColorRGBA8() : ColorRGBA8(100, 100, 100, 255)), 0);
 	renderer->draw(m_destRect, ColorRGBA8(50, 50, 50, 255), 0);
 }
-
-// int GUIInput::getInt() {
-// }
-// std::string GUIInput::getString() {
-// }
