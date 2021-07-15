@@ -7,12 +7,13 @@
 #include <cstdint>
 #include <iostream>
 #include <cstdarg>
-
+#include <chrono>
 #include "../Math/Math.hpp"
 
 
 namespace Utils {
-	void debug_log(const char *fmt, ...);
+
+	uint64_t getTimeMs();
 	void printDividor(const std::string& name);
 	uint8_t* readFileToBuffer(const std::string& filePath);
 	void freeBuffer(uint8_t* buffer);

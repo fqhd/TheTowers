@@ -1,40 +1,8 @@
 #include "Utils.hpp"
 
 
-
-void Utils::debug_log(const char *fmt, ...) {
-#ifdef DEBUG
-	va_list va_l;
-	va_start(va_l, fmt);
-	while (*fmt != '\0') {
-
-		if (*fmt == '%') {
-			*fmt++;
-			
-			if (*fmt == 's') {
-				char *s = va_arg(va_l, char *);
-				fputs(s, stdout);
-			}
-			else if (*fmt == 'c') {
-				char c = va_arg(va_l, int);
-				fputc(c, stdout);
-			}
-			else if (*fmt == 'd') {
-				int n = va_arg(va_l, int);
-				fprintf(stdout, "%d", n);
-			}
-
-			else if (*fmt == 'b') {
-				int b = va_arg(va_l, int);
-				fputs(( b ? "true" : "false"), stdout);
-			}
-		}
-		else {
-			fputc(*fmt, stdout);
-		}
-		fmt++;
-	}
-#endif // DEBUG
+uint64_t Utils::getTimeMs() {
+	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 void Utils::printDividor(const std::string& name){
