@@ -9,7 +9,9 @@
 class GUILabel {
 public:
 
+	GUILabel();
 	GUILabel(const std::string& string, const glm::vec2& p, const ColorRGBA8& c);
+	void init(const std::string& string, const glm::vec2& p, const ColorRGBA8& c);
 	void render();
 	void destroy();
 	void pushData(const std::vector<GUITextVertex>& vertices);
