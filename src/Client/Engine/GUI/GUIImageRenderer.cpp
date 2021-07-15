@@ -4,7 +4,7 @@
 void GUIImageRenderer::init(){
     m_shader.init();
 
-    glm::mat4 matrix = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
+    math::mat4 matrix = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 
     m_shader.bind();
     m_shader.loadMatrix(matrix);
@@ -57,7 +57,7 @@ GLuint GUIImageRenderer::loadTexture(const std::string& _path){
 	return tID;
 }
 
-void GUIImageRenderer::addImage(const glm::vec4& _destRect, unsigned int _index){
+void GUIImageRenderer::addImage(const math::vec4& _destRect, unsigned int _index){
 	m_images.push_back(GUIImage(_destRect, m_textures[_index]));
 }
 

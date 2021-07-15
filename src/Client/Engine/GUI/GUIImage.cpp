@@ -1,7 +1,7 @@
 #include "GUIImage.hpp"
 #include <iostream>
 
-GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
+GUIImage::GUIImage(const math::vec4& destRect, GLuint _textureID){
 	m_textureID = _textureID;
 	m_position.x = destRect.x;
 	m_position.y = destRect.y;
@@ -55,6 +55,6 @@ GLuint GUIImage::getTextureID(){
 	return m_textureID;
 }
 
-const glm::vec2& GUIImage::getPosition(){
+const math::vec2& GUIImage::getPosition(){
 	return m_position;
 }

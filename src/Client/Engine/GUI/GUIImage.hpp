@@ -6,11 +6,11 @@
 class GUIImage {
 public:
 
-    GUIImage(const glm::vec4& destRect, GLuint _textureID);
+    GUIImage(const math::vec4& destRect, GLuint _textureID);
     void render();
     void destroy();
     GLuint getTextureID();
-    const glm::vec2& getPosition();
+    const math::vec2& getPosition();
 
 
 private:
@@ -18,6 +18,6 @@ private:
     GLuint m_vaoID = 0;
     GLuint m_vboID = 0;
     GLuint m_textureID = 0;
-    glm::vec2 m_position;
+    math::vec2 m_position;
 
 };
