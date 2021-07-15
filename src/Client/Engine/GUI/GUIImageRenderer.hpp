@@ -11,7 +11,7 @@ public:
     void init();
     void renderImage(unsigned int _imageID);
     void addTexture(const std::string& _path);
-    void addImage(const glm::vec4& _destRect, GLuint _index);
+    void addImage(const glm::vec4& _destRect, unsigned int _index);
     void destroy();
 
 

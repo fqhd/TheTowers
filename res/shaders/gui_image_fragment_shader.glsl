@@ -4,11 +4,11 @@
 in vec2 pass_uv;
 
 // Outs
-vec4 out_color;
+out vec4 out_color;
 
 // Uniforms
 uniform sampler2D ourTexture;
 
 void main(){
-    out_color = texture(ourTexture, pass_uv);
+	out_color = vec4(pass_uv, 1, 1);
 }

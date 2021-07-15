@@ -43,10 +43,10 @@ GLuint GUIImageRenderer::loadTexture(const std::string& _path){
 	glGenTextures(1, &tID);
 	glBindTexture(GL_TEXTURE_2D, tID);
 
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
 
@@ -57,7 +57,7 @@ GLuint GUIImageRenderer::loadTexture(const std::string& _path){
 	return tID;
 }
 
-void GUIImageRenderer::addImage(const glm::vec4& _destRect, GLuint _index){
+void GUIImageRenderer::addImage(const glm::vec4& _destRect, unsigned int _index){
 	m_images.push_back(GUIImage(_destRect, m_textures[_index]));
 }
 

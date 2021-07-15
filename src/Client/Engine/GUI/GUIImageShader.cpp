@@ -10,12 +10,12 @@ void GUIImageShader::loadMatrix(const glm::mat4& matrix){
 }
 
 void GUIImageShader::loadPosition(const glm::vec2& position){
-    glUniform3fv(m_positionLocation, 1, &position[0]);
+    glUniform2fv(m_positionLocation, 1, &position[0]);
 }
 
 void GUIImageShader::getUniformLocations(){
     bind();
-    m_positionLocation = glGetUniformLocation(m_programID, "position");
+    m_positionLocation = glGetUniformLocation(m_programID, "positionOffset");
     m_matrixLocation = glGetUniformLocation(m_programID, "matrix");
     unbind();
 }

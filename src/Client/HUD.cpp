@@ -15,9 +15,10 @@ void HUD::destroy(){
 }
 
 void HUD::addTextures(){
-	m_imageRenderer.addTexture("res/textures/gui/crossbar.png");
+	m_imageRenderer.addTexture("res/textures/gui/crosshair.png");
+	m_imageRenderer.addTexture("res/textures/gui/img.png");
 }
 
 void HUD::addImages(){
-	m_imageRenderer.addImage(glm::vec4(638, 358, 4, 4), 0);
+	m_imageRenderer.addImage(glm::vec4(624, 344, 32, 32), 1);
 }

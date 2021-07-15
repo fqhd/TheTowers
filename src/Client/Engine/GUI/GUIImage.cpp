@@ -1,4 +1,5 @@
 #include "GUIImage.hpp"
+#include <iostream>
 
 GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
     m_textureID = _textureID;
@@ -25,7 +26,7 @@ GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
 	glEnableVertexAttribArray(1);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, position));
-	glVertexAttribPointer(1, 1, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, uv));
+	glVertexAttribPointer(1, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, uv));
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -34,9 +35,15 @@ GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
 }
 
 void GUIImage::render(){
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+
     glBindVertexArray(m_vaoID);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
 void GUIImage::destroy(){
