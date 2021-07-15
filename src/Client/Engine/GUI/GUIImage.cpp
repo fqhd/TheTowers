@@ -2,21 +2,21 @@
 #include <iostream>
 
 GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
-    m_textureID = _textureID;
-    m_position.x = destRect.x;
-    m_position.y = destRect.y;
+	m_textureID = _textureID;
+	m_position.x = destRect.x;
+	m_position.y = destRect.y;
 
-    GUIImageVertex vertices[] = {
-        GUIImageVertex(glm::vec2(0, 0), 0),
-        GUIImageVertex(glm::vec2(0, destRect.w), 0),
-        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 0),
+	GUITextVertex vertices[] = { // We can use a text vertex because it's okay in this case, we only care about the position and the UV
+		GUITextVertex(glm::vec2(0, 0), glm::vec2(0, 0)),
+		GUITextVertex(glm::vec2(0, destRect.w), glm::vec2(0, 1)),
+		GUITextVertex(glm::vec2(destRect.z, destRect.w), glm::vec2(1, 1)),
 
-        GUIImageVertex(glm::vec2(0, 0), 0),
-        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 0),
-        GUIImageVertex(glm::vec2(destRect.z, 0), 1)
-    };
+		GUITextVertex(glm::vec2(0, 0), glm::vec2(0, 0)),
+		GUITextVertex(glm::vec2(destRect.z, destRect.w), glm::vec2(1, 1)),
+		GUITextVertex(glm::vec2(destRect.z, 0), glm::vec2(1, 0))
+	};
 
-    glGenVertexArrays(1, &m_vaoID);
+	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
 	glGenBuffers(1, &m_vboID);
@@ -25,8 +25,8 @@ GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, position));
-	glVertexAttribPointer(1, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(GUIImageVertex), (void*)offsetof(GUIImageVertex, uv));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUITextVertex), (void*)offsetof(GUITextVertex, position));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GUITextVertex), (void*)offsetof(GUITextVertex, uv));
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -38,23 +38,23 @@ void GUIImage::render(){
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
-    glBindVertexArray(m_vaoID);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
+	glBindVertexArray(m_vaoID);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 }
 
 void GUIImage::destroy(){
-    glDeleteVertexArrays(1, &m_vaoID);
+	glDeleteVertexArrays(1, &m_vaoID);
 	glDeleteBuffers(1, &m_vboID);
 }
 
 GLuint GUIImage::getTextureID(){
-    return m_textureID;
+	return m_textureID;
 }
 
 const glm::vec2& GUIImage::getPosition(){
-    return m_position;
+	return m_position;
 }

@@ -5,7 +5,7 @@ sf::IpAddress getIP(){
 	std::string s;
 	std::cout << "Enter server IP: ";
 	std::cin >> s;
-	sf::IpAddress ip = s;;
+	sf::IpAddress ip = s;
 	return ip;
 }
 
