@@ -22,7 +22,7 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 
 void Game::update(GameStates& _state, float _deltaTime) {
 	// Switch state if key has been pressed
-	if (m_inputManager->isKeyPressed(sf::Keyboard::Escape)) {
+	if (m_inputManager->isKeyPressed(sf::Keyboard::Escape) || !m_inputManager->hasFocus()) {
 		m_inputManager->setMouseGrabbed(false);
 		m_inputManager->setMouseVisible(true);
 		_state = GameStates::PAUSE;

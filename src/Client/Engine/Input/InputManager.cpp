@@ -57,6 +57,12 @@ bool InputManager::processInput() {
 				m_windowSize.x = m_event.size.width;
 				m_windowSize.y = m_event.size.height;
 			break;
+			case sf::Event::LostFocus:
+				m_hasFocus = false;
+			break;
+			case sf::Event::GainedFocus:
+				m_hasFocus = true;
+			break;
 			default:
 
 			break;
@@ -69,6 +75,10 @@ void InputManager::centerMouse(){
 	sf::Mouse::setPosition(sf::Vector2i(m_windowSize.x / 2, m_windowSize.y / 2));
 	m_mousePosition.x = m_windowSize.x / 2;
 	m_mousePosition.y = m_windowSize.y / 2;
+}
+
+bool InputManager::hasFocus(){
+	return m_hasFocus;
 }
 
 void InputManager::setMouseVisible(bool _visible){

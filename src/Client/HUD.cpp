@@ -20,5 +20,5 @@ void HUD::addTextures(){
 }
 
 void HUD::addImages(){
-	m_imageRenderer.addImage(glm::vec4(624, 344, 32, 32), 1);
+	m_imageRenderer.addImage(glm::vec4(624, 344, 32, 32), 0);
 }

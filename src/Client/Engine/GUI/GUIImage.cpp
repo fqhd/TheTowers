@@ -8,12 +8,12 @@ GUIImage::GUIImage(const glm::vec4& destRect, GLuint _textureID){
 
     GUIImageVertex vertices[] = {
         GUIImageVertex(glm::vec2(0, 0), 0),
-        GUIImageVertex(glm::vec2(0, destRect.w), 1),
-        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 2),
+        GUIImageVertex(glm::vec2(0, destRect.w), 0),
+        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 0),
 
         GUIImageVertex(glm::vec2(0, 0), 0),
-        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 2),
-        GUIImageVertex(glm::vec2(destRect.z, 0), 3)
+        GUIImageVertex(glm::vec2(destRect.z, destRect.w), 0),
+        GUIImageVertex(glm::vec2(destRect.z, 0), 1)
     };
 
     glGenVertexArrays(1, &m_vaoID);

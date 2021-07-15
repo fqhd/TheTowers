@@ -21,5 +21,7 @@ vec2 texCoords[4] = vec2[4](
 
 void main(){
     gl_Position = matrix * vec4(position + positionOffset, 0.0, 1.0);
-    pass_uv = texCoords[uv];
+	pass_uv.x = uv;
+	pass_uv.y = uv;
+
 }

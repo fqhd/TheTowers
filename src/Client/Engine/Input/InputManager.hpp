@@ -20,7 +20,7 @@ public:
 	bool isButtonReleased(int _buttonID);
 	bool isButtonDown(int _buttonID);
 	bool wasButtonDown(int _buttonID);
-
+	bool hasFocus();
 
 	void setMouseGrabbed(bool _grabbed);
 	void setVerticalSync(bool _sync);
@@ -39,7 +39,6 @@ private:
 	void keyReleased(unsigned int _keyID);
 	void buttonPressed(unsigned int _buttonID);
 	void buttonReleased(unsigned int _buttonID);
-	
 
 	std::unordered_map<unsigned int, bool> m_keymap;
 	std::unordered_map<unsigned int, bool> m_previousKeymap;
@@ -50,6 +49,7 @@ private:
 	glm::vec2 m_previousMousePosition;
 	sf::Window* m_window;
 	sf::Event m_event;
+	bool m_hasFocus = true;
 
 
 
