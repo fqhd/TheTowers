@@ -24,6 +24,7 @@ void Game::update(GameStates& _state, float _deltaTime) {
 	// Switch state if key has been pressed
 	if (m_inputManager->isKeyPressed(sf::Keyboard::Escape)) {
 		m_inputManager->setMouseGrabbed(false);
+		m_inputManager->setMouseVisible(true);
 		_state = GameStates::PAUSE;
 	}
 	frameCounter.tick(_deltaTime);

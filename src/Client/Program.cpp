@@ -32,12 +32,13 @@ void Program::createWindow(){
 	cSettings.stencilBits = 8;
 	cSettings.attributeFlags = sf::ContextSettings::Attribute::Core;
 
-	m_window.create(sf::VideoMode(1280, 720), "TheTowers", sf::Style::Default, cSettings);
-	if(glewInit()){
+	m_window.create(sf::VideoMode(1280, 720), "TheTowers", sf::Style::Fullscreen, cSettings);
+	if(glewInit() != GLEW_OK){
 		std::cout << "Failed to initialize glew" << std::endl;
+		return;
 	}
 
-	m_window.setFramerateLimit(50);
+	m_window.setVerticalSyncEnabled(true);
 
 	//Enabling transparency
 	glEnable(GL_BLEND);
@@ -53,7 +54,6 @@ void Program::createWindow(){
 
 	std::cout << "GPU: " << glGetString(GL_RENDERER) << std::endl;
 	std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
-
 }
 
 void Program::gameloop(){

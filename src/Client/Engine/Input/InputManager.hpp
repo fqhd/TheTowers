@@ -24,6 +24,8 @@ public:
 
 	void setMouseGrabbed(bool _grabbed);
 	void setVerticalSync(bool _sync);
+	void setMouseVisible(bool _visible);
+	void centerMouse();
 	float getDeltaMouseWheel();
 	glm::vec2 getWindowSize();
 	glm::vec2 getMousePosition();

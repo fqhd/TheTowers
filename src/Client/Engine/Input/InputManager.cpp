@@ -5,6 +5,10 @@
 
 void InputManager::init(sf::Window* _window) {
 	m_window = _window;
+	m_windowSize.x = m_window->getSize().x;
+	m_windowSize.y = m_window->getSize().y;
+	m_mousePosition.x = sf::Mouse::getPosition().x;
+	m_mousePosition.y = sf::Mouse::getPosition().y;
 }
 
 void InputManager::keyPressed(unsigned int _keyID){
@@ -26,6 +30,7 @@ void InputManager::buttonReleased(unsigned int _buttonID){
 bool InputManager::processInput() {
 	m_previousMousePosition = m_mousePosition;
 	m_previousKeymap = m_keymap;
+	m_previousButtonmap = m_buttonmap;
 
 	while(m_window->pollEvent(m_event)){
 		switch(m_event.type){
@@ -46,7 +51,7 @@ bool InputManager::processInput() {
 			break;
 			case sf::Event::MouseMoved:
 				m_mousePosition.x = m_event.mouseMove.x;
-				m_mousePosition.y = m_event.mouseMove.x;
+				m_mousePosition.y = m_event.mouseMove.y;
 			break;
 			case sf::Event::Resized:
 				m_windowSize.x = m_event.size.width;
@@ -58,6 +63,16 @@ bool InputManager::processInput() {
 		}
 	}
 	return false;
+}
+
+void InputManager::centerMouse(){
+	sf::Mouse::setPosition(sf::Vector2i(m_windowSize.x / 2, m_windowSize.y / 2));
+	m_mousePosition.x = m_windowSize.x / 2;
+	m_mousePosition.y = m_windowSize.y / 2;
+}
+
+void InputManager::setMouseVisible(bool _visible){
+	m_window->setMouseCursorVisible(_visible);
 }
 
 void InputManager::setMouseGrabbed(bool _grabbed){

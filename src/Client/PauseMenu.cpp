@@ -14,6 +14,7 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 	if(m_inputManager->isKeyPressed(sf::Keyboard::Escape)){
 		m_game->syncGameWithSettings(m_settings);
 		m_inputManager->setMouseGrabbed(true);
+		m_inputManager->setMouseVisible(false);
 		_state = GameStates::PLAY;
 	}
 

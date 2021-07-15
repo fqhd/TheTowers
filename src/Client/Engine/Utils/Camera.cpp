@@ -16,6 +16,7 @@ void Camera::init(InputManager* _manager) {
 
 void Camera::updateProjectionMatrix() {
 	glm::vec2 size = m_manager->getWindowSize();
+	
 	m_projectionMatrix = glm::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
@@ -28,11 +29,10 @@ float Camera::getYaw() {
 }
 
 void Camera::movement(float deltaTime) {
-
 	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
 	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (m_manager->isKeyDown(sf::Keyboard::Z)) {
+	if (m_manager->isKeyDown(sf::Keyboard::W)) {
 		m_position += forward * SPEED * deltaTime;
 	}
 
@@ -69,7 +69,11 @@ void Camera::updateViewFrustum(){
 }
 
 void Camera::calculateCameraVectors(float sensibility) {
-	glm::vec2 deltaMousePos = m_manager->getMousePosition() - m_manager->getPreviousMousePosition();
+	glm::ivec2 previousMousePos = m_manager->getMousePosition();
+	m_manager->centerMouse();
+	glm::ivec2 currentMousePos = m_manager->getMousePosition();
+
+	glm::ivec2 deltaMousePos = previousMousePos - currentMousePos;
 
 	m_pitch -= deltaMousePos.y * sensibility;
 	m_yaw += deltaMousePos.x * sensibility;

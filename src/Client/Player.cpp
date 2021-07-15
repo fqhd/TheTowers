@@ -11,10 +11,10 @@ void Player::update(Camera& camera, ParticleHandler& handler, World* world, Netw
 	if (!visibleBlocks.lookingAtBlock) return;
 	if (visibleBlocks.isInsideBlock) return;
 
-	if (_iManager->isKeyPressed(sf::Mouse::Left)) {
+	if (_iManager->isButtonPressed(sf::Mouse::Left)) {
 		breakBlock(handler, world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
-	} else if (_iManager->isKeyPressed(sf::Mouse::Right)) {
+	} else if (_iManager->isButtonPressed(sf::Mouse::Right)) {
 		placeBlock(world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
 	}

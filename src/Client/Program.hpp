@@ -7,6 +7,7 @@
 #include "Settings.hpp"
 #include "Engine/GUI/GUIHandler.hpp"
 #include "DebugMenu.hpp"
+#include <SFML/OpenGL.hpp>
 
 
 class Program {
