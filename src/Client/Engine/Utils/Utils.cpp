@@ -1,14 +1,6 @@
 #include "Utils.hpp"
 
 
-uint64_t Utils::getTimeMs() {
-	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-}
-
-void Utils::printDividor(const std::string& name){
-	printf("%s\n", ("--------------------------- " + name + " ---------------------------").c_str());
-}
-
 uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
 
 	std::ifstream file(filePath, std::ios::binary);
