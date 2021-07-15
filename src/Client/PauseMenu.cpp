@@ -47,6 +47,9 @@ void PauseMenu::initGUI(){
 
 	// Buttons
 	m_canvas->buttons.push_back(GUIButton(math::vec4(500, 58, 240, 38), 1)); // Save Settings Button
+
+	// Inputs
+	m_canvas->inputs.push_back(GUIInput(math::vec4(450, 525, 100, 40)));
 }
 
 void PauseMenu::handleInputs(){

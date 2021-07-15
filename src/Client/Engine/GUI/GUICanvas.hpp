@@ -7,6 +7,7 @@
 #include "GUIRect.hpp"
 #include "GUICheckbox.hpp"
 #include "GUIRenderer.hpp"
+#include "GUIInput.hpp"
 #include "../Utils/TextureArray.hpp"
 #include "../Input/InputManager.hpp"
 
@@ -25,6 +26,7 @@ public:
 	std::vector<GUIRect> rects;
 	std::vector<GUICheckbox> checkboxes;
 	std::vector<GUILabel> labels;
+	std::vector<GUIInput> inputs;
 
 private:
 

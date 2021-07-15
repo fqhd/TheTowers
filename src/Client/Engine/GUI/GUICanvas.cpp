@@ -15,6 +15,9 @@ void GUICanvas::update(InputManager* _manager, float _deltaTime){
 	for(auto& i : checkboxes){
 		i.update(_manager, _deltaTime);
 	}
+	for (auto& i : inputs) {
+		i.update(_manager);
+	}
 }
 
 void GUICanvas::render(){
@@ -26,6 +29,9 @@ void GUICanvas::render(){
 		i.render(guiRenderer);
 	}
 	for(auto& i : checkboxes){
+		i.render(guiRenderer);
+	}
+	for (auto& i : inputs) {
 		i.render(guiRenderer);
 	}
 	guiRenderer->end();
