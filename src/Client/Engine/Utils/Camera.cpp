@@ -32,27 +32,27 @@ void Camera::movement(float deltaTime) {
 	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
 	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (m_manager->isKeyDown(GLFW_KEY_W)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Z)) {
 		m_position += forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(GLFW_KEY_S)) {
+	if (m_manager->isKeyDown(sf::Keyboard::S)) {
 		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(GLFW_KEY_A)) {
+	if (m_manager->isKeyDown(sf::Keyboard::A)) {
 		m_position -= side * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(GLFW_KEY_D)) {
+	if (m_manager->isKeyDown(sf::Keyboard::D)) {
 		m_position += side * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+	if (m_manager->isKeyDown(sf::Keyboard::LShift)) {
 		m_position.y -= SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(GLFW_KEY_SPACE)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Space)) {
 		m_position.y += SPEED * deltaTime;
 	}
 }

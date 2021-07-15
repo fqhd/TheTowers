@@ -10,8 +10,8 @@ void Program::run(sf::IpAddress& ip){
 void Program::initSystems(sf::IpAddress& _ip){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
-	m_window.create(1280.0f, 720.0f, "OpenCraft", false, true);
-	m_inputManager.init(m_window.getWindowPtr());
+	createWindow();
+	m_inputManager.init(&m_window);
 	m_font.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
 	m_texturePack.init("res/textures/sprite_sheet.png", 512);
 	m_guiHandler.init(&m_font, &m_texturePack);
@@ -23,9 +23,42 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_debugMenu.init(&m_game, m_guiHandler.createCanvas());
 }
 
+void Program::createWindow(){
+	sf::ContextSettings cSettings;
+	cSettings.majorVersion = 3;
+	cSettings.minorVersion = 3;
+	cSettings.depthBits = 24;
+	cSettings.antialiasingLevel = 4;
+	cSettings.stencilBits = 8;
+	cSettings.attributeFlags = sf::ContextSettings::Attribute::Core;
+
+	m_window.create(sf::VideoMode(1280, 720), "TheTowers", sf::Style::Default, cSettings);
+	if(glewInit()){
+		std::cout << "Failed to initialize glew" << std::endl;
+	}
+
+	m_window.setFramerateLimit(50);
+
+	//Enabling transparency
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//Enabling depth
+	glEnable(GL_DEPTH_TEST);
+	glClearDepth(1.0);
+
+	//Enabling back face culling
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	std::cout << "GPU: " << glGetString(GL_RENDERER) << std::endl;
+	std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
+
+}
+
 void Program::gameloop(){
 	while(m_state != GameStates::EXIT){
-		m_window.clear();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
 		glViewport(0, 0, m_inputManager.getWindowSize().x, m_inputManager.getWindowSize().y);
 
@@ -42,7 +75,7 @@ void Program::gameloop(){
 			m_pause.render();
 		}
 
-		m_window.update();
+		m_window.display();
 	}
 }
 

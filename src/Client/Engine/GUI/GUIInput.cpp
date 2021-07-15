@@ -11,7 +11,7 @@ void GUIInput::update(InputManager* _manager) {
 	glm::vec2 mousePos = _manager->getScaledMousePosition();
 	time_t time_ = time(NULL);
 	if (Utils::isInside(Utils::flipCoords(mousePos, 720.0f), m_destRect)) {
-		if (_manager->isKeyDown(GLFW_MOUSE_BUTTON_LEFT)) {
+		if (_manager->isButtonDown(sf::Mouse::Left)) {
 			if (time_-m_last_pressed < 10) {
 				m_active = true;
 				m_last_pressed = time_;

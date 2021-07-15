@@ -38,13 +38,9 @@ int main(){
 	std::thread positionUpdater(udpThread); // Starting packet position thread
 	std::thread packetHandler(tcpThread);
 
-
-
 	packetHandler.join();
 	positionUpdater.join();
 	freeWorldData();
-
-
 
 	return 0;
 }

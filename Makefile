@@ -1,5 +1,5 @@
-INCLUDES = $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3)
-LIBS = $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3)
+INCLUDES = $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags glew)
+LIBS = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew)
 
 CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror
 LFLAGS = -pthread ${LIBS}

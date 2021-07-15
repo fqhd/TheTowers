@@ -23,10 +23,10 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 	if (Utils::isInside(Utils::flipCoords(mousePos, 720.0f), m_destRect)) { // Mouse is inside the button
 		m_targetRect = math::vec4(m_originalRect.x - 10, m_originalRect.y - 10, m_originalRect.z + 20, m_originalRect.w + 20);
 		m_currentColor = ColorRGBA8(m_baseColor.r * 0.8f, m_baseColor.g * 0.8f, m_baseColor.b * 0.8f, m_baseColor.a);
-		if (_manager->isKeyDown(GLFW_MOUSE_BUTTON_LEFT)) {
+		if (_manager->isButtonDown(sf::Mouse::Left)) {
 			m_targetRect = m_originalRect + math::vec4(-4, -4, 8, 8);
 			m_currentColor = ColorRGBA8(m_baseColor.r * 0.6f, m_baseColor.g * 0.6f, m_baseColor.b * 0.6f, m_baseColor.a);
-		} else if (_manager->isKeyReleased(GLFW_MOUSE_BUTTON_LEFT)) {
+		} else if (_manager->isButtonReleased(sf::Mouse::Left)) {
 			m_isPressed = true;
 		}
 	}else{ // Mouse is not inside the button
