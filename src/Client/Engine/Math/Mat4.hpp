@@ -8,7 +8,7 @@ namespace math {
 		base_mat4() {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
-					m[i][j] = 0.0f;
+					m[i][j] = (T)0.0f;
 				}
 			}
 		}

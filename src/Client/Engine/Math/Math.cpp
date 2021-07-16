@@ -90,15 +90,14 @@ namespace math {
 	}
 
 	mat4 perspective(float fov, float aspect, float zNear, float zFar) {
-		float scale = 1 / tan(fov * 0.5 * M_PI / 180);
-		mat4 r;
-		r.m[0][0] = scale; // scale the x coordinates of the projected point
-		r.m[1][1] = scale; // scale the y coordinates of the projected point
-		r.m[2][2] = -zFar / (zFar - zNear); // used to remap z to [0,1]
-		r.m[3][2] = -zFar * zNear / (zFar - zNear); // used to remap z [0,1]
-		r.m[2][3] = -1; // set w = -z
-		r.m[3][3] = 0;
-		return r;
+		float tanHalfFovy = tan(fov / 2);
+		mat4 Result(0);
+		Result.m[0][0] = 1 / (aspect * tanHalfFovy);
+		Result.m[1][1] = 1 / (tanHalfFovy);
+		Result.m[2][2] = - (zFar + zNear) / (zFar - zNear);
+		Result.m[2][3] = - 1;
+		Result.m[3][2] = - (2 * zFar * zNear) / (zFar - zNear);
+		return Result;
 	}
 
 	mat4 ortho(float left, float right, float bottom, float top) {
