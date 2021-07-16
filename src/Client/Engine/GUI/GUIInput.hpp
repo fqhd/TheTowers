@@ -5,7 +5,7 @@
 #include "../Math/Mat4.hpp"
 #include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
-
+#include "GUILabel.hpp"
 
 class GUIInput {
 public:
@@ -18,6 +18,7 @@ public:
 private:
 
 	bool m_focused;
+	GUILabel m_label;
 	std::string m_input;
 	std::vector<int> supported_keys;
 	math::vec4 m_destRect;
