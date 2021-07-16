@@ -51,22 +51,16 @@ void World::render(Camera& _camera){
 	for(unsigned int y = 0; y < wh; y++){
 		for(unsigned int z = 0; z < wl; z++){
 			for(unsigned int x = 0; x < ww; x++){
-
 				Chunk* c = getChunk(x, y, z);
-				if(c->needsMeshUpdate){
+
+				if(c->needsMeshUpdate){ // Generate mesh if chunk needs mesh update
 					generateMesh(c);
 					c->needsMeshUpdate = false;
 				}
 
-				if(c->getNumVertices()){
-					unsigned int w = m_config.getChunkWidth();
-					glm::vec3 min = glm::vec3(c->x, c->y, c->z);
-					glm::vec3 max = min + glm::vec3(w, w, w);
-
-					if(_camera.viewFrustum.IsBoxVisible(min, max)){
-						m_shader.loadChunkPosition(c->x, c->y, c->z);
-						c->render();
-					}
+				if(c->getNumVertices()){ // Render only if chunk has vertices
+					m_shader.loadChunkPosition(c->x, c->y, c->z);
+					c->render();
 				}
 
 			}

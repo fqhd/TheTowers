@@ -6,8 +6,8 @@ const float FOV = 90.0f;
 const float SPEED = 25.5f;
 
 void Camera::init(InputManager* _manager) {
-	m_position = glm::vec3(64.0f, 32.0f, 128.0f);
-	m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
+	m_position = math::vec3(64.0f, 32.0f, 128.0f);
+	m_forward = math::vec3(0.0f, 0.0f, 1.0f);
 	m_manager = _manager;
 
 	updateViewMatrix();
@@ -15,9 +15,9 @@ void Camera::init(InputManager* _manager) {
 }
 
 void Camera::updateProjectionMatrix() {
-	glm::vec2 size = m_manager->getWindowSize();
+	math::uvec2 size = m_manager->getWindowSize();
 	
-	m_projectionMatrix = glm::perspective(glm::radians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
+	m_projectionMatrix = math::perspective(math::toRadians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
 float Camera::getPitch() {
@@ -29,23 +29,23 @@ float Camera::getYaw() {
 }
 
 void Camera::movement(float deltaTime) {
-	glm::vec3 forward = glm::normalize(glm::vec3(m_forward.x, 0.0f, m_forward.z));
-	glm::vec3 side = glm::normalize(glm::cross(m_forward, glm::vec3(0.0f, 1.0f, 0.0f)));
+	math::vec3 forward = math::normalize(math::vec3(m_forward.x, 0.0f, m_forward.z));
+	math::vec3 side = math::normalize(math::cross(m_forward, math::vec3(0.0f, 1.0f, 0.0f)));
 
 	if (m_manager->isKeyDown(sf::Keyboard::W)) {
-		m_position += forward * SPEED * deltaTime;
+		m_position += forward * SPEED;
 	}
 
 	if (m_manager->isKeyDown(sf::Keyboard::S)) {
-		m_position -= forward * SPEED * deltaTime;
+		m_position -= forward * SPEED;
 	}
 
 	if (m_manager->isKeyDown(sf::Keyboard::A)) {
-		m_position -= side * SPEED * deltaTime;
+		m_position -= side * SPEED;
 	}
 
 	if (m_manager->isKeyDown(sf::Keyboard::D)) {
-		m_position += side * SPEED * deltaTime;
+		m_position += side * SPEED;
 	}
 
 	if (m_manager->isKeyDown(sf::Keyboard::LShift)) {
@@ -61,19 +61,14 @@ void Camera::update(float deltaTime) {
 	movement(deltaTime);
 	calculateCameraVectors(0.3f);
 	updateViewMatrix();
-	updateViewFrustum();
-}
-
-void Camera::updateViewFrustum(){
-	viewFrustum.update(m_projectionMatrix * m_viewMatrix);
 }
 
 void Camera::calculateCameraVectors(float sensibility) {
-	glm::ivec2 previousMousePos = m_manager->getMousePosition();
+	math::ivec2 previousMousePos = m_manager->getMousePosition();
 	m_manager->centerMouse();
-	glm::ivec2 currentMousePos = m_manager->getMousePosition();
+	math::ivec2 currentMousePos = m_manager->getMousePosition();
 
-	glm::ivec2 deltaMousePos = previousMousePos - currentMousePos;
+	math::ivec2 deltaMousePos = previousMousePos - currentMousePos;
 
 	m_pitch -= deltaMousePos.y * sensibility;
 	m_yaw += deltaMousePos.x * sensibility;
@@ -85,27 +80,27 @@ void Camera::calculateCameraVectors(float sensibility) {
 		m_pitch = -89.0f;
 	}
 
-	m_forward.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-	m_forward.y = sin(glm::radians(m_pitch));
-	m_forward.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+	m_forward.x = cos(math::toRadians(m_yaw)) * cos(math::toRadians(m_pitch));
+	m_forward.y = sin(math::toRadians(m_pitch));
+	m_forward.z = sin(math::toRadians(m_yaw)) * cos(math::toRadians(m_pitch));
 }
 
-const glm::mat4& Camera::getViewMatrix() {
+const math::mat4& Camera::getViewMatrix() {
 	return m_viewMatrix;
 }
 
-const glm::mat4& Camera::getProjectionMatrix() {
+const math::mat4& Camera::getProjectionMatrix() {
 	return m_projectionMatrix;
 }
 
-const glm::vec3& Camera::getPosition() {
+const math::vec3& Camera::getPosition() {
 	return m_position;
 }
 
-const glm::vec3& Camera::getForward() {
+const math::vec3& Camera::getForward() {
 	return m_forward;
 }
 
 void Camera::updateViewMatrix() {
-	m_viewMatrix = glm::lookAt(m_position, m_position + m_forward, glm::vec3(0.0f, 1.0f, 0.0f));
+	m_viewMatrix = math::view(m_position, m_pitch, m_yaw);
 }
