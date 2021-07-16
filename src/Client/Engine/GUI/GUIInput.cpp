@@ -1,12 +1,20 @@
-
 #include "GUIInput.hpp"
+
 
 GUIInput::GUIInput(const math::vec4& destRect) {
 	m_destRect = destRect;
 	m_outlineRect = math::vec4(destRect.x-2, destRect.y-2, destRect.z+4, destRect.w+4);
 
-	m_input = "";
+	m_fontShader.init();
+	math::mat4 ortho = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
+	m_fontShader.bind();
+	m_fontShader.loadMatrix(ortho);
+	m_fontShader.unbind();
+
+	m_font.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
+	m_input = "hello";
 	m_label.init(m_input, math::vec2(m_destRect.x, m_destRect.y), ColorRGBA8());
+	
 	// fill vector with all keys that are needed i.e
 	// 0-25 (abc) 26-35 (number) 
 	// XXX add more keys
@@ -68,5 +76,8 @@ void GUIInput::update(InputManager* _manager) {
 void GUIInput::render(GUIRenderer* renderer) {
 	renderer->draw(m_outlineRect, (m_focused ? ColorRGBA8() : ColorRGBA8(100, 100, 100, 255)), 0);
 	renderer->draw(m_destRect, ColorRGBA8(50, 50, 50, 255), 0);
+	if(m_label.needsMeshUpdate) m_font.updateMesh(m_label);
+	m_fontShader.loadColor(m_label.color);
+	m_fontShader.loadPosition(m_label.position);
 	m_label.render();
 }

@@ -3,9 +3,11 @@
 #include <vector>
 #include <numeric>
 #include "../Math/Mat4.hpp"
-#include "GUIRenderer.hpp"
 #include "../Input/InputManager.hpp"
 #include "GUILabel.hpp"
+#include "GUIRenderer.hpp"
+#include "GUIFont.hpp"
+#include "GUIFontShader.hpp"
 
 class GUIInput {
 public:
@@ -18,6 +20,8 @@ public:
 private:
 
 	bool m_focused;
+	GUIFontShader m_fontShader;
+	GUIFont m_font;
 	GUILabel m_label;
 	std::string m_input;
 	std::vector<int> supported_keys;
