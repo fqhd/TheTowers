@@ -4,11 +4,12 @@
 
 #include "Mat4.hpp"
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace math {
 
 	mat4 view(const vec3& position, const vec3& forward){
-		vec3 f = normalize(forward);
+		vec3 f = forward;
 		vec3 s = normalize(cross(f, vec3(0, 1, 0)));
 		vec3 u = cross(s, f);
 
@@ -23,30 +24,10 @@ namespace math {
 		r.m[0][2] =-f.x;
 		r.m[1][2] =-f.y;
 		r.m[2][2] =-f.z;
-		r.m[3][0] =-glm::dot(glm::vec3(s.x, s.y, s.z), glm::vec3(position.x, position.y, position.z));
-		r.m[3][1] =-glm::dot(glm::vec3(u.x, u.y, u.z), glm::vec3(position.x, position.y, position.z));
-		r.m[3][2] = glm::dot(glm::vec3(f.x, f.y, f.z), glm::vec3(position.x, position.y, position.z));
+		r.m[3][0] =-dot(s, position);
+		r.m[3][1] =-dot(u, position);
+		r.m[3][2] = dot(f, position);
 		return r;
-
-		// vec3 f = forward;
-		// vec3 s = normalize(cross(vec3(0, 1, 0), f));
-		// vec3 u = cross(f, s);
-
-
-		// mat4 r;
-		// r.m[0][0] = s.x;
-		// r.m[1][0] = s.y;
-		// r.m[2][0] = s.z;
-		// r.m[0][1] = u.x;
-		// r.m[1][1] = u.y;
-		// r.m[2][1] = u.z;
-		// r.m[0][2] = f.x;
-		// r.m[1][2] = f.y;
-		// r.m[2][2] = f.z;
-		// r.m[3][0] = -glm::dot(glm::vec3(s.x, s.y, s.z), glm::vec3(position.x, position.y, position.z));
-		// r.m[3][1] = -glm::dot(glm::vec3(u.x, u.y, u.z), glm::vec3(position.x, position.y, position.z));
-		// r.m[3][2] = -glm::dot(glm::vec3(f.x, f.y, f.z), glm::vec3(position.x, position.y, position.z));
-		// return r;
 	}
 
 	float dot(const vec3& a, const vec3& b){
