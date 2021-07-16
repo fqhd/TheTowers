@@ -32,7 +32,8 @@ void EntityHandler::update(NetworkManager* _manager, float _deltaTime) {
 }
 
 void EntityHandler::addEntity(uint8_t id, const math::vec3& position, float pitch, float yaw) {
-	Entity entity(Transform(math::vec3(0.0f), math::vec3(0.0f), math::vec3(1.0f)));
+	// Entity entity(Transform(math::vec3(0.0f), math::vec3(0.0f), math::vec3(1.0f)));
+	Entity entity;
 	entity.setTargetPosition(position);
 	entity.setForward(pitch, yaw);
 	m_entities[id] = entity;

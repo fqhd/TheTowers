@@ -29,6 +29,7 @@ void GUILabel::init(const std::string& string, const math::vec2& p, const ColorR
 	m_string = string;
 	color = c;
 	position = p;
+	needsMeshUpdate = true;
 }
 
 void GUILabel::setString(const std::string& string){
