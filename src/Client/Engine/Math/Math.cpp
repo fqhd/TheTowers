@@ -31,7 +31,7 @@ namespace math {
 	}
 
 	float dot(const vec3& a, const vec3& b){
-		return a.x * b.x + a.y * b.y * a.z * b.z;
+		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
 	void rotate(float angle, const vec3& axis, const mat4& src, mat4& dst){
