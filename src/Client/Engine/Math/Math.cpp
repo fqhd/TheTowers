@@ -6,13 +6,29 @@
 
 namespace math {
 
-	mat4 view(const vec3& position, float pitch, float yaw){
+	mat4 view(const vec3& p, const vec3& d){
+		vec3 s = normalize(cross(d, vec3(0, 1, 0)));
+		vec3 u = cross(s, d);
+
 		mat4 r;
 		r.setIdentity();
-		r = rotate(toRadians(pitch), vec3(1, 0, 0), r);
-		r = rotate(toRadians(yaw), vec3(0, 1, 0), r);
-		r = translate(position * -1.0f, r);
+		r.m[0][0] = s.x;
+		r.m[1][0] = s.y;
+		r.m[2][0] = s.z;
+		r.m[0][1] = u.x;
+		r.m[1][1] = u.y;
+		r.m[2][1] = u.z;
+		r.m[0][2] =-d.x;
+		r.m[1][2] =-d.y;
+		r.m[2][2] =-d.z;
+		r.m[3][0] =-dot(s, p);
+		r.m[3][1] =-dot(u, p);
+		r.m[3][2] = dot(d, p);
 		return r;
+	}
+
+	float dot(const vec3& a, const vec3& b){
+		return a.x * b.x + a.y * b.y * a.z * b.z;
 	}
 
 	mat4 rotate(float angle, const vec3& axis){
@@ -88,7 +104,7 @@ namespace math {
 		return r;
 	}
 
-	mat4 translate(const vec3& vec, const mat4& src){
+	mat4 translate(const vec3& vec, const mat4& src) {
 		mat4 r;
 
 		r.m[3][0] += src.m[0][0] * vec.x + src.m[1][0] * vec.y + src.m[2][0] * vec.z;
@@ -107,7 +123,7 @@ namespace math {
 		r.m[2][2] = -zFar / (zFar - zNear); // used to remap z to [0,1] 
 		r.m[3][2] = -zFar * zNear / (zFar - zNear); // used to remap z [0,1] 
 		r.m[2][3] = -1; // set w = -z 
-		r.m[3][3] = 0; 
+		r.m[3][3] = 0;
 		return r;
 	}
 

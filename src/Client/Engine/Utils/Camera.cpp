@@ -97,10 +97,10 @@ const math::vec3& Camera::getPosition() {
 	return m_position;
 }
 
-math::vec3 Camera::getForward() {
+const math::vec3& Camera::getForward() {
 	return m_forward;
 }
 
 void Camera::updateViewMatrix() {
-	m_viewMatrix = math::view(m_position, m_pitch, m_yaw);
+	m_viewMatrix = math::view(m_position, m_forward);
 }

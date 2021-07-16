@@ -18,7 +18,7 @@ public:
 	const math::mat4& getProjectionMatrix();
 	const math::mat4& getViewMatrix();
 	const math::vec3& getPosition();
-	math::vec3 getForward();
+	const math::vec3& getForward();
 
 
 private:

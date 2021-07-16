@@ -64,6 +64,10 @@ namespace math {
 			return base_vec3<T>(x-other, y-other, z-other);
 		}
 
+		base_vec3<T> operator-() const {
+			return base_vec3<T>(-x, -y, -z);
+		}
+
 		base_vec3<T> operator*(const base_vec3<T>& other) const {
 			return base_vec3<T>(x*other.x, y*other.y, z*other.z);
 		}
