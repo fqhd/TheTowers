@@ -6,7 +6,7 @@
 
 namespace math {
 
-	mat4 view(vec3 position, float pitch, float yaw){
+	mat4 view(const vec3& position, float pitch, float yaw){
 		mat4 r;
 		r.setIdentity();
 		r = rotate(toRadians(pitch), vec3(1, 0, 0), r);
@@ -99,18 +99,16 @@ namespace math {
 		return r;
 	}
 
-	mat4 perspective(float fovy, float aspect, float zNear, float zFar) {
-		float yScale = (1.0f / tan(toRadians(fovy / 2.0f))) * aspect;
-		float xScale = yScale / aspect;
-		float frustumLength = zFar - zNear;
-
-		mat4 Result(0);
-		Result.m[0][0] = xScale;
-		Result.m[1][1] = yScale;
-		Result.m[2][2] = -((zFar + zNear) / frustumLength);
-		Result.m[2][3] = -1;
-		Result.m[3][2] = -((2.0f * zNear * zFar) / frustumLength);
-		return Result;
+	mat4 perspective(float fov, float aspect, float zNear, float zFar) {
+		float scale = 1 / tan(fov * 0.5 * M_PI / 180); 
+		mat4 r;
+		r.m[0][0] = scale; // scale the x coordinates of the projected point 
+		r.m[1][1] = scale; // scale the y coordinates of the projected point 
+		r.m[2][2] = -zFar / (zFar - zNear); // used to remap z to [0,1] 
+		r.m[3][2] = -zFar * zNear / (zFar - zNear); // used to remap z [0,1] 
+		r.m[2][3] = -1; // set w = -z 
+		r.m[3][3] = 0; 
+		return r;
 	}
 
 	mat4 ortho(float left, float right, float bottom, float top)

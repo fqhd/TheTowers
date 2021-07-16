@@ -8,7 +8,7 @@ void GUIHandler::init(GUIFont* _font, TextureArray* _textureArray){
 	guiShader.init();
 	m_fontShader.init();
 
-	math::mat4 matrix = math::ortho(0.0f, 1280.0f, 0.0f, 720.0f);
+	math::mat4 matrix = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 
 	// Loading the matrix to the guishader
 	guiShader.bind();

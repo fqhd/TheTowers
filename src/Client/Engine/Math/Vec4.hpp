@@ -7,16 +7,13 @@ namespace math {
 	struct base_vec4 {
 		T x, y, z, w;
 		base_vec4(T value) 
-		: x(value), y(value), z(value), w(value)
-		{}
+		: x(value), y(value), z(value), w(value) {}
 		base_vec4(T x, T y, T z, T w) 
-		: x(x), y(y), z(z), w(w)
-		{}
+		: x(x), y(y), z(z), w(w) {}
 
-		base_vec4()
-		{}
+		base_vec4(){}
 
-		~base_vec4() {}
+		~base_vec4(){}
 
 		base_vec4<T>operator+=(const base_vec4<T>& other) {
 			x += other.x;
@@ -50,35 +47,35 @@ namespace math {
 			return *this;
 		}
 
-		base_vec4<T> operator+(const base_vec4<T>& other) {
+		base_vec4<T> operator+(const base_vec4<T>& other) const {
 			return base_vec4<T>(x+other.x, y+other.y, z+other.z, w+other.w);
 		}
 
-		base_vec4<T> operator+(const T& other) {
+		base_vec4<T> operator+(const T& other) const {
 			return base_vec4<T>(x+other, y+other, z+other, w+other);
 		}
 		
-		base_vec4<T> operator-(const base_vec4<T>& other) {
+		base_vec4<T> operator-(const base_vec4<T>& other) const {
 			return base_vec4<T>(x-other.x, y-other.y, z-other.z, w-other.w);
 		}
 
-		base_vec4<T> operator-(const T& other) {
+		base_vec4<T> operator-(const T& other) const {
 			return base_vec4<T>(x-other, y-other, z-other, w-other);
 		}
 
-		base_vec4<T> operator*(const base_vec4<T>& other) {
+		base_vec4<T> operator*(const base_vec4<T>& other) const {
 			return base_vec4<T>(x*other.x, y*other.y, z*other.z, w*other.w);
 		}
 
-		base_vec4<T> operator*(const T& other) {
+		base_vec4<T> operator*(const T& other) const {
 			return base_vec4<T>(x*other, y*other, z*other, w*other);
 		}
 
-		base_vec4<T> operator/(const base_vec4<T>& other) {
+		base_vec4<T> operator/(const base_vec4<T>& other) const {
 			return base_vec4<T>(x/other.x, y/other.y, z/other.z, w/other.w);
 		}
 
-		base_vec4<T> operator/(const T& other) {
+		base_vec4<T> operator/(const T& other) const {
 			return base_vec4<T>(x/other, y/other, z/other, w/other);
 		}
 
