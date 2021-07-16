@@ -4,23 +4,49 @@
 
 #include "Mat4.hpp"
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace math {
 
 	mat4 view(const vec3& position, const vec3& forward){
-		glm::vec3 p = glm::vec3(position.x, position.y, position.z);
-		glm::vec3 f = glm::vec3(forward.x, forward.y, forward.z);
+		vec3 f = normalize(forward);
+		vec3 s = normalize(cross(f, vec3(0, 1, 0)));
+		vec3 u = cross(s, f);
 
-		glm::mat4 glmView = glm::lookAt(p, p + f, glm::vec3(0, 1, 0));
+		mat4 r;
+		r.setIdentity();
+		r.m[0][0] = s.x;
+		r.m[1][0] = s.y;
+		r.m[2][0] = s.z;
+		r.m[0][1] = u.x;
+		r.m[1][1] = u.y;
+		r.m[2][1] = u.z;
+		r.m[0][2] =-f.x;
+		r.m[1][2] =-f.y;
+		r.m[2][2] =-f.z;
+		r.m[3][0] =-glm::dot(glm::vec3(s.x, s.y, s.z), glm::vec3(position.x, position.y, position.z));
+		r.m[3][1] =-glm::dot(glm::vec3(u.x, u.y, u.z), glm::vec3(position.x, position.y, position.z));
+		r.m[3][2] = glm::dot(glm::vec3(f.x, f.y, f.z), glm::vec3(position.x, position.y, position.z));
+		return r;
 
-		mat4 view;
-		for(int i = 0; i < 4; i++){
-			for(int j = 0; j < 4; j++){
-				view.m[i][j] = glmView[i][j];
-			}
-		}
-		return view;
+		// vec3 f = forward;
+		// vec3 s = normalize(cross(vec3(0, 1, 0), f));
+		// vec3 u = cross(f, s);
+
+
+		// mat4 r;
+		// r.m[0][0] = s.x;
+		// r.m[1][0] = s.y;
+		// r.m[2][0] = s.z;
+		// r.m[0][1] = u.x;
+		// r.m[1][1] = u.y;
+		// r.m[2][1] = u.z;
+		// r.m[0][2] = f.x;
+		// r.m[1][2] = f.y;
+		// r.m[2][2] = f.z;
+		// r.m[3][0] = -glm::dot(glm::vec3(s.x, s.y, s.z), glm::vec3(position.x, position.y, position.z));
+		// r.m[3][1] = -glm::dot(glm::vec3(u.x, u.y, u.z), glm::vec3(position.x, position.y, position.z));
+		// r.m[3][2] = -glm::dot(glm::vec3(f.x, f.y, f.z), glm::vec3(position.x, position.y, position.z));
+		// return r;
 	}
 
 	float dot(const vec3& a, const vec3& b){
@@ -90,14 +116,15 @@ namespace math {
 	}
 
 	mat4 perspective(float fov, float aspect, float zNear, float zFar) {
-		float tanHalfFovy = tan(fov / 2);
-		mat4 Result(0);
-		Result.m[0][0] = 1 / (aspect * tanHalfFovy);
-		Result.m[1][1] = 1 / (tanHalfFovy);
-		Result.m[2][2] = - (zFar + zNear) / (zFar - zNear);
-		Result.m[2][3] = - 1;
-		Result.m[3][2] = - (2 * zFar * zNear) / (zFar - zNear);
-		return Result;
+		float scale = 1 / tan(fov * 0.5 * M_PI / 180);
+		mat4 r;
+		r.m[0][0] = scale; // scale the x coordinates of the projected point
+		r.m[1][1] = scale; // scale the y coordinates of the projected point
+		r.m[2][2] = -zFar / (zFar - zNear); // used to remap z to [0,1]
+		r.m[3][2] = -zFar * zNear / (zFar - zNear); // used to remap z [0,1]
+		r.m[2][3] = -1; // set w = -z
+		r.m[3][3] = 0;
+		return r;
 	}
 
 	mat4 ortho(float left, float right, float bottom, float top) {
