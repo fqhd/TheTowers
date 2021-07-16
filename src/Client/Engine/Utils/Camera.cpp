@@ -16,7 +16,7 @@ void Camera::init(InputManager* _manager) {
 
 void Camera::updateProjectionMatrix() {
 	math::uvec2 size = m_manager->getWindowSize();
-	m_projectionMatrix = math::perspective(FOV, size.x / (float)size.y, NEAR_DIST, FAR_DIST);
+	m_projectionMatrix = math::perspective(math::toRadians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
 float Camera::getPitch() {
