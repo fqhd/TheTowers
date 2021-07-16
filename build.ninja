@@ -39,9 +39,6 @@ build obj/guilabel.o: cc src/Client/Engine/GUI/GUILabel.cpp
 build obj/guiimagerenderer.o: cc src/Client/Engine/GUI/GUIImageRenderer.cpp
 build obj/guiinput.o: cc src/Client/Engine/GUI/GUIInput.cpp
 
-# Libs
-build obj/frustum.o: cc src/Client/Engine/Libs/Frustum.cpp
-
 # Input
 build obj/inputmanager.o: cc src/Client/Engine/Input/InputManager.cpp
 
@@ -80,4 +77,4 @@ build obj/guiimage.o: cc src/Client/Engine/GUI/GUIImage.cpp
 
 build server: lnk obj/serverMain.o obj/serverConfig.o
 
-build client: lnk obj/guiinput.o obj/clientMain.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guirect.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/frustum.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guilabel.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/guicanvas.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/guiimageshader.o obj/guiimage.o obj/guiimagerenderer.o obj/hud.o
+build client: lnk obj/guiinput.o obj/clientMain.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guirenderer.o obj/guishader.o obj/guibutton.o obj/guirect.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guilabel.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/guicanvas.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/guiimageshader.o obj/guiimage.o obj/guiimagerenderer.o obj/hud.o
