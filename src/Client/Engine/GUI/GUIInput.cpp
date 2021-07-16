@@ -64,7 +64,7 @@ void GUIInput::update(InputManager* _manager) {
 				case sf::Keyboard::Space:
 					m_input += ' ';
 				case sf::Keyboard::Backspace:
-					m_input.pop_back(); // remove last char
+					if (m_input.size() > 0) {m_input.pop_back();}
 				default:
 					break;
 			}
@@ -74,8 +74,8 @@ void GUIInput::update(InputManager* _manager) {
 }
 
 void GUIInput::render(GUIRenderer* renderer) {
-	// renderer->draw(m_outlineRect, (m_focused ? ColorRGBA8() : ColorRGBA8(100, 100, 100, 255)), 0);
-	// renderer->draw(m_destRect, ColorRGBA8(50, 50, 50, 255), 0);
+	renderer->draw(m_outlineRect, (m_focused ? ColorRGBA8() : ColorRGBA8(100, 100, 100, 255)), 0);
+	renderer->draw(m_destRect, ColorRGBA8(50, 50, 50, 255), 0);
 	if(m_label.needsMeshUpdate) m_font.updateMesh(m_label);
 	m_fontShader.bind();
 	m_fontShader.loadColor(m_label.color);
