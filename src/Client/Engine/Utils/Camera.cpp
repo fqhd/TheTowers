@@ -31,7 +31,7 @@ void Camera::movement(float deltaTime) {
 	math::vec3 forward = math::normalize(math::vec3(m_forward.x, 0.0f, m_forward.z));
 	math::vec3 side = math::normalize(math::cross(m_forward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (m_manager->isKeyDown(sf::Keyboard::Z)) {
+	if (m_manager->isKeyDown(sf::Keyboard::W)) {
 		m_position += forward * SPEED * deltaTime;
 	}
 
@@ -39,7 +39,7 @@ void Camera::movement(float deltaTime) {
 		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::Q)) {
+	if (m_manager->isKeyDown(sf::Keyboard::A)) {
 		m_position -= side * SPEED * deltaTime;
 	}
 
@@ -69,7 +69,7 @@ void Camera::calculateCameraVectors(float sensibility) {
 
 	math::ivec2 deltaMousePos = previousMousePos - currentMousePos;
 
-	m_pitch -= deltaMousePos.y * sensibility;
+	m_pitch += deltaMousePos.y * sensibility;
 	m_yaw += deltaMousePos.x * sensibility;
 
 	if (m_pitch >= 89.0f) {
@@ -102,5 +102,5 @@ const math::vec3& Camera::getForward() {
 }
 
 void Camera::updateViewMatrix() {
-	m_viewMatrix = math::view(m_position, m_pitch, m_yaw);
+	m_viewMatrix = math::view(m_position, m_forward);
 }

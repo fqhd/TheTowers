@@ -3,26 +3,24 @@
 #include <string>
 
 #include "Mat4.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace math {
 
-	mat4 view(const vec3& position, float pitch, float yaw){
-        vec3 side(1,0,0);
-        vec3 up(0,1,0);
+	mat4 view(const vec3& position, const vec3& forward){
+		glm::vec3 p = glm::vec3(position.x, position.y, position.z);
+		glm::vec3 f = glm::vec3(forward.x, forward.y, forward.z);
 
-		mat4 p;
-		mat4 y;
-		mat4 v;
-		mat4 t;
-		p.setIdentity();
-		y.setIdentity();
-		v.setIdentity();
-		t.setIdentity();
-        rotate(toRadians(yaw), up, y, y);
-        rotate(toRadians(pitch), side, p, p);
-        translate(-position, t, t);
-		v = t * y * p;
-		return v;
+		glm::mat4 glmView = glm::lookAt(p, p + f, glm::vec3(0, 1, 0));
+
+		mat4 view;
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < 4; j++){
+				view.m[i][j] = glmView[i][j];
+			}
+		}
+		return view;
 	}
 
 	float dot(const vec3& a, const vec3& b){

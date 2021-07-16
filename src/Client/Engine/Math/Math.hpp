@@ -12,7 +12,7 @@ namespace math {
 	// Functions
 	mat4 ortho(float left, float right, float bottom, float top);
 	mat4 perspective(float fov, float aspect, float zNear, float zFar);
-	mat4 view(const vec3& position, float pitch, float yaw);
+	mat4 view(const vec3& position, const vec3& forward);
 
 	void translate(const vec3& vec, const mat4& src, mat4& dst);
 	void rotate(float angle, const vec3& vec, const mat4& src, mat4& dst);
