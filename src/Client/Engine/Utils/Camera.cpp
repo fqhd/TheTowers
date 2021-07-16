@@ -16,7 +16,6 @@ void Camera::init(InputManager* _manager) {
 
 void Camera::updateProjectionMatrix() {
 	math::uvec2 size = m_manager->getWindowSize();
-
 	m_projectionMatrix = math::perspective(FOV, size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
@@ -32,7 +31,7 @@ void Camera::movement(float deltaTime) {
 	math::vec3 forward = math::normalize(math::vec3(m_forward.x, 0.0f, m_forward.z));
 	math::vec3 side = math::normalize(math::cross(m_forward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (m_manager->isKeyDown(sf::Keyboard::W)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Z)) {
 		m_position += forward * SPEED * deltaTime;
 	}
 
@@ -40,7 +39,7 @@ void Camera::movement(float deltaTime) {
 		m_position -= forward * SPEED * deltaTime;
 	}
 
-	if (m_manager->isKeyDown(sf::Keyboard::A)) {
+	if (m_manager->isKeyDown(sf::Keyboard::Q)) {
 		m_position -= side * SPEED * deltaTime;
 	}
 
@@ -103,6 +102,5 @@ const math::vec3& Camera::getForward() {
 }
 
 void Camera::updateViewMatrix() {
-
 	m_viewMatrix = math::view(m_position, m_pitch, m_yaw);
 }

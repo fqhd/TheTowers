@@ -13,12 +13,15 @@ namespace math {
 		mat4 p;
 		mat4 y;
 		mat4 v;
+		mat4 t;
 		p.setIdentity();
 		y.setIdentity();
 		v.setIdentity();
-        rotate(toRadians(pitch), side, p, v);
-        rotate(toRadians(yaw), up, y, v);
-        translate(-position, v, v);
+		t.setIdentity();
+        rotate(toRadians(yaw), up, y, y);
+        rotate(toRadians(pitch), side, p, p);
+        translate(-position, t, t);
+		v = t * y * p;
 		return v;
 	}
 

@@ -29,7 +29,7 @@ private:
 	void updateViewMatrix();
 
 	float m_pitch = 0.0f;
-	float m_yaw = 90.0f;
+	float m_yaw = 0.0f;
 	math::vec3 m_forward;
 	math::vec3 m_position;
 
