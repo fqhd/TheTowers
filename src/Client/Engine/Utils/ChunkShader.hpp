@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include <glm/glm.hpp>
+#include "../Math/Math.hpp"
 #include "Utils.hpp"
 #include "Shader.hpp"
 
@@ -10,12 +10,12 @@ class ChunkShader : public Shader {
 public:
 
 	void init();
-	void loadProjectionMatrix(const glm::mat4& matrix);
-	void loadViewMatrix(const glm::mat4& matrix);
+	void loadProjectionMatrix(const math::mat4& matrix);
+	void loadViewMatrix(const math::mat4& matrix);
 	void loadGradient(float gradient);
 	void loadDensity(float density);
 	void loadChunkPosition(int _x, int _y, int _z);
-	void loadCameraPosition(const glm::vec3& position);
+	void loadCameraPosition(const math::vec3& position);
 
 
 private:

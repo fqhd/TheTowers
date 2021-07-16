@@ -5,8 +5,8 @@ void GUIShader::init(){
 	getUniformLocations();
 }
 
-void GUIShader::loadMatrix(const glm::mat4& matrix){
-	glUniformMatrix4fv(m_matrixLocation, 1, GL_FALSE, &matrix[0][0]);
+void GUIShader::loadMatrix(const math::mat4& matrix){
+	glUniformMatrix4fv(m_matrixLocation, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
 void GUIShader::getUniformLocations(){

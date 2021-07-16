@@ -51,7 +51,7 @@ bool InputManager::processInput() {
 			break;
 			case sf::Event::MouseMoved:
 				m_mousePosition.x = m_event.mouseMove.x;
-				m_mousePosition.y = m_event.mouseMove.y;
+				m_mousePosition.y = m_windowSize.y - m_event.mouseMove.y; // We flip the mouse y because it's originally flipped
 			break;
 			case sf::Event::LostFocus:
 				m_hasFocus = false;
@@ -89,20 +89,16 @@ void InputManager::setVerticalSync(bool _sync){
 	m_window->setVerticalSyncEnabled(_sync);
 }
 
-glm::vec2 InputManager::getWindowSize(){
+math::uvec2 InputManager::getWindowSize(){
 	return m_windowSize;
 }
 
-glm::vec2 InputManager::getPreviousMousePosition(){
+math::ivec2 InputManager::getPreviousMousePosition(){
 	return m_previousMousePosition;
 }
 
-glm::vec2 InputManager::getMousePosition(){
+math::ivec2 InputManager::getMousePosition(){
 	return m_mousePosition;
-}
-
-glm::vec2 InputManager::getScaledMousePosition(){
-	return Utils::mapPoint(glm::vec2(m_mousePosition.x, m_mousePosition.y), glm::vec2(m_windowSize.x, m_windowSize.y), glm::vec2(1280.0f, 720.0f));
 }
 
 bool InputManager::isKeyDown(int _keyID){

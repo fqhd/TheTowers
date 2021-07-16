@@ -13,14 +13,14 @@ void DebugMenu::render(){
 }
 
 void DebugMenu::initGUI(){
-	m_canvas->labels.push_back(GUILabel(std::string("FPS: "), glm::vec2(25, 675), ColorRGBA8()));
-	m_canvas->labels.push_back(GUILabel(std::string("X: "), glm::vec2(25, 625), ColorRGBA8()));
-	m_canvas->labels.push_back(GUILabel(std::string("Y: "), glm::vec2(25, 575), ColorRGBA8()));
-	m_canvas->labels.push_back(GUILabel(std::string("Z: "), glm::vec2(25, 525), ColorRGBA8()));
+	m_canvas->labels.push_back(GUILabel(std::string("FPS: "), math::vec2(25, 675), ColorRGBA8()));
+	m_canvas->labels.push_back(GUILabel(std::string("X: "), math::vec2(25, 625), ColorRGBA8()));
+	m_canvas->labels.push_back(GUILabel(std::string("Y: "), math::vec2(25, 575), ColorRGBA8()));
+	m_canvas->labels.push_back(GUILabel(std::string("Z: "), math::vec2(25, 525), ColorRGBA8()));
 }
 
 void DebugMenu::updateGUI(){
-	glm::vec3 camPos = m_game->camera.getPosition();
+	math::vec3 camPos = m_game->camera.getPosition();
 
 	if (m_game->frameCounter.get_current_frame() == FRAMES_SIZE-1) {
 		m_canvas->labels[0].setString("FPS: " + std::to_string((int)m_game->frameCounter.get_average()));

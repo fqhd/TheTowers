@@ -18,7 +18,7 @@ public:
 	void connectToServer(sf::IpAddress& _ip, Config& _c);
 	void receiveGameUpdatePacket(World* _world, ParticleHandler& _pHandler, EntityHandler& _eHandler);
 	void sendPositionDataToServer(Camera& _camera);
-	void sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType);
+	void sendBlockUpdatePacket(const math::ivec3& _blockPosition, uint8_t _blockType);
 	void downloadWorld(uint8_t* _data);
 
 private:

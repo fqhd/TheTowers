@@ -18,9 +18,9 @@ GUIButton::GUIButton(const math::vec4& destRect, unsigned int _layer) {
 void GUIButton::update(InputManager* _manager, float deltaTime) {
 	m_currentColor = m_baseColor;
 	m_isPressed = false;
-	glm::vec2 mousePos = _manager->getScaledMousePosition();
+	math::ivec2 mousePos = _manager->getMousePosition();
 
-	if (Utils::isInside(Utils::flipCoords(mousePos, 720.0f), m_destRect)) { // Mouse is inside the button
+	if (Utils::isInside(mousePos, m_destRect)) { // Mouse is inside the button
 		m_targetRect = math::vec4(m_originalRect.x - 10, m_originalRect.y - 10, m_originalRect.z + 20, m_originalRect.w + 20);
 		m_currentColor = ColorRGBA8(m_baseColor.r * 0.8f, m_baseColor.g * 0.8f, m_baseColor.b * 0.8f, m_baseColor.a);
 		if (_manager->isButtonDown(sf::Mouse::Left)) {

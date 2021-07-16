@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Utils/Shader.hpp"
-#include <glm/glm.hpp>
+#include "../Math/Math.hpp"
 
 
 class GUIShader : public Shader {
@@ -9,7 +9,7 @@ public:
 
 	void init();
 
-	void loadMatrix(const glm::mat4& matrix);
+	void loadMatrix(const math::mat4& matrix);
 
 
 private:

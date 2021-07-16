@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 #include <vector>
+#include "../Math/Math.hpp"
 
 
 class InputManager {
@@ -26,11 +27,9 @@ public:
 	void setVerticalSync(bool _sync);
 	void setMouseVisible(bool _visible);
 	void centerMouse();
-	float getDeltaMouseWheel();
-	glm::vec2 getWindowSize();
-	glm::vec2 getMousePosition();
-	glm::vec2 getScaledMousePosition();
-	glm::vec2 getPreviousMousePosition();
+	math::uvec2 getWindowSize();
+	math::ivec2 getMousePosition();
+	math::ivec2 getPreviousMousePosition();
 
 private:
 
@@ -44,9 +43,9 @@ private:
 	std::unordered_map<unsigned int, bool> m_previousKeymap;
 	std::unordered_map<unsigned int, bool> m_buttonmap;
 	std::unordered_map<unsigned int, bool> m_previousButtonmap;
-	glm::vec2 m_windowSize;
-	glm::vec2 m_mousePosition;
-	glm::vec2 m_previousMousePosition;
+	math::uvec2 m_windowSize;
+	math::ivec2 m_mousePosition;
+	math::ivec2 m_previousMousePosition;
 	sf::Window* m_window;
 	sf::Event m_event;
 	bool m_hasFocus = true;

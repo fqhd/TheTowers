@@ -49,23 +49,21 @@ std::string Utils::readFileToString(const std::string& shaderName) {
 	return shaderCode;
 }
 
-bool Utils::isInside(const glm::vec2& pos, const math::vec4& destRect){
+bool Utils::isInside(const math::ivec2& pos, const math::vec4& destRect){
 	return (pos.x >= destRect.x && pos.x <= destRect.x + destRect.z && pos.y >= destRect.y && pos.y <= destRect.y + destRect.w);
 }
 
-bool Utils::isInRange(const glm::vec3& a, const glm::vec3& b, float range){
-	return std::fabs(glm::length(b - a)) < range;
+bool Utils::isInRange(const math::vec3& a, const math::vec3& b, float range){
+	return math::fabs(math::length(b - a)) < range;
 }
 
-glm::vec2 Utils::flipCoords(const glm::vec2& coords, float height){
-	return glm::vec2(coords.x, height - coords.y);
-}
-
-glm::vec2 Utils::mapPoint(const glm::vec2& point, const glm::vec2& pointDimensions, const glm::vec2& desiredDimensions){
-	glm::vec2 mappedPoint;
+/*
+math::vec2 Utils::mapPoint(const math::vec2& point, const math::vec2& pointDimensions, const math::vec2& desiredDimensions){
+	math::vec2 mappedPoint;
 	float xPercent = point.x / pointDimensions.x;
 	float yPercent = point.y / pointDimensions.y;
 	mappedPoint.x = xPercent * desiredDimensions.x;
 	mappedPoint.y = yPercent * desiredDimensions.y;
 	return mappedPoint;
 }
+*/

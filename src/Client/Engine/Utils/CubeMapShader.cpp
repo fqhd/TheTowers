@@ -8,12 +8,12 @@ void CubeMapShader::init(){
 	unbind();
 }
 
-void CubeMapShader::loadProjection(const glm::mat4& matrix) {
-	glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &matrix[0][0]);
+void CubeMapShader::loadProjection(const math::mat4& matrix) {
+	glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
-void CubeMapShader::loadView(const glm::mat4& matrix){
-	glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &matrix[0][0]);
+void CubeMapShader::loadView(const math::mat4& matrix){
+	glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
 void CubeMapShader::getUniformLocations(){

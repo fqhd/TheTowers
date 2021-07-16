@@ -1,6 +1,6 @@
 #pragma once
 #include "Shader.hpp"
-#include <glm/glm.hpp>
+#include "../Math/Math.hpp"
 
 
 class BlockOutlineShader : public Shader {
@@ -10,9 +10,9 @@ public:
 	void init();
 
 	//Uniform Loading Functions
-	void loadProjectionMatrix(const glm::mat4& matrix);
-	void loadViewMatrix(const glm::mat4& matrix);
-	void loadBlockPosition(const glm::vec3& position);
+	void loadProjectionMatrix(const math::mat4& matrix);
+	void loadViewMatrix(const math::mat4& matrix);
+	void loadBlockPosition(const math::ivec3& position);
 
 private:
 

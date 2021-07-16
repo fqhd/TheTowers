@@ -7,13 +7,13 @@ GUIImage::GUIImage(const math::vec4& destRect, GLuint _textureID){
 	m_position.y = destRect.y;
 
 	GUITextVertex vertices[] = { // We can use a text vertex because it's okay in this case, we only care about the position and the UV
-		GUITextVertex(glm::vec2(0, 0), glm::vec2(0, 0)),
-		GUITextVertex(glm::vec2(0, destRect.w), glm::vec2(0, 1)),
-		GUITextVertex(glm::vec2(destRect.z, destRect.w), glm::vec2(1, 1)),
+		GUITextVertex(math::vec2(0, 0), math::vec2(0, 0)),
+		GUITextVertex(math::vec2(0, destRect.w), math::vec2(0, 1)),
+		GUITextVertex(math::vec2(destRect.z, destRect.w), math::vec2(1, 1)),
 
-		GUITextVertex(glm::vec2(0, 0), glm::vec2(0, 0)),
-		GUITextVertex(glm::vec2(destRect.z, destRect.w), glm::vec2(1, 1)),
-		GUITextVertex(glm::vec2(destRect.z, 0), glm::vec2(1, 0))
+		GUITextVertex(math::vec2(0, 0), math::vec2(0, 0)),
+		GUITextVertex(math::vec2(destRect.z, destRect.w), math::vec2(1, 1)),
+		GUITextVertex(math::vec2(destRect.z, 0), math::vec2(1, 0))
 	};
 
 	glGenVertexArrays(1, &m_vaoID);

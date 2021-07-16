@@ -35,13 +35,13 @@ void GUIRenderer::end() {
 }
  
 void GUIRenderer::draw(const math::vec4& destRect, const ColorRGBA8& color, unsigned int layer) {
-	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color, glm::vec2(0, layer));
-	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y + destRect.w), color, glm::vec2(1, layer));
-	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, glm::vec2(2, layer));
+	m_vertices.emplace_back(math::vec2(destRect.x, destRect.y), color, math::vec2(0, layer));
+	m_vertices.emplace_back(math::vec2(destRect.x, destRect.y + destRect.w), color, math::vec2(1, layer));
+	m_vertices.emplace_back(math::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, math::vec2(2, layer));
 
-	m_vertices.emplace_back(glm::vec2(destRect.x, destRect.y), color, glm::vec2(0, layer));
-	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, glm::vec2(2, layer));
-	m_vertices.emplace_back(glm::vec2(destRect.x + destRect.z, destRect.y), color, glm::vec2(3, layer));
+	m_vertices.emplace_back(math::vec2(destRect.x, destRect.y), color, math::vec2(0, layer));
+	m_vertices.emplace_back(math::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, math::vec2(2, layer));
+	m_vertices.emplace_back(math::vec2(destRect.x + destRect.z, destRect.y), color, math::vec2(3, layer));
 }
 
 void GUIRenderer::render() {

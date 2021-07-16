@@ -17,16 +17,16 @@ void ChunkShader::getUniformLocations(){
 	m_cameraPositionLocation = glGetUniformLocation(m_programID, "cameraPosition");
 }
 
-void ChunkShader::loadViewMatrix(const glm::mat4& matrix){
-	glUniformMatrix4fv(m_viewMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
+void ChunkShader::loadViewMatrix(const math::mat4& matrix){
+	glUniformMatrix4fv(m_viewMatrixLocation, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
-void ChunkShader::loadCameraPosition(const glm::vec3& position){
-	glUniform3fv(m_cameraPositionLocation, 1, &position[0]);
+void ChunkShader::loadCameraPosition(const math::vec3& position){
+	glUniform3fv(m_cameraPositionLocation, 1, &position.x);
 }
 
-void ChunkShader::loadProjectionMatrix(const glm::mat4& matrix){
-	glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, &matrix[0][0]);
+void ChunkShader::loadProjectionMatrix(const math::mat4& matrix){
+	glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
 void ChunkShader::loadGradient(float gradient) {
@@ -38,6 +38,6 @@ void ChunkShader::loadDensity(float density){
 }
 
 void ChunkShader::loadChunkPosition(int _x, int _y, int _z){
-	glm::vec3 position(_x, _y, _z);
-	glUniform3fv(m_chunkPositionLocation, 1, &position[0]);
+	math::vec3 position(_x, _y, _z);
+	glUniform3fv(m_chunkPositionLocation, 1, &position.x);
 }

@@ -36,10 +36,10 @@ void PauseMenu::initGUI(){
 	m_canvas->rects.push_back(GUIRect(math::vec4(72, 32, 1136, 626), ColorRGBA8(20, 20, 20, 255), 1)); // Background
 
 	// Labels
-	m_canvas->labels.push_back(GUILabel("Fog: ", glm::vec2(150, 525), ColorRGBA8(255, 255, 255, 255)));
-	m_canvas->labels.push_back(GUILabel("Vignette: ", glm::vec2(150, 475), ColorRGBA8(255, 255, 255, 255)));
-	m_canvas->labels.push_back(GUILabel("Debug: ", glm::vec2(150, 425), ColorRGBA8(255, 255, 255, 255)));
-	m_canvas->labels.push_back(GUILabel("SAVE SETTINGS", glm::vec2(525, 68), ColorRGBA8(255, 255, 255, 255)));
+	m_canvas->labels.push_back(GUILabel("Fog: ", math::vec2(150, 525), ColorRGBA8(255, 255, 255, 255)));
+	m_canvas->labels.push_back(GUILabel("Vignette: ", math::vec2(150, 475), ColorRGBA8(255, 255, 255, 255)));
+	m_canvas->labels.push_back(GUILabel("Debug: ", math::vec2(150, 425), ColorRGBA8(255, 255, 255, 255)));
+	m_canvas->labels.push_back(GUILabel("SAVE SETTINGS", math::vec2(525, 68), ColorRGBA8(255, 255, 255, 255)));
 
 	// Checkboxes
 	m_canvas->checkboxes.push_back(GUICheckbox(math::vec4(325, 525, 32, 32), m_settings->isFogToggled, 1)); // Fog checkbox

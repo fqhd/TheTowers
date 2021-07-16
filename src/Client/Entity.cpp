@@ -18,7 +18,7 @@ void Entity::update(float deltaTime) {
 	updateRotation();
 }
 
-void Entity::setTargetPosition(const glm::vec3 & position) {
+void Entity::setTargetPosition(const math::vec3 & position) {
 	m_targetPosition = position;
 }
 
@@ -28,7 +28,7 @@ void Entity::setForward(float pitch, float yaw) {
 }
 
 void Entity::updateRotation() {
-	transform.setRotation(glm::vec3(glm::radians(-m_currentPitch), glm::radians(-(m_currentYaw - 90)), 0));
+	transform.setRotation(math::vec3(math::toRadians(-m_currentPitch), math::toRadians(-(m_currentYaw - 90)), 0));
 }
 
 bool Entity::isBlueTeam(){

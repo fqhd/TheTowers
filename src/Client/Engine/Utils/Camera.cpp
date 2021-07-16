@@ -97,7 +97,7 @@ const math::vec3& Camera::getPosition() {
 	return m_position;
 }
 
-const math::vec3& Camera::getForward() {
+math::vec3 Camera::getForward() {
 	return m_forward;
 }
 

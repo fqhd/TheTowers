@@ -1,34 +1,35 @@
 #pragma once
 
-#include <glm/gtx/transform.hpp>
+#include "../Math/Math.hpp"
+
 
 class Transform {
 public:
 
 	Transform();
-	Transform(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
-	void init(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
-	const glm::mat4& getMatrix();
+	Transform(const math::vec3& position, const math::vec3& rotation, const math::vec3& scale);
+	void init(const math::vec3& position, const math::vec3& rotation, const math::vec3& scale);
+	const math::mat4& getMatrix();
 
-	void setPosition(const glm::vec3& position);
-	void setRotation(const glm::vec3& rotation);
-	void setScale(const glm::vec3& scale);
+	void setPosition(const math::vec3& position);
+	void setRotation(const math::vec3& rotation);
+	void setScale(const math::vec3& scale);
 
-	void move(const glm::vec3& delta);
+	void move(const math::vec3& delta);
 
-	const glm::vec3& getPosition() const;
-	const glm::vec3& getRotation() const;
-	const glm::vec3& getScale() const;
+	const math::vec3& getPosition() const;
+	const math::vec3& getRotation() const;
+	const math::vec3& getScale() const;
 
 private:
 
 	bool m_needsUpdate = true;
 
-	glm::vec3 m_position;
-	glm::vec3 m_rotation;
-	glm::vec3 m_scale;
+	math::vec3 m_position;
+	math::vec3 m_rotation;
+	math::vec3 m_scale;
 
-	glm::mat4 m_matrix;
+	math::mat4 m_matrix;
 
 };
 

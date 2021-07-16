@@ -4,8 +4,8 @@ void GUIFontShader::init(){
 	getUniformLocations();
 }
 
-void GUIFontShader::loadMatrix(const glm::mat4& matrix){
-	glUniformMatrix4fv(m_matrixLocation, 1, GL_FALSE, &matrix[0][0]);
+void GUIFontShader::loadMatrix(const math::mat4& matrix){
+	glUniformMatrix4fv(m_matrixLocation, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
 void GUIFontShader::getUniformLocations(){
@@ -16,8 +16,8 @@ void GUIFontShader::getUniformLocations(){
 	unbind();
 }
 
-void GUIFontShader::loadPosition(const glm::vec2& position){
-	glUniform2fv(m_positionLocation, 1, &position[0]);
+void GUIFontShader::loadPosition(const math::vec2& position){
+	glUniform2fv(m_positionLocation, 1, &position.x);
 }
 
 void GUIFontShader::loadColor(const ColorRGBA8& color){

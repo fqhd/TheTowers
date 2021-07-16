@@ -1,6 +1,6 @@
 #include "Cube.hpp"
 
-#include <glm/glm.hpp>
+#include "../Math/Math.hpp"
 
 void Cube::init() {
 
@@ -12,7 +12,7 @@ void Cube::init() {
 
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(math::vec3), 0);
 
 
 	//vertices

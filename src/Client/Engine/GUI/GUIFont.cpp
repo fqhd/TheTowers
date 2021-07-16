@@ -69,10 +69,10 @@ void GUIFont::updateMesh(GUILabel& mesh) {
 }
 
 void GUIFont::renderQuad(std::vector<GUITextVertex>& vertices, const math::vec4& destRect, const math::vec4& uv) {
-	vertices.emplace_back(glm::vec2(destRect.x, destRect.y), glm::vec2(uv.x, uv.y)); // Bottom Left
-	vertices.emplace_back(glm::vec2(destRect.x, destRect.w), glm::vec2(uv.x, uv.w)); // Top Left
-	vertices.emplace_back(glm::vec2(destRect.z, destRect.w), glm::vec2(uv.z, uv.w)); // Top Right
-	vertices.emplace_back(glm::vec2(destRect.x, destRect.y), glm::vec2(uv.x, uv.y)); // Bottom Left
-	vertices.emplace_back(glm::vec2(destRect.z, destRect.w), glm::vec2(uv.z, uv.w)); // Top Right
-	vertices.emplace_back(glm::vec2(destRect.z, destRect.y), glm::vec2(uv.z, uv.y)); // Bottom Right
+	vertices.emplace_back(math::vec2(destRect.x, destRect.y), math::vec2(uv.x, uv.y)); // Bottom Left
+	vertices.emplace_back(math::vec2(destRect.x, destRect.w), math::vec2(uv.x, uv.w)); // Top Left
+	vertices.emplace_back(math::vec2(destRect.z, destRect.w), math::vec2(uv.z, uv.w)); // Top Right
+	vertices.emplace_back(math::vec2(destRect.x, destRect.y), math::vec2(uv.x, uv.y)); // Bottom Left
+	vertices.emplace_back(math::vec2(destRect.z, destRect.w), math::vec2(uv.z, uv.w)); // Top Right
+	vertices.emplace_back(math::vec2(destRect.z, destRect.y), math::vec2(uv.z, uv.y)); // Bottom Right
 }

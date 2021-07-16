@@ -20,26 +20,25 @@ void ParticleHandler::render(Camera& camera){
 
 	std::vector<glm::mat4> matrices;
 
-	for(auto& i : particles){
-		glm::mat4 posMatrix = glm::translate(i.getPosition());
-		posMatrix[0][0] = camera.getViewMatrix()[0][0];
-		posMatrix[0][1] = camera.getViewMatrix()[1][0];
-		posMatrix[0][2] = camera.getViewMatrix()[2][0];
-		posMatrix[1][0] = camera.getViewMatrix()[0][1];
-		posMatrix[1][1] = camera.getViewMatrix()[1][1];
-		posMatrix[1][2] = camera.getViewMatrix()[2][1];
-		posMatrix[2][0] = camera.getViewMatrix()[0][2];
-		posMatrix[2][1] = camera.getViewMatrix()[1][2];
-		posMatrix[2][2] = camera.getViewMatrix()[2][2];
-		glm::mat4 rotMatrix = glm::rotate(i.getRotation(), glm::vec3(0, 0, 1));
-		glm::mat4 scaleMatrix = glm::scale(glm::vec3(i.getScale(), i.getScale(), i.getScale()));
-		glm::mat4 modelMatrix = posMatrix * rotMatrix * scaleMatrix;
+	// for(auto& i : particles){
+		// glm::mat4 posMatrix = glm::translate(i.getPosition());
+		// posMatrix[0][0] = camera.getViewMatrix().m[0][0];
+		// posMatrix[0][1] = camera.getViewMatrix().m[1][0];
+		// posMatrix[0][2] = camera.getViewMatrix().m[2][0];
+		// posMatrix[1][0] = camera.getViewMatrix().m[0][1];
+		// posMatrix[1][1] = camera.getViewMatrix().m[1][1];
+		// posMatrix[1][2] = camera.getViewMatrix().m[2][1];
+		// posMatrix[2][0] = camera.getViewMatrix().m[0][2];
+		// posMatrix[2][1] = camera.getViewMatrix().m[1][2];
+		// posMatrix[2][2] = camera.getViewMatrix().m[2][2];
+		// glm::mat4 rotMatrix = glm::rotate(i.getRotation(), glm::vec3(0, 0, 1));
+		// glm::mat4 scaleMatrix = glm::scale(glm::vec3(i.getScale(), i.getScale(), i.getScale()));
+		// glm::mat4 modelMatrix = posMatrix * rotMatrix * scaleMatrix;
 
-		glm::mat4 matrix = camera.getViewMatrix() * modelMatrix;
+		// glm::mat4 matrix = camera.getViewMatrix() * modelMatrix;
 
-		matrices.push_back(matrix);
-
-	}
+		// matrices.push_back(matrix);
+	// }
 
 	m_shader.bind();
 	glDisable(GL_CULL_FACE);

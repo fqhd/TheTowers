@@ -18,8 +18,8 @@ GUIInput::GUIInput(const math::vec4& destRect) {
 }
 
 void GUIInput::update(InputManager* _manager) {
-	glm::vec2 mousePos = _manager->getScaledMousePosition();
-	if (Utils::isInside(Utils::flipCoords(mousePos, 720.0f), m_destRect)) {
+	math::ivec2 mousePos = _manager->getMousePosition();
+	if (Utils::isInside(mousePos, m_destRect)) {
 		if (_manager->isButtonPressed(sf::Mouse::Left)) {
 			m_focused = m_focused ? false : true;
 		}

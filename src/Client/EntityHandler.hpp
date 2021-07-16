@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "Engine/Utils/ModelShader.hpp"
 #include "Engine/Utils/Camera.hpp"
-#include "Engine/Utils/Model.hpp"
 #include <vector>
 #include <unordered_map>
 #include <SFML/Network.hpp>
@@ -26,11 +24,7 @@ public:
 private:
 
 	//Functions
-	void addEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw);
-
-	//Objects
-	ModelShader m_shader;
-	Model m_model;
+	void addEntity(uint8_t id, const math::vec3& position, float pitch, float yaw);
 
 	//Data Structures
 	std::unordered_map<uint8_t, Entity> m_entities;

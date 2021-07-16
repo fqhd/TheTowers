@@ -24,11 +24,11 @@ void Player::update(Camera& camera, ParticleHandler& handler, World* world, Netw
 }
 
 void Player::getVisibleBlocks(Camera& camera, World* world) {
-	glm::ivec3 pos = vecToBlock(camera.getPosition());
+	math::ivec3 pos = vecToBlock(camera.getPosition());
 	visibleBlocks.lookingAtBlock = false;
 	visibleBlocks.isInsideBlock = world->getBlock(pos.x, pos.y, pos.z) ? true : false;
 
-	glm::vec3 rayPosition = camera.getPosition();
+	math::vec3 rayPosition = camera.getPosition();
 	for (unsigned int i = 0; i < PRECISION; i++) {
 		rayPosition += camera.getForward() * PLAYER_REACH_DISTANCE / (float)PRECISION;
 
@@ -54,6 +54,6 @@ void Player::breakBlock(ParticleHandler& handler, World* world) {
 	// handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 }
 
-glm::ivec3 Player::vecToBlock(const glm::vec3& vec) {
-	return glm::ivec3(floor(vec.x), floor(vec.y), floor(vec.z));
+math::ivec3 Player::vecToBlock(const math::vec3& vec) {
+	return math::ivec3((int)floor(vec.x), (int)floor(vec.y), (int)floor(vec.z));
 }

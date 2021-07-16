@@ -101,13 +101,13 @@ void NetworkManager::sendPositionDataToServer(Camera& _camera){
 		// Which will in turn send it to other connected clients except ourselves
 		sf::Packet packet;
 		packet.clear();
-		glm::vec3 p = _camera.getPosition(); // Camera Position
+		math::vec3 p = _camera.getPosition(); // Camera Position
 		packet << m_id << p.x << p.y << p.z << _camera.getPitch() << _camera.getYaw();
 		m_udpSocket.send(packet, m_serverIp, m_config.getServerPort());
 	}
 }
 
-void NetworkManager::sendBlockUpdatePacket(const glm::ivec3& _blockPosition, uint8_t _blockType){
+void NetworkManager::sendBlockUpdatePacket(const math::ivec3& _blockPosition, uint8_t _blockType){
 	sf::Packet packet;
 	packet << (uint8_t)2 << _blockPosition.x << _blockPosition.y << _blockPosition.z << _blockType; // We send the keycode 2 because that is the code for a block update.
 	m_tcpSocket.send(packet);

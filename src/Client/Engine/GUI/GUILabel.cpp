@@ -6,11 +6,11 @@ GUILabel::GUILabel(){
 
 }
 
-GUILabel::GUILabel(const std::string& string, const glm::vec2& p, const ColorRGBA8& c){
+GUILabel::GUILabel(const std::string& string, const math::vec2& p, const ColorRGBA8& c){
 	init(string, p, c);
 }
 
-void GUILabel::init(const std::string& string, const glm::vec2& p, const ColorRGBA8& c){
+void GUILabel::init(const std::string& string, const math::vec2& p, const ColorRGBA8& c){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 

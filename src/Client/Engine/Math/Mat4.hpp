@@ -28,6 +28,20 @@ namespace math {
 			m[3][3] = (T)1.0f;
 		}
 
+		base_mat4<T> operator*(const base_mat4<T>& other){
+			base_mat4<T> r;
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					float sum = 0.0f;
+					for (int k = 0; k < 4; k++) {
+						sum += m[i][k] * other.m[k][j];
+					}
+					r.m[i][j] = sum;
+				}
+			}
+			return r;
+		}
+
 
 	};
 

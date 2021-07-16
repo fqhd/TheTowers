@@ -7,7 +7,7 @@ class CubeMap {
 public:
 
 	void init();
-	void render(const glm::mat4& projection, const glm::mat4& view);
+	void render(const math::mat4& projection, math::mat4 view);
 	void destroy();
 
 private:

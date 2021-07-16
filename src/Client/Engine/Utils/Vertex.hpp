@@ -1,40 +1,24 @@
 #pragma once
 #include <GL/glew.h>
-#include <glm/glm.hpp>
+#include "../Math/Math.hpp"
 #include "ColorRGBA8.hpp"
 
 struct GUITextVertex {
-	GUITextVertex(const glm::vec2& p, const glm::vec2& u){
+	GUITextVertex(const math::vec2& p, const math::vec2& u){
 		position = p;
 		uv = u;
 	}
-	glm::vec2 position;
-	glm::vec2 uv;
-};
-
-struct QuadVertex {
-	QuadVertex(const glm::vec2& _pos){
-		position = _pos;
-	}
-	glm::vec2 position;
-};
-
-struct ModelVertex {
-	ModelVertex(const glm::vec3& p, const glm::vec3& n){
-		position = p;
-		normal = n;
-	}
-	glm::vec3 position;
-	glm::vec3 normal;
+	math::vec2 position;
+	math::vec2 uv;
 };
 
 struct GUIVertex {
-	GUIVertex(const glm::vec2& p, const ColorRGBA8& c, const glm::vec2& tInfo){
+	GUIVertex(const math::vec2& p, const ColorRGBA8& c, const math::vec2& tInfo){
 		position = p;
 		color = c;
 		textureInfo = tInfo;
 	}
-	glm::vec2 position;
+	math::vec2 position;
 	ColorRGBA8 color;
-	glm::vec2 textureInfo;
+	math::vec2 textureInfo;
 };

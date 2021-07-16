@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Utils/Shader.hpp"
-#include <glm/glm.hpp>
 #include "../Utils/Vertex.hpp"
 #include "../Math/Math.hpp"
 
@@ -11,9 +10,9 @@ public:
 	void init();
 
 	//Loading Functions
-	void loadMatrix(const glm::mat4& matrix);
+	void loadMatrix(const math::mat4& matrix);
 	void loadColor(const ColorRGBA8& color);
-	void loadPosition(const glm::vec2& position);
+	void loadPosition(const math::vec2& position);
 
 private:
 

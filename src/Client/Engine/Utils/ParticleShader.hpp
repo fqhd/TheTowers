@@ -1,13 +1,14 @@
 #pragma once
+
 #include "Shader.hpp"
-#include <glm/glm.hpp>
+#include "../Math/Math.hpp"
 
 class ParticleShader : public Shader {
 public:
 
 	void init();
 
-	void loadProjection(const glm::mat4& matrix);
+	void loadProjection(const math::mat4& matrix);
 
 private:
 

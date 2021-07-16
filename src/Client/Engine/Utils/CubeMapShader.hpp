@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include "Shader.hpp"
+#include "../Math/Math.hpp"
 
 
 class CubeMapShader : public Shader {
@@ -10,8 +11,8 @@ public:
 	void init();
 
 	//Loading Uniforms
-	void loadProjection(const glm::mat4& matrix);
-	void loadView(const glm::mat4& matrix);
+	void loadProjection(const math::mat4& matrix);
+	void loadView(const math::mat4& matrix);
 
 private:
 

@@ -15,6 +15,13 @@ namespace math {
 		return r;
 	}
 
+	mat4 rotate(float angle, const vec3& axis){
+		mat4 r;
+		r.setIdentity();
+		r = rotate(angle, axis, r);
+		return r;
+	}
+
 	mat4 rotate(float angle, const vec3& axis, const mat4& matrix){
 		mat4 r;
 
@@ -50,7 +57,6 @@ namespace math {
 		float t12 = matrix.m[0][2] * f10 + matrix.m[1][2] * f11 + matrix.m[2][2] * f12;
 		float t13 = matrix.m[0][3] * f10 + matrix.m[1][3] * f11 + matrix.m[2][3] * f12;
 
-
 		r.m[2][0] = matrix.m[0][0] * f20 + matrix.m[1][0] * f21 + matrix.m[2][0] * f22;
 		r.m[2][1] = matrix.m[0][1] * f20 + matrix.m[1][1] * f21 + matrix.m[2][1] * f22;
 		r.m[2][2] = matrix.m[0][2] * f20 + matrix.m[1][2] * f21 + matrix.m[2][2] * f22;
@@ -67,11 +73,18 @@ namespace math {
 		return r;
 	}
 
-	vec3 cross(vec3 a, vec3 b){
+	vec3 cross(const vec3& a, const vec3& b){
 		vec3 r;
 		r.x = a.y * b.z - a.z * b.y;
 		r.y = b.x * a.z - b.z * a.x;
 		r.z = a.x * b.y - a.y * b.x;
+		return r;
+	}
+
+	mat4 translate(const vec3& vec){
+		mat4 r;
+		r.setIdentity();
+		r = translate(vec, r);
 		return r;
 	}
 
@@ -133,7 +146,14 @@ namespace math {
 		return vec4(v.x/len, v.y/len, v.z/len, v.w/len);
 	}
 
-	mat4 scale(const mat4& m, const vec3& vec) {
+	mat4 scale(const vec3& vec){
+		mat4 r;
+		r.setIdentity();
+		r = scale(vec, r);
+		return r;
+	}
+
+	mat4 scale(const vec3& vec, const mat4& m) {
 		mat4 m4;
 		for (int i = 0; i < 4; i++) {
 			m4.m[i][0] = m.m[i][0]*vec.x;
@@ -141,6 +161,13 @@ namespace math {
 			m4.m[i][2] = m.m[i][2]*vec.z;
 		}
 		return m4;
+	}
+
+	float fabs(float v){
+		if(v < 0){
+			return -v;
+		}
+		return v;
 	}
 
 	float length(const vec2& vec){
