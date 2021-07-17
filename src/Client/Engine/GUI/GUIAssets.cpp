@@ -8,16 +8,36 @@ void GUIAssets::init(){
 }
 
 void GUIAssets::destroy(){
-	glDeleteTextures(1, &m_textureID);
+	glDeleteTextures(1, &m_crosshair);
+	glDeleteTextures(1, &m_hotbar);
+	glDeleteTextures(1, &m_selector);
+	glDeleteTextures(1, &m_blank);
 }
 
 GLuint GUIAssets::loadTexture(const std::string& path){
+	Image image;
+	image.loadFromFile(_path);
 
+	GLuint tID;
+	glGenTextures(1, &tID);
+	glBindTexture(GL_TEXTURE_2D, tID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	image.free();
+
+	return tID;
 }
 
 
 // Texture Getters
-
 GLuint GUIAssets::getCrosshairTexture(){
 	return m_crosshair;
 }

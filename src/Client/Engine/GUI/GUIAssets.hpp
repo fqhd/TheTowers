@@ -1,5 +1,8 @@
 #pragma once
 
+#include <GL/glew.h>
+#include "../Utils/Image.hpp"
+
 class GUIAssets {
 public:
 
