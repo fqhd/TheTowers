@@ -55,5 +55,5 @@ void Player::breakBlock(ParticleHandler& handler, World* world) {
 }
 
 math::ivec3 Player::vecToBlock(const math::vec3& vec) {
-	return math::ivec3((int)floor(vec.x), (int)floor(vec.y), (int)floor(vec.z));
+	return math::ivec3(math::floor(vec.x), math::floor(vec.y), math::floor(vec.z));
 }

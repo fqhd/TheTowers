@@ -30,5 +30,6 @@ namespace math {
 	float round(float f, size_t decimals); // Returns rounded float with specified decimals
 	float toRadians(float degrees); // Converts degrees to radians
 	float fabs(float v);
+	int floor(float v);
 
 };

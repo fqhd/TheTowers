@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glm/glm.hpp>
 #include "Shader.hpp"
 #include "../Math/Math.hpp"
 

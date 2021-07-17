@@ -1,7 +1,6 @@
 #include "Game.hpp"
 #include <cstring>
 #include <iostream>
-#include <glm/gtc/noise.hpp>
 
 
 void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player, GUIHandler* _guiHandler) {

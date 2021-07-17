@@ -2,7 +2,6 @@
 
 #include <GL/glew.h>
 #include <vector>
-#include <glm/glm.hpp>
 #include "Vertex.hpp"
 
 class ParticleQuad {
@@ -14,7 +13,7 @@ public:
 	void render();
 	void destroy();
 
-	void pushMatrices(const std::vector<glm::mat4>& matrices);
+	void pushMatrices(const std::vector<math::mat4>& matrices);
 
 
 

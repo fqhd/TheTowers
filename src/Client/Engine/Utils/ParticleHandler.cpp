@@ -18,10 +18,10 @@ void ParticleHandler::update(float deltaTime){
 
 void ParticleHandler::render(Camera& camera){
 
-	std::vector<glm::mat4> matrices;
+	std::vector<math::mat4> matrices;
 
 	// for(auto& i : particles){
-		// glm::mat4 posMatrix = glm::translate(i.getPosition());
+		// math::mat4 posMatrix = math::translate(i.getPosition());
 		// posMatrix[0][0] = camera.getViewMatrix().m[0][0];
 		// posMatrix[0][1] = camera.getViewMatrix().m[1][0];
 		// posMatrix[0][2] = camera.getViewMatrix().m[2][0];
@@ -31,11 +31,11 @@ void ParticleHandler::render(Camera& camera){
 		// posMatrix[2][0] = camera.getViewMatrix().m[0][2];
 		// posMatrix[2][1] = camera.getViewMatrix().m[1][2];
 		// posMatrix[2][2] = camera.getViewMatrix().m[2][2];
-		// glm::mat4 rotMatrix = glm::rotate(i.getRotation(), glm::vec3(0, 0, 1));
-		// glm::mat4 scaleMatrix = glm::scale(glm::vec3(i.getScale(), i.getScale(), i.getScale()));
-		// glm::mat4 modelMatrix = posMatrix * rotMatrix * scaleMatrix;
+		// math::mat4 rotMatrix = math::rotate(i.getRotation(), math::vec3(0, 0, 1));
+		// math::mat4 scaleMatrix = math::scale(math::vec3(i.getScale(), i.getScale(), i.getScale()));
+		// math::mat4 modelMatrix = posMatrix * rotMatrix * scaleMatrix;
 
-		// glm::mat4 matrix = camera.getViewMatrix() * modelMatrix;
+		// math::mat4 matrix = camera.getViewMatrix() * modelMatrix;
 
 		// matrices.push_back(matrix);
 	// }
@@ -58,7 +58,7 @@ void ParticleHandler::render(Camera& camera){
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z){
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
-		// particles.emplace_back(color, glm::vec3(x, y, z) + glm::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), glm::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
+		// particles.emplace_back(color, math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f);
 	}
 }
 

@@ -1,9 +1,8 @@
 #pragma once
-#include <glm/gtx/transform.hpp>
-#include <glm/glm.hpp>
 #include "../World/Chunk.hpp"
 #include "../Input/InputManager.hpp"
 #include "../Math/Math.hpp"
+#include "math.h"
 
 
 class Camera {

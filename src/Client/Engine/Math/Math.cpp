@@ -3,8 +3,6 @@
 #include <string>
 
 #include "Mat4.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace math {
 
@@ -94,6 +92,10 @@ namespace math {
 		dst.m[3][1] += src.m[0][1] * vec.x + src.m[1][1] * vec.y + src.m[2][1] * vec.z;
 		dst.m[3][2] += src.m[0][2] * vec.x + src.m[1][2] * vec.y + src.m[2][2] * vec.z;
 		dst.m[3][3] += src.m[0][3] * vec.x + src.m[1][3] * vec.y + src.m[2][3] * vec.z;
+	}
+
+	int floor(float v){
+		return (int)v;
 	}
 
 	mat4 perspective(float fov, float aspect, float zNear, float zFar) {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include <glm/gtc/noise.hpp>
 #include "EntityHandler.hpp"
 #include "Player.hpp"
 #include "Engine/Input/InputManager.hpp"

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <glm/gtc/matrix_transform.hpp>
 #include "GUICanvas.hpp"
 
 class GUIHandler {

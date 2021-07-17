@@ -2,7 +2,6 @@
 
 #include "GUIImageShader.hpp"
 #include "GUIImage.hpp"
-#include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 
 class GUIImageRenderer {

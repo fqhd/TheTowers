@@ -1,5 +1,4 @@
 #include "ParticleQuad.hpp"
-#include <glm/glm.hpp>
 
 void ParticleQuad::init(){
 	
@@ -28,13 +27,13 @@ void ParticleQuad::init(){
 	glGenBuffers(1, &m_ivboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_ivboID);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(math::mat4), (void*)0);
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(1 * sizeof(glm::vec4)));
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(math::mat4), (void*)(1 * sizeof(math::vec4)));
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(math::mat4), (void*)(2 * sizeof(math::vec4)));
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(math::mat4), (void*)(3 * sizeof(math::vec4)));
 
 	glVertexAttribDivisor(1, 1);
 	glVertexAttribDivisor(2, 1);
@@ -51,7 +50,7 @@ void ParticleQuad::init(){
 
 }
 
-void ParticleQuad::pushMatrices(const std::vector<glm::mat4>& matrices){
+void ParticleQuad::pushMatrices(const std::vector<math::mat4>& matrices){
 	glBindBuffer(GL_ARRAY_BUFFER, m_ivboID);
 	glBufferData(GL_ARRAY_BUFFER, matrices.size() * sizeof(matrices[0]), matrices.data(), GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

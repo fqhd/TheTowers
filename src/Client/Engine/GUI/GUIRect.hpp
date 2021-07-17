@@ -2,7 +2,6 @@
 
 #include "../Utils/Vertex.hpp"
 #include "GUIRenderer.hpp"
-#include <glm/glm.hpp>
 
 class GUIRect {
 public:

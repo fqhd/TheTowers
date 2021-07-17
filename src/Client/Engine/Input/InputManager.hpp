@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Window.hpp>
 #include <unordered_map>
-#include <glm/glm.hpp>
 #include <vector>
 #include "../Math/Math.hpp"
 

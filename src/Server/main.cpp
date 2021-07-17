@@ -1,4 +1,3 @@
-#include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
 #include <fstream>

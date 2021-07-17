@@ -1,12 +1,11 @@
 #pragma once
+
 #include "../World/Chunk.hpp"
-#include "../Libs/Frustum.hpp"
 #include "../Utils/Camera.hpp"
 #include "../Utils/ChunkShader.hpp"
 #include "../Utils/TextureArray.hpp"
 #include "../../NetworkManager.hpp"
 #include "../../Config.hpp"
-#include <glm/gtc/noise.hpp>
 #include <cstdint>
 
 class NetworkManager;

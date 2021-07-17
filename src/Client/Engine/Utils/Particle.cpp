@@ -2,7 +2,7 @@
 
 const float GRAVITY = 12.0f;
 
-Particle::Particle(const glm::vec3 & position, const glm::vec3 & velocity, float lifelength, float rotation, float scale) {
+Particle::Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale) {
 	m_position = position;
 	m_velocity = velocity;
 	m_lifeLength = lifelength;
@@ -10,7 +10,7 @@ Particle::Particle(const glm::vec3 & position, const glm::vec3 & velocity, float
 	m_scale = scale;
 }
 
-const glm::vec3& Particle::getPosition() const {
+const math::vec3& Particle::getPosition() const {
 	return m_position;
 }
 
