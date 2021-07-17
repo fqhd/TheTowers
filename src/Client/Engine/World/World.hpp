@@ -34,7 +34,7 @@ public:
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
 	void destroy();
-	float World::getPlayerReach();
+	float getPlayerReach();
 
 private:
 
