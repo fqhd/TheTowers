@@ -5,7 +5,7 @@
 #include "SpriteBatch.hpp"
 
 
-class GUIFont {
+class SpriteFont {
 public:
 
 	void init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar = 32, unsigned int numChars = 95);

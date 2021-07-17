@@ -3,7 +3,6 @@
 #include "../World/Chunk.hpp"
 #include "../Utils/Camera.hpp"
 #include "../Utils/ChunkShader.hpp"
-#include "../Utils/TextureArray.hpp"
 #include "../../NetworkManager.hpp"
 #include "../../Config.hpp"
 #include <cstdint>
@@ -59,7 +58,7 @@ private:
 	std::vector<GLuint> m_vertices;
 	std::vector<BlockTexture> m_blockTextures;
 
-	TextureArray* m_textureArray = nullptr;
+	TextureArray m_textureArray;
 	Chunk* m_chunks = nullptr;
 	ChunkShader m_shader;
 	uint8_t* m_data = nullptr;

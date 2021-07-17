@@ -12,11 +12,8 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_settings.loadFromFile();
 	createWindow();
 	m_inputManager.init(&m_window);
-	m_font.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
-	m_texturePack.init("res/textures/sprite_sheet.png", 512);
-	m_guiHandler.init(&m_font, &m_texturePack);
 	m_networkManager.connectToServer(_ip, m_config);
-	m_world.init(m_networkManager, m_config, &m_texturePack);
+	m_world.init(m_networkManager, m_config);
 	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_player, &m_guiHandler);
 	m_game.syncGameWithSettings(&m_settings);
 	m_pause.init(&m_inputManager, &m_settings, m_guiHandler.createCanvas(), &m_game);
@@ -80,9 +77,6 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
-	m_guiHandler.destroy();
-	m_texturePack.destroy();
-	m_font.destroy();
 	m_game.destroy();
 	m_pause.destroy();
 	m_window.close();

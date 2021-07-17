@@ -3,7 +3,7 @@
 #include "GUIFont.hpp"
 #include "../Utils/Utils.hpp"
 
-void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
+void SpriteFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
 	// Variables
 	m_bitmapWidth = w;
 	m_bitmapHeight = h;
@@ -32,22 +32,22 @@ void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned 
 	Utils::freeBuffer(fontData);
 }
 
-void GUIFont::bindTexture() {
+void SpriteFont::bindTexture() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_textureID);
 }
 
-void GUIFont::unbindTexture() {
+void SpriteFont::unbindTexture() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void GUIFont::destroy() {
+void SpriteFont::destroy() {
 	free(m_charData);
 	glDeleteTextures(1, &m_textureID);
 }
 
-void GUIFont::printFont(SpriteBatch& _batch, const std::string& s, const math::vec2& position, const ColorRGBA8& color) {
+void SpriteFont::printFont(SpriteBatch& _batch, const std::string& s, const math::vec2& position, const ColorRGBA8& color) {
 	float wh = 1080.0f;
 	float xPos = 0.0f;
 	float yPos = wh - 0.0f;
