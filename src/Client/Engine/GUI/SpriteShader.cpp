@@ -1,7 +1,7 @@
 #include "GUIShader.hpp"
 
 void SpriteShader::init(){
-	loadShader("res/shaders/gui_vertex_shader.glsl", "res/shaders/gui_fragment_shader.glsl");
+	loadShader("res/shaders/sprite_vertex_shader.glsl", "res/shaders/sprite_fragment_shader.glsl");
 	getUniformLocations();
 }
 

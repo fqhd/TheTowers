@@ -31,19 +31,19 @@ Glyph::Glyph(const math::vec4& destRect, const math::vec4& uvRect, GLuint _textu
 	depth = _depth;
 
 	topLeft.color = color;
-	topLeft.setPosition(destRect.x, destRect.y + destRect.w);
+	topLeft.setPosition(destRect.x, destRect.y + destRect.w, _depth);
 	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
 
 	bottomLeft.color = color;
-	bottomLeft.setPosition(destRect.x, destRect.y);
+	bottomLeft.setPosition(destRect.x, destRect.y, _depth);
 	bottomLeft.setUV(uvRect.x, uvRect.y);
 
 	bottomRight.color = color;
-	bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
+	bottomRight.setPosition(destRect.x + destRect.z, destRect.y, _depth);
 	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 
 	topRight.color = color;
-	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
+	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w, _depth);
 	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 }
 
