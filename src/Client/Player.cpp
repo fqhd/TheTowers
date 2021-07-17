@@ -27,7 +27,7 @@ void Player::getVisibleBlocks(Camera& camera, World* world) {
 	visibleBlocks.lookingAtBlock = false;
 	visibleBlocks.isInsideBlock = world->getBlock(pos.x, pos.y, pos.z) ? true : false;
 
-	float player_reach_distance = world->getConfig().getReachDistance();
+	float player_reach_distance = world->getPlayerReach();
 	math::vec3 rayPosition = camera.getPosition();
 	for (unsigned int i = 0; i < PRECISION; i++) {
 		rayPosition += camera.getForward() * player_reach_distance / (float)PRECISION;
