@@ -26,7 +26,9 @@ void Config::loadFromFile(){
             is >> m_serverPort;
         }else if(type == "PACKET_TRANSMISSION_FRQUENCY:"){
             is >> m_packetTransmissionFrequency;
-        }
+        }else if (type == "REACH_DISTANCE:"){
+			is >> m_reachDistance;
+		}
     }
     is.close();
 }
@@ -62,3 +64,7 @@ unsigned int Config::getClientPort(){
 unsigned int Config::getServerPort(){
     return m_serverPort;
 }
+
+float Config::getReachDistance() {
+	return m_reachDistance;
+} 
