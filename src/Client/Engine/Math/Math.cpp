@@ -8,24 +8,24 @@ namespace math {
 
 	mat4 view(const vec3& position, const vec3& forward){
 		vec3 f = forward;
-		vec3 s = normalize(cross(f, vec3(0, 1, 0)));
-		vec3 u = cross(s, f);
+        vec3 s = normalize(cross(f, vec3(0, 1, 0)));
+        vec3 u = cross(s, f);
 
-		mat4 r;
-		r.setIdentity();
-		r.m[0][0] = s.x;
-		r.m[1][0] = s.y;
-		r.m[2][0] = s.z;
-		r.m[0][1] = u.x;
-		r.m[1][1] = u.y;
-		r.m[2][1] = u.z;
-		r.m[0][2] =-f.x;
-		r.m[1][2] =-f.y;
-		r.m[2][2] =-f.z;
-		r.m[3][0] =-dot(s, position);
-		r.m[3][1] =-dot(u, position);
-		r.m[3][2] = dot(f, position);
-		return r;
+        mat4 r;
+        r.setIdentity();
+        r.m[0][0] = s.x;
+        r.m[1][0] = s.y;
+        r.m[2][0] = s.z;
+        r.m[0][1] = u.x;
+        r.m[1][1] = u.y;
+        r.m[2][1] = u.z;
+        r.m[0][2] =-f.x;
+        r.m[1][2] =-f.y;
+        r.m[2][2] =-f.z;
+        r.m[3][0] =-dot(s, position);
+        r.m[3][1] =-dot(u, position);
+        r.m[3][2] = dot(f, position);
+        return r;
 	}
 
 	float dot(const vec3& a, const vec3& b){
@@ -99,14 +99,13 @@ namespace math {
 	}
 
 	mat4 perspective(float fov, float aspect, float zNear, float zFar) {
-		float scale = 1 / tan(fov * 0.5 * M_PI / 180);
-		mat4 r;
-		r.m[0][0] = scale; // scale the x coordinates of the projected point
-		r.m[1][1] = scale; // scale the y coordinates of the projected point
-		r.m[2][2] = -zFar / (zFar - zNear); // used to remap z to [0,1]
-		r.m[3][2] = -zFar * zNear / (zFar - zNear); // used to remap z [0,1]
-		r.m[2][3] = -1; // set w = -z
-		r.m[3][3] = 0;
+		float tanHalfFovy = tan(fov / 2);
+		mat4 r(0);
+		r.m[0][0] = 1 / (aspect * tanHalfFovy);
+		r.m[1][1] = 1 / (tanHalfFovy);
+		r.m[2][2] = - (zFar + zNear) / (zFar - zNear);
+		r.m[2][3] = - 1;
+		r.m[3][2] = - (2 * zFar * zNear) / (zFar - zNear);
 		return r;
 	}
 
