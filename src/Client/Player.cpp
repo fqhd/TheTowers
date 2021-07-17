@@ -2,7 +2,6 @@
 #include "Engine/Utils/Utils.hpp"
 #include <iostream>
 
-const float PLAYER_REACH_DISTANCE = 5.0f;
 const unsigned int PRECISION = 50;
 
 void Player::update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager) {
@@ -28,16 +27,17 @@ void Player::getVisibleBlocks(Camera& camera, World* world) {
 	visibleBlocks.lookingAtBlock = false;
 	visibleBlocks.isInsideBlock = world->getBlock(pos.x, pos.y, pos.z) ? true : false;
 
+	float player_reach_distance = world->getConfig().getReachDistance();
 	math::vec3 rayPosition = camera.getPosition();
 	for (unsigned int i = 0; i < PRECISION; i++) {
-		rayPosition += camera.getForward() * PLAYER_REACH_DISTANCE / (float)PRECISION;
+		rayPosition += camera.getForward() * player_reach_distance / (float)PRECISION;
 
 		visibleBlocks.breakableBlock = vecToBlock(rayPosition);
 		uint8_t blockID = world->getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 
 		if (blockID) {
 			visibleBlocks.lookingAtBlock = true;
-			rayPosition -= camera.getForward() * PLAYER_REACH_DISTANCE / (float)PRECISION;
+			rayPosition -= camera.getForward() * player_reach_distance / (float)PRECISION;
 			visibleBlocks.placeableBlock = vecToBlock(rayPosition);
 			break;
 		}
