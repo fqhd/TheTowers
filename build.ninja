@@ -31,7 +31,7 @@ build obj/guibutton.o: cc src/Client/Engine/GUI/GUIButton.cpp
 build obj/guifont.o: cc src/Client/Engine/GUI/GUIFont.cpp
 build obj/guifontshader.o: cc src/Client/Engine/GUI/GUIFontShader.cpp
 build obj/guihandler.o: cc src/Client/Engine/GUI/GUIHandler.cpp
-build obj/guishader.o: cc src/Client/Engine/GUI/GUIShader.cpp
+build obj/spriteshader.o: cc src/Client/Engine/GUI/SpriteShader.cpp
 build obj/guirect.o: cc src/Client/Engine/GUI/GUIRect.cpp
 build obj/checkbox.o: cc src/Client/Engine/GUI/GUICheckbox.cpp
 build obj/guicanvas.o: cc src/Client/Engine/GUI/GUICanvas.cpp
@@ -77,4 +77,4 @@ build obj/guiimage.o: cc src/Client/Engine/GUI/GUIImage.cpp
 
 build server: lnk obj/serverMain.o obj/serverConfig.o
 
-build client: lnk obj/guiinput.o obj/clientMain.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/guishader.o obj/guibutton.o obj/guirect.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guilabel.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/guicanvas.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/guiimageshader.o obj/guiimage.o obj/guiimagerenderer.o obj/hud.o obj/spritebatch.o
+build client: lnk obj/guiinput.o obj/clientMain.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/guifont.o obj/guifontshader.o obj/guihandler.o obj/spriteshader.o obj/guibutton.o obj/guirect.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/guilabel.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/guicanvas.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/guiimageshader.o obj/guiimage.o obj/guiimagerenderer.o obj/hud.o obj/spritebatch.o

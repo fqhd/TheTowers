@@ -15,6 +15,7 @@ public:
     unsigned int getClientPort();
     unsigned int getServerPort();
     unsigned int getPacketTransmissionFrequency();
+	float getReachDistance();
 
 private:
 
@@ -26,4 +27,5 @@ private:
     unsigned int m_clientPort = 0;
     unsigned int m_serverPort = 0;
     unsigned int m_packetTransmissionFrequency = 0;
+	float m_reachDistance = 0.0f;
 };

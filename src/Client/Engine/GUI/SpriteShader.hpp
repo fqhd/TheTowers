@@ -4,7 +4,7 @@
 #include "../Math/Math.hpp"
 
 
-class GUIShader : public Shader {
+class SpriteShader : public Shader {
 public:
 
 	void init();
