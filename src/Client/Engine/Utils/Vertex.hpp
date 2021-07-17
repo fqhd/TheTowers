@@ -13,12 +13,12 @@ struct GUITextVertex {
 };
 
 struct GUIVertex {
-	GUIVertex(const math::vec2& p, const ColorRGBA8& c, const math::vec2& tInfo){
-		position = p;
-		color = c;
-		textureInfo = tInfo;
+	GUIVertex(const math::vec3& _position, const ColorRGBA8& _color, const math::vec2& _uv){
+		position = _position;
+		color = _color;
+		uv = _uv;
 	}
-	math::vec2 position;
+	math::vec3 position;
+	math::vec2 uv;
 	ColorRGBA8 color;
-	math::vec2 textureInfo;
 };
