@@ -47,32 +47,16 @@ void GUIFont::destroy() {
 	glDeleteTextures(1, &m_textureID);
 }
 
-void GUIFont::updateMesh(GUILabel& mesh) {
-	//Going to take the mesh, create a set of vertices based on its string and upload the vertices to the meshes VAO.
-	std::vector<GUITextVertex> vertices;
-	float wh = 720.0f;
+void GUIFont::printFont(SpriteBatch& _batch, const std::string& s, const math::vec2& position, const ColorRGBA8& color) {
+	float wh = 1080.0f;
 	float xPos = 0.0f;
 	float yPos = wh - 0.0f;
-	std::string s = mesh.getString();
 
 	for (unsigned int i = 0; i < s.size(); i++) {
 		stbtt_aligned_quad q;
 
 		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, &xPos, &yPos, &q, 1);
 
-		renderQuad(vertices, math::vec4(q.x0, wh - q.y0, q.x1, wh - q.y1), math::vec4(q.s0, q.t0, q.s1, q.t1));
+		_batch.draw(math::vec4(position.x + q.x0, position.y + wh - q.y0, position.x + q.x1, position.y + wh - q.y1), math::vec4(q.s0, q.t0, q.s1, q.t1), m_textureID, 1.0f, color);
 	}
-
-	mesh.pushData(vertices);
-
-	mesh.needsMeshUpdate = false;
-}
-
-void GUIFont::renderQuad(std::vector<GUITextVertex>& vertices, const math::vec4& destRect, const math::vec4& uv) {
-	vertices.emplace_back(math::vec2(destRect.x, destRect.y), math::vec2(uv.x, uv.y)); // Bottom Left
-	vertices.emplace_back(math::vec2(destRect.x, destRect.w), math::vec2(uv.x, uv.w)); // Top Left
-	vertices.emplace_back(math::vec2(destRect.z, destRect.w), math::vec2(uv.z, uv.w)); // Top Right
-	vertices.emplace_back(math::vec2(destRect.x, destRect.y), math::vec2(uv.x, uv.y)); // Bottom Left
-	vertices.emplace_back(math::vec2(destRect.z, destRect.w), math::vec2(uv.z, uv.w)); // Top Right
-	vertices.emplace_back(math::vec2(destRect.z, destRect.y), math::vec2(uv.z, uv.y)); // Bottom Right
 }
