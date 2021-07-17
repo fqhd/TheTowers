@@ -17,6 +17,7 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 	m_entityHandler.init();
 	m_blockOutline.init();
 	m_hud.init();
+	m_player->init();
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -29,8 +30,7 @@ void Game::update(GameStates& _state, float _deltaTime) {
 	frameCounter.tick(_deltaTime);
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager->receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
-	camera.update(_deltaTime);
-	m_player->update(camera, m_particleHandler, m_world, m_networkManager, m_inputManager);
+	m_player->update(camera, m_particleHandler, m_world, m_networkManager, m_inputManager, _deltaTime);
 	m_particleHandler.update(_deltaTime);
 	m_networkManager->sendPositionDataToServer(camera);
 }

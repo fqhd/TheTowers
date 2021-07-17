@@ -9,7 +9,7 @@ class Camera {
 public:
 
 	void init(InputManager* _manager);
-	void update(float deltaTime);
+	void update();
 	void updateProjectionMatrix();
 
 	float getPitch();
@@ -18,6 +18,8 @@ public:
 	const math::mat4& getViewMatrix();
 	const math::vec3& getPosition();
 	const math::vec3& getForward();
+	void setForward(const math::vec3&);
+	void setPosition(const math::vec3& vec);
 
 
 private:
@@ -29,9 +31,8 @@ private:
 
 	float m_pitch = 0.0f;
 	float m_yaw = 0.0f;
-	math::vec3 m_forward;
 	math::vec3 m_position;
-
+	math::vec3 m_forward;
 	math::mat4 m_projectionMatrix;
 	math::mat4 m_viewMatrix;
 	InputManager* m_manager;

@@ -15,9 +15,11 @@ struct VisibleBlocks {
 
 class Player {
 public:
-
-	void update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
-
+	Player();
+	void update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime);
+	void mouseHandler(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
+	void kbHandler(Camera& camera, World* world, InputManager* _iManager, float deltaTime);
+	void init();
 	uint8_t selectedBlock = 1;
 	VisibleBlocks visibleBlocks;
 	Hotbar hotbar;
@@ -28,5 +30,8 @@ private:
 	void placeBlock(World* world);
 	void breakBlock(ParticleHandler& handler, World* world);
 	math::ivec3 vecToBlock(const math::vec3& vec);
+	math::vec3 m_playerPos;
+	math::vec2 m_playerSize; // width and height
+	math::ivec3 m_velocity;
 
 };

@@ -3,13 +3,10 @@
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 90.0f;
-const float SPEED = 25.5f;
 
 void Camera::init(InputManager* _manager) {
 	m_position = math::vec3(64.0f, 32.0f, 128.0f);
-	m_forward = math::vec3(0.0f, 0.0f, 1.0f);
 	m_manager = _manager;
-
 	updateViewMatrix();
 	updateProjectionMatrix();
 }
@@ -27,37 +24,7 @@ float Camera::getYaw() {
 	return m_yaw;
 }
 
-void Camera::movement(float deltaTime) {
-	math::vec3 forward = math::normalize(math::vec3(m_forward.x, 0.0f, m_forward.z));
-	math::vec3 side = math::normalize(math::cross(m_forward, math::vec3(0.0f, 1.0f, 0.0f)));
-
-	if (m_manager->isKeyDown(sf::Keyboard::W)) {
-		m_position += forward * SPEED * deltaTime;
-	}
-
-	if (m_manager->isKeyDown(sf::Keyboard::S)) {
-		m_position -= forward * SPEED * deltaTime;
-	}
-
-	if (m_manager->isKeyDown(sf::Keyboard::A)) {
-		m_position -= side * SPEED * deltaTime;
-	}
-
-	if (m_manager->isKeyDown(sf::Keyboard::D)) {
-		m_position += side * SPEED * deltaTime;
-	}
-
-	if (m_manager->isKeyDown(sf::Keyboard::LShift)) {
-		m_position.y -= SPEED * deltaTime;
-	}
-
-	if (m_manager->isKeyDown(sf::Keyboard::Space)) {
-		m_position.y += SPEED * deltaTime;
-	}
-}
-
-void Camera::update(float deltaTime) {
-	movement(deltaTime);
+void Camera::update() {
 	calculateCameraVectors(0.3f);
 	updateViewMatrix();
 }
@@ -97,8 +64,16 @@ const math::vec3& Camera::getPosition() {
 	return m_position;
 }
 
+void Camera::setPosition(const math::vec3& vec) {
+	m_position = vec;
+}
+
 const math::vec3& Camera::getForward() {
 	return m_forward;
+}
+
+void Camera::setForward(const math::vec3& forward) {
+	m_forward = forward;
 }
 
 void Camera::updateViewMatrix() {
