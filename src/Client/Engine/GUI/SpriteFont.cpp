@@ -1,9 +1,9 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 
-#include "GUIFont.hpp"
+#include "SpriteFont.hpp"
 #include "../Utils/Utils.hpp"
 
-void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
+void SpriteFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
 	// Variables
 	m_bitmapWidth = w;
 	m_bitmapHeight = h;
@@ -32,47 +32,43 @@ void GUIFont::init(const std::string& fontLocation, float pixelHeight, unsigned 
 	Utils::freeBuffer(fontData);
 }
 
-void GUIFont::bindTexture() {
+void SpriteFont::bindTexture() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_textureID);
 }
 
-void GUIFont::unbindTexture() {
+void SpriteFont::unbindTexture() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void GUIFont::destroy() {
+void SpriteFont::destroy() {
 	free(m_charData);
 	glDeleteTextures(1, &m_textureID);
 }
 
-void GUIFont::updateMesh(GUILabel& mesh) {
-	//Going to take the mesh, create a set of vertices based on its string and upload the vertices to the meshes VAO.
-	std::vector<GUITextVertex> vertices;
-	float wh = 720.0f;
-	float xPos = 0.0f;
-	float yPos = wh - 0.0f;
-	std::string s = mesh.getString();
+void flipQuad(math::vec4& quad, float baseline){
+	float diff = baseline - (quad.y + quad.w);
+	quad.y = baseline + diff;
+}
+
+void SpriteFont::printFont(SpriteBatch& _batch, const std::string& s, const math::vec2& position, const ColorRGBA8& color) {
+	float xPos = position.x;
+	float yPos = position.y;
 
 	for (unsigned int i = 0; i < s.size(); i++) {
 		stbtt_aligned_quad q;
 
 		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, &xPos, &yPos, &q, 1);
 
-		renderQuad(vertices, math::vec4(q.x0, wh - q.y0, q.x1, wh - q.y1), math::vec4(q.s0, q.t0, q.s1, q.t1));
+		float x = q.x0;
+		float y = q.y0;
+		float w = q.x1 - q.x0;
+		float h = q.y1 - q.y0;
+		math::vec4 quad = math::vec4(x, y, w, h);
+		flipQuad(quad, yPos);
+
+		_batch.draw(quad, math::vec4(q.s0, q.t0 + (q.t1 - q.t0), q.s1 - q.s0, -(q.t1 - q.t0)), m_textureID, 1.0f, color);
 	}
-
-	mesh.pushData(vertices);
-
-	mesh.needsMeshUpdate = false;
 }
 
-void GUIFont::renderQuad(std::vector<GUITextVertex>& vertices, const math::vec4& destRect, const math::vec4& uv) {
-	vertices.emplace_back(math::vec2(destRect.x, destRect.y), math::vec2(uv.x, uv.y)); // Bottom Left
-	vertices.emplace_back(math::vec2(destRect.x, destRect.w), math::vec2(uv.x, uv.w)); // Top Left
-	vertices.emplace_back(math::vec2(destRect.z, destRect.w), math::vec2(uv.z, uv.w)); // Top Right
-	vertices.emplace_back(math::vec2(destRect.x, destRect.y), math::vec2(uv.x, uv.y)); // Bottom Left
-	vertices.emplace_back(math::vec2(destRect.z, destRect.w), math::vec2(uv.z, uv.w)); // Top Right
-	vertices.emplace_back(math::vec2(destRect.z, destRect.y), math::vec2(uv.z, uv.y)); // Bottom Right
-}

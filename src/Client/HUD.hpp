@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Engine/GUI/GUIImageRenderer.hpp"
 
 class HUD {
 public:
@@ -14,6 +13,5 @@ private:
 	void addTextures();
 	void addImages();
 
-	GUIImageRenderer m_imageRenderer;
 
 };

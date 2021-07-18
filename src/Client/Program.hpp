@@ -5,8 +5,9 @@
 #include "PauseMenu.hpp"
 #include "Config.hpp"
 #include "Settings.hpp"
-#include "Engine/GUI/GUIHandler.hpp"
 #include "DebugMenu.hpp"
+#include "Engine/GUI/GUIRenderer.hpp"
+#include "Engine/GUI/GUIAssets.hpp"
 #include <SFML/OpenGL.hpp>
 
 
@@ -23,10 +24,9 @@ private:
 	void cleanUp();
 	void createWindow();
 
-	GUIHandler m_guiHandler;
-	TextureArray m_texturePack;
+	GUIAssets m_guiAssets;
+	GUIRenderer m_guiRenderer;
 	Player m_player;
-	GUIFont m_font;
 	Game m_game;
 	World m_world;
 	NetworkManager m_networkManager;

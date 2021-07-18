@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-void World::init(NetworkManager& _manager, Config& _c, TextureArray* _textureArray){
-	m_textureArray = _textureArray;
+void World::init(NetworkManager& _manager, Config& _c){
+	m_textureArray.init("res/textures/sprite_sheet.png", 512);
 	m_config = _c;
 	unsigned int ww = m_config.getWorldWidth();
 	unsigned int wl = m_config.getWorldLength();
@@ -38,7 +38,7 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 void World::render(Camera& _camera){
 	m_shader.bind();
 
-	m_textureArray->bind();
+	m_textureArray.bind();
 
 	m_shader.loadProjectionMatrix(_camera.getProjectionMatrix());
 	m_shader.loadViewMatrix(_camera.getViewMatrix());
@@ -67,7 +67,7 @@ void World::render(Camera& _camera){
 		}
 	}
 
-	m_textureArray->unbind();
+	m_textureArray.unbind();
 
 	m_shader.unbind();
 }

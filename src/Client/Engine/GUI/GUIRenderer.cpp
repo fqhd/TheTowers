@@ -1,65 +1,53 @@
 #include "GUIRenderer.hpp"
-#include <cstddef>
 
-void GUIRenderer::init() {
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
+void GUIRenderer::init(){
+	m_guiBatch.init();
+	m_textBatch.init();
 
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	m_spriteFont.init("res/fonts/berlin.ttf", 72.0f, 512, 512);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	math::mat4 ortho = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, position));
-	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, color));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, textureInfo));
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	m_guiShader.init();
+	m_guiShader.bind();
+	m_guiShader.loadMatrix(ortho);
+	m_guiShader.unbind();
 }
 
-void GUIRenderer::destroy() {
-	glDeleteVertexArrays(1, &m_vao);
-	glDeleteBuffers(1, &m_vbo);
-	m_vertices.clear();
+void GUIRenderer::begin(){
+	m_guiBatch.begin();
+	m_textBatch.begin();
 }
 
-void GUIRenderer::begin() {
-	m_vertices.clear();
+void GUIRenderer::drawRect(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, float depth, const ColorRGBA8& color){
+	m_guiBatch.draw(destRect, uvRect, texture, depth, color);
 }
 
-void GUIRenderer::end() {
-	uploadData();
-}
- 
-void GUIRenderer::draw(const math::vec4& destRect, const ColorRGBA8& color, unsigned int layer) {
-	m_vertices.emplace_back(math::vec2(destRect.x, destRect.y), color, math::vec2(0, layer));
-	m_vertices.emplace_back(math::vec2(destRect.x, destRect.y + destRect.w), color, math::vec2(1, layer));
-	m_vertices.emplace_back(math::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, math::vec2(2, layer));
-
-	m_vertices.emplace_back(math::vec2(destRect.x, destRect.y), color, math::vec2(0, layer));
-	m_vertices.emplace_back(math::vec2(destRect.x + destRect.z, destRect.y + destRect.w), color, math::vec2(2, layer));
-	m_vertices.emplace_back(math::vec2(destRect.x + destRect.z, destRect.y), color, math::vec2(3, layer));
+void GUIRenderer::drawText(const std::string& s, const math::vec2& position, const ColorRGBA8& color){
+	m_spriteFont.printFont(m_textBatch, s, position, color);
 }
 
-void GUIRenderer::render() {
+void GUIRenderer::end(){
+	m_guiBatch.end();
+	m_textBatch.end();
+}
+
+void GUIRenderer::render(){
+	m_guiShader.bind();
 	glDisable(GL_CULL_FACE);
+	m_guiShader.loadIsFont(false);
+	m_guiBatch.render();
+	m_guiShader.loadIsFont(true);
 	glDisable(GL_DEPTH_TEST);
-
-	glBindVertexArray(m_vao);
-
-	glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
-
-	glBindVertexArray(0);
-
-	glEnable(GL_CULL_FACE);
+	m_textBatch.render();
+	m_guiShader.unbind();
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
-void GUIRenderer::uploadData() {
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices[0]) * m_vertices.size(), m_vertices.data(), GL_STREAM_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+void GUIRenderer::destroy(){
+	m_guiBatch.destroy();
+	m_textBatch.destroy();
+	m_guiShader.destroy();
+	m_spriteFont.destroy();
 }

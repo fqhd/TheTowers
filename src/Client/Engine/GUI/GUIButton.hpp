@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GUIRenderer.hpp"
+#include "GUIAssets.hpp"
 #include "../Input/InputManager.hpp"
 #include "../Math/Math.hpp"
 
@@ -9,7 +10,7 @@ public:
 
 	GUIButton(const math::vec4& destRect, unsigned int _layer);
 	void update(InputManager* _manager, float deltaTime);
-	void render(GUIRenderer* renderer);
+	void render(GUIRenderer* _renderer, GUIAssets* _assets);
 	bool isPressed();
 
 	unsigned int layer = 0;

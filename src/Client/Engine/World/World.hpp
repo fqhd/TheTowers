@@ -3,8 +3,8 @@
 #include "../World/Chunk.hpp"
 #include "../Utils/Camera.hpp"
 #include "../Utils/ChunkShader.hpp"
-#include "../Utils/TextureArray.hpp"
 #include "../../NetworkManager.hpp"
+#include "../Utils/TextureArray.hpp"
 #include "../../Config.hpp"
 #include <cstdint>
 
@@ -29,7 +29,7 @@ struct BlockTexture {
 class World {
 public:
 
-	void init(NetworkManager& _manager, Config& _c, TextureArray* _textureArray);
+	void init(NetworkManager& _manager, Config& _c);
 	void render(Camera& _camera);
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
@@ -59,7 +59,7 @@ private:
 	std::vector<GLuint> m_vertices;
 	std::vector<BlockTexture> m_blockTextures;
 
-	TextureArray* m_textureArray = nullptr;
+	TextureArray m_textureArray;
 	Chunk* m_chunks = nullptr;
 	ChunkShader m_shader;
 	uint8_t* m_data = nullptr;
