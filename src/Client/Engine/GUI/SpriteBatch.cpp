@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include "SpriteBatch.hpp"
 #include <algorithm>
+#include <iostream>
 
 
 Glyph::Glyph(const math::vec4& destRect, const math::vec4& uvRect, GLuint _texture, float _depth, const ColorRGBA8& color) {
@@ -90,13 +91,12 @@ void SpriteBatch::draw(const math::vec4& destRect, const math::vec4& uvRect, GLu
 	m_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
 }
 
-void SpriteBatch::renderBatch() {
+void SpriteBatch::render() {
 	glBindVertexArray(m_vao);
 	glDisable(GL_CULL_FACE);
 
 	for (size_t i = 0; i < m_renderBatches.size(); i++) {
 		glBindTexture(GL_TEXTURE_2D, m_renderBatches[i].texture);
-
 		glDrawArrays(GL_TRIANGLES, m_renderBatches[i].offset, m_renderBatches[i].numVertices);
 	}
 
@@ -105,7 +105,7 @@ void SpriteBatch::renderBatch() {
 }
 
 void SpriteBatch::createRenderBatches() {
-	std::vector <GUIVertex> vertices;
+	std::vector<GUIVertex> vertices;
 
 	vertices.resize(m_glyphPointers.size() * 6);
 

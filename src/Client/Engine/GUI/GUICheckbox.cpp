@@ -42,10 +42,10 @@ void GUICheckbox::update(InputManager* _manager, float deltaTime) {
 	m_shadowRect = m_destRect + math::vec4(8, -8, 0, 0);
 }
 
-void GUICheckbox::render(GUIRenderer* renderer) {
-	renderer->draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128), layer); // Rendering shadow
-	renderer->draw(math::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), ColorRGBA8(100, 100, 100, 255), layer); // Rendering outline
-	renderer->draw(m_destRect, m_currentColor, layer); // Rendering on/off rect
+void GUICheckbox::render(GUIRenderer* _renderer, GUIAssets* _assets) {
+	_renderer->drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), _assets->getBlankTexture(), 3.0f, ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
+	_renderer->drawRect(math::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), math::vec4(0, 0, 1, 1), _assets->getBlankTexture(), 2.0f, ColorRGBA8(100, 100, 100, 255)); // Rendering outline
+	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _assets->getBlankTexture(), 1.0f, m_currentColor); // Rendering on/off rect
 }
 
 bool GUICheckbox::isChecked(){

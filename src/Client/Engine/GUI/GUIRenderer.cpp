@@ -4,10 +4,11 @@ void GUIRenderer::init(){
 	m_guiBatch.init();
 	m_textBatch.init();
 
-	m_spriteFont.init("res/fonts/berlin.ttf", 32.0f, 512, 512);
+	m_spriteFont.init("res/fonts/berlin.ttf", 72.0f, 512, 512);
+
+	math::mat4 ortho = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 
 	m_guiShader.init();
-	math::mat4 ortho = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 	m_guiShader.bind();
 	m_guiShader.loadMatrix(ortho);
 	m_guiShader.unbind();
@@ -33,15 +34,20 @@ void GUIRenderer::end(){
 
 void GUIRenderer::render(){
 	m_guiShader.bind();
-
 	glDisable(GL_CULL_FACE);
+	m_guiShader.loadIsFont(false);
 	m_guiBatch.render();
-
+	m_guiShader.loadIsFont(true);
 	glDisable(GL_DEPTH_TEST);
 	m_textBatch.render();
-	glEnable(GL_DEPTH_TEST);
-
-	glEnable(GL_CULL_FACE);
-
 	m_guiShader.unbind();
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+}
+
+void GUIRenderer::destroy(){
+	m_guiBatch.destroy();
+	m_textBatch.destroy();
+	m_guiShader.destroy();
+	m_spriteFont.destroy();
 }

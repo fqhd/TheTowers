@@ -60,7 +60,7 @@ public:
 	void begin();
 	void draw(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, float depth, const ColorRGBA8& color);
 	void end();
-	void renderBatch();
+	void render();
 	void destroy();
 
 private:

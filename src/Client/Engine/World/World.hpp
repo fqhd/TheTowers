@@ -4,6 +4,7 @@
 #include "../Utils/Camera.hpp"
 #include "../Utils/ChunkShader.hpp"
 #include "../../NetworkManager.hpp"
+#include "../Utils/TextureArray.hpp"
 #include "../../Config.hpp"
 #include <cstdint>
 
@@ -28,7 +29,7 @@ struct BlockTexture {
 class World {
 public:
 
-	void init(NetworkManager& _manager, Config& _c, TextureArray* _textureArray);
+	void init(NetworkManager& _manager, Config& _c);
 	void render(Camera& _camera);
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);

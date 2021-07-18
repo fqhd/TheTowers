@@ -3,8 +3,7 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player, GUIHandler* _guiHandler) {
-	m_guiHandler = _guiHandler;
+void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player) {
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
 	m_player = _player;

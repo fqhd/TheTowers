@@ -12,18 +12,16 @@
 #include "GameStates.hpp"
 #include "Engine/Utils/Camera.hpp"
 #include "BlockOutline.hpp"
-#include "Engine/GUI/GUICanvas.hpp"
 #include "Vignette.hpp"
 #include "Settings.hpp"
 #include "FrameCounter.hpp"
-#include "Engine/GUI/GUIHandler.hpp"
 #include "HUD.hpp"
 
 
 class Game {
 public:
 
-	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player, GUIHandler* _guiHandler);
+	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
@@ -43,11 +41,9 @@ private:
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;
 	Vignette m_vignette;
-	GUIImageRenderer m_imageRenderer;
 	HUD m_hud;
 
 	// Pointers
-	GUIHandler* m_guiHandler = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	InputManager* m_inputManager = nullptr;
 	World* m_world = nullptr;

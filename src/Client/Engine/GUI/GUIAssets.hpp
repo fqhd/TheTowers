@@ -9,14 +9,14 @@ public:
 	void init();
 	void destroy();
 
-	GLuint getCrosshair();
-	GLuint getHotbar();
-	GLuint getSelector();
-	GLuint getBlank();
+	GLuint getCrosshairTexture();
+	GLuint getHotbarTexture();
+	GLuint getSelectorTexture();
+	GLuint getBlankTexture();
 
 private:
 
-	GLuint loadTexture(const std::string& path);
+	GLuint loadTexture(const std::string& _path);
 
 	GLuint m_crosshair = 0;
 	GLuint m_hotbar = 0;

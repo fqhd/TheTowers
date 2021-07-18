@@ -5,6 +5,7 @@
 #include "SpriteFont.hpp"
 
 class GUIRenderer {
+public:
 
 	void init();
 	void begin();
@@ -12,6 +13,7 @@ class GUIRenderer {
 	void drawText(const std::string& s, const math::vec2& position, const ColorRGBA8& color);
 	void end();
 	void render();
+	void destroy();
 
 private:
 

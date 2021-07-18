@@ -3,7 +3,7 @@
 
 
 void World::init(NetworkManager& _manager, Config& _c){
-	m_textureArray.loadFromFile("res/textures/sprite_sheet.png", 512);
+	m_textureArray.init("res/textures/sprite_sheet.png", 512);
 	m_config = _c;
 	unsigned int ww = m_config.getWorldWidth();
 	unsigned int wl = m_config.getWorldLength();

@@ -1,6 +1,6 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 
-#include "GUIFont.hpp"
+#include "SpriteFont.hpp"
 #include "../Utils/Utils.hpp"
 
 void SpriteFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
@@ -47,16 +47,28 @@ void SpriteFont::destroy() {
 	glDeleteTextures(1, &m_textureID);
 }
 
+void flipQuad(math::vec4& quad, float baseline){
+	float diff = baseline - (quad.y + quad.w);
+	quad.y = baseline + diff;
+}
+
 void SpriteFont::printFont(SpriteBatch& _batch, const std::string& s, const math::vec2& position, const ColorRGBA8& color) {
-	float wh = 1080.0f;
-	float xPos = 0.0f;
-	float yPos = wh - 0.0f;
+	float xPos = position.x;
+	float yPos = position.y;
 
 	for (unsigned int i = 0; i < s.size(); i++) {
 		stbtt_aligned_quad q;
 
 		stbtt_GetBakedQuad(m_charData, m_bitmapWidth, m_bitmapHeight, s[i] - 32, &xPos, &yPos, &q, 1);
 
-		_batch.draw(math::vec4(position.x + q.x0, position.y + wh - q.y0, position.x + q.x1, position.y + wh - q.y1), math::vec4(q.s0, q.t0, q.s1, q.t1), m_textureID, 1.0f, color);
+		float x = q.x0;
+		float y = q.y0;
+		float w = q.x1 - q.x0;
+		float h = q.y1 - q.y0;
+		math::vec4 quad = math::vec4(x, y, w, h);
+		flipQuad(quad, yPos);
+
+		_batch.draw(quad, math::vec4(q.s0, q.t0 + (q.t1 - q.t0), q.s1 - q.s0, -(q.t1 - q.t0)), m_textureID, 1.0f, color);
 	}
 }
+

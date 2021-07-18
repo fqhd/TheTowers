@@ -1,10 +1,10 @@
 #include "GUIAssets.hpp"
 
 void GUIAssets::init(){
-	m_crosshair = loadTexture("res/textures/crosshair.png");
-	m_hotbar = loadTexture("res/textures/hotbar.png");
-	m_selector = loadTexture("res/textures/selector.png");
-	m_blank = loadTexture("res/textures/blank.png");
+	m_crosshair = loadTexture("res/textures/gui/crosshair.png");
+	m_hotbar = loadTexture("res/textures/gui/hotbar.png");
+	m_selector = loadTexture("res/textures/gui/selector.png");
+	m_blank = loadTexture("res/textures/gui/img.png");
 }
 
 void GUIAssets::destroy(){
@@ -14,7 +14,7 @@ void GUIAssets::destroy(){
 	glDeleteTextures(1, &m_blank);
 }
 
-GLuint GUIAssets::loadTexture(const std::string& path){
+GLuint GUIAssets::loadTexture(const std::string& _path){
 	Image image;
 	image.loadFromFile(_path);
 

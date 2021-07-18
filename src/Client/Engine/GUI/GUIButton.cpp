@@ -38,12 +38,11 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 
 	// Updating shadow position
 	m_shadowRect = m_destRect + math::vec4(8, -8, 0, 0);
-
 }
 
-void GUIButton::render(GUIRenderer* renderer) {
-	renderer->draw(m_shadowRect, ColorRGBA8(0, 0, 0, 128), layer); // Rendering shadow
-	renderer->draw(m_destRect, m_currentColor, layer); // Rendering rect
+void GUIButton::render(GUIRenderer* _renderer, GUIAssets* _assets) {
+	_renderer->drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), _assets->getBlankTexture(), 2.0f, ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
+	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _assets->getBlankTexture(), 1.0f, m_currentColor); // Rendering rect
 }
 
 bool GUIButton::isPressed() {
