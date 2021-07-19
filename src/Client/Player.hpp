@@ -9,6 +9,8 @@
 #define PLAYER_WIDTH 0.5f
 #define PLAYER_DEPTH PLAYER_WIDTH
 #define PLAYER_HEIGHT 2.0f
+#define AIR_FRICTION 0.95f
+#define SPEED 2.0f
 
 struct VisibleBlocks {
 	math::ivec3 breakableBlock; // The block that the player is looking at
@@ -36,6 +38,7 @@ private:
 	float applyDirection(float x1, float x2, float speed, float deltaTime); // returns x1+x2*speed*deltatime
 	math::vec3 applyDirections(math::vec3 v1, math::vec3 v2, float speed, float deltaTime); // same as applyDirection but with vectors
 	math::ivec3 vecToBlock(const math::vec3& vec);
-	//math::ivec3 m_velocity; // dx dy dz
+	math::vec4 m_velocites;
+	float dy; // dy velocity
 
 };

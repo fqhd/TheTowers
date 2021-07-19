@@ -3,14 +3,15 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 15.5f;
 
 Player::Player() {
 	init();
 }
 
 void Player::init() {
-	//m_velocity = math::ivec3(0, 0, 0);
+	// x = forward, y = -forward, z = side, w = -side
+	m_velocites = math::vec4(0.0f);
+	dy = 0.0f;
 }
 
 void Player::update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
@@ -39,52 +40,45 @@ void Player::mouseHandler(Camera& camera, ParticleHandler& handler, World* world
 
 
 void Player::kbHandler(Camera& camera, World* world, InputManager* _iManager, float deltaTime) {
+
+	if (_iManager->isKeyDown(sf::Keyboard::W)) {
+		m_velocites.x += SPEED;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::S)) {
+		m_velocites.y += SPEED;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::A)) {
+		m_velocites.z += SPEED;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::D)) {
+		m_velocites.w += SPEED;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
+		dy -= SPEED;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
+		dy += SPEED;
+	}
+	
 	math::vec3 camForward = camera.getForward();
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
 	math::vec3 camPos = camera.getPosition();
+	camPos += forward * m_velocites.x * deltaTime;
+	camPos -= forward * m_velocites.y * deltaTime;
+	camPos -= side * m_velocites.z * deltaTime;
+	camPos += side * m_velocites.w * deltaTime;
+	camPos.y += dy * deltaTime;
 
-	if (_iManager->isKeyDown(sf::Keyboard::W)) {
-		math::vec3 block = applyDirections(camPos, forward, SPEED, deltaTime);
-		if (!world->getBlock(block.x, block.y, block.z) &&
-			!world->getBlock(block.x, block.y-1, block.z)) {
-			camPos += forward * SPEED * deltaTime;
-		}
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::S)) {
-		math::vec3 block = applyDirections(camPos, -forward, SPEED, deltaTime);
-		if (!world->getBlock(block.x, block.y, block.z) &&
-			!world->getBlock(block.x, block.y-1, block.z)) {
-			camPos -= forward * SPEED * deltaTime;
-		}
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::A)) {
-		math::vec3 block = applyDirections(camPos, -side, SPEED, deltaTime);
-		if (!world->getBlock(block.x, block.y, block.z) &&
-			!world->getBlock(block.x, block.y-1, block.z)) {
-			camPos -= side * SPEED * deltaTime;
-		}
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::D)) {
-		math::vec3 block = applyDirections(camPos, side, SPEED, deltaTime);
-		if (!world->getBlock(block.x, block.y, block.z) &&
-			!world->getBlock(block.x, block.y-1, block.z)) {
-			camPos += side * SPEED * deltaTime;
-		}
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::LShift) && !world->getBlock(camPos.x, camPos.y-PLAYER_HEIGHT*0.75-SPEED*deltaTime, camPos.z)) {
-		camPos.y -= SPEED * deltaTime;
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
-		camPos.y += SPEED * deltaTime;
-	}
-
+	m_velocites *= AIR_FRICTION;
+	dy *= AIR_FRICTION;
+	
 	camera.setPosition(camPos);
 	camera.setForward(forward);
 
