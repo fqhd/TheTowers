@@ -22,17 +22,18 @@ struct VisibleBlocks {
 class Player {
 public:
 	Player();
-	void update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime);
-	void mouseHandler(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
-	void kbHandler(Camera& camera, World* world, InputManager* _iManager, float deltaTime);
+	void update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime);
+	void mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
+	void kbHandler(const Camera& camera, World* world, InputManager* _iManager, float deltaTime);
 	void init();
+	math::vec3 getEyePos();
 	uint8_t selectedBlock = 1;
 	VisibleBlocks visibleBlocks;
 	Hotbar hotbar;
 
 private:
 
-	void getVisibleBlocks(Camera& camera, World* world);
+	void getVisibleBlocks(const Camera& camera, World* world);
 	void placeBlock(World* world);
 	void breakBlock(ParticleHandler& handler, World* world);
 	float applyDirection(float x1, float x2, float speed, float deltaTime); // returns x1+x2*speed*deltatime
@@ -40,5 +41,6 @@ private:
 	math::ivec3 vecToBlock(const math::vec3& vec);
 	math::vec4 m_velocites;
 	float dy; // dy velocity
+	math::vec3 position;
 
 };

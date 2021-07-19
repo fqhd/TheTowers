@@ -16,14 +16,6 @@ void Camera::updateProjectionMatrix() {
 	m_projectionMatrix = math::perspective(math::toRadians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
-float Camera::getPitch() {
-	return m_pitch;
-}
-
-float Camera::getYaw() {
-	return m_yaw;
-}
-
 void Camera::update() {
 	calculateCameraVectors(0.3f);
 	updateViewMatrix();
@@ -52,15 +44,15 @@ void Camera::calculateCameraVectors(float sensibility) {
 	m_forward = math::normalize(m_forward);
 }
 
-const math::mat4& Camera::getViewMatrix() {
+const math::mat4& Camera::getViewMatrix() const {
 	return m_viewMatrix;
 }
 
-const math::mat4& Camera::getProjectionMatrix() {
+const math::mat4& Camera::getProjectionMatrix() const {
 	return m_projectionMatrix;
 }
 
-const math::vec3& Camera::getPosition() {
+const math::vec3& Camera::getPosition() const {
 	return m_position;
 }
 
@@ -68,7 +60,7 @@ void Camera::setPosition(const math::vec3& vec) {
 	m_position = vec;
 }
 
-const math::vec3& Camera::getForward() {
+const math::vec3& Camera::getForward() const {
 	return m_forward;
 }
 
@@ -78,4 +70,12 @@ void Camera::setForward(const math::vec3& forward) {
 
 void Camera::updateViewMatrix() {
 	m_viewMatrix = math::view(m_position, m_forward);
+}
+
+float Camera::getPitch() const {
+	return m_pitch;
+}
+
+float Camera::getYaw() const {
+	return m_yaw;
 }

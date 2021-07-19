@@ -29,7 +29,9 @@ void Game::update(GameStates& _state, float _deltaTime) {
 	frameCounter.tick(_deltaTime);
 	m_entityHandler.update(m_networkManager, _deltaTime);
 	m_networkManager->receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
+	camera.update();
 	m_player->update(camera, m_particleHandler, m_world, m_networkManager, m_inputManager, _deltaTime);
+	camera.setPosition(m_player->getEyePos());
 	m_particleHandler.update(_deltaTime);
 	m_networkManager->sendPositionDataToServer(camera);
 }

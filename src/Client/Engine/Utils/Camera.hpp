@@ -12,12 +12,12 @@ public:
 	void update();
 	void updateProjectionMatrix();
 
-	float getPitch();
-	float getYaw();
-	const math::mat4& getProjectionMatrix();
-	const math::mat4& getViewMatrix();
-	const math::vec3& getPosition();
-	const math::vec3& getForward();
+	float getPitch() const;
+	float getYaw() const;
+	const math::mat4& getProjectionMatrix() const;
+	const math::mat4& getViewMatrix() const;
+	const math::vec3& getPosition() const;
+	const math::vec3& getForward() const;
 	void setForward(const math::vec3&);
 	void setPosition(const math::vec3& vec);
 
