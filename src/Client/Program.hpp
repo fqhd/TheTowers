@@ -7,7 +7,6 @@
 #include "Settings.hpp"
 #include "DebugMenu.hpp"
 #include "Engine/GUI/GUIRenderer.hpp"
-#include "Engine/GUI/GUIAssets.hpp"
 #include <SFML/OpenGL.hpp>
 
 
@@ -24,14 +23,13 @@ private:
 	void cleanUp();
 	void createWindow();
 
-	GUIAssets m_guiAssets;
 	GUIRenderer m_guiRenderer;
 	Player m_player;
 	Game m_game;
 	World m_world;
 	NetworkManager m_networkManager;
 	PauseMenu m_pause;
-	GameStates m_state = GameStates::PAUSE;
+	GameStates m_state = GameStates::PLAY;
 	InputManager m_inputManager;
 	Config m_config;
 	Settings m_settings;

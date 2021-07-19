@@ -1,14 +1,12 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, Settings* _settings, Game* _game, GUIRenderer* _guiRenderer, GUIAssets* _assets){
+void PauseMenu::init(InputManager* _manager, Settings* _settings, Game* _game, GUIRenderer* _guiRenderer){
 	m_guiRenderer = _guiRenderer;
-	m_guiAssets = _assets;
 	m_settings = _settings;
 	m_inputManager = _manager;
 	m_game = _game;
 	m_guiRenderer = _guiRenderer;
-	m_guiAssets = _assets;
 	initGUI();
 }
 

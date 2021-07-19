@@ -21,7 +21,7 @@
 class Game {
 public:
 
-	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player);
+	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Player* _player);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
@@ -44,6 +44,7 @@ private:
 	HUD m_hud;
 
 	// Pointers
+	GUIRenderer* m_guiRenderer = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	InputManager* m_inputManager = nullptr;
 	World* m_world = nullptr;

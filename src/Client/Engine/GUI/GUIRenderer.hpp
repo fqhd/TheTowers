@@ -3,6 +3,7 @@
 #include "SpriteBatch.hpp"
 #include "SpriteShader.hpp"
 #include "SpriteFont.hpp"
+#include "GUIAssets.hpp"
 
 class GUIRenderer {
 public:
@@ -14,6 +15,8 @@ public:
 	void end();
 	void render();
 	void destroy();
+
+	GUIAssets assets;
 
 private:
 

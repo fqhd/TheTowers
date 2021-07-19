@@ -1,17 +1,15 @@
 #pragma once
 
+#include "Engine/GUI/GUIRenderer.hpp"
 
 class HUD {
 public:
 
-	void init();
-	void render();
-	void destroy();
+	void render(GUIRenderer* _renderer);
 
 private:
 
-	void addTextures();
-	void addImages();
+	void renderHotbar(GUIRenderer* _renderer);
 
 
 };

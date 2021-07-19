@@ -1,6 +1,7 @@
 #include "GUIRenderer.hpp"
 
 void GUIRenderer::init(){
+	assets.init();
 	m_guiBatch.init();
 	m_textBatch.init();
 

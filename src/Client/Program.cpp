@@ -12,13 +12,12 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_settings.loadFromFile();
 	createWindow();
 	m_guiRenderer.init();
-	m_guiAssets.init();
 	m_inputManager.init(&m_window);
 	m_networkManager.connectToServer(_ip, m_config);
 	m_world.init(m_networkManager, m_config);
-	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_player);
+	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_guiRenderer, &m_player);
 	m_game.syncGameWithSettings(&m_settings);
-	m_pause.init(&m_inputManager, &m_settings, &m_game, &m_guiRenderer, &m_guiAssets);
+	m_pause.init(&m_inputManager, &m_settings, &m_game, &m_guiRenderer);
 }
 
 void Program::createWindow(){
@@ -50,8 +49,9 @@ void Program::createWindow(){
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	std::cout << "GPU: " << glGetString(GL_RENDERER) << std::endl;
-	std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
+	// Ready for game settings
+	m_window.setMouseCursorGrabbed(true);
+	m_window.setMouseCursorVisible(false);
 }
 
 void Program::gameloop(){
@@ -81,7 +81,6 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
-	m_guiAssets.destroy();
 	m_guiRenderer.destroy();
 	m_game.destroy();
 	m_pause.destroy();

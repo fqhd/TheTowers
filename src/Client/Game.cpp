@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, Player* _player) {
+void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Player* _player) {
+	m_guiRenderer = _guiRenderer;
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
 	m_player = _player;
@@ -15,7 +16,6 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
-	m_hud.init();
 	m_player->init();
 }
 
@@ -42,11 +42,10 @@ void Game::render() {
 	m_entityHandler.render(camera);
 	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
 	m_vignette.render();
-	m_hud.render();
+	m_hud.render(m_guiRenderer);
 }
 
 void Game::destroy() {
-	m_hud.destroy();
 	m_vignette.destroy();
 	m_entityHandler.destroy();
 	m_world->destroy();
