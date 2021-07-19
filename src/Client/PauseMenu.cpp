@@ -15,6 +15,7 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 		m_game->syncGameWithSettings(m_settings);
 		m_inputManager->setMouseGrabbed(true);
 		m_inputManager->setMouseVisible(false);
+		m_inputManager->centerMouse();
 		_state = GameStates::PLAY;
 	}
 	handleInputs();
