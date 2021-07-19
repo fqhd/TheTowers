@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-GUICheckbox::GUICheckbox(const math::vec4& destRect, bool _checked) {
+void GUICheckbox::init(const math::vec4& destRect, bool _checked) {
 	m_onColor = ColorRGBA8(0, 255, 0, 255);
 	m_offColor = ColorRGBA8(255, 0, 0, 255);
 	m_isChecked = _checked;
@@ -43,8 +43,8 @@ void GUICheckbox::update(InputManager* _manager, float deltaTime) {
 
 void GUICheckbox::render(GUIRenderer* _renderer) {
 	_renderer->drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	_renderer->drawRect(math::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), ColorRGBA8(100, 100, 100, 255)); // Rendering outline
-	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), m_currentColor); // Rendering on/off rect
+	_renderer->drawRect(math::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), ColorRGBA8(20, 20, 20, 255)); // Rendering outline
+	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _renderer->assets.getGrassTexture(), m_currentColor); // Rendering on/off rect
 }
 
 bool GUICheckbox::isChecked(){

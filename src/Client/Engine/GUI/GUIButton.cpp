@@ -3,7 +3,7 @@
 #include "../Utils/Vertex.hpp"
 
 
-GUIButton::GUIButton(const math::vec4& destRect) {
+void GUIButton::init(const math::vec4& destRect) {
 	m_baseColor = ColorRGBA8(120, 255, 255, 255);
 	m_destRect = destRect;
 	m_originalRect = destRect;
@@ -41,7 +41,7 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 
 void GUIButton::render(GUIRenderer* _renderer) {
 	_renderer->drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), m_currentColor); // Rendering rect
+	_renderer->drawRect(m_destRect, math::vec4(0, 0, 2, 1), _renderer->assets.getGrassTexture(), m_currentColor); // Rendering rect
 }
 
 bool GUIButton::isPressed() {

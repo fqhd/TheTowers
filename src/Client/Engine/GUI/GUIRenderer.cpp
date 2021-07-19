@@ -5,7 +5,7 @@ void GUIRenderer::init(){
 	m_guiBatch.init();
 	m_textBatch.init();
 
-	m_spriteFont.init("res/fonts/berlin.ttf", 72.0f, 512, 512);
+	m_spriteFont.init("res/fonts/berlin.ttf", 64.0f, 512, 512);
 
 	math::mat4 ortho = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
 

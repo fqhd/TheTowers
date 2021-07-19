@@ -18,10 +18,16 @@ public:
 
 private:
 
-	void handleInputs();
+	void syncSettingsWithGUI();
+	void updateGUI(float deltaTime);
+	void renderGUI();
+	void initGUI();
 
 	// GUI
 	GUIButton save;
+	GUICheckbox fog;
+	GUICheckbox vignette;
+	GUICheckbox debug;
 
 
 	// Pointers
