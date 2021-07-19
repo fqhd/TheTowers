@@ -6,7 +6,6 @@ void BlockOutline::init(){
 }
 
 void BlockOutline::render(Player* player, Camera& camera){
-
 	//Checking if the player is facing a block in order to draw an outline
 	if(!player->visibleBlocks.lookingAtBlock || player->visibleBlocks.isInsideBlock) return;
 
@@ -22,7 +21,6 @@ void BlockOutline::render(Player* player, Camera& camera){
 	m_renderer.renderFace(blockFace); //This functions only renders a 1 of the 6 faces of a cube based on the parameter given
 
 	m_shader.unbind();
-
 }
 
 Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){

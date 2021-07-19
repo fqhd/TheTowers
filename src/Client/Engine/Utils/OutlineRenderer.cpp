@@ -46,7 +46,6 @@ void OutlineRenderer::init(){
 }
 
 void OutlineRenderer::renderFace(Face face){
-
 	glBindVertexArray(m_vaoID);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
@@ -56,7 +55,6 @@ void OutlineRenderer::renderFace(Face face){
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
-
 }
 
 void OutlineRenderer::destroy(){
