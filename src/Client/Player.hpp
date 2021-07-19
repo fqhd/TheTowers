@@ -6,6 +6,10 @@
 #include "Hotbar.hpp"
 #include <SFML/Network.hpp>
 
+#define PLAYER_WIDTH 0.5f
+#define PLAYER_DEPTH PLAYER_WIDTH
+#define PLAYER_HEIGHT 2.0f
+
 struct VisibleBlocks {
 	math::ivec3 breakableBlock; // The block that the player is looking at
 	math::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
@@ -29,9 +33,9 @@ private:
 	void getVisibleBlocks(Camera& camera, World* world);
 	void placeBlock(World* world);
 	void breakBlock(ParticleHandler& handler, World* world);
+	float applyDirection(float x1, float x2, float speed, float deltaTime); // returns x1+x2*speed*deltatime
+	math::vec3 applyDirections(math::vec3 v1, math::vec3 v2, float speed, float deltaTime); // same as applyDirection but with vectors
 	math::ivec3 vecToBlock(const math::vec3& vec);
-	math::vec3 m_playerPos;
-	math::vec2 m_playerSize; // width and height
-	math::ivec3 m_velocity;
+	//math::ivec3 m_velocity; // dx dy dz
 
 };

@@ -3,16 +3,14 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 25.5f;
+const float SPEED = 15.5f;
 
 Player::Player() {
 	init();
 }
 
 void Player::init() {
-	m_playerSize = math::vec2(0.5f, 2.0f);
-	m_playerPos = math::vec3(64.0f, 32.0f, 128.0f);
-	m_velocity = math::ivec3(0, 0, 0);
+	//m_velocity = math::ivec3(0, 0, 0);
 }
 
 void Player::update(Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
@@ -46,23 +44,40 @@ void Player::kbHandler(Camera& camera, World* world, InputManager* _iManager, fl
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
 	math::vec3 camPos = camera.getPosition();
+
 	if (_iManager->isKeyDown(sf::Keyboard::W)) {
-		camPos += forward * SPEED * deltaTime;
+		math::vec3 block = applyDirections(camPos, forward, SPEED, deltaTime);
+		if (!world->getBlock(block.x, block.y, block.z) &&
+			!world->getBlock(block.x, block.y-1, block.z)) {
+			camPos += forward * SPEED * deltaTime;
+		}
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::S)) {
-		camPos -= forward * SPEED * deltaTime;
+		math::vec3 block = applyDirections(camPos, -forward, SPEED, deltaTime);
+		if (!world->getBlock(block.x, block.y, block.z) &&
+			!world->getBlock(block.x, block.y-1, block.z)) {
+			camPos -= forward * SPEED * deltaTime;
+		}
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::A)) {
-		camPos -= side * SPEED * deltaTime;
+		math::vec3 block = applyDirections(camPos, -side, SPEED, deltaTime);
+		if (!world->getBlock(block.x, block.y, block.z) &&
+			!world->getBlock(block.x, block.y-1, block.z)) {
+			camPos -= side * SPEED * deltaTime;
+		}
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::D)) {
-		camPos += side * SPEED * deltaTime;
+		math::vec3 block = applyDirections(camPos, side, SPEED, deltaTime);
+		if (!world->getBlock(block.x, block.y, block.z) &&
+			!world->getBlock(block.x, block.y-1, block.z)) {
+			camPos += side * SPEED * deltaTime;
+		}
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
+	if (_iManager->isKeyDown(sf::Keyboard::LShift) && !world->getBlock(camPos.x, camPos.y-PLAYER_HEIGHT*0.75-SPEED*deltaTime, camPos.z)) {
 		camPos.y -= SPEED * deltaTime;
 	}
 
@@ -110,4 +125,13 @@ void Player::breakBlock(ParticleHandler& handler, World* world) {
 
 math::ivec3 Player::vecToBlock(const math::vec3& vec) {
 	return math::ivec3(math::floor(vec.x), math::floor(vec.y), math::floor(vec.z));
+}
+
+// returns x1+x2*speed*deltatime
+float Player::applyDirection(float x1, float x2, float speed, float deltaTime) {
+	return x1+x2*speed*deltaTime;
+}
+
+math::vec3 Player::applyDirections(math::vec3 v1, math::vec3 v2, float speed, float deltaTime) {
+	return v1+v2*speed*deltaTime;
 }
