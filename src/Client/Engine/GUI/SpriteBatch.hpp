@@ -58,7 +58,7 @@ public:
 
 	void init();
 	void begin();
-	void draw(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, float depth, const ColorRGBA8& color);
+	void draw(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, const ColorRGBA8& color);
 	void end();
 	void render();
 	void destroy();
@@ -66,8 +66,10 @@ public:
 private:
 	void createRenderBatches();
 
-	static bool compareTexture(Glyph* a, Glyph* b);
+	static bool compareDepth(Glyph* a, Glyph* b);
 
+	// m_currentDepth because I want the depth to be based on order instead of specifying the depth of the glyphs in the arguments
+	float m_currentDepth = 1.0f;
 	GLuint m_vbo;
 	GLuint m_vao;
 

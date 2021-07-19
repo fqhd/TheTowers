@@ -13,6 +13,7 @@ public:
 	GLuint getHotbarTexture();
 	GLuint getSelectorTexture();
 	GLuint getBlankTexture();
+	GLuint getGrassTexture();
 
 private:
 
@@ -22,6 +23,7 @@ private:
 	GLuint m_hotbar = 0;
 	GLuint m_selector = 0;
 	GLuint m_blank = 0;
+	GLuint m_grass = 0;
 	
 
 

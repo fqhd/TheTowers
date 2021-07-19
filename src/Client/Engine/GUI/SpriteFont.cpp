@@ -68,7 +68,7 @@ void SpriteFont::printFont(SpriteBatch& _batch, const std::string& s, const math
 		math::vec4 quad = math::vec4(x, y, w, h);
 		flipQuad(quad, yPos);
 
-		_batch.draw(quad, math::vec4(q.s0, q.t0 + (q.t1 - q.t0), q.s1 - q.s0, -(q.t1 - q.t0)), m_textureID, 1.0f, color);
+		_batch.draw(quad, math::vec4(q.s0, q.t0 + (q.t1 - q.t0), q.s1 - q.s0, -(q.t1 - q.t0)), m_textureID, color);
 	}
 }
 

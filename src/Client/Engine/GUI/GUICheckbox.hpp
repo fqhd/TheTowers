@@ -9,12 +9,11 @@
 class GUICheckbox {
 public:
 
-	GUICheckbox(const math::vec4& destRect, bool _checked, unsigned int _layer);
+	GUICheckbox(){}
+	GUICheckbox(const math::vec4& destRect, bool _checked = false);
 	void update(InputManager* _manager, float deltaTime);
-	void render(GUIRenderer* _renderer, GUIAssets* _assets);
+	void render(GUIRenderer* _renderer);
 	bool isChecked();
-
-	unsigned int layer;
 
 private:
 

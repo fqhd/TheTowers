@@ -4,7 +4,8 @@ void GUIAssets::init(){
 	m_crosshair = loadTexture("res/textures/gui/crosshair.png");
 	m_hotbar = loadTexture("res/textures/gui/hotbar.png");
 	m_selector = loadTexture("res/textures/gui/selector.png");
-	m_blank = loadTexture("res/textures/gui/img.png");
+	m_blank = loadTexture("res/textures/gui/blank.png");
+	m_grass = loadTexture("res/textures/gui/grass.png");
 }
 
 void GUIAssets::destroy(){
@@ -52,4 +53,8 @@ GLuint GUIAssets::getSelectorTexture(){
 
 GLuint GUIAssets::getBlankTexture(){
 	return m_blank;
+}
+
+GLuint GUIAssets::getGrassTexture(){
+	return m_grass;
 }

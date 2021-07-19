@@ -83,6 +83,5 @@ void Program::gameloop(){
 void Program::cleanUp(){
 	m_guiRenderer.destroy();
 	m_game.destroy();
-	m_pause.destroy();
 	m_window.close();
 }

@@ -32,23 +32,21 @@ Glyph::Glyph(const math::vec4& destRect, const math::vec4& uvRect, GLuint _textu
 	depth = _depth;
 
 	topLeft.color = color;
-	topLeft.setPosition(destRect.x, destRect.y + destRect.w, _depth);
+	topLeft.setPosition(destRect.x, destRect.y + destRect.w);
 	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
 
 	bottomLeft.color = color;
-	bottomLeft.setPosition(destRect.x, destRect.y, _depth);
+	bottomLeft.setPosition(destRect.x, destRect.y);
 	bottomLeft.setUV(uvRect.x, uvRect.y);
 
 	bottomRight.color = color;
-	bottomRight.setPosition(destRect.x + destRect.z, destRect.y, _depth);
+	bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
 	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 
 	topRight.color = color;
-	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w, _depth);
+	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
 	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 }
-
-
 
 void SpriteBatch::init() {
 	glGenVertexArrays(1, &m_vao);
@@ -61,7 +59,7 @@ void SpriteBatch::init() {
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, position));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, position));
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, uv));
 	glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, color));
 
@@ -83,12 +81,13 @@ void SpriteBatch::end() {
 	for (size_t i = 0; i < m_glyphs.size(); i++) {
 		m_glyphPointers[i] = &m_glyphs[i];
 	}
-	std::stable_sort(m_glyphPointers.begin(), m_glyphPointers.end(), compareTexture);
+	std::stable_sort(m_glyphPointers.begin(), m_glyphPointers.end(), compareDepth);
 	createRenderBatches();
 }
 
-void SpriteBatch::draw(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, float depth, const ColorRGBA8& color) {
-	m_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
+void SpriteBatch::draw(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, const ColorRGBA8& color) {
+	m_glyphs.emplace_back(destRect, uvRect, texture, m_currentDepth, color);
+	m_currentDepth += 1.0f;
 }
 
 void SpriteBatch::render() {
@@ -144,6 +143,6 @@ void SpriteBatch::createRenderBatches() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-bool SpriteBatch::compareTexture(Glyph* a, Glyph* b) {
-	return (a->texture < b->texture);
+bool SpriteBatch::compareDepth(Glyph* a, Glyph* b) {
+	return (a->depth < b->depth);
 }

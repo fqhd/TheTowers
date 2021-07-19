@@ -10,7 +10,7 @@ public:
 
 	void init();
 	void begin();
-	void drawRect(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, float depth, const ColorRGBA8& color);
+	void drawRect(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, const ColorRGBA8& color);
 	void drawText(const std::string& s, const math::vec2& position, const ColorRGBA8& color);
 	void end();
 	void render();
