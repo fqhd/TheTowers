@@ -21,13 +21,14 @@
 class Game {
 public:
 
-	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Player* _player);
+	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config& _config);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
 
 	void syncGameWithSettings(Settings* _settings);
 
+	Player player;
 	Camera camera;
 	FrameCounter frameCounter;
 

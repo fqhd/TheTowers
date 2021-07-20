@@ -130,10 +130,6 @@ uint8_t World::getBlock(int _x, int _y, int _z){
 	return m_data[(_y * maxW * maxL) + (_z * maxW) + _x];
 }
 
-float World::getPlayerReach() {
-	return m_config.getReachDistance();
-}
-
 void World::setBlock(int x, int y, int z, uint8_t block) {
 	if(!isBlockInLocalWorld(x, y, z)){
 		return;

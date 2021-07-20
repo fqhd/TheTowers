@@ -13,9 +13,9 @@ void Program::initSystems(sf::IpAddress& _ip){
 	createWindow();
 	m_guiRenderer.init();
 	m_inputManager.init(&m_window);
-	m_networkManager.connectToServer(_ip, m_config);
+	m_networkManager.connectToServer(_ip, &m_config);
 	m_world.init(m_networkManager, m_config);
-	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_guiRenderer, &m_player);
+	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_guiRenderer, m_config);
 	m_game.syncGameWithSettings(&m_settings);
 	m_pause.init(&m_inputManager, &m_settings, &m_game, &m_guiRenderer);
 }

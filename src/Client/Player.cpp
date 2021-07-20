@@ -5,20 +5,15 @@
 const unsigned int PRECISION = 50;
 
 
-Player::Player() {
-	init();
-}
-
-void Player::init() {
-	// x = forward, y = -forward, z = side, w = -side
-	position = math::vec3(0, 0, 0);
-	m_velocites = math::vec4(0.0f);
-	dy = 0.0f;
+void Player::init(unsigned int _reachDistance) {
+	m_reachDistance = _reachDistance;
+	position = math::vec3(0, 3, 0);
 }
 
 void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
 	mouseHandler(camera, handler, world, _nManager, _iManager);
 	kbHandler(camera, world, _iManager, deltaTime);
+	collideWithWorld(world);
 }
 
 void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager) {
@@ -41,46 +36,37 @@ void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World*
 
 
 void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManager, float deltaTime) {
-	if (_iManager->isKeyDown(sf::Keyboard::W)) {
-		m_velocites.x += SPEED;
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::S)) {
-		m_velocites.y += SPEED;
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::A)) {
-		m_velocites.z += SPEED;
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::D)) {
-		m_velocites.w += SPEED;
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
-		dy -= SPEED;
-	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
-		dy += SPEED;
-	}
-	
 	math::vec3 camForward = camera.getForward();
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	position += forward * m_velocites.x * deltaTime;
-	position -= forward * m_velocites.y * deltaTime;
-	position -= side * m_velocites.z * deltaTime;
-	position += side * m_velocites.w * deltaTime;
-	position.y += dy * deltaTime;
+	if (_iManager->isKeyDown(sf::Keyboard::Z)) {
+		position += forward * SPEED * deltaTime;
+	}
 
-	m_velocites *= AIR_FRICTION;
-	dy *= AIR_FRICTION;
+	if (_iManager->isKeyDown(sf::Keyboard::S)) {
+		position -= forward * SPEED * deltaTime;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::Q)) {
+		position -= side * SPEED * deltaTime;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::D)) {
+		position += side * SPEED * deltaTime;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
+		position.y -= SPEED * deltaTime;
+	}
+
+	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
+		position.y += SPEED * deltaTime;
+	}
 }
 
 math::vec3 Player::getEyePos(){
-	return math::vec3(position.x + PLAYER_WIDTH / 2, position.y + PLAYER_HEIGHT / 2, position.z + PLAYER_WIDTH / 2);
+	return math::vec3(position.x + 0.5f, position.y + 0.5f, position.z + 0.5f);
 }
 
 void Player::getVisibleBlocks(const Camera& camera, World* world) {
@@ -88,17 +74,16 @@ void Player::getVisibleBlocks(const Camera& camera, World* world) {
 	visibleBlocks.lookingAtBlock = false;
 	visibleBlocks.isInsideBlock = world->getBlock(pos.x, pos.y, pos.z) ? true : false;
 
-	float player_reach_distance = world->getPlayerReach();
 	math::vec3 rayPosition = camera.getPosition();
 	for (unsigned int i = 0; i < PRECISION; i++) {
-		rayPosition += camera.getForward() * player_reach_distance / (float)PRECISION;
+		rayPosition += camera.getForward() * m_reachDistance / (float)PRECISION;
 
 		visibleBlocks.breakableBlock = vecToBlock(rayPosition);
 		uint8_t blockID = world->getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 
 		if (blockID) {
 			visibleBlocks.lookingAtBlock = true;
-			rayPosition -= camera.getForward() * player_reach_distance / (float)PRECISION;
+			rayPosition -= camera.getForward() * m_reachDistance / (float)PRECISION;
 			visibleBlocks.placeableBlock = vecToBlock(rayPosition);
 			break;
 		}
@@ -119,11 +104,23 @@ math::ivec3 Player::vecToBlock(const math::vec3& vec) {
 	return math::ivec3(math::floor(vec.x), math::floor(vec.y), math::floor(vec.z));
 }
 
-// returns x1+x2*speed*deltatime
-float Player::applyDirection(float x1, float x2, float speed, float deltaTime) {
-	return x1+x2*speed*deltaTime;
-}
+void Player::collideWithWorld(World* _world){
+	math::ivec3 playerCenterBlock = vecToBlock(position);
 
-math::vec3 Player::applyDirections(math::vec3 v1, math::vec3 v2, float speed, float deltaTime) {
-	return v1+v2*speed*deltaTime;
+	for(int x = -1; x < 2; x++){
+		for(int y = -1; y < 2; y++){
+			for(int z = -1; z < 2; z++){
+				math::ivec3 iBlockPos = playerCenterBlock + math::ivec3(x, y, z);
+
+				if(_world->getBlock(iBlockPos.x, iBlockPos.y, iBlockPos.z)){
+					math::vec3 blockPos = math::vec3(iBlockPos.x, iBlockPos.y, iBlockPos.z);
+
+					AABB playerBox(position, math::vec3(1, 1, 1));
+					AABB blockBox(blockPos, math::vec3(1, 1, 1));
+					Utils::collideBoxes(playerBox, blockBox);
+					position = playerBox.position;
+				}
+			}
+		}
+	}
 }

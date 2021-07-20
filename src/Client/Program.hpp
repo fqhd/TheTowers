@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Player.hpp"
 #include "Game.hpp"
 #include "PauseMenu.hpp"
 #include "Config.hpp"
@@ -24,7 +23,6 @@ private:
 	void createWindow();
 
 	GUIRenderer m_guiRenderer;
-	Player m_player;
 	Game m_game;
 	World m_world;
 	NetworkManager m_networkManager;
