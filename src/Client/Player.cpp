@@ -3,13 +3,15 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 10.0f;
+const float SPEED = 2.0f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
+const float AIR_DRAG = 0.9f;
 
 void Player::init(unsigned int _reachDistance) {
 	m_reachDistance = _reachDistance;
 	position = math::vec3(0, 3, 0);
+	m_velocity = math::vec3(0, 0, 0);
 }
 
 void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
@@ -42,29 +44,33 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (_iManager->isKeyDown(sf::Keyboard::Z)) {
-		position += forward * SPEED * deltaTime;
+	if (_iManager->isKeyDown(sf::Keyboard::W)) {
+		m_velocity += forward * SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::S)) {
-		position -= forward * SPEED * deltaTime;
+		m_velocity -= forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::Q)) {
-		position -= side * SPEED * deltaTime;
+	if (_iManager->isKeyDown(sf::Keyboard::A)) {
+		m_velocity -= side * SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::D)) {
-		position += side * SPEED * deltaTime;
+		m_velocity += side * SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
-		position.y -= SPEED * deltaTime;
+		m_velocity.y -= SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
-		position.y += SPEED * deltaTime;
+		m_velocity.y += SPEED * deltaTime;
 	}
+
+	m_velocity *= AIR_DRAG;
+
+	position += m_velocity;
 }
 
 math::vec3 Player::getEyePos(){
