@@ -58,7 +58,10 @@ bool Utils::isInRange(const math::vec3& a, const math::vec3& b, float range){
 }
 
 void Utils::collideBoxes(AABB& a, const AABB& b){
-	math::vec3 delta = b.position - a.position;
+	math::vec3 aCenterPos = a.position + a.size / 2;
+	math::vec3 bCenterPos = b.position + b.size / 2;
+	math::vec3 delta = bCenterPos - aCenterPos;
+
 	float intersectX = math::fabs(delta.x) - (b.size.x / 2 + a.size.x / 2);
 	float intersectY = math::fabs(delta.y) - (b.size.y / 2 + a.size.y / 2);
 	float intersectZ = math::fabs(delta.z) - (b.size.z / 2 + a.size.z / 2);

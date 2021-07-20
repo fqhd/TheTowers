@@ -7,12 +7,6 @@
 #include "Engine/Utils/AABBox.hpp"
 #include <SFML/Network.hpp>
 
-#define PLAYER_WIDTH 0.5f
-#define PLAYER_DEPTH PLAYER_WIDTH
-#define PLAYER_HEIGHT 2.0f
-#define AIR_FRICTION 0.95f
-#define SPEED 5.0f
-
 struct VisibleBlocks {
 	math::ivec3 breakableBlock; // The block that the player is looking at
 	math::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position

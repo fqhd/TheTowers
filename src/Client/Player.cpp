@@ -3,7 +3,9 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-
+const float SPEED = 10.0f;
+const float PLAYER_WIDTH = 1.0f;
+const float PLAYER_HEIGHT = 2.0f;
 
 void Player::init(unsigned int _reachDistance) {
 	m_reachDistance = _reachDistance;
@@ -66,7 +68,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 }
 
 math::vec3 Player::getEyePos(){
-	return math::vec3(position.x + 0.5f, position.y + 0.5f, position.z + 0.5f);
+	return math::vec3(position.x + 0.5f, position.y + 1.5f, position.z + 0.5f);
 }
 
 void Player::getVisibleBlocks(const Camera& camera, World* world) {
@@ -109,14 +111,14 @@ void Player::collideWithWorld(World* _world){
 	std::vector<AABB> blocksToCollideWith;
 
 	for(int x = -1; x < 2; x++){
-		for(int y = -1; y < 2; y++){
+		for(int y = -1; y < 3; y++){
 			for(int z = -1; z < 2; z++){
 				math::ivec3 iBlockPos = playerCenterBlock + math::ivec3(x, y, z);
 
 				if(_world->getBlock(iBlockPos.x, iBlockPos.y, iBlockPos.z)){
 					math::vec3 blockPos = math::vec3(iBlockPos.x, iBlockPos.y, iBlockPos.z);
 					math::vec3 centerBlockPos = blockPos + math::vec3(0.5, 0.5, 0.5);
-					math::vec3 centerPlayerPos = position + math::vec3(0.5, 0.5, 0.5);
+					math::vec3 centerPlayerPos = position + math::vec3(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2);
 					math::vec3 delta = math::fabs(centerBlockPos - centerPlayerPos);
 					AABB blockBox(blockPos, math::vec3(1, 1, 1), math::length(delta));
 					blocksToCollideWith.push_back(blockBox);
@@ -129,7 +131,7 @@ void Player::collideWithWorld(World* _world){
 	std::stable_sort(blocksToCollideWith.begin(), blocksToCollideWith.end(), compareDistance);
 
 	for(auto& i : blocksToCollideWith){
-		AABB playerBox(position, math::vec3(1, 1, 1), 0.0f);
+		AABB playerBox(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH), 0.0f);
 		Utils::collideBoxes(playerBox, i);
 		position = playerBox.position;
 	}
