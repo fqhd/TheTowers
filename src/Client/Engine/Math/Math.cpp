@@ -98,6 +98,10 @@ namespace math {
 		return (int)v;
 	}
 
+	math::vec3 fabs(const math::vec3& v){
+		return math::vec3(fabs(v.x), fabs(v.y), fabs(v.z));
+	}
+
 	mat4 perspective(float fov, float aspect, float zNear, float zFar) {
 		float tanHalfFovy = tan(fov / 2);
 		mat4 r(0);

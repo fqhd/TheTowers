@@ -106,6 +106,7 @@ math::ivec3 Player::vecToBlock(const math::vec3& vec) {
 
 void Player::collideWithWorld(World* _world){
 	math::ivec3 playerCenterBlock = vecToBlock(position);
+	std::vector<AABB> blocksToCollideWith;
 
 	for(int x = -1; x < 2; x++){
 		for(int y = -1; y < 2; y++){
@@ -114,13 +115,26 @@ void Player::collideWithWorld(World* _world){
 
 				if(_world->getBlock(iBlockPos.x, iBlockPos.y, iBlockPos.z)){
 					math::vec3 blockPos = math::vec3(iBlockPos.x, iBlockPos.y, iBlockPos.z);
-
-					AABB playerBox(position, math::vec3(1, 1, 1));
-					AABB blockBox(blockPos, math::vec3(1, 1, 1));
-					Utils::collideBoxes(playerBox, blockBox);
-					position = playerBox.position;
+					math::vec3 centerBlockPos = blockPos + math::vec3(0.5, 0.5, 0.5);
+					math::vec3 centerPlayerPos = position + math::vec3(0.5, 0.5, 0.5);
+					math::vec3 delta = math::fabs(centerBlockPos - centerPlayerPos);
+					AABB blockBox(blockPos, math::vec3(1, 1, 1), math::length(delta));
+					blocksToCollideWith.push_back(blockBox);
 				}
 			}
 		}
 	}
+
+	// Sort blocks
+	std::stable_sort(blocksToCollideWith.begin(), blocksToCollideWith.end(), compareDistance);
+
+	for(auto& i : blocksToCollideWith){
+		AABB playerBox(position, math::vec3(1, 1, 1), 0.0f);
+		Utils::collideBoxes(playerBox, i);
+		position = playerBox.position;
+	}
+}
+
+bool Player::compareDistance(AABB a, AABB b){
+	return a.distance < b.distance;
 }

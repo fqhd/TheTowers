@@ -29,6 +29,7 @@ namespace math {
 	float length(const vec4& v);
 	float round(float f, size_t decimals); // Returns rounded float with specified decimals
 	float toRadians(float degrees); // Converts degrees to radians
+	math::vec3 fabs(const math::vec3& v);
 	float fabs(float v);
 	int floor(float v);
 
