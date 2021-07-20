@@ -24,7 +24,6 @@ public:
 	math::vec3 getEyePos();
 
 	uint8_t selectedBlock = 1;
-	math::vec3 position;
 
 	VisibleBlocks visibleBlocks;
 	Hotbar hotbar;

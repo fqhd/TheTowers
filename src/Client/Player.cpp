@@ -8,6 +8,8 @@ const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
 const float AIR_DRAG = 0.9f;
 
+math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
+
 void Player::init(unsigned int _reachDistance) {
 	m_reachDistance = _reachDistance;
 	position = math::vec3(0, 3, 0);
@@ -44,7 +46,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (_iManager->isKeyDown(sf::Keyboard::W)) {
+	if (_iManager->isKeyDown(sf::Keyboard::Z)) {
 		m_velocity += forward * SPEED * deltaTime;
 	}
 
@@ -52,7 +54,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 		m_velocity -= forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::A)) {
+	if (_iManager->isKeyDown(sf::Keyboard::Q)) {
 		m_velocity -= side * SPEED * deltaTime;
 	}
 
@@ -123,10 +125,7 @@ void Player::collideWithWorld(World* _world){
 
 				if(_world->getBlock(iBlockPos.x, iBlockPos.y, iBlockPos.z)){
 					math::vec3 blockPos = math::vec3(iBlockPos.x, iBlockPos.y, iBlockPos.z);
-					math::vec3 centerBlockPos = blockPos + math::vec3(0.5, 0.5, 0.5);
-					math::vec3 centerPlayerPos = position + math::vec3(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2);
-					math::vec3 delta = math::fabs(centerBlockPos - centerPlayerPos);
-					AABB blockBox(blockPos, math::vec3(1, 1, 1), math::length(delta));
+					AABB blockBox(blockPos, math::vec3(1, 1, 1));
 					blocksToCollideWith.push_back(blockBox);
 				}
 			}
@@ -137,12 +136,20 @@ void Player::collideWithWorld(World* _world){
 	std::stable_sort(blocksToCollideWith.begin(), blocksToCollideWith.end(), compareDistance);
 
 	for(auto& i : blocksToCollideWith){
-		AABB playerBox(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH), 0.0f);
+		AABB playerBox(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 		Utils::collideBoxes(playerBox, i);
 		position = playerBox.position;
 	}
 }
 
 bool Player::compareDistance(AABB a, AABB b){
-	return a.distance < b.distance;
+	math::vec3 centerPlayerPos = position + math::vec3(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2, PLAYER_WIDTH / 2);
+
+	math::vec3 centerBlockPos1 = a.position + math::vec3(0.5, 0.5, 0.5);
+	math::vec3 centerBlockPos2 = b.position + math::vec3(0.5, 0.5, 0.5);
+
+	float distance1 = math::length(math::fabs(centerBlockPos1 - centerPlayerPos));
+	float distance2 = math::length(math::fabs(centerBlockPos2 - centerPlayerPos));
+
+	return distance1 < distance2;
 }
