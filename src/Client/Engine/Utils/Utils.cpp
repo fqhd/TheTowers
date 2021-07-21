@@ -92,3 +92,11 @@ void Utils::collideBoxes(AABB& a, const AABB& b){
 		}
 	}
 }
+
+math::vec2 Utils::mapPoint(const math::vec2& d, const math::vec2& o, const math::vec2& t){
+	return math::vec2((d.x/o.x) * t.x, (d.y/o.y) * t.y);
+}
+
+math::vec4 Utils::mapDestRect(const math::vec4& d, const math::vec2& o, const math::vec2& t){
+	return math::vec4((d.x/o.x) * t.x, (d.y/o.y) * t.y, (d.z/o.x) * t.x, (d.w/o.y) * t.y);
+}

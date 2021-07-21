@@ -1,7 +1,7 @@
 #include "Config.hpp"
 #include <iostream>
 
-void Config::loadFromFile(){
+void Config::loadFromFile() {
 	std::ifstream is;
 	is.open("Config");
 	if(is.fail()){
@@ -28,43 +28,55 @@ void Config::loadFromFile(){
 			is >> m_packetTransmissionFrequency;
 		}else if (type == "REACH_DISTANCE:"){
 			is >> m_reachDistance;
+		}else if (type == "WINDOW_WIDTH:"){
+			is >> m_windowWidth;
+		}else if (type == "WINDOW_HEIGHT:"){
+			is >> m_windowHeight;
 		}
 	}
 	is.close();
 }
 
-float Config::getCameraSpeed(){
+float Config::getCameraSpeed() const {
 	return m_cameraSpeed;
 }
 
-unsigned int Config::getPacketTransmissionFrequency(){
+unsigned int Config::getWindowWidth() const {
+	return m_windowWidth;
+}
+
+unsigned int Config::getWindowHeight() const {
+	return m_windowHeight;
+}
+
+unsigned int Config::getPacketTransmissionFrequency() const {
 	return m_packetTransmissionFrequency;
 }
 
-unsigned int Config::getWorldWidth(){
+unsigned int Config::getWorldWidth() const {
 	return m_worldWidth;
 }
 
-unsigned int Config::getWorldLength(){
+unsigned int Config::getWorldLength() const {
 	return m_worldLength;
 }
 
-unsigned int Config::getWorldHeight(){
+unsigned int Config::getWorldHeight() const {
 	return m_worldHeight;
 }
 
-unsigned int Config::getChunkWidth(){
+unsigned int Config::getChunkWidth() const {
 	return m_chunkWidth;
 }
 
-unsigned int Config::getClientPort(){
+unsigned int Config::getClientPort() const {
 	return m_clientPort;
 }
 
-unsigned int Config::getServerPort(){
+unsigned int Config::getServerPort() const {
 	return m_serverPort;
 }
 
-float Config::getReachDistance() {
+float Config::getReachDistance() const {
 	return m_reachDistance;
 } 
