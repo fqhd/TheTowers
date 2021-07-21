@@ -68,7 +68,7 @@ bool InputManager::processInput() {
 }
 
 void InputManager::centerMouse(){
-	sf::Mouse::setPosition(sf::Vector2i(m_windowSize.x / 2, m_windowSize.y / 2));
+	sf::Mouse::setPosition(sf::Vector2i(m_windowSize.x / 2, m_windowSize.y / 2), *m_window);
 	m_mousePosition.x = m_windowSize.x / 2;
 	m_mousePosition.y = m_windowSize.y / 2;
 }
@@ -79,10 +79,6 @@ bool InputManager::hasFocus(){
 
 void InputManager::setMouseVisible(bool _visible){
 	m_window->setMouseCursorVisible(_visible);
-}
-
-void InputManager::setMouseGrabbed(bool _grabbed){
-	m_window->setMouseCursorGrabbed(_grabbed);
 }
 
 void InputManager::setVerticalSync(bool _sync){

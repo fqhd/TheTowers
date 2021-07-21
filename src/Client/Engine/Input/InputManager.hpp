@@ -22,7 +22,6 @@ public:
 	bool wasButtonDown(int _buttonID);
 	bool hasFocus();
 
-	void setMouseGrabbed(bool _grabbed);
 	void setVerticalSync(bool _sync);
 	void setMouseVisible(bool _visible);
 	void centerMouse();
