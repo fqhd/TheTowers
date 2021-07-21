@@ -1,13 +1,20 @@
 #include "GUIRenderer.hpp"
 
-void GUIRenderer::init(){
+void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
 	assets.init();
 	m_guiBatch.init();
 	m_textBatch.init();
 
-	m_spriteFont.init("res/fonts/berlin.ttf", 64.0f, 512, 512);
+	// Calculating the font size based on window size
+	float fontSize = (windowHeight / 1080.0f) * 64.0f;
+	// Caping the font size
+	if(fontSize > 64.0f){
+		fontSize = 64.0f;
+	}
 
-	math::mat4 ortho = math::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
+	m_spriteFont.init("res/fonts/berlin.ttf", fontSize, 512, 512);
+
+	math::mat4 ortho = math::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 
 	m_guiShader.init();
 	m_guiShader.bind();

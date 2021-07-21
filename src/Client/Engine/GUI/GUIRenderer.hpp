@@ -8,7 +8,7 @@
 class GUIRenderer {
 public:
 
-	void init();
+	void init(unsigned int windowWidth, unsigned int windowHeight);
 	void begin();
 	void drawRect(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, const ColorRGBA8& color);
 	void drawText(const std::string& s, const math::vec2& position, const ColorRGBA8& color);

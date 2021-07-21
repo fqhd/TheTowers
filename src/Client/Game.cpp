@@ -3,13 +3,14 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config& _config) {
+void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config) {
+	m_config = _config;
 	m_guiRenderer = _guiRenderer;
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
 	m_world = _world;
 
-	player.init(_config.getReachDistance());
+	player.init(_config->getReachDistance());
 	m_cubeMap.init();
 	m_particleHandler.init();
 	camera.init(_iManager);
@@ -42,7 +43,7 @@ void Game::render() {
 	m_entityHandler.render(camera);
 	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
 	m_vignette.render();
-	m_hud.render(m_guiRenderer);
+	m_hud.render(m_guiRenderer, m_config);
 }
 
 void Game::destroy() {
