@@ -3,23 +3,25 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 2.0f;
+const float SPEED = 1.5f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
-const float AIR_DRAG = 0.9f;
+const float VERTICAL_DRAG = 0.98f;
+const float HORIZONTAL_DRAG = 0.8f;
+const float GRAVITY = 0.6f;
 
 math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
 
 void Player::init(unsigned int _reachDistance) {
 	m_reachDistance = _reachDistance;
-	position = math::vec3(0, 3, 0);
+	position = math::vec3(32, 32, 32);
 	m_velocity = math::vec3(0, 0, 0);
 }
 
 void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
-	mouseHandler(camera, handler, world, _nManager, _iManager);
 	kbHandler(camera, world, _iManager, deltaTime);
 	collideWithWorld(world);
+	mouseHandler(camera, handler, world, _nManager, _iManager);
 }
 
 void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager) {
@@ -61,16 +63,17 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	if (_iManager->isKeyDown(sf::Keyboard::D)) {
 		m_velocity += side * SPEED * deltaTime;
 	}
-
-	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
-		m_velocity.y -= SPEED * deltaTime;
+	
+	if (_iManager->isKeyPressed(sf::Keyboard::Space) && m_canJump) {
+		m_velocity.y = 0.15f;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
-		m_velocity.y += SPEED * deltaTime;
-	}
+	// Gravity
+	m_velocity.y -= GRAVITY * deltaTime;
 
-	m_velocity *= AIR_DRAG;
+	m_velocity.x *= HORIZONTAL_DRAG;
+	m_velocity.z *= HORIZONTAL_DRAG;
+	m_velocity.y *= VERTICAL_DRAG;
 
 	position += m_velocity;
 }
@@ -117,6 +120,7 @@ math::ivec3 Player::vecToBlock(const math::vec3& vec) {
 void Player::collideWithWorld(World* _world){
 	math::ivec3 playerCenterBlock = vecToBlock(position);
 	std::vector<AABB> blocksToCollideWith;
+	m_canJump = false;
 
 	for(int x = -1; x < 2; x++){
 		for(int y = -1; y < 3; y++){
@@ -137,7 +141,13 @@ void Player::collideWithWorld(World* _world){
 
 	for(auto& i : blocksToCollideWith){
 		AABB playerBox(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
-		Utils::collideBoxes(playerBox, i);
+		if(Utils::collideBoxes(playerBox, i) == Y_AXIS){
+			if(i.position.y < position.y){
+				m_canJump = true;
+				m_velocity.y = 0.0f;
+			}
+		}
+
 		position = playerBox.position;
 	}
 }

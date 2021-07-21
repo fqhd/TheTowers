@@ -39,6 +39,7 @@ private:
 
 	unsigned int m_reachDistance = 0;
 	math::vec3 m_velocity;
+	bool m_canJump = false;
 
 
 };

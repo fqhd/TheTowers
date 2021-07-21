@@ -57,7 +57,8 @@ bool Utils::isInRange(const math::vec3& a, const math::vec3& b, float range){
 	return math::fabs(math::length(b - a)) < range;
 }
 
-void Utils::collideBoxes(AABB& a, const AABB& b){
+CollisionType Utils::collideBoxes(AABB& a, const AABB& b){
+	CollisionType collision = NONE; // Used to return the axis of the collision, set to NONE if there isn't any collision
 	math::vec3 aCenterPos = a.position + a.size / 2;
 	math::vec3 bCenterPos = b.position + b.size / 2;
 	math::vec3 delta = bCenterPos - aCenterPos;
@@ -70,6 +71,7 @@ void Utils::collideBoxes(AABB& a, const AABB& b){
 		// The following if statements determine the axis with the greatest intersection(which will be the axis we push back on)
 		if(intersectX > intersectY && intersectX > intersectZ){ // X axis is the greatest axis
 			// This if statement checks on which side we should push back(positively or negatively)
+			collision = X_AXIS;
 			if(delta.x > 0.0f){
 				a.position.x = b.position.x - a.size.x;
 			}else{
@@ -77,6 +79,7 @@ void Utils::collideBoxes(AABB& a, const AABB& b){
 			}
 		}else if(intersectY > intersectZ){ // Y axis is the greatest axis
 			// This if statement checks on which side we should push back(positively or negatively)
+			collision = Y_AXIS;
 			if(delta.y > 0.0f){
 				a.position.y = b.position.y - a.size.y;
 			}else{
@@ -84,6 +87,7 @@ void Utils::collideBoxes(AABB& a, const AABB& b){
 			}
 		}else{ // Z axis is the greatest axis
 			// This if statement checks on which side we should push back(positively or negatively)
+			collision = Z_AXIS;
 			if(delta.z > 0.0f){
 				a.position.z = b.position.z - a.size.z;
 			}else{
@@ -91,6 +95,7 @@ void Utils::collideBoxes(AABB& a, const AABB& b){
 			}
 		}
 	}
+	return collision;
 }
 
 math::vec2 Utils::mapPoint(const math::vec2& d, float ox, float oy, float tx, float ty){

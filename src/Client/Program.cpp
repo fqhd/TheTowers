@@ -29,7 +29,7 @@ void Program::createWindow(){
 	cSettings.stencilBits = 8;
 	cSettings.attributeFlags = sf::ContextSettings::Attribute::Core;
 
-	m_window.create(sf::VideoMode(1280, 720), "TheTowers", sf::Style::Default, cSettings);
+	m_window.create(sf::VideoMode(m_config.getWindowWidth(), m_config.getWindowHeight()), "TheTowers", sf::Style::Default, cSettings);
 	if(glewInit() != GLEW_OK){
 		std::cout << "Failed to initialize glew" << std::endl;
 		return;
