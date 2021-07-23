@@ -6,6 +6,7 @@
 #include "../Input/InputManager.hpp"
 #include "../Utils/Utils.hpp"
 
+
 class GUIInput {
 public:
 	void init(const math::vec4& destRect);
@@ -16,5 +17,4 @@ private:
 	math::vec4 m_outlineRect;
 	std::string m_input;
 	bool m_onFocus;
-	std::vector<int> m_supported_keys;
 };

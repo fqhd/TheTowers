@@ -5,14 +5,7 @@ void GUIInput::init(const math::vec4& destRect) {
 	m_outlineRect = math::vec4(destRect.x-5, destRect.y-5, destRect.z+10, destRect.w+10);
 	m_destRect = destRect;
 	m_onFocus = false;
-
-	m_supported_keys = std::vector<int>(36);
-    std::iota(m_supported_keys.begin(), m_supported_keys.end(), 0);
-
-    m_supported_keys.push_back(sf::Keyboard::Comma);
-    m_supported_keys.push_back(sf::Keyboard::Period);
-    m_supported_keys.push_back(sf::Keyboard::Space);
-    m_supported_keys.push_back(sf::Keyboard::Backspace);
+	m_input = "";
 }
 
 void GUIInput::update(InputManager* _manager) {
@@ -26,39 +19,13 @@ void GUIInput::update(InputManager* _manager) {
 		}
 	}
 	if (m_onFocus) {
-		// handle key presses when focues
-        sf::Keyboard::Key keyid = sf::Keyboard::Unknown;
-        for (int key : m_supported_keys) {
-            if (_manager->isKeyPressed(key)) {
-                    keyid = (sf::Keyboard::Key)key;
-                    break;
-                }
-        }
-        if (keyid == -1) return; // no key was pressed
-        if (keyid < 26) {
-            m_input += (char)(keyid+97);
-        }
-        else if (keyid > 25 && keyid < 36) {
-            m_input += std::to_string(keyid-26);
-        }    
-        else {
-            switch (keyid) {
-                case sf::Keyboard::Comma:
-                    m_input += ',';
-					break;
-                case sf::Keyboard::Period:
-                    m_input += '.';
-					break;
-                case sf::Keyboard::Space:
-					m_input += ' ';
-					break;
-                case sf::Keyboard::Backspace:
-                    if (m_input.size() > 0) {m_input.pop_back();}
-					break;
-                default:
-                    break;
-            }
-        }
+		char ascii_key = _manager->getLastKeyPressed();
+		if (ascii_key <= -2 && m_input.length() > 0) {
+			m_input.pop_back();
+		}
+		else if (ascii_key > 0) {
+			m_input.push_back(ascii_key);
+		}
 	}
 }
 
