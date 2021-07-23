@@ -1,18 +1,20 @@
 #pragma once
 
-#include "Game.hpp"
+
+#include "FrameCounter.hpp"
 #include "Settings.hpp"
 #include "Engine/GUI/GUIRenderer.hpp"
-
+#include "Game.hpp"
 class DebugMenu {
 public:
 
-	void init(Game* _game);
+	void init(Game* _game, const Config& _config);
 	void render(GUIRenderer* _renderer);
 
 private:
 
 	Game* m_game = nullptr;
-
+	Config m_config;
+	std::string m_fps_text;
 
 };
