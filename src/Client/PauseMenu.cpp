@@ -1,12 +1,11 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, Settings* _settings, Config* _config, Game* _game, GUIRenderer* _guiRenderer){
+void PauseMenu::init(InputManager* _manager, Settings* _settings, Config* _config, GUIRenderer* _guiRenderer){
 	m_config = _config;
 	m_guiRenderer = _guiRenderer;
 	m_settings = _settings;
 	m_inputManager = _manager;
-	m_game = _game;
 	m_guiRenderer = _guiRenderer;
 
 	initGUI();
@@ -15,7 +14,6 @@ void PauseMenu::init(InputManager* _manager, Settings* _settings, Config* _confi
 void PauseMenu::update(GameStates& _state, float deltaTime){
 	// Change state back to game if the user presses on escape
 	if(m_inputManager->isKeyPressed(sf::Keyboard::Escape)){
-		m_game->syncGameWithSettings(m_settings);
 		m_inputManager->setMouseVisible(false);
 		m_inputManager->centerMouse();
 		_state = GameStates::PLAY;
@@ -36,6 +34,7 @@ void PauseMenu::render(){
 	m_guiRenderer->drawText("Fog: ", Utils::mapPoint(math::vec2(325, 800), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
 	m_guiRenderer->drawText("Vignette: ", Utils::mapPoint(math::vec2(325, 700), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
 	m_guiRenderer->drawText("Debug Mode: ", Utils::mapPoint(math::vec2(325, 600), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Block Outline: ", Utils::mapPoint(math::vec2(325, 500), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
 
 	renderGUI();
 }
@@ -44,6 +43,7 @@ void PauseMenu::syncSettingsWithGUI(){
 	m_settings->isFogToggled = fog.isChecked();
 	m_settings->isDebugToggled = debug.isChecked();
 	m_settings->isVignetteToggled = vignette.isChecked();
+	m_settings->renderOutline = outline.isChecked();
 	if(save.isPressed()){
 		m_settings->writeToFile();
 	}
@@ -58,6 +58,7 @@ void PauseMenu::initGUI(){
 	vignette.init(Utils::mapDestRect(math::vec4(700, 700, 48, 48), 1920, 1080, ww, wh), m_settings->isVignetteToggled);
 	debug.init(Utils::mapDestRect(math::vec4(700, 600, 48, 48), 1920, 1080, ww, wh), m_settings->isDebugToggled);
 	input.init(Utils::mapDestRect(math::vec4(800, 600, 250, 40), 1920, 1080, ww, wh));
+	outline.init(Utils::mapDestRect(math::vec4(700, 500, 48, 48), 1920, 1080, ww, wh), m_settings->renderOutline);
 }
 
 void PauseMenu::updateGUI(float deltaTime){
@@ -65,6 +66,7 @@ void PauseMenu::updateGUI(float deltaTime){
 	fog.update(m_inputManager, deltaTime);
 	vignette.update(m_inputManager, deltaTime);
 	debug.update(m_inputManager, deltaTime);
+	outline.update(m_inputManager, deltaTime);
 	input.update(m_inputManager);
 }
 
@@ -73,5 +75,6 @@ void PauseMenu::renderGUI(){
 	fog.render(m_guiRenderer);
 	vignette.render(m_guiRenderer);
 	debug.render(m_guiRenderer);
+	outline.render(m_guiRenderer);
 	input.render(m_guiRenderer);
 }

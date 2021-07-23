@@ -11,6 +11,7 @@ public:
     void writeToFile();
 
     // Variables
+	bool renderOutline = true;
     bool isFogToggled = true;
     bool isVignetteToggled = true;
 	bool isDebugToggled = true;

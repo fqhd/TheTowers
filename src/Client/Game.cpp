@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config) {
+void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config, Settings* _settings) {
+	m_settings = _settings;
 	m_config = _config;
 	m_guiRenderer = _guiRenderer;
 	m_networkManager = _nManager;
@@ -38,11 +39,11 @@ void Game::update(GameStates& _state, float _deltaTime) {
 void Game::render() {
 	// Rendering gameplay
 	m_world->render(camera);
-	m_blockOutline.render(&player, camera);
+	if(m_settings->renderOutline) m_blockOutline.render(&player, camera);
 	m_particleHandler.render(camera);
 	m_entityHandler.render(camera);
 	m_cubeMap.render(camera.getProjectionMatrix(), camera.getViewMatrix());
-	m_vignette.render();
+	if(m_settings->isVignetteToggled) m_vignette.render();
 	m_hud.render(m_guiRenderer, m_config);
 }
 
@@ -53,9 +54,4 @@ void Game::destroy() {
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
-}
-
-
-void Game::syncGameWithSettings(Settings* _settings){
-	m_vignette.setToggle(_settings->isVignetteToggled);
 }

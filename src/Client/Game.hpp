@@ -21,12 +21,10 @@
 class Game {
 public:
 
-	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config);
+	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config, Settings* _settings);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
-
-	void syncGameWithSettings(Settings* _settings);
 
 	Player player;
 	Camera camera;
@@ -45,6 +43,7 @@ private:
 	HUD m_hud;
 
 	// Pointers
+	Settings* m_settings = nullptr;
 	Config* m_config = nullptr;
 	GUIRenderer* m_guiRenderer = nullptr;
 	NetworkManager* m_networkManager = nullptr;

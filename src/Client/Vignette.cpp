@@ -19,9 +19,3 @@ void Vignette::destroy(){
     m_quadShader.destroy();
     m_quad.destroy();
 }
-
-void Vignette::setToggle(bool _toggle){
-    m_quadShader.bind();
-    m_quadShader.setToggle(_toggle);
-    m_quadShader.unbind();
-}

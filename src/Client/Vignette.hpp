@@ -9,7 +9,6 @@ public:
     void init();
     void render(); // Renders a quad with the vignette shader
     void destroy();
-    void setToggle(bool _toggle);
 
 private:
 
