@@ -31,6 +31,7 @@ bool InputManager::processInput() {
 	m_previousMousePosition = m_mousePosition;
 	m_previousKeymap = m_keymap;
 	m_previousButtonmap = m_buttonmap;
+	m_lastKeyPressed = -1;
 
 	while(m_window->pollEvent(m_event)){
 		switch(m_event.type){
@@ -58,6 +59,13 @@ bool InputManager::processInput() {
 			break;
 			case sf::Event::GainedFocus:
 				m_hasFocus = true;
+			break;
+			case sf::Event::TextEntered:
+				if(m_event.text.unicode == 8){ // Pressed backspace
+					m_lastKeyPressed = -2;
+				}else if (m_event.text.unicode >= 32 && m_event.text.unicode <= 126){ // Valid ascii character
+					m_lastKeyPressed = static_cast<char>(m_event.text.unicode);
+				}
 			break;
 			default:
 
@@ -144,4 +152,8 @@ bool InputManager::isButtonPressed(int _buttonID){
 
 bool InputManager::isButtonReleased(int _buttonID){
 	return (!isButtonDown(_buttonID) && wasButtonDown(_buttonID));
+}
+
+char InputManager::getLastKeyPressed(){
+	return m_lastKeyPressed;
 }

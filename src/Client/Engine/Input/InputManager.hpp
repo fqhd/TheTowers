@@ -28,6 +28,7 @@ public:
 	math::uvec2 getWindowSize();
 	math::ivec2 getMousePosition();
 	math::ivec2 getPreviousMousePosition();
+	char getLastKeyPressed();
 
 private:
 
@@ -44,9 +45,10 @@ private:
 	math::uvec2 m_windowSize;
 	math::ivec2 m_mousePosition;
 	math::ivec2 m_previousMousePosition;
-	sf::Window* m_window;
+	sf::Window* m_window = nullptr;
 	sf::Event m_event;
 	bool m_hasFocus = true;
+	char m_lastKeyPressed = 0;
 
 
 
