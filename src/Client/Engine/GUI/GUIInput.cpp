@@ -45,12 +45,16 @@ void GUIInput::update(InputManager* _manager) {
             switch (keyid) {
                 case sf::Keyboard::Comma:
                     m_input += ',';
+					break;
                 case sf::Keyboard::Period:
                     m_input += '.';
+					break;
                 case sf::Keyboard::Space:
-                    m_input += ' ';
+					m_input += ' ';
+					break;
                 case sf::Keyboard::Backspace:
                     if (m_input.size() > 0) {m_input.pop_back();}
+					break;
                 default:
                     break;
             }
