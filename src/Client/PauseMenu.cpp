@@ -57,6 +57,7 @@ void PauseMenu::initGUI(){
 	fog.init(Utils::mapDestRect(math::vec4(700, 800, 48, 48), 1920, 1080, ww, wh), m_settings->isFogToggled);
 	vignette.init(Utils::mapDestRect(math::vec4(700, 700, 48, 48), 1920, 1080, ww, wh), m_settings->isVignetteToggled);
 	debug.init(Utils::mapDestRect(math::vec4(700, 600, 48, 48), 1920, 1080, ww, wh), m_settings->isDebugToggled);
+	input.init(Utils::mapDestRect(math::vec4(800, 600, 150, 40), 1920, 1080, ww, wh));
 }
 
 void PauseMenu::updateGUI(float deltaTime){
@@ -64,6 +65,7 @@ void PauseMenu::updateGUI(float deltaTime){
 	fog.update(m_inputManager, deltaTime);
 	vignette.update(m_inputManager, deltaTime);
 	debug.update(m_inputManager, deltaTime);
+	input.update(m_inputManager);
 }
 
 void PauseMenu::renderGUI(){
@@ -71,4 +73,5 @@ void PauseMenu::renderGUI(){
 	fog.render(m_guiRenderer);
 	vignette.render(m_guiRenderer);
 	debug.render(m_guiRenderer);
+	input.render(m_guiRenderer);
 }

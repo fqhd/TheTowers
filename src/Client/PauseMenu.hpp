@@ -5,6 +5,7 @@
 #include "Settings.hpp"
 #include "Engine/GUI/GUIButton.hpp"
 #include "Engine/GUI/GUICheckbox.hpp"
+#include "Engine/GUI/GUIInput.hpp"
 #include "Game.hpp"
 #include <fstream>
 
@@ -28,8 +29,7 @@ private:
 	GUICheckbox fog;
 	GUICheckbox vignette;
 	GUICheckbox debug;
-
-
+	GUIInput input;
 	// Pointers
 	GUIRenderer* m_guiRenderer = nullptr;
 	InputManager* m_inputManager = nullptr;
