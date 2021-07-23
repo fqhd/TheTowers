@@ -1,17 +1,19 @@
 #pragma once
+
 #include "Engine/Utils/Vertex.hpp"
+#include "Engine/Utils/Transform.hpp"
 
 class Entity {
 public:
 
-	Entity();
+	Entity(){}
 
 	void update(float deltaTime);
-
 	void setTargetPosition(const math::vec3& position);
 	void setForward(float pitch, float yaw);
 	bool isBlueTeam();
 
+	Transform transform;
 
 private:
 

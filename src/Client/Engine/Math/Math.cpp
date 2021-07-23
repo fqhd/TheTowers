@@ -146,11 +146,18 @@ namespace math {
 	}
 
 	void scale(const vec3& vec, const mat4& src, mat4& dst) {
-		for (int i = 0; i < 4; i++) {
-			dst.m[i][0] = src.m[i][0]*vec.x;
-			dst.m[i][1] = src.m[i][1]*vec.y;
-			dst.m[i][2] = src.m[i][2]*vec.z;
-		}
+		dst.m[0][0] = src.m[0][0] * vec.x;
+		dst.m[0][1] = src.m[0][1] * vec.x;
+		dst.m[0][2] = src.m[0][2] * vec.x;
+		dst.m[0][3] = src.m[0][3] * vec.x;
+		dst.m[1][0] = src.m[1][0] * vec.y;
+		dst.m[1][1] = src.m[1][1] * vec.y;
+		dst.m[1][2] = src.m[1][2] * vec.y;
+		dst.m[1][3] = src.m[1][3] * vec.y;
+		dst.m[2][0] = src.m[2][0] * vec.z;
+		dst.m[2][1] = src.m[2][1] * vec.z;
+		dst.m[2][2] = src.m[2][2] * vec.z;
+		dst.m[2][3] = src.m[2][3] * vec.z;
 	}
 
 	float fabs(float v){

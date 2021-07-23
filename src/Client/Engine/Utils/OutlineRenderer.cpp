@@ -1,7 +1,6 @@
 #include "OutlineRenderer.hpp"
 
 void OutlineRenderer::init(){
-
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
 
@@ -39,7 +38,6 @@ void OutlineRenderer::init(){
 
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 
 	glBindVertexArray(0);
 

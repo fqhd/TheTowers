@@ -3,12 +3,17 @@
 
 
 void EntityHandler::init() {
+	m_cube.init();
+	m_shader.init();
 }
 
 void EntityHandler::update(NetworkManager* _manager, float _deltaTime) {
 	sf::Packet packet;
 	sf::IpAddress remoteIp;
 	unsigned short remotePort;
+	t.setPosition(math::vec3(0, 32, 0));
+	t.setRotation(math::vec3(45, 45, 45));
+	t.setScale(math::vec3(4, 4, 4));
 
 	while (_manager->m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
 		math::vec3 position;
@@ -44,9 +49,19 @@ void EntityHandler::removeEntity(uint8_t id) {
 }
 
 void EntityHandler::render(Camera& camera) {
-
+	m_shader.bind();
+	m_shader.loadModelMatrix(t.getMatrix());
+	m_shader.loadViewMatrix(camera.getViewMatrix());
+	m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
+	m_cube.render();
+	m_shader.unbind();
+	// std::unordered_map<uint8_t, Entity>::iterator it;
+	// for(it = m_entites.begin(); it != m_entities.end(); it++){
+	// 	it->second.
+	// }
 }
 
 void EntityHandler::destroy(){
-	
+	m_shader.destroy();
+	m_cube.destroy();
 }

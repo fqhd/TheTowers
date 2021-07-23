@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <SFML/Network.hpp>
 #include "NetworkManager.hpp"
+#include "Engine/Utils/Cube.hpp"
+#include "EntityShader.hpp"
 
 
 class NetworkManager;
@@ -28,5 +30,9 @@ private:
 
 	//Data Structures
 	std::unordered_map<uint8_t, Entity> m_entities;
+
+	Transform t;
+	EntityShader m_shader;
+	Cube m_cube;
 
 };

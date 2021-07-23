@@ -2,10 +2,6 @@
 
 const float ENTITY_MOVEMENT_SHARPNESS = 8.0f;
 
-Entity::Entity() {
-
-}
-
 void Entity::update(float deltaTime) {
 	float s = ENTITY_MOVEMENT_SHARPNESS;
 	// transform.move((m_targetPosition - transform.getPosition()) * s * deltaTime);
@@ -24,7 +20,7 @@ void Entity::setForward(float pitch, float yaw) {
 }
 
 void Entity::updateRotation() {
-	// transform.setRotation(math::vec3(math::toRadians(-m_currentPitch), math::toRadians(-(m_currentYaw - 90)), 0));
+	transform.setRotation(math::vec3(math::toRadians(-m_currentPitch), math::toRadians(-(m_currentYaw - 90)), 0));
 }
 
 bool Entity::isBlueTeam(){
