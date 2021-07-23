@@ -6,6 +6,7 @@
 #include "Settings.hpp"
 #include "DebugMenu.hpp"
 #include "Engine/GUI/GUIRenderer.hpp"
+#include "BlockTextureHandler.hpp"
 #include <SFML/OpenGL.hpp>
 
 
@@ -22,6 +23,7 @@ private:
 	void cleanUp();
 	void createWindow();
 
+	BlockTextureHandler m_textureHandler;
 	GUIRenderer m_guiRenderer;
 	Game m_game;
 	World m_world;

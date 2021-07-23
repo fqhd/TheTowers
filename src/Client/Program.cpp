@@ -12,10 +12,11 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_settings.loadFromFile();
 	createWindow();
 	m_debugMenu.init(&m_game, m_config);
+	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
 	m_inputManager.init(&m_window);
 	m_networkManager.connectToServer(_ip, &m_config);
-	m_world.init(m_networkManager, m_config);
+	m_world.init(m_networkManager, &m_textureHandler, m_config);
 	m_game.init(&m_inputManager, &m_world, &m_networkManager, &m_guiRenderer, &m_config, &m_settings);
 	m_pause.init(&m_inputManager, &m_settings, &m_config, &m_guiRenderer);
 }
@@ -87,6 +88,7 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
+	m_textureHandler.destroy();
 	m_guiRenderer.destroy();
 	m_game.destroy();
 	m_window.close();

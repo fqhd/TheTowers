@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-void World::init(NetworkManager& _manager, Config& _c){
-	m_textureArray.init("res/textures/sprite_sheet.png", 512);
+void World::init(NetworkManager& _manager, BlockTextureHandler* _textureHandler, Config& _c){
+	m_textureHandler = _textureHandler;
 	m_config = _c;
 	unsigned int ww = m_config.getWorldWidth();
 	unsigned int wl = m_config.getWorldLength();
@@ -12,9 +12,6 @@ void World::init(NetworkManager& _manager, Config& _c){
 
 	m_data = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
 	_manager.downloadWorld(m_data);
-
-	// Populating blockTextures array
-	loadBlockTexturesFromFile();
 
 	// Initializing the m_chunks
 	m_chunks = new Chunk[ww * wl * wh];
@@ -38,7 +35,7 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 void World::render(Camera& _camera){
 	m_shader.bind();
 
-	m_textureArray.bind();
+	m_textureHandler->bind();
 
 	m_shader.loadProjectionMatrix(_camera.getProjectionMatrix());
 	m_shader.loadViewMatrix(_camera.getViewMatrix());
@@ -67,7 +64,7 @@ void World::render(Camera& _camera){
 		}
 	}
 
-	m_textureArray.unbind();
+	m_textureHandler->unbind();
 
 	m_shader.unbind();
 }
@@ -184,7 +181,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 }
 
 void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
-	BlockTexture blockTexture = getTextureFromBlockID(_blockType);
+	BlockTexture blockTexture = m_textureHandler->getTextureFromBlockID(_blockType);
 
 	addTopFace(_c, _x, _y, _z, blockTexture.top);
 	addBottomFace(_c, _x, _y, _z, blockTexture.bot);
@@ -374,41 +371,4 @@ void World::addBackFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _tex
 		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
 		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
 	}
-}
-
-BlockTexture World::getTextureFromBlockID(uint8_t _blockID) {
-	return m_blockTextures[_blockID - 1];
-}
-
-void tokenizeString(const std::string& _str, std::vector<std::string>& _tokens){
-	_tokens.clear();
-	_tokens.push_back(std::string());
-	for(unsigned int i = 0; i < _str.size(); i++){
-		if(_str[i] == ' '){
-			_tokens.push_back(std::string());
-		}else{
-			_tokens.back().push_back(_str[i]);
-		}
-	}
-}
-
-void World::loadBlockTexturesFromFile(){
-	std::ifstream is;
-	is.open("TextureArrangement");
-	if(is.fail()){
-		std::cout << "Failed to open texture arrangment file, it should be under res/textures/texture_arrangement.txt" << std::endl;
-		return;
-	}
-
-	std::string line;
-	std::vector<std::string> tokens;
-	while(std::getline(is, line)){
-		tokenizeString(line, tokens);
-		uint16_t top = std::stoi(tokens.at(0));
-		uint16_t side = std::stoi(tokens.at(1));
-		uint16_t bot = std::stoi(tokens.at(2));
-		m_blockTextures.push_back(BlockTexture(top, side, bot));
-	}
-
-	is.close();
 }
