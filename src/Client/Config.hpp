@@ -18,6 +18,7 @@ public:
 	unsigned int getWindowWidth() const;
 	unsigned int getWindowHeight() const;
 	float getReachDistance() const;
+	bool isFullscreen() const;
 
 private:
 
@@ -32,4 +33,5 @@ private:
 	unsigned int m_windowHeight = 0;
 	unsigned int m_packetTransmissionFrequency = 0;
 	float m_reachDistance = 0.0f;
+	bool m_fullscreen = false;
 };

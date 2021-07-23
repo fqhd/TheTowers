@@ -21,6 +21,7 @@ void Program::initSystems(sf::IpAddress& _ip){
 }
 
 void Program::createWindow(){
+	// A few opengl window context settings
 	sf::ContextSettings cSettings;
 	cSettings.majorVersion = 3;
 	cSettings.minorVersion = 3;
@@ -29,13 +30,16 @@ void Program::createWindow(){
 	cSettings.stencilBits = 8;
 	cSettings.attributeFlags = sf::ContextSettings::Attribute::Core;
 
-	m_window.create(sf::VideoMode(m_config.getWindowWidth(), m_config.getWindowHeight()), "TheTowers", sf::Style::Default, cSettings);
+	// Getting the window style from the config
+	uint32_t style = sf::Style::Titlebar | sf::Style::Close;
+	if(m_config.isFullscreen())	style = sf::Style::Fullscreen;
+
+	// Creating the widnow
+	m_window.create(sf::VideoMode(m_config.getWindowWidth(), m_config.getWindowHeight()), "TheTowers", style, cSettings);
 	if(glewInit() != GLEW_OK){
 		std::cout << "Failed to initialize glew" << std::endl;
 		return;
 	}
-
-	m_window.setVerticalSyncEnabled(true);
 
 	//Enabling transparency
 	glEnable(GL_BLEND);
@@ -50,6 +54,7 @@ void Program::createWindow(){
 	glCullFace(GL_BACK);
 
 	// Ready for game settings
+	m_window.setVerticalSyncEnabled(true);
 	m_window.setMouseCursorGrabbed(true);
 	m_window.setMouseCursorVisible(false);
 }

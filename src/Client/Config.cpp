@@ -32,6 +32,8 @@ void Config::loadFromFile() {
 			is >> m_windowWidth;
 		}else if (type == "WINDOW_HEIGHT:"){
 			is >> m_windowHeight;
+		}else if(type == "FULLSCREEN:"){
+			is >> m_fullscreen;
 		}
 	}
 	is.close();
@@ -79,4 +81,8 @@ unsigned int Config::getServerPort() const {
 
 float Config::getReachDistance() const {
 	return m_reachDistance;
-} 
+}
+
+bool Config::isFullscreen() const {
+	return m_fullscreen;
+}
