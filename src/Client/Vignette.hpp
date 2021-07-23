@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Engine/Utils/Quad.hpp"
-#include "Engine/Utils/QuadShader.hpp"
+#include "Engine/Utils/VignetteQuad.hpp"
+#include "Engine/Utils/VignetteShader.hpp"
 
 class Vignette {
 public:
 
-    void init();
-    void render(); // Renders a quad with the vignette shader
-    void destroy();
+	void init();
+	void render(); // Renders a quad with the vignette shader
+	void destroy();
 
 private:
 
-    Quad m_quad;
-    QuadShader m_quadShader;
+	VignetteQuad m_quad;
+	VignetteShader m_quadShader;
 
 
 };

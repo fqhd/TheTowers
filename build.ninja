@@ -58,8 +58,8 @@ build obj/particle.o: cc src/Client/Engine/Utils/Particle.cpp
 build obj/particlequad.o: cc src/Client/Engine/Utils/ParticleQuad.cpp
 build obj/particleshader.o: cc src/Client/Engine/Utils/ParticleShader.cpp
 build obj/image.o: cc src/Client/Engine/Utils/Image.cpp
-build obj/quad.o: cc src/Client/Engine/Utils/Quad.cpp
-build obj/quadshader.o: cc src/Client/Engine/Utils/QuadShader.cpp
+build obj/vignettequad.o: cc src/Client/Engine/Utils/VignetteQuad.cpp
+build obj/vignetteshader.o: cc src/Client/Engine/Utils/VignetteShader.cpp
 
 # World
 build obj/chunk.o: cc src/Client/Engine/World/Chunk.cpp
@@ -73,4 +73,4 @@ build obj/worlddata.o: cc src/Server/WorldData.cpp
 
 build server: lnk obj/serverMain.o obj/serverConfig.o obj/worlddata.o obj/server.o
 
-build client: lnk obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/spriteshader.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o
+build client: lnk obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/spriteshader.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/vignettequad.o obj/vignetteshader.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o

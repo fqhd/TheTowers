@@ -1,8 +1,9 @@
 #pragma once
+
 #include "Vertex.hpp"
 #include <GL/glew.h>
 
-class Quad {
+class VignetteQuad {
 public:
 
     void init();
