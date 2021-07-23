@@ -3,12 +3,12 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 1.5f;
+const float SPEED = 1.0f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
 const float VERTICAL_DRAG = 0.98f;
 const float HORIZONTAL_DRAG = 0.8f;
-const float GRAVITY = 0.6f;
+const float GRAVITY = 0.4f;
 
 math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
 
@@ -64,8 +64,8 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 		m_velocity += side * SPEED * deltaTime;
 	}
 	
-	if (_iManager->isKeyPressed(sf::Keyboard::Space) && m_canJump) {
-		m_velocity.y = 0.15f;
+	if (_iManager->isKeyDown(sf::Keyboard::Space) && m_canJump) {
+		m_velocity.y = 0.12f;
 	}
 
 	// Gravity
