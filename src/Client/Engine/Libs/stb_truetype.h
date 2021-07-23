@@ -546,6 +546,7 @@ STBTT_DEF void stbtt_GetBakedQuad(const stbtt_bakedchar *chardata, int pw, int p
                                int char_index,             // character to display
                                float *xpos, float *ypos,   // pointers to current position in screen pixel space
                                stbtt_aligned_quad *q,      // output: quad to draw
+							   float scale,
                                int opengl_fillrule);       // true if opengl fill rule; false if DX9 or earlier
 // Call GetBakedQuad with char_index = 'character - first_char', and it
 // creates the quad you need to draw and advances the current position.
@@ -3799,7 +3800,7 @@ static int stbtt_BakeFontBitmap_internal(unsigned char *data, int offset,  // fo
    return bottom_y;
 }
 
-STBTT_DEF void stbtt_GetBakedQuad(const stbtt_bakedchar *chardata, int pw, int ph, int char_index, float *xpos, float *ypos, stbtt_aligned_quad *q, int opengl_fillrule)
+STBTT_DEF void stbtt_GetBakedQuad(const stbtt_bakedchar *chardata, int pw, int ph, int char_index, float *xpos, float *ypos, stbtt_aligned_quad *q, float scale, int opengl_fillrule)
 {
    float d3d_bias = opengl_fillrule ? 0 : -0.5f;
    float ipw = 1.0f / pw, iph = 1.0f / ph;
@@ -3817,7 +3818,7 @@ STBTT_DEF void stbtt_GetBakedQuad(const stbtt_bakedchar *chardata, int pw, int p
    q->s1 = b->x1 * ipw;
    q->t1 = b->y1 * iph;
 
-   *xpos += b->xadvance;
+   *xpos += (b->xadvance) * scale;
 }
 
 //////////////////////////////////////////////////////////////////////////////

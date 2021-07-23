@@ -33,9 +33,9 @@ void PauseMenu::render(){
 	m_guiRenderer->drawRect(Utils::mapDestRect(math::vec4(260, 140, 1400, 800), 1920, 1080, ww, wh), math::vec4(0, 0, 10, 7), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8(34, 40, 50, 255));
 
 	// Text
-	m_guiRenderer->drawText("Fog: ", Utils::mapPoint(math::vec2(325, 800), 1920, 1080, ww, wh), ColorRGBA8());
-	m_guiRenderer->drawText("Vignette: ", Utils::mapPoint(math::vec2(325, 700), 1920, 1080, ww, wh), ColorRGBA8());
-	m_guiRenderer->drawText("Debug Mode: ", Utils::mapPoint(math::vec2(325, 600), 1920, 1080, ww, wh), ColorRGBA8());
+	m_guiRenderer->drawText("Fog: ", Utils::mapPoint(math::vec2(325, 800), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Vignette: ", Utils::mapPoint(math::vec2(325, 700), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Debug Mode: ", Utils::mapPoint(math::vec2(325, 600), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
 
 	renderGUI();
 }
@@ -57,7 +57,7 @@ void PauseMenu::initGUI(){
 	fog.init(Utils::mapDestRect(math::vec4(700, 800, 48, 48), 1920, 1080, ww, wh), m_settings->isFogToggled);
 	vignette.init(Utils::mapDestRect(math::vec4(700, 700, 48, 48), 1920, 1080, ww, wh), m_settings->isVignetteToggled);
 	debug.init(Utils::mapDestRect(math::vec4(700, 600, 48, 48), 1920, 1080, ww, wh), m_settings->isDebugToggled);
-	input.init(Utils::mapDestRect(math::vec4(800, 600, 150, 40), 1920, 1080, ww, wh));
+	input.init(Utils::mapDestRect(math::vec4(800, 600, 250, 40), 1920, 1080, ww, wh));
 }
 
 void PauseMenu::updateGUI(float deltaTime){

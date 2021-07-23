@@ -31,8 +31,8 @@ void GUIRenderer::drawRect(const math::vec4& destRect, const math::vec4& uvRect,
 	m_guiBatch.draw(destRect, uvRect, texture, color);
 }
 
-void GUIRenderer::drawText(const std::string& s, const math::vec2& position, const ColorRGBA8& color){
-	m_spriteFont.printFont(m_textBatch, s, position, color);
+void GUIRenderer::drawText(const std::string& s, const math::vec2& position, const math::vec2& scale, const ColorRGBA8& color){
+	m_spriteFont.printFont(m_textBatch, s, position, scale, color);
 }
 
 void GUIRenderer::end(){
