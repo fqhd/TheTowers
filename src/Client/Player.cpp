@@ -3,7 +3,7 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 1.0f;
+const float SPEED = 1.25f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
 const float VERTICAL_DRAG = 0.98f;
