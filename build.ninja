@@ -33,6 +33,7 @@ build obj/spritefont.o: cc src/Client/Engine/GUI/SpriteFont.cpp
 build obj/guibutton.o: cc src/Client/Engine/GUI/GUIButton.cpp
 build obj/spriteshader.o: cc src/Client/Engine/GUI/SpriteShader.cpp
 build obj/checkbox.o: cc src/Client/Engine/GUI/GUICheckbox.cpp
+build obj/input: cc src/Client/Engine/GUI/GUIInput.cpp
 
 # Input
 build obj/inputmanager.o: cc src/Client/Engine/Input/InputManager.cpp
@@ -66,8 +67,9 @@ build obj/world.o: cc src/Client/Engine/World/World.cpp
 # Server
 build obj/serverMain.o: cc src/Server/main.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
+build obj/server.o: cc src/Server/Server.cpp
+build obj/worlddata: cc src/Server/WorldData.cpp
 
+build server: lnk obj/serverMain.o obj/serverConfig.o obj/worlddata obj/server.o
 
-build server: lnk obj/serverMain.o obj/serverConfig.o
-
-build client: lnk obj/clientMain.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/spriteshader.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o
+build client: lnk obj/clientMain.o obj/input obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/chunkshader.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/cubemapshader.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/particleshader.o obj/pausemenu.o obj/spriteshader.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutlineshader.o obj/blockoutline.o obj/outlinerenderer.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/quad.o obj/quadshader.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o
