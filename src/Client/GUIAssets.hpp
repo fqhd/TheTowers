@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
-#include "../Utils/Image.hpp"
+#include "Image.hpp"
 
 class GUIAssets {
 public:

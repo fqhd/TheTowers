@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Utils/Camera.hpp"
-#include "Engine/World/World.hpp"
-#include "Engine/Utils/ParticleHandler.hpp"
+#include "Camera.hpp"
+#include "World.hpp"
+#include "ParticleHandler.hpp"
 #include "Hotbar.hpp"
-#include "Engine/Utils/AABBox.hpp"
+#include "AABBox.hpp"
 #include <SFML/Network.hpp>
 
 struct VisibleBlocks {

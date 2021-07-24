@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Utils/VignetteQuad.hpp"
-#include "Engine/Utils/VignetteShader.hpp"
+#include "VignetteQuad.hpp"
+#include "VignetteShader.hpp"
 
 class Vignette {
 public:

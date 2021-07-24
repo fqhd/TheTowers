@@ -20,4 +20,6 @@ float FrameCounter::get_average() {
 	return sum/current_frame;
 }
 
-int FrameCounter::get_current_frame() {return current_frame;}
+int FrameCounter::get_current_frame() {
+	return current_frame;
+}

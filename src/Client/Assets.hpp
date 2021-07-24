@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Utils/Cube.hpp"
+#include "Cube.hpp"
 
 class Assets {
 public:

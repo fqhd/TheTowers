@@ -1,5 +1,4 @@
 #include "EntityHandler.hpp"
-#include "Engine/Utils/Utils.hpp"
 
 
 void EntityHandler::init(Assets* _assets) {

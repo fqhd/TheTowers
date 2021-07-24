@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Utils/Shader.hpp"
-#include "../Math/Math.hpp"
+#include "Shader.hpp"
+#include "Math.hpp"
 
 
 class SpriteShader : public Shader {

@@ -3,9 +3,9 @@
 #include "GameStates.hpp"
 #include "Player.hpp"
 #include "Settings.hpp"
-#include "Engine/GUI/GUIButton.hpp"
-#include "Engine/GUI/GUICheckbox.hpp"
-#include "Engine/GUI/GUIInput.hpp"
+#include "GUIButton.hpp"
+#include "GUICheckbox.hpp"
+#include "GUIInput.hpp"
 #include "Game.hpp"
 #include <fstream>
 

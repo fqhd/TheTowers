@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 
 enum CollisionType {
 	X_AXIS, Y_AXIS, Z_AXIS, NONE

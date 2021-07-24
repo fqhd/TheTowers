@@ -5,7 +5,7 @@
 #include "Config.hpp"
 #include "Settings.hpp"
 #include "DebugMenu.hpp"
-#include "Engine/GUI/GUIRenderer.hpp"
+#include "GUIRenderer.hpp"
 #include "BlockTextureHandler.hpp"
 #include <SFML/OpenGL.hpp>
 

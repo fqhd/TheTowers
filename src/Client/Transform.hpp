@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 
 class Transform {
 public:

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "../Libs/stb_truetype.h"
+#include "stb_truetype.h"
 #include "SpriteBatch.hpp"
 
 

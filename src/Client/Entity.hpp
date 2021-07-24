@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Utils/Vertex.hpp"
-#include "Engine/Utils/Transform.hpp"
+#include "Vertex.hpp"
+#include "Transform.hpp"
 
 class Entity {
 public:

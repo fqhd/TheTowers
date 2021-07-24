@@ -2,7 +2,7 @@
 #include <SFML/Window.hpp>
 #include <unordered_map>
 #include <vector>
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 
 
 class InputManager {

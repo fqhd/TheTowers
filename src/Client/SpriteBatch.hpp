@@ -27,8 +27,8 @@ SOFTWARE.
 #include <GL/glew.h>
 #include <vector>
 
-#include "../Math/Math.hpp"
-#include "../Utils/Vertex.hpp"
+#include "Math.hpp"
+#include "Vertex.hpp"
 
 class Glyph {
 public:

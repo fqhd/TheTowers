@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../World/Chunk.hpp"
-#include "../Utils/Camera.hpp"
-#include "../Utils/ChunkShader.hpp"
-#include "../../NetworkManager.hpp"
-#include "../Utils/TextureArray.hpp"
-#include "../../Config.hpp"
-#include "../../BlockTextureHandler.hpp"
+#include "Chunk.hpp"
+#include "Camera.hpp"
+#include "ChunkShader.hpp"
+#include "NetworkManager.hpp"
+#include "TextureArray.hpp"
+#include "Config.hpp"
+#include "BlockTextureHandler.hpp"
 #include <cstdint>
 
 class NetworkManager;

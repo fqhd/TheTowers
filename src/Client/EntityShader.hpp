@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Utils/Shader.hpp"
-#include "Engine/Math/Math.hpp"
+#include "Shader.hpp"
+#include "Math.hpp"
 
 class EntityShader : public Shader {
 public:

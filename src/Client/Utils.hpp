@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cstdarg>
 #include <chrono>
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 #include "AABBox.hpp"
 
 namespace Utils {

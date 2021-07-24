@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Utils/Cube.hpp"
-#include "Engine/Utils/BlockOutlineShader.hpp"
+#include "Cube.hpp"
+#include "BlockOutlineShader.hpp"
 #include "Player.hpp"
 #include "Assets.hpp"
 

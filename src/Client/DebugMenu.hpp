@@ -3,7 +3,7 @@
 
 #include "FrameCounter.hpp"
 #include "Settings.hpp"
-#include "Engine/GUI/GUIRenderer.hpp"
+#include "GUIRenderer.hpp"
 #include "Game.hpp"
 class DebugMenu {
 public:

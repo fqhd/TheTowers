@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Utils/TextureArray.hpp"
+#include "TextureArray.hpp"
 #include <vector>
 #include <string>
 #include <fstream>

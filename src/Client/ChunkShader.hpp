@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 #include "Utils.hpp"
 #include "Shader.hpp"
 

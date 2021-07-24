@@ -2,8 +2,8 @@
 
 #include "GUIRenderer.hpp"
 #include "GUIAssets.hpp"
-#include "../Utils/Utils.hpp"
-#include "../Input/InputManager.hpp"
+#include "Utils.hpp"
+#include "InputManager.hpp"
 
 
 class GUICheckbox {

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <cstddef>
-#include "../Utils/Vertex.hpp"
+#include "Vertex.hpp"
 #include <iostream>
 #include <SFML/Network.hpp>
 

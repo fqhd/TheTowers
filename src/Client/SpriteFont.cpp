@@ -1,7 +1,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 
 #include "SpriteFont.hpp"
-#include "../Utils/Utils.hpp"
+#include "Utils.hpp"
 
 void SpriteFont::init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar, unsigned int numChars) {
 	// Variables

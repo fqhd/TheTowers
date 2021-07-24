@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
 #include <numeric>
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 #include "GUIRenderer.hpp"
-#include "../Input/InputManager.hpp"
-#include "../Utils/Utils.hpp"
+#include "InputManager.hpp"
+#include "Utils.hpp"
 
 
 class GUIInput {

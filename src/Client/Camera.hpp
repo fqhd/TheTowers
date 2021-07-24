@@ -1,8 +1,8 @@
 #pragma once
-#include "../World/Chunk.hpp"
-#include "../Input/InputManager.hpp"
-#include "../Math/Math.hpp"
-#include "math.h"
+
+#include "Chunk.hpp"
+#include "InputManager.hpp"
+#include "Math.hpp"
 
 
 class Camera {

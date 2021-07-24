@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Assets.hpp"
+#include "Assets.hpp"
 #include "CubeMapShader.hpp"
 
 class CubeMap {

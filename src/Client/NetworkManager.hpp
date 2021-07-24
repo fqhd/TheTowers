@@ -1,10 +1,10 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include "Engine/World/World.hpp"
-#include "Engine/Utils/ParticleHandler.hpp"
+#include "World.hpp"
+#include "ParticleHandler.hpp"
 #include "EntityHandler.hpp"
-#include "Engine/Utils/Camera.hpp"
+#include "Camera.hpp"
 #include "Config.hpp"
 
 class World;

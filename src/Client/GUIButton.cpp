@@ -1,6 +1,6 @@
 #include "GUIButton.hpp"
-#include "../Utils/Utils.hpp"
-#include "../Utils/Vertex.hpp"
+#include "Utils.hpp"
+#include "Vertex.hpp"
 
 
 void GUIButton::init(const math::vec4& destRect) {

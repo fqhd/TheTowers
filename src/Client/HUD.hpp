@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/GUI/GUIRenderer.hpp"
+#include "GUIRenderer.hpp"
 #include "Config.hpp"
-#include "Engine/Utils/Utils.hpp"
+#include "Utils.hpp"
 
 class HUD {
 public:

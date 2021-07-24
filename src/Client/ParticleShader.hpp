@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Shader.hpp"
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 
 class ParticleShader : public Shader {
 public:

@@ -1,5 +1,5 @@
 #include "InputManager.hpp"
-#include "../Utils/Utils.hpp"
+#include "Utils.hpp"
 #include <iostream>
 
 

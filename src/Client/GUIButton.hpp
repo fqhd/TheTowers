@@ -2,8 +2,8 @@
 
 #include "GUIRenderer.hpp"
 #include "GUIAssets.hpp"
-#include "../Input/InputManager.hpp"
-#include "../Math/Math.hpp"
+#include "InputManager.hpp"
+#include "Math.hpp"
 
 class GUIButton {
 public:

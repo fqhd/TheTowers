@@ -1,6 +1,6 @@
 #include "Cube.hpp"
 
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 
 void Cube::init() {
 	glGenVertexArrays(1, &m_vaoID);

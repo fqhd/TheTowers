@@ -1,6 +1,6 @@
 #pragma once
 #include <GL/glew.h>
-#include "../Math/Math.hpp"
+#include "Math.hpp"
 #include "ColorRGBA8.hpp"
 
 struct GUITextVertex {

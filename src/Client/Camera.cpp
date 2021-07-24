@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include <cmath>
 
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;

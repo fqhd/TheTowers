@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "Engine/Utils/Camera.hpp"
+#include "Camera.hpp"
 #include <vector>
 #include <unordered_map>
 #include <SFML/Network.hpp>
 #include "NetworkManager.hpp"
-#include "Engine/Utils/Cube.hpp"
+#include "Cube.hpp"
 #include "EntityShader.hpp"
 #include "Assets.hpp"
 
