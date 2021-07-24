@@ -7,7 +7,6 @@
 #include "TextureArray.hpp"
 #include "Config.hpp"
 #include "BlockTextureHandler.hpp"
-#include "WorldData.hpp"
 #include <cstdint>
 
 class NetworkManager;
@@ -28,7 +27,10 @@ private:
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	bool isBlockInLocalWorld(int _x, int _y, int _z);
+	void saveWorldData();
+	void loadWorldData();
 
+	
 	// Mesh generation functions
 	void addTopFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
 	void addBottomFace(Chunk* _c, uint8_t _x, uint8_t _y, uint8_t _z, uint16_t _textureLayer);
@@ -46,6 +48,6 @@ private:
 	Shader m_shader;
 	uint8_t* m_data = nullptr;
 	Config m_config;
-	WorldData m_wData;
+	uint m_data_length;
 
 };

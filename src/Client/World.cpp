@@ -1,6 +1,7 @@
 #include "World.hpp"
 #include <iostream>
 
+const std::string WORLDDATA_FILE = "world.dat";
 
 void World::init(NetworkManager& _manager, BlockTextureHandler* _textureHandler, Config& _c){
 	m_textureHandler = _textureHandler;
@@ -10,9 +11,29 @@ void World::init(NetworkManager& _manager, BlockTextureHandler* _textureHandler,
 	unsigned int wh = m_config.getWorldHeight();
 	unsigned int cw = m_config.getChunkWidth();
 	
-	m_wData.loadConfig(m_config);
-	m_wData.loadWorldData();
-	m_data = m_wData.getDataPtr();
+	m_data_length = ww * wl * wh * cw * cw * cw;
+	m_data = static_cast<uint8_t*>(malloc(m_data_length));
+
+	unsigned int maxW = ww * cw;
+	unsigned int maxL = wl * cw;
+
+	// Fill in the memory
+	for(unsigned int y = 0; y < wh * cw; y++){
+		for(unsigned int z = 0; z < wl * cw; z++){
+			for(unsigned int x = 0; x < ww * cw; x++){
+				if(y < 20){
+					m_data[(y * maxW * maxL) + (z * maxW) + x] = 5;
+				}else if(x == z){
+					m_data[(y * maxW * maxL) + (z * maxW) + x] = 2;
+				}else{
+					m_data[(y * maxW * maxL) + (z * maxW) + x] = 0;
+				}
+
+			}
+		}
+	}
+	
+	loadWorldData();
 	_manager.downloadWorld(m_data);
 
 	// Initializing the m_chunks
@@ -85,8 +106,40 @@ void World::destroy(){
 	}
 	m_shader.destroy();
 	delete[] m_chunks;
-	m_wData.saveWorldData();
+	saveWorldData();
 	free(m_data);
+}
+
+void World::loadWorldData() {
+	std::ifstream file(WORLDDATA_FILE, std::ios::in | std::ios::binary);
+	if (!file.good()) {
+		std::cerr << "could not open " << WORLDDATA_FILE << " file for reading" << std::endl;
+		return;
+	}
+	for (int i = 0; i < m_data_length; i++) {
+		file.read((char*)&m_data[i], sizeof(uint8_t));		
+	}
+	file.close();
+	if(!file.good()) {
+      	std::cerr << "Error occurred at reading time!" << std::endl;
+      	return;
+  	}
+}
+
+void World::saveWorldData() {
+	std::ofstream file(WORLDDATA_FILE, std::ios::out | std::ios::binary);
+	if (!file.good()) {
+		std::cerr << "could not open " << WORLDDATA_FILE << " file for writing" << std::endl;
+		return;
+	}
+	for (int i = 0; i < m_data_length; i++) {
+		file.write((char*)&m_data[i], sizeof(uint8_t));		
+	}
+	file.close();
+	if(!file.good()) {
+      	std::cerr << "Error occurred at writing time!" << std::endl;
+		return;
+  	}
 }
 
 void World::generateMesh(Chunk* _chunk){
