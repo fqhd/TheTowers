@@ -1,5 +1,6 @@
 #include "WorldData.hpp"
 
+const std::string WORLDDATA_FILE = "world.dat";
 
 WorldData::WorldData() {}
 
@@ -15,8 +16,8 @@ void WorldData::loadConfig(const Config& config) {
 	m_chunkWidth = config.getChunkWidth();
 
 	// Allocate memory for the world
-	data_length = m_worldWidth * m_worldLength * m_worldHeight * m_chunkWidth * m_chunkWidth * m_chunkWidth;
-	m_data = static_cast<uint8_t*>(malloc(data_length));
+	m_data_length = m_worldWidth * m_worldLength * m_worldHeight * m_chunkWidth * m_chunkWidth * m_chunkWidth;
+	m_data = static_cast<uint8_t*>(malloc(m_data_length));
 
 	m_width = m_worldWidth * m_chunkWidth;
 	m_length = m_worldLength * m_chunkWidth;
@@ -38,9 +39,37 @@ void WorldData::loadConfig(const Config& config) {
 	}
 }
 
-void WorldData::loadWorldData(){}
+void WorldData::loadWorldData() {
+	std::ifstream file(WORLDDATA_FILE, std::ios::in | std::ios::binary);
+	if (!file.good()) {
+		std::cerr << "could not open " << WORLDDATA_FILE << " file for reading" << std::endl;
+		return;
+	}
+	for (int i = 0; i < m_data_length; i++) {
+		file.read((char*)&m_data[i], sizeof(uint8_t));		
+	}
+	file.close();
+	if(!file.good()) {
+      	std::cerr << "Error occurred at reading time!" << std::endl;
+      	return;
+  	}
+}
 
-void WorldData::saveWorldData() {}
+void WorldData::saveWorldData() {
+	std::ofstream file(WORLDDATA_FILE, std::ios::out | std::ios::binary);
+	if (!file.good()) {
+		std::cerr << "could not open " << WORLDDATA_FILE << " file for writing" << std::endl;
+		return;
+	}
+	for (int i = 0; i < m_data_length; i++) {
+		file.write((char*)&m_data[i], sizeof(uint8_t));		
+	}
+	file.close();
+	if(!file.good()) {
+      	std::cerr << "Error occurred at writing time!" << std::endl;
+		return;
+  	}
+}
 
 int WorldData::getWidth() { return m_width; }
 int WorldData::getHeight() { return m_height; }

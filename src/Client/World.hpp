@@ -46,5 +46,6 @@ private:
 	Shader m_shader;
 	uint8_t* m_data = nullptr;
 	Config m_config;
+	WorldData m_wData;
 
 };

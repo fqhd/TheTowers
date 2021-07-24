@@ -21,7 +21,7 @@ public:
 
 private:
 	uint8_t *m_data;
-	uint data_length;
+	uint m_data_length;
 	uint m_worldWidth;
 	uint m_worldLength;
 	uint m_worldHeight;

@@ -10,9 +10,9 @@ void World::init(NetworkManager& _manager, BlockTextureHandler* _textureHandler,
 	unsigned int wh = m_config.getWorldHeight();
 	unsigned int cw = m_config.getChunkWidth();
 	
-	WorldData wData;
-	wData.loadConfig(m_config);
-	m_data = wData.getDataPtr();
+	m_wData.loadConfig(m_config);
+	m_wData.loadWorldData();
+	m_data = m_wData.getDataPtr();
 	_manager.downloadWorld(m_data);
 
 	// Initializing the m_chunks
@@ -85,6 +85,7 @@ void World::destroy(){
 	}
 	m_shader.destroy();
 	delete[] m_chunks;
+	m_wData.saveWorldData();
 	free(m_data);
 }
 
