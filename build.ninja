@@ -49,13 +49,12 @@ build obj/image.o: cc src/Client/Image.cpp
 build obj/vignettequad.o: cc src/Client/VignetteQuad.cpp
 build obj/chunk.o: cc src/Client/Chunk.cpp
 build obj/world.o: cc src/Client/World.cpp
-
+build obj/worlddata.o: cc src/Client/WorldData.cpp
 # Server
 build obj/serverMain.o: cc src/Server/main.cpp
 build obj/serverConfig.o: cc src/Server/Config.cpp
 build obj/server.o: cc src/Server/Server.cpp
-build obj/worlddata.o: cc src/Server/WorldData.cpp
 
-build server: lnk obj/serverMain.o obj/serverConfig.o obj/worlddata.o obj/server.o
+build server: lnk obj/serverMain.o obj/serverConfig.o obj/server.o
 
-build client: lnk obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/pausemenu.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutline.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/vignettequad.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o obj/transform.o obj/assets.o
+build client: lnk obj/worlddata.o obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/game.o obj/camera.o obj/world.o obj/cubemap.o obj/cube.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/pausemenu.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutline.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/vignettequad.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o obj/transform.o obj/assets.o
