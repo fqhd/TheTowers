@@ -2,7 +2,7 @@
 
 
 void Server::start() {
-	config.loadFromFile();
+	m_config.loadFromFile();
 	generateWorld();
 
 	// Starting threads
@@ -22,10 +22,10 @@ void Server::tcpThread(){
 
 	// Starting server
 	std::cout << "Listening for connection..." << std::endl;
-	listener.listen(config.getServerPort());
+	listener.listen(m_config.getServerPort());
 	selector.add(listener);
 
-	while(!isDone){
+	while(!m_isDone){
 		if(selector.wait()){ // Wait for event to happen
 			if(selector.isReady(listener)){ // Got new connection, so we are going to handle that by creating a new client
 				addClient(listener, selector);
@@ -58,10 +58,10 @@ void Server::udpThread(){
 	unsigned short remotePort;
 
 	//Initializing variables
-	socket.bind(config.getServerPort());
+	socket.bind(m_config.getServerPort());
 	socket.setBlocking(false);
 
-	while(!isDone){
+	while(!m_isDone){
 		receivedPacket.clear();
 
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
@@ -69,9 +69,9 @@ void Server::udpThread(){
 			receivedPacket >> id;
 			receivedPacket << id;
 
-			for(auto& i : clients){
+			for(auto& i : m_clients){
 				if(i.id != id){
-					socket.send(receivedPacket, i.socket->getRemoteAddress(), config.getClientPort());
+					socket.send(receivedPacket, i.socket->getRemoteAddress(), m_config.getClientPort());
 				}
 			}
 		}
@@ -80,13 +80,13 @@ void Server::udpThread(){
 }
 
 void Server::generateWorld(){
-	unsigned int ww = config.getWorldWidth();
-	unsigned int wl = config.getWorldLength();
-	unsigned int wh = config.getWorldHeight();
-	unsigned int cw = config.getChunkWidth();
+	unsigned int ww = m_config.getWorldWidth();
+	unsigned int wl = m_config.getWorldLength();
+	unsigned int wh = m_config.getWorldHeight();
+	unsigned int cw = m_config.getChunkWidth();
 
 	// Allocate memory for the world
-	worldData = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
+	m_worldData = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
 
 	unsigned int maxW = ww * cw;
 	unsigned int maxL = wl * cw;
@@ -96,11 +96,11 @@ void Server::generateWorld(){
 		for(unsigned int z = 0; z < wl * cw; z++){
 			for(unsigned int x = 0; x < ww * cw; x++){
 				if(y < 20){
-					worldData[(y * maxW * maxL) + (z * maxW) + x] = 5;
+					m_worldData[(y * maxW * maxL) + (z * maxW) + x] = 5;
 				}else if(x == z){
-					worldData[(y * maxW * maxL) + (z * maxW) + x] = 2;
+					m_worldData[(y * maxW * maxL) + (z * maxW) + x] = 2;
 				}else{
-					worldData[(y * maxW * maxL) + (z * maxW) + x] = 0;
+					m_worldData[(y * maxW * maxL) + (z * maxW) + x] = 0;
 				}
 
 			}
@@ -117,7 +117,7 @@ uint8_t Server::createUniqueID(){
 }
 
 bool Server::doesIDExist(uint8_t id){
-	for(auto& i : clients){
+	for(auto& i : m_clients){
 		if(i.id == id) return true;
 	}
 	return false;
@@ -128,7 +128,7 @@ void Server::addClient(sf::TcpListener& listener, sf::SocketSelector& selector) 
 	Client client;
 	listener.accept(*client.socket);
 	client.id = createUniqueID();
-	clients.push_back(client);
+	m_clients.push_back(client);
 	selector.add(*client.socket);
 
 	// Sending chosen ID to client
@@ -140,14 +140,14 @@ void Server::addClient(sf::TcpListener& listener, sf::SocketSelector& selector) 
 }
 
 void Server::freeWorldData(){
-	free(worldData);
+	free(m_worldData);
 }
 
 void Server::compressAndSendWorld(){
-	unsigned int ww = config.getWorldWidth();
-	unsigned int wl = config.getWorldLength();
-	unsigned int wh = config.getWorldHeight();
-	unsigned int cw = config.getChunkWidth();
+	unsigned int ww = m_config.getWorldWidth();
+	unsigned int wl = m_config.getWorldLength();
+	unsigned int wh = m_config.getWorldHeight();
+	unsigned int cw = m_config.getChunkWidth();
 
 	sf::Packet packet;
 	packet.clear();
@@ -155,23 +155,23 @@ void Server::compressAndSendWorld(){
 	// Compressing the world into a packet
 	uint32_t numBlocks = 1;
 	for(uint32_t i = 1; i < (ww * wl * wh * cw * cw * cw); i++){
-		if(worldData[i - 1] != worldData[i]){
-			packet << (uint8_t)worldData[i - 1] << numBlocks;
+		if(m_worldData[i - 1] != m_worldData[i]){
+			packet << (uint8_t)m_worldData[i - 1] << numBlocks;
 			numBlocks = 1;
 		}else{
 			numBlocks++;
 		}
 	}
-	packet << (uint8_t)worldData[ww * wl * wh * cw * cw * cw - 1] << numBlocks;
+	packet << (uint8_t)m_worldData[ww * wl * wh * cw * cw * cw - 1] << numBlocks;
 
 	//Sending the packet containing the compressed world to the newly connected client
-	clients.back().socket->send(packet);
+	m_clients.back().socket->send(packet);
 }
 
 uint8_t Server::getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex) {
-	for(unsigned int i = 0; i < clients.size(); i++){
-		if(selector.isReady(*clients[i].socket)){
-			sf::Socket::Status status = clients[i].socket->receive(packet);
+	for(unsigned int i = 0; i < m_clients.size(); i++){
+		if(selector.isReady(*m_clients[i].socket)){
+			sf::Socket::Status status = m_clients[i].socket->receive(packet);
 			if(status == sf::Socket::Done){ // Got a valid packet
 				_senderIndex = i;
 				uint8_t code;
@@ -190,31 +190,31 @@ uint8_t Server::getReceivedPacket(sf::SocketSelector& selector, sf::Packet& pack
 void Server::disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID){
 	sf::Packet packet;
 	packet.clear();
-	packet << (uint8_t)1 << clients[_playerID].id; // We send the keycode 1 because that is the code for a disconnection
+	packet << (uint8_t)1 << m_clients[_playerID].id; // We send the keycode 1 because that is the code for a disconnection
 	sendPacketToAllClients(packet);
-	std::cout << "Client Disconnected with ID: " << (unsigned int)clients[_playerID].id << std::endl;
-	_selector.remove(*clients[_playerID].socket);
-	delete clients[_playerID].socket;
-	clients[_playerID] = clients.back();
-	clients.pop_back();
+	std::cout << "Client Disconnected with ID: " << (unsigned int)m_clients[_playerID].id << std::endl;
+	_selector.remove(*m_clients[_playerID].socket);
+	delete m_clients[_playerID].socket;
+	m_clients[_playerID] = m_clients.back();
+	m_clients.pop_back();
 }
 
 void Server::sendPacketToAllClients(sf::Packet& packet){
-	for(auto& i : clients){
+	for(auto& i : m_clients){
 		i.socket->send(packet);
 	}
 }
 
 void Server::sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID){
-	for(auto& i : clients){
+	for(auto& i : m_clients){
 		if(i.id != senderID) i.socket->send(packet);
 	}
 }
 
 void Server::setBlock(int _x, int _y, int _z, uint8_t _block){
-	unsigned int maxW = config.getWorldWidth() * config.getChunkWidth();
-	unsigned int maxL = config.getWorldLength() * config.getChunkWidth();
-	worldData[(_y * maxW * maxL) + (_z * maxW) + _x] = _block;
+	unsigned int maxW = m_config.getWorldWidth() * m_config.getChunkWidth();
+	unsigned int maxL = m_config.getWorldLength() * m_config.getChunkWidth();
+	m_worldData[(_y * maxW * maxL) + (_z * maxW) + _x] = _block;
 }
 
 void Server::updateWorldWithBlockUpdatePacket(sf::Packet& _packet){

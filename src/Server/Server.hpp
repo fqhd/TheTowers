@@ -5,20 +5,19 @@
 #include <thread>
 #include <SFML/Network.hpp>
 #include "Config.hpp"
-#include "WorldData.hpp"
 #include "Structs.hpp"
+
 
 class Server {
 
 public:
 	void start();	
-
 private:
 	// private members
-	uint8_t* worldData = nullptr;
-	std::vector<Client> clients;
-	Config config;
-	bool isDone = false;
+	uint8_t* m_worldData = nullptr;
+	std::vector<Client> m_clients;
+	Config m_config;
+	bool m_isDone = false;
 	
 	//private functions
 	uint8_t createUniqueID();
