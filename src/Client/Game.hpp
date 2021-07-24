@@ -15,12 +15,14 @@
 #include "Settings.hpp"
 #include "FrameCounter.hpp"
 #include "HUD.hpp"
-
+#include "World.hpp"
+#include "PacketHandler.hpp"
+#include "BlockTextureHandler.hpp"
 
 class Game {
 public:
 
-	void init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config, Settings* _settings);
+	void init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, BlockTextureHandler* _textureHandler, Config* _config, Settings* _settings);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
@@ -41,6 +43,8 @@ private:
 	Vignette m_vignette;
 	HUD m_hud;
 	Assets m_assets;
+	World m_world;
+	PacketHandler m_packetHandler;
 
 	// Pointers
 	Settings* m_settings = nullptr;
@@ -48,7 +52,6 @@ private:
 	GUIRenderer* m_guiRenderer = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	InputManager* m_inputManager = nullptr;
-	World* m_world = nullptr;
 	Player* m_player = nullptr;
 
 };

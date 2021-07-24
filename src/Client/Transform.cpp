@@ -1,5 +1,11 @@
 #include "Transform.hpp"
 
+Transform::Transform(){
+	m_position = math::vec3(0);
+	m_rotation = math::vec3(0);
+	m_scale = math::vec3(0);
+}
+
 void Transform::setPosition(const math::vec3& _position){
 	m_needsUpdate = true;
 	m_position = _position;

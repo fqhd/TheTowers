@@ -3,18 +3,15 @@
 #include "Chunk.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
-#include "NetworkManager.hpp"
 #include "TextureArray.hpp"
 #include "Config.hpp"
 #include "BlockTextureHandler.hpp"
 #include <cstdint>
 
-class NetworkManager;
-
 class World {
 public:
 
-	void init(NetworkManager& _manager, BlockTextureHandler* _textureHandler, Config& _c);
+	void init(BlockTextureHandler* _textureHandler, Config* _c);
 	void render(Camera& _camera);
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
@@ -42,12 +39,13 @@ private:
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<GLuint> m_vertices;
+	Shader m_shader;
+	uint m_data_length = 0;
 
 	BlockTextureHandler* m_textureHandler = nullptr;
 	Chunk* m_chunks = nullptr;
-	Shader m_shader;
+	Config* m_config = nullptr;
 	uint8_t* m_data = nullptr;
-	Config m_config;
-	uint m_data_length;
+
 
 };

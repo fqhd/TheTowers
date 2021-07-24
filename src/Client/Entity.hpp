@@ -6,8 +6,6 @@
 class Entity {
 public:
 
-	Entity(){}
-
 	void update(float deltaTime);
 	void setTargetPosition(const math::vec3& position);
 	void setForward(float pitch, float yaw);

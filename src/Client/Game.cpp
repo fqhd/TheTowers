@@ -3,14 +3,14 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManager, GUIRenderer* _guiRenderer, Config* _config, Settings* _settings) {
+void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, BlockTextureHandler* _textureHandler, Config* _config, Settings* _settings) {
 	m_settings = _settings;
 	m_config = _config;
 	m_guiRenderer = _guiRenderer;
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
-	m_world = _world;
 
+	m_world.init(_textureHandler, _config);
 	m_assets.init();
 	player.init(_config->getReachDistance());
 	m_cubeMap.init(&m_assets);
@@ -19,6 +19,7 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 	m_vignette.init();
 	m_entityHandler.init(&m_assets);
 	m_blockOutline.init(&m_assets);
+	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -28,10 +29,10 @@ void Game::update(GameStates& _state, float _deltaTime) {
 		_state = GameStates::PAUSE;
 	}
 	frameCounter.tick(_deltaTime);
-	m_entityHandler.update(m_networkManager, _deltaTime);
-	m_networkManager->receiveGameUpdatePacket(m_world, m_particleHandler, m_entityHandler);
+	m_packetHandler.handlePackets();
+	m_entityHandler.update(_deltaTime);
 	camera.update();
-	player.update(camera, m_particleHandler, m_world, m_networkManager, m_inputManager, _deltaTime);
+	player.update(camera, m_particleHandler, &m_world, m_networkManager, m_inputManager, _deltaTime);
 	camera.setPosition(player.getEyePos());
 	m_particleHandler.update(_deltaTime);
 	m_networkManager->sendPositionDataToServer(camera);
@@ -39,7 +40,7 @@ void Game::update(GameStates& _state, float _deltaTime) {
 
 void Game::render() {
 	// Rendering gameplay
-	m_world->render(camera);
+	m_world.render(camera);
 	if(m_settings->renderOutline) m_blockOutline.render(&player, camera);
 	m_particleHandler.render(camera);
 	m_entityHandler.render(camera);
@@ -52,7 +53,7 @@ void Game::destroy() {
 	m_assets.destroy();
 	m_vignette.destroy();
 	m_entityHandler.destroy();
-	m_world->destroy();
+	m_world.destroy();
 	m_cubeMap.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();

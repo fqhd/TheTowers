@@ -6,30 +6,7 @@ void EntityHandler::init(Assets* _assets) {
 	m_shader.load("res/shaders/entity_vertex_shader.glsl", "res/shaders/entity_fragment_shader.glsl");
 }
 
-void EntityHandler::update(NetworkManager* _manager, float _deltaTime) {
-	sf::Packet packet;
-	sf::IpAddress remoteIp;
-	unsigned short remotePort;
-	t.setPosition(math::vec3(0, 32, 0));
-	t.setRotation(math::vec3(45, 45, 45));
-	t.setScale(math::vec3(4, 4, 4));
-
-	while (_manager->m_udpSocket.receive(packet, remoteIp, remotePort) == sf::Socket::Done) {
-		math::vec3 position;
-		float pitch, yaw;
-		uint8_t remoteID;
-
-		packet >> remoteID >> position.x >> position.y >> position.z >> pitch >> yaw;
-
-		if (m_entities.find(remoteID) != m_entities.end()) {
-			m_entities[remoteID].setTargetPosition(position);
-			m_entities[remoteID].setForward(pitch, yaw);
-		} else {
-			addEntity(remoteID, position, pitch, yaw);
-		}
-	}
-
-	//Update Entities
+void EntityHandler::update(float _deltaTime) {
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
 		it -> second.update(_deltaTime);
 	}
@@ -47,17 +24,25 @@ void EntityHandler::removeEntity(uint8_t id) {
 	m_entities.erase(id);
 }
 
+void EntityHandler::updateEntity(uint8_t id, const math::vec3& position, float pitch, float yaw){
+	auto it = m_entities.find(id);
+	if (it != m_entities.end()) {
+		it->second.setTargetPosition(position);
+		it->second.setForward(pitch, yaw);
+	} else {
+		addEntity(id, position, pitch, yaw);
+	}
+}
+
 void EntityHandler::render(Camera& camera) {
 	m_shader.bind();
-	m_shader.loadUniform("model", t.getMatrix());
 	m_shader.loadUniform("view", camera.getViewMatrix());
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
-	m_assets->getCube().render(0, 6);
+	for(auto it = m_entities.begin(); it != m_entities.end(); it++){
+		m_shader.loadUniform("model", it->second.transform.getMatrix());
+		m_assets->getCube().render(0, 6);
+	}
 	m_shader.unbind();
-	// std::unordered_map<uint8_t, Entity>::iterator it;
-	// for(it = m_entites.begin(); it != m_entities.end(); it++){
-	// 	it->second.
-	// }
 }
 
 void EntityHandler::destroy(){

@@ -1,25 +1,18 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include "World.hpp"
 #include "ParticleHandler.hpp"
-#include "EntityHandler.hpp"
 #include "Camera.hpp"
 #include "Config.hpp"
-
-class World;
-class EntityHandler;
 
 class NetworkManager {
 public:
 
-	friend class EntityHandler;
-
 	void connectToServer(sf::IpAddress& _ip, Config* _c);
-	void receiveGameUpdatePacket(World* _world, ParticleHandler& _pHandler, EntityHandler& _eHandler);
+	sf::Socket::Status receiveGameUpdatePacket(sf::Packet& _packet);
+	sf::Socket::Status receiveEntityUpdatePacket(sf::Packet& _packet);
 	void sendPositionDataToServer(Camera& _camera);
 	void sendBlockUpdatePacket(const math::ivec3& _blockPosition, uint8_t _blockType);
-	void downloadWorld(uint8_t* _data);
 
 private:
 

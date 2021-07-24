@@ -5,6 +5,8 @@
 class Transform {
 public:
 
+	Transform();
+
 	void setPosition(const math::vec3& _position);
 	void setRotation(const math::vec3& _rotation);
 	void setScale(const math::vec3& _scale);

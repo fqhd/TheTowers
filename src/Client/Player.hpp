@@ -5,6 +5,7 @@
 #include "ParticleHandler.hpp"
 #include "Hotbar.hpp"
 #include "AABBox.hpp"
+#include "NetworkManager.hpp"
 #include <SFML/Network.hpp>
 
 struct VisibleBlocks {

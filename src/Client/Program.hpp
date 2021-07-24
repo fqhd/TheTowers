@@ -25,9 +25,9 @@ private:
 
 	BlockTextureHandler m_textureHandler;
 	GUIRenderer m_guiRenderer;
-	Game m_game;
-	World m_world;
 	NetworkManager m_networkManager;
+
+	Game m_game;
 	PauseMenu m_pause;
 	GameStates m_state = GameStates::PLAY;
 	InputManager m_inputManager;

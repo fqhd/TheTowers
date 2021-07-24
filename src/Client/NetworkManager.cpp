@@ -23,73 +23,18 @@ void NetworkManager::connectToServer(sf::IpAddress& _ip, Config* _c){
 	} else {
 		std::cout << "Failed to connect to server" << std::endl;
 	}
-
 }
 
-void NetworkManager::receiveGameUpdatePacket(World* _world, ParticleHandler& _pHandler, EntityHandler& _eHandler){
-	sf::Packet packet;
-
-	// Receiving packet
-	if (m_tcpSocket.receive(packet) == sf::Socket::Done) {
-
-		// Getting packet operation code
-		uint8_t code;
-		packet >> code;
-
-		// Doing different operations based on the packet code
-		if(code == 1){ // A Player has Disconnected
-			uint8_t id;
-			packet >> id;
-			std::cout << "Person: " + std::to_string(id) + " has disconnected" << std::endl;
-			_eHandler.removeEntity(id);
-		} else if (code == 2){ // Block Update
-			int x = 0;
-			int y = 0;
-			int z = 0;
-			uint8_t b = 0;
-
-			packet >> x >> y >> z >> b;
-
-			if (!b) {
-				_pHandler.placeParticlesAroundBlock(x, y, z);
-			}
-			_world->setBlock(x, y, z, b);
-		}
-	}
+sf::Socket::Status NetworkManager::receiveGameUpdatePacket(sf::Packet& _packet){
+	return m_tcpSocket.receive(_packet);
 }
 
-void NetworkManager::downloadWorld(uint8_t* _data){
-	// Receive compressed world packet
-	sf::Packet packet;
-	m_tcpSocket.setBlocking(true);
-	if(m_tcpSocket.receive(packet) != sf::Socket::Status::Done){
-		std::cout << "Failed to receive compressed world data packet from server" << std::endl;
-		return;
-	}
-	m_tcpSocket.setBlocking(false);
-
-	// Calculate and print compression ratio
-	unsigned int ww = m_config->getWorldWidth();
-	unsigned int wl = m_config->getWorldLength();
-	unsigned int wh = m_config->getWorldHeight();
-	unsigned int cw = m_config->getChunkWidth();
-	double totalWorldSize = ww * wl * wh * cw * cw *cw;
-	double packetSize = packet.getDataSize();
-	double ratio = (1.0 - packetSize / totalWorldSize) * 100;
-	std::cout << "Compression Ratio: " << ratio << "%" << std::endl;
-
-	// Decompress world
-	uint8_t blockID = 0;
-	uint32_t numBlocks = 0;
-	uint32_t index = 0;
-	while(packet >> blockID){
-		packet >> numBlocks;
-		for(unsigned int i = 0; i < numBlocks; i++){
-			_data[index] = blockID;
-			index++;
-		}
-	}
+sf::Socket::Status NetworkManager::receiveEntityUpdatePacket(sf::Packet& _packet){
+	sf::IpAddress remoteIp;
+	unsigned short remotePort;
+	return m_udpSocket.receive(_packet, remoteIp, remotePort);
 }
+
 
 void NetworkManager::sendPositionDataToServer(Camera& _camera){
 	float timeBetweenPackets = 1.0f / m_config->getPacketTransmissionFrequency();
