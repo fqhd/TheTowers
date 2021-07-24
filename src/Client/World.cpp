@@ -9,8 +9,10 @@ void World::init(NetworkManager& _manager, BlockTextureHandler* _textureHandler,
 	unsigned int wl = m_config.getWorldLength();
 	unsigned int wh = m_config.getWorldHeight();
 	unsigned int cw = m_config.getChunkWidth();
-
-	m_data = static_cast<uint8_t*>(malloc(ww * wl * wh * cw * cw * cw));
+	
+	WorldData wData;
+	wData.loadConfig(m_config);
+	m_data = wData.getDataPtr();
 	_manager.downloadWorld(m_data);
 
 	// Initializing the m_chunks

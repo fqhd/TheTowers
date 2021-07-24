@@ -7,6 +7,7 @@
 #include "TextureArray.hpp"
 #include "Config.hpp"
 #include "BlockTextureHandler.hpp"
+#include "WorldData.hpp"
 #include <cstdint>
 
 class NetworkManager;
