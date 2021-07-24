@@ -2,7 +2,6 @@
 #include "Utils.hpp"
 
 void Shader::loadShader(const char* vs, const char* fs){
-
 	m_vertexID = glCreateShader(GL_VERTEX_SHADER);
 	m_fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -35,8 +34,6 @@ void Shader::loadShader(const char* vs, const char* fs){
 	glAttachShader(m_programID, m_fragmentID);
 	glLinkProgram(m_programID);
 	glValidateProgram(m_programID);
-
-
 }
 
 void Shader::bind(){
@@ -53,4 +50,34 @@ void Shader::destroy(){
 	glDeleteShader(m_vertexID);
 	glDeleteShader(m_fragmentID);
 	glDeleteProgram(m_programID);
+}
+
+GLint Shader::getUniformLocation(const std::string& name){
+	GLint location = 0;
+	auto it = m_uniformLocations.find(name);
+	if(it == m_uniformLocations.end()){
+		location = glGetUniformLocation(m_programID, name);
+		m_uniformLocations[name] = location;
+	}
+	return location;
+}
+
+void Shader::loadUniform(const std::string& name, const math::vec3& vec){
+	glUniform3fv(getUniformLocation(name), 1, &vec.x[0]);
+}
+
+void Shader::loadUniform(const std::string& name, const math::mat4& matrix){
+	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix.m[0][0]);
+}
+
+void Shader::loadUniform(const std::string& name, float f){
+	glUniform1f(getUniformLocation(name), f);
+}
+
+void Shader::loadUniform(const std::string& name, int i){
+	glUniform1i(getUniformLocation(name), i);
+}
+
+void Shader::loadUniform(const std::string& name, bool b){
+	glUniform1i(getUniformLocation(name), b);
 }
