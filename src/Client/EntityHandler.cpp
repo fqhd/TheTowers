@@ -2,8 +2,8 @@
 #include "Engine/Utils/Utils.hpp"
 
 
-void EntityHandler::init() {
-	m_cube.init();
+void EntityHandler::init(Assets* _assets) {
+	m_assets = _assets;
 	m_shader.init();
 }
 
@@ -53,7 +53,7 @@ void EntityHandler::render(Camera& camera) {
 	m_shader.loadModelMatrix(t.getMatrix());
 	m_shader.loadViewMatrix(camera.getViewMatrix());
 	m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
-	m_cube.render();
+	m_assets->getCube().render(0, 6);
 	m_shader.unbind();
 	// std::unordered_map<uint8_t, Entity>::iterator it;
 	// for(it = m_entites.begin(); it != m_entities.end(); it++){
@@ -63,5 +63,4 @@ void EntityHandler::render(Camera& camera) {
 
 void EntityHandler::destroy(){
 	m_shader.destroy();
-	m_cube.destroy();
 }

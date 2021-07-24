@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Cube.hpp"
+#include "../../Assets.hpp"
 #include "CubeMapShader.hpp"
 
 class CubeMap {
 public:
 
-	void init();
+	void init(Assets* _assets);
 	void render(const math::mat4& projection, math::mat4 view);
 	void destroy();
 
 private:
 
-	Cube m_cube;
+	Assets* m_assets = nullptr;
 	CubeMapShader m_shader;
 
 };

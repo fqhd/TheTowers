@@ -44,12 +44,12 @@ void Cube::init() {
 	glBindVertexArray(0);
 }
 
-void Cube::render(unsigned int numFaces, unsigned int face) const {
+void Cube::render(unsigned int faceIndex, unsigned int numFaces) const {
 	glBindVertexArray(m_vaoID);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
 
-	glDrawElements(GL_TRIANGLES, numFaces * 6, GL_UNSIGNED_INT, (void*)((uint64_t)face * 6 * 4));
+	glDrawElements(GL_TRIANGLES, numFaces * 6, GL_UNSIGNED_INT, (void*)((uint64_t)faceIndex * 6 * 4));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

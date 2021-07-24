@@ -6,7 +6,7 @@ class Cube {
 public:
 
 	void init();
-	void render(unsigned int numFaces, unsigned int face) const;
+	void render(unsigned int faceIndex, unsigned int numFaces) const;
 	void destroy();
 
 private:

@@ -1,8 +1,8 @@
 #include "CubeMap.hpp"
 #include <iostream>
 
-void CubeMap::init() {
-	m_cube.init();
+void CubeMap::init(Assets* _assets) {
+	m_assets = _assets;
 	m_shader.init();
 }
 
@@ -17,13 +17,14 @@ void CubeMap::render(const math::mat4& projection, math::mat4 _view) {
 	m_shader.loadProjection(projection);
 	m_shader.loadView(_view);
 
-	m_cube.render();
+	glDisable(GL_CULL_FACE);
+	m_assets->getCube().render(0, 6);
+	glEnable(GL_CULL_FACE);
 
 	m_shader.unbind();
 	glDepthFunc(GL_LESS);
 }
 
 void CubeMap::destroy() {
-	m_cube.destroy();
 	m_shader.destroy();
 }

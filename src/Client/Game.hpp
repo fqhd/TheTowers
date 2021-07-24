@@ -41,6 +41,7 @@ private:
 	BlockOutline m_blockOutline;
 	Vignette m_vignette;
 	HUD m_hud;
+	Assets m_assets;
 
 	// Pointers
 	Settings* m_settings = nullptr;

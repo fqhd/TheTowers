@@ -11,13 +11,14 @@ void Game::init(InputManager* _iManager, World* _world, NetworkManager* _nManage
 	m_inputManager = _iManager;
 	m_world = _world;
 
+	m_assets.init();
 	player.init(_config->getReachDistance());
-	m_cubeMap.init();
+	m_cubeMap.init(&m_assets);
 	m_particleHandler.init();
 	camera.init(_iManager);
 	m_vignette.init();
-	m_entityHandler.init();
-	m_blockOutline.init();
+	m_entityHandler.init(&m_assets);
+	m_blockOutline.init(&m_assets);
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -48,6 +49,7 @@ void Game::render() {
 }
 
 void Game::destroy() {
+	m_assets.destroy();
 	m_vignette.destroy();
 	m_entityHandler.destroy();
 	m_world->destroy();

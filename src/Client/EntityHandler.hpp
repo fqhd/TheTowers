@@ -8,6 +8,7 @@
 #include "NetworkManager.hpp"
 #include "Engine/Utils/Cube.hpp"
 #include "EntityShader.hpp"
+#include "Assets.hpp"
 
 
 class NetworkManager;
@@ -16,7 +17,7 @@ class EntityHandler {
 public:
 
 
-	void init();
+	void init(Assets* _assets);
 	void update(NetworkManager* _manager, float _deltaTime);
 	void render(Camera& camera);
 	void destroy();
@@ -31,8 +32,8 @@ private:
 	//Data Structures
 	std::unordered_map<uint8_t, Entity> m_entities;
 
+	Assets* m_assets = nullptr;
 	Transform t;
 	EntityShader m_shader;
-	Cube m_cube;
 
 };

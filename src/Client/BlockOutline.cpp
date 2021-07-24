@@ -1,8 +1,8 @@
 #include "BlockOutline.hpp"
 
-void BlockOutline::init(){
+void BlockOutline::init(Assets* _assets){
+	m_assets = _assets;
 	m_shader.init();
-	m_cube.init();
 }
 
 void BlockOutline::render(Player* player, Camera& camera){
@@ -18,7 +18,7 @@ void BlockOutline::render(Player* player, Camera& camera){
 	m_shader.loadViewMatrix(camera.getViewMatrix());
 	m_shader.loadBlockPosition(player->visibleBlocks.breakableBlock); //We send the position of the block to the vertex shader which will get added to the vertices and form a face
 
-	m_renderer.renderFace(blockFace); //This functions only renders a 1 of the 6 faces of a cube based on the parameter given
+	m_assets->getCube().render(blockFace, 1);
 
 	m_shader.unbind();
 }
@@ -45,5 +45,4 @@ Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
 
 void BlockOutline::destroy(){
 	m_shader.destroy();
-	m_renderer.destroy();
 }
