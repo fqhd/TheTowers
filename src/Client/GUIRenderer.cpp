@@ -16,10 +16,10 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
 
 	math::mat4 ortho = math::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 
-	m_guiShader.init();
-	m_guiShader.bind();
-	m_guiShader.loadMatrix(ortho);
-	m_guiShader.unbind();
+	m_shader.load("res/shaders/sprite_vertex_shader.glsl", "res/shaders/sprite_fragment_shader.glsl");
+	m_shader.bind();
+	m_shader.loadUniform("matrix", ortho);
+	m_shader.unbind();
 }
 
 void GUIRenderer::begin(){
@@ -44,12 +44,12 @@ void GUIRenderer::render(){
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 
-	m_guiShader.bind();
-	m_guiShader.loadIsFont(false);
+	m_shader.bind();
+	m_shader.loadUniform("isFont", false);
 	m_guiBatch.render();
-	m_guiShader.loadIsFont(true);
+	m_shader.loadUniform("isFont", true);
 	m_textBatch.render();
-	m_guiShader.unbind();
+	m_shader.unbind();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -58,6 +58,6 @@ void GUIRenderer::render(){
 void GUIRenderer::destroy(){
 	m_guiBatch.destroy();
 	m_textBatch.destroy();
-	m_guiShader.destroy();
+	m_shader.destroy();
 	m_spriteFont.destroy();
 }

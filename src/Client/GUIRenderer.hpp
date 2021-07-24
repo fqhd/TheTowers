@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SpriteBatch.hpp"
-#include "SpriteShader.hpp"
+#include "Shader.hpp"
 #include "SpriteFont.hpp"
 #include "GUIAssets.hpp"
 
@@ -23,7 +23,7 @@ private:
 	SpriteBatch m_guiBatch;
 	SpriteBatch m_textBatch;
 	SpriteFont m_spriteFont;
-	SpriteShader m_guiShader;
+	Shader m_shader;
 
 
 };

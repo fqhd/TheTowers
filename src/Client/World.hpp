@@ -2,7 +2,7 @@
 
 #include "Chunk.hpp"
 #include "Camera.hpp"
-#include "ChunkShader.hpp"
+#include "Shader.hpp"
 #include "NetworkManager.hpp"
 #include "TextureArray.hpp"
 #include "Config.hpp"
@@ -42,7 +42,7 @@ private:
 
 	BlockTextureHandler* m_textureHandler = nullptr;
 	Chunk* m_chunks = nullptr;
-	ChunkShader m_shader;
+	Shader m_shader;
 	uint8_t* m_data = nullptr;
 	Config m_config;
 

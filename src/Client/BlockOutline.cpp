@@ -2,7 +2,7 @@
 
 void BlockOutline::init(Assets* _assets){
 	m_assets = _assets;
-	m_shader.init();
+	m_shader.load("res/shaders/block_outline_vertex_shader.glsl", "res/shaders/block_outline_fragment_shader.glsl");
 }
 
 void BlockOutline::render(Player* player, Camera& camera){
@@ -14,9 +14,9 @@ void BlockOutline::render(Player* player, Camera& camera){
 
 	//Binding the shader, loading a couple uniforms and rendering a face based on the position of the block
 	m_shader.bind();
-	m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
-	m_shader.loadViewMatrix(camera.getViewMatrix());
-	m_shader.loadBlockPosition(player->visibleBlocks.breakableBlock); //We send the position of the block to the vertex shader which will get added to the vertices and form a face
+	m_shader.loadUniform("projection", camera.getProjectionMatrix());
+	m_shader.loadUniform("view", camera.getViewMatrix());
+	m_shader.loadUniform("blockPosition", player->visibleBlocks.breakableBlock); //We send the position of the block to the vertex shader which will get added to the vertices and form a face
 
 	m_assets->getCube().render(blockFace, 1);
 

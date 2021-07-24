@@ -7,7 +7,7 @@
 #include <SFML/Network.hpp>
 #include "NetworkManager.hpp"
 #include "Cube.hpp"
-#include "EntityShader.hpp"
+#include "Shader.hpp"
 #include "Assets.hpp"
 
 
@@ -34,6 +34,6 @@ private:
 
 	Assets* m_assets = nullptr;
 	Transform t;
-	EntityShader m_shader;
+	Shader m_shader;
 
 };

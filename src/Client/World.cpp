@@ -24,7 +24,7 @@ void World::init(NetworkManager& _manager, BlockTextureHandler* _textureHandler,
 	}
 
 	// Initializing the m_shader
-	m_shader.init();
+	m_shader.load("res/shaders/chunk_vertex_shader.glsl", "res/shaders/chunk_fragment_shader.glsl");
 }
 
 GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
@@ -37,9 +37,9 @@ void World::render(Camera& _camera){
 
 	m_textureHandler->bind();
 
-	m_shader.loadProjectionMatrix(_camera.getProjectionMatrix());
-	m_shader.loadViewMatrix(_camera.getViewMatrix());
-	m_shader.loadCameraPosition(_camera.getPosition());
+	m_shader.loadUniform("projection", _camera.getProjectionMatrix());
+	m_shader.loadUniform("view", _camera.getViewMatrix());
+	m_shader.loadUniform("cameraPosition", _camera.getPosition());
 
 	unsigned int ww = m_config.getWorldWidth();
 	unsigned int wl = m_config.getWorldLength();
@@ -56,7 +56,7 @@ void World::render(Camera& _camera){
 				}
 
 				if(c->getNumVertices()){ // Render only if chunk has vertices
-					m_shader.loadChunkPosition(c->x, c->y, c->z);
+					m_shader.loadUniform("chunkPosition", math::vec3(c->x, c->y, c->z));
 					c->render();
 				}
 

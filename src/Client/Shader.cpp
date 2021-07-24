@@ -1,7 +1,7 @@
 #include "Shader.hpp"
 #include "Utils.hpp"
 
-void Shader::loadShader(const char* vs, const char* fs){
+void Shader::load(const char* vs, const char* fs){
 	m_vertexID = glCreateShader(GL_VERTEX_SHADER);
 	m_fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -53,17 +53,21 @@ void Shader::destroy(){
 }
 
 GLint Shader::getUniformLocation(const std::string& name){
-	GLint location = 0;
 	auto it = m_uniformLocations.find(name);
 	if(it == m_uniformLocations.end()){
-		location = glGetUniformLocation(m_programID, name);
+		GLint location = glGetUniformLocation(m_programID, name.c_str());
 		m_uniformLocations[name] = location;
+		return location;
 	}
-	return location;
+	return it->second;
 }
 
 void Shader::loadUniform(const std::string& name, const math::vec3& vec){
-	glUniform3fv(getUniformLocation(name), 1, &vec.x[0]);
+	glUniform3fv(getUniformLocation(name), 1, &vec.x);
+}
+
+void Shader::loadUniform(const std::string& name, const math::ivec3& vec){
+	glUniform3iv(getUniformLocation(name), 1, &vec.x);
 }
 
 void Shader::loadUniform(const std::string& name, const math::mat4& matrix){

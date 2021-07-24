@@ -4,7 +4,7 @@ const unsigned int NUM_PARTICLES = 50;
 
 void ParticleHandler::init(){
 	m_quad.init();
-	m_shader.init();
+	m_shader.load("res/shaders/particle_vertex_shader.glsl", "res/shaders/particle_fragment_shader.glsl");
 }
 
 void ParticleHandler::update(float deltaTime){
@@ -44,7 +44,7 @@ void ParticleHandler::render(Camera& camera){
 	glDisable(GL_CULL_FACE);
 	m_quad.bind();
 
-	m_shader.loadProjection(camera.getProjectionMatrix());
+	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 
 	m_quad.pushMatrices(matrices);
 

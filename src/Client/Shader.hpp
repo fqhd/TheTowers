@@ -3,21 +3,23 @@
 #include <GL/glew.h>
 #include <string>
 #include <fstream>
+#include <unordered_map>
 #include "Math.hpp"
 
 class Shader {
 public:
 
-	void loadShader(const char* vs, const char* fs);
+	void load(const char* vs, const char* fs);
 	void bind();
 	void unbind();
 	void destroy();
 
-	void loadUniform(const const std::string& name, const math::vec3& vec);
-	void loadUniform(const const std::string& name, const math::mat4& matrix);
-	void loadUniform(const const std::string& name, float f);
-	void loadUniform(const const std::string& name, int i);
-	void loadUniform(const const std::string& name, bool b);
+	void loadUniform(const std::string& name, const math::vec3& vec);
+	void loadUniform(const std::string& name, const math::ivec3& vec);
+	void loadUniform(const std::string& name, const math::mat4& matrix);
+	void loadUniform(const std::string& name, float f);
+	void loadUniform(const std::string& name, int i);
+	void loadUniform(const std::string& name, bool b);
 
 private:
 

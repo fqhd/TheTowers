@@ -4,7 +4,6 @@
 #include "EntityHandler.hpp"
 #include "Player.hpp"
 #include "InputManager.hpp"
-#include "ChunkShader.hpp"
 #include "NetworkManager.hpp"
 #include "World.hpp"
 #include "CubeMap.hpp"

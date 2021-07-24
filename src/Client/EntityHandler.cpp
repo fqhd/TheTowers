@@ -3,7 +3,7 @@
 
 void EntityHandler::init(Assets* _assets) {
 	m_assets = _assets;
-	m_shader.init();
+	m_shader.load("res/shaders/entity_vertex_shader.glsl", "res/shaders/entity_fragment_shader.glsl");
 }
 
 void EntityHandler::update(NetworkManager* _manager, float _deltaTime) {
@@ -49,9 +49,9 @@ void EntityHandler::removeEntity(uint8_t id) {
 
 void EntityHandler::render(Camera& camera) {
 	m_shader.bind();
-	m_shader.loadModelMatrix(t.getMatrix());
-	m_shader.loadViewMatrix(camera.getViewMatrix());
-	m_shader.loadProjectionMatrix(camera.getProjectionMatrix());
+	m_shader.loadUniform("model", t.getMatrix());
+	m_shader.loadUniform("view", camera.getViewMatrix());
+	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	m_assets->getCube().render(0, 6);
 	m_shader.unbind();
 	// std::unordered_map<uint8_t, Entity>::iterator it;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "VignetteQuad.hpp"
-#include "VignetteShader.hpp"
+#include "Shader.hpp"
 
 class Vignette {
 public:
@@ -13,7 +13,7 @@ public:
 private:
 
 	VignetteQuad m_quad;
-	VignetteShader m_quadShader;
+	Shader m_shader;
 
 
 };

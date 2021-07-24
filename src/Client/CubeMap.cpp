@@ -3,10 +3,10 @@
 
 void CubeMap::init(Assets* _assets) {
 	m_assets = _assets;
-	m_shader.init();
+	m_shader.load("res/shaders/cubemap_vertex_shader.glsl", "res/shaders/cubemap_fragment_shader.glsl");
 }
 
-void CubeMap::render(const math::mat4& projection, math::mat4 _view) {
+void CubeMap::render(const math::mat4& _projection, math::mat4 _view) {
 	_view.m[3][0] = 0;
 	_view.m[3][1] = 0;
 	_view.m[3][2] = 0;
@@ -14,8 +14,8 @@ void CubeMap::render(const math::mat4& projection, math::mat4 _view) {
 	glDepthFunc(GL_LEQUAL);
 	m_shader.bind();
 
-	m_shader.loadProjection(projection);
-	m_shader.loadView(_view);
+	m_shader.loadUniform("projection", _projection);
+	m_shader.loadUniform("view", _view);
 
 	glDisable(GL_CULL_FACE);
 	m_assets->getCube().render(0, 6);

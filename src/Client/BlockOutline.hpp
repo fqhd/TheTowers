@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Cube.hpp"
-#include "BlockOutlineShader.hpp"
+#include "Shader.hpp"
 #include "Player.hpp"
 #include "Assets.hpp"
 
@@ -28,6 +28,6 @@ private:
 
 	//Class objects
 	Assets* m_assets = nullptr;
-	BlockOutlineShader m_shader;
+	Shader m_shader;
 
 };

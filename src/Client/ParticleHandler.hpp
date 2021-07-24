@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ParticleQuad.hpp"
-#include "ParticleShader.hpp"
+#include "Shader.hpp"
 #include "Particle.hpp"
 #include "Camera.hpp"
 #include <vector>
@@ -22,7 +22,7 @@ public:
 private:
 
 	ParticleQuad m_quad;
-	ParticleShader m_shader;
+	Shader m_shader;
 
 };
 
