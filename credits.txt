@@ -1,0 +1,3 @@
+Textures: Anthragon
+Font: Pwnage Block
+	link: https://www.fonts4free.net/minecraft-pixel-font.html

@@ -12,7 +12,7 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
 		fontSize = 64.0f;
 	}
 
-	m_spriteFont.init("res/fonts/berlin.ttf", fontSize, 512, 512);
+	m_spriteFont.init("res/fonts/minecraft_font.ttf", fontSize, 512, 512);
 
 	math::mat4 ortho = math::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 
