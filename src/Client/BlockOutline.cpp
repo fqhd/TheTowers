@@ -2,7 +2,7 @@
 
 void BlockOutline::init(){
 	m_shader.init();
-	m_renderer.init();
+	m_cube.init();
 }
 
 void BlockOutline::render(Player* player, Camera& camera){

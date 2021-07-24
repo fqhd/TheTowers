@@ -12,7 +12,7 @@ public:
 
 private:
 
-  Cube m_cube;
-  CubeMapShader m_shader;
+	Cube m_cube;
+	CubeMapShader m_shader;
 
 };

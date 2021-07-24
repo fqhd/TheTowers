@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Utils/OutlineRenderer.hpp"
+#include "Engine/Utils/Cube.hpp"
 #include "Engine/Utils/BlockOutlineShader.hpp"
 #include "Player.hpp"
 
@@ -17,7 +17,7 @@ private:
 	Face getFace(VisibleBlocks& visibleBlocks);
 
 	//Class objects
-	OutlineRenderer m_renderer;
+	Cube m_cube;
 	BlockOutlineShader m_shader;
 
 };
