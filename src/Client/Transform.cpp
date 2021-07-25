@@ -3,7 +3,7 @@
 Transform::Transform(){
 	m_position = math::vec3(0);
 	m_rotation = math::vec3(0);
-	m_scale = math::vec3(0);
+	m_scale = math::vec3(1);
 }
 
 void Transform::setPosition(const math::vec3& _position){

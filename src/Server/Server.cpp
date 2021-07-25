@@ -60,9 +60,9 @@ void Server::udpThread(){
 	socket.bind(m_config.getServerPort());
 	socket.setBlocking(false);
 
-	while(!m_isDone){
-		receivedPacket.clear();
+	receivedPacket << (uint8_t)100 << 5.0f << 48.0f << 10.0f << 0.0f << 0.0f;
 
+	while(!m_isDone){
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){
 			uint8_t id;
 			receivedPacket >> id;
@@ -74,7 +74,7 @@ void Server::udpThread(){
 				}
 			}
 		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
 }
 

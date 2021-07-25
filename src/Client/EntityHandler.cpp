@@ -8,13 +8,13 @@ void EntityHandler::init(Assets* _assets) {
 
 void EntityHandler::update(float _deltaTime) {
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
-		it -> second.update(_deltaTime);
+		it->second.update(_deltaTime);
 	}
 }
 
 void EntityHandler::addEntity(uint8_t id, const math::vec3& position, float pitch, float yaw) {
-	// Entity entity(Transform(math::vec3(0.0f), math::vec3(0.0f), math::vec3(1.0f)));
 	Entity entity;
+	entity.transform.setPosition(position);
 	entity.setTargetPosition(position);
 	entity.setForward(pitch, yaw);
 	m_entities[id] = entity;
