@@ -48,7 +48,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (_iManager->isKeyDown(sf::Keyboard::Z)) {
+	if (_iManager->isKeyDown(sf::Keyboard::W)) {
 		m_velocity += forward * SPEED * deltaTime;
 	}
 
@@ -56,7 +56,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 		m_velocity -= forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::Q)) {
+	if (_iManager->isKeyDown(sf::Keyboard::A)) {
 		m_velocity -= side * SPEED * deltaTime;
 	}
 
