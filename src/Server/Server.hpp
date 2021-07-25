@@ -25,7 +25,6 @@ private:
 	void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
 	void udpThread();
 	void tcpThread();
-	void compressAndSendWorld();
 	void freeWorldData();
 	uint8_t getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex);
 	void sendPacketToOtherClients(sf::Packet& packet, uint8_t senderID);

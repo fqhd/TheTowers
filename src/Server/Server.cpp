@@ -29,7 +29,6 @@ void Server::tcpThread(){
 		if(selector.wait()){ // Wait for event to happen
 			if(selector.isReady(listener)){ // Got new connection, so we are going to handle that by creating a new client
 				addClient(listener, selector);
-				compressAndSendWorld();
 			} else { // Got data from a connected client so we are going to send it to all other clients
 				sf::Packet receivedPacket;
 				unsigned int senderIndex;
@@ -141,31 +140,6 @@ void Server::addClient(sf::TcpListener& listener, sf::SocketSelector& selector) 
 
 void Server::freeWorldData(){
 	free(m_worldData);
-}
-
-void Server::compressAndSendWorld(){
-	unsigned int ww = m_config.getWorldWidth();
-	unsigned int wl = m_config.getWorldLength();
-	unsigned int wh = m_config.getWorldHeight();
-	unsigned int cw = m_config.getChunkWidth();
-
-	sf::Packet packet;
-	packet.clear();
-
-	// Compressing the world into a packet
-	uint32_t numBlocks = 1;
-	for(uint32_t i = 1; i < (ww * wl * wh * cw * cw * cw); i++){
-		if(m_worldData[i - 1] != m_worldData[i]){
-			packet << (uint8_t)m_worldData[i - 1] << numBlocks;
-			numBlocks = 1;
-		}else{
-			numBlocks++;
-		}
-	}
-	packet << (uint8_t)m_worldData[ww * wl * wh * cw * cw * cw - 1] << numBlocks;
-
-	//Sending the packet containing the compressed world to the newly connected client
-	m_clients.back().socket->send(packet);
 }
 
 uint8_t Server::getReceivedPacket(sf::SocketSelector& selector, sf::Packet& packet, unsigned int& _senderIndex) {
