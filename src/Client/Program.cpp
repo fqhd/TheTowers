@@ -30,12 +30,8 @@ void Program::createWindow(){
 	cSettings.stencilBits = 8;
 	cSettings.attributeFlags = sf::ContextSettings::Attribute::Core;
 
-	// Getting the window style from the config
-	uint32_t style = sf::Style::Titlebar | sf::Style::Close;
-	if(m_config.isFullscreen())	style = sf::Style::Fullscreen;
-
 	// Creating the widnow
-	m_window.create(sf::VideoMode(m_config.getWindowWidth(), m_config.getWindowHeight()), "TheTowers", style, cSettings);
+	m_window.create(sf::VideoMode(m_config.getWindowWidth(), m_config.getWindowHeight()), "TheTowers", sf::Style::Titlebar | sf::Style::Close, cSettings);
 	if(glewInit() != GLEW_OK){
 		std::cout << "Failed to initialize glew" << std::endl;
 		return;
@@ -57,6 +53,10 @@ void Program::createWindow(){
 	m_window.setVerticalSyncEnabled(true);
 	m_window.setMouseCursorGrabbed(true);
 	m_window.setMouseCursorVisible(false);
+
+	// Centering the window
+	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+	m_window.setPosition(sf::Vector2i(desktop.width/2 - m_window.getSize().x/2, desktop.height/2 - m_window.getSize().y/2));
 }
 
 void Program::gameloop(){

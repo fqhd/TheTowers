@@ -10,7 +10,7 @@ void PacketHandler::init(NetworkManager* _manager, World* _world, ParticleHandle
 
 void PacketHandler::handlePackets(){
 	sf::Packet packet;
-	while(m_networkManager->receiveGameUpdatePacket(packet)){
+	while(m_networkManager->receiveGameUpdatePacket(packet) == sf::Socket::Status::Done){
 		// Getting packet operation code
 		uint8_t code;
 		packet >> code;
@@ -32,7 +32,7 @@ void PacketHandler::handlePackets(){
 			m_world->setBlock(x, y, z, b);
 		}
 	}
-	while(m_networkManager->receiveEntityUpdatePacket(packet)){
+	while(m_networkManager->receiveEntityUpdatePacket(packet) == sf::Socket::Status::Done){
 		math::vec3 position;
 		float pitch, yaw;
 		uint8_t remoteID;
