@@ -104,7 +104,6 @@ void World::destroy(){
 	}
 	m_shader.destroy();
 	delete[] m_chunks;
-	saveWorldData();
 	free(m_data);
 }
 
