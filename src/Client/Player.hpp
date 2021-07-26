@@ -22,7 +22,7 @@ public:
 	void update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime);
 	void mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
 	void kbHandler(const Camera& camera, World* world, InputManager* _iManager, float deltaTime);
-	math::vec3 getEyePos();
+	math::vec3 getEyePos() const;
 
 	uint8_t selectedBlock = 1;
 

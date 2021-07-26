@@ -4,17 +4,18 @@
 #include "FrameCounter.hpp"
 #include "Settings.hpp"
 #include "GUIRenderer.hpp"
-#include "Game.hpp"
+#include "Config.hpp"
+#include "Utils.hpp"
+#include "Player.hpp"
+
 class DebugMenu {
 public:
 
-	void init(Game* _game, const Config& _config);
-	void render(GUIRenderer* _renderer);
+	void init(Config* _config);
+	void render(GUIRenderer* _renderer, const FrameCounter& _frameCounter, const Player& _player);
 
 private:
 
-	Game* m_game = nullptr;
-	Config m_config;
-	std::string m_fps_text;
+	Config* m_config = nullptr;
 
 };

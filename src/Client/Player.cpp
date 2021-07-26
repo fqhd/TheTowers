@@ -78,7 +78,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	position += m_velocity;
 }
 
-math::vec3 Player::getEyePos(){
+math::vec3 Player::getEyePos() const {
 	return math::vec3(position.x + 0.5f, position.y + 1.5f, position.z + 0.5f);
 }
 

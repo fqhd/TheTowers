@@ -4,6 +4,7 @@
 #include "Shader.hpp"
 #include "SpriteFont.hpp"
 #include "GUIAssets.hpp"
+#include "Utils.hpp"
 
 class GUIRenderer {
 public:

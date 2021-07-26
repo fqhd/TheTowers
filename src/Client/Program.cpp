@@ -11,7 +11,6 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
 	createWindow();
-	m_debugMenu.init(&m_game, m_config);
 	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
 	m_inputManager.init(&m_window);
@@ -69,15 +68,12 @@ void Program::gameloop(){
 		float deltaTime = m_clock.restart().asSeconds();
 
 		m_guiRenderer.begin();
-		if(m_settings.isDebugToggled) m_debugMenu.render(&m_guiRenderer);
 		if(m_state == GameStates::PLAY){
 			m_game.update(m_state, deltaTime);
 			m_game.render();
-			if(m_settings.isDebugToggled) m_debugMenu.render(&m_guiRenderer);
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state, deltaTime);
 			m_game.render();
-			if(m_settings.isDebugToggled) m_debugMenu.render(&m_guiRenderer);
 			m_pause.render();
 		}
 		m_guiRenderer.end();

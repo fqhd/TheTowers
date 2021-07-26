@@ -32,7 +32,6 @@ private:
 	InputManager m_inputManager;
 	Config m_config;
 	Settings m_settings;
-	DebugMenu m_debugMenu;
 
 	sf::Window m_window;
 	sf::Clock m_clock;

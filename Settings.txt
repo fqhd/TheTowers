@@ -1,3 +1,4 @@
 isFogToggled: 0
 isVignetteToggled: 1
-isDebugToggled: 0
+isDebugToggled: 1
+renderOutline: 1

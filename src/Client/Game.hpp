@@ -18,6 +18,7 @@
 #include "World.hpp"
 #include "PacketHandler.hpp"
 #include "BlockTextureHandler.hpp"
+#include "DebugMenu.hpp"
 
 class Game {
 public:
@@ -28,14 +29,14 @@ public:
 	void destroy();
 
 	Player player;
-	Camera camera;
-	FrameCounter frameCounter;
 
 private:
 
 	void renderGUI();
 
 	//Engine Variables
+	Camera m_camera;
+	FrameCounter m_frameCounter;
 	CubeMap m_cubeMap;
 	ParticleHandler m_particleHandler;
 	EntityHandler m_entityHandler;
@@ -45,6 +46,7 @@ private:
 	Assets m_assets;
 	World m_world;
 	PacketHandler m_packetHandler;
+	DebugMenu m_debugMenu;
 
 	// Pointers
 	Settings* m_settings = nullptr;
@@ -52,6 +54,5 @@ private:
 	GUIRenderer* m_guiRenderer = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	InputManager* m_inputManager = nullptr;
-	Player* m_player = nullptr;
 
 };
