@@ -129,7 +129,7 @@ namespace math {
 	}
 
 	float toRadians(float degrees){
-		return degrees * M_PI/180.0f;
+		return degrees * PI/180.0f;
 	}
 
 	vec2 normalize(const vec2& v) {

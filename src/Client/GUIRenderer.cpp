@@ -60,4 +60,5 @@ void GUIRenderer::destroy(){
 	m_textBatch.destroy();
 	m_shader.destroy();
 	m_spriteFont.destroy();
+	assets.destroy();
 }

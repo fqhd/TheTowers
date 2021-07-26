@@ -1,13 +1,15 @@
 #pragma once
 
 #include <array>
-#include <cstdlib>
+#include <cstdint>
 #include "Mat4.hpp"
 #include "Vec2.hpp"
 #include "Vec3.hpp"
 #include "Vec4.hpp"
 
 namespace math {
+
+	const float PI = 3.1415926536f;
 
 	// Functions
 	mat4 ortho(float left, float right, float bottom, float top);

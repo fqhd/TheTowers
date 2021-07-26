@@ -40,7 +40,7 @@ private:
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<GLuint> m_vertices;
 	Shader m_shader;
-	uint m_data_length = 0;
+	unsigned int m_data_length = 0;
 
 	BlockTextureHandler* m_textureHandler = nullptr;
 	Chunk* m_chunks = nullptr;

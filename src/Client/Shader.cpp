@@ -66,10 +66,6 @@ void Shader::loadUniform(const std::string& name, const math::vec3& vec){
 	glUniform3fv(getUniformLocation(name), 1, &vec.x);
 }
 
-void Shader::loadUniform(const std::string& name, const math::ivec3& vec){
-	glUniform3iv(getUniformLocation(name), 1, &vec.x);
-}
-
 void Shader::loadUniform(const std::string& name, const math::mat4& matrix){
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix.m[0][0]);
 }
