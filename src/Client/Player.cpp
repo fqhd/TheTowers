@@ -68,14 +68,14 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	
 	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
 		if (GameModeCanFly(m_gamemode))
-			m_velocity.y += 0.008f;
+			m_velocity.y += 1*deltaTime;
 		else if (m_canJump) 
 			m_velocity.y = 0.12f;
 	}
 
 	if (GameModeCanFly(m_gamemode)) {
 		if (_iManager->isKeyDown(sf::Keyboard::LControl)) {
-			m_velocity.y -= 0.008f;
+			m_velocity.y -= 1*deltaTime;
 		}
 	}
 
@@ -83,7 +83,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	if (!GameModeCanFly(m_gamemode))
 		m_velocity.y -=  GRAVITY * deltaTime;
 	else {
-		m_velocity.y *= 0.95f;
+		m_velocity.y *= 0.95;
 	}
 	m_velocity.x *= HORIZONTAL_DRAG;
 	m_velocity.z *= HORIZONTAL_DRAG;
