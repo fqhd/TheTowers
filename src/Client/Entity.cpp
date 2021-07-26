@@ -4,7 +4,7 @@ const float ENTITY_MOVEMENT_SHARPNESS = 8.0f;
 
 void Entity::update(float deltaTime) {
 	float s = ENTITY_MOVEMENT_SHARPNESS;
-	// transform.move((m_targetPosition - transform.getPosition()) * s * deltaTime);
+	transform.move((m_targetPosition - transform.getPosition()) * s * deltaTime);
 	m_currentPitch += (m_targetPitch - m_currentPitch) * s * deltaTime;
 	m_currentYaw += (m_targetYaw - m_currentYaw) * s * deltaTime;
 	updateRotation();

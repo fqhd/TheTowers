@@ -50,7 +50,8 @@ void Program::createWindow(){
 	glCullFace(GL_BACK);
 
 	// Ready for game settings
-	m_window.setVerticalSyncEnabled(true);
+	// m_window.setVerticalSyncEnabled(true);
+	m_window.setFramerateLimit(144);
 	m_window.setMouseCursorGrabbed(true);
 	m_window.setMouseCursorVisible(false);
 
