@@ -20,6 +20,8 @@ namespace math {
 
 		~base_vec3() {}
 
+
+
 		base_vec3<T>operator+=(const base_vec3<T>& other) {
 			x += other.x;
 			y += other.y;
@@ -85,7 +87,9 @@ namespace math {
 		}
 	};
 
+
 	typedef base_vec3<float> vec3;
 	typedef base_vec3<int> ivec3;
 	typedef base_vec3<unsigned int> uvec3;
+
 }

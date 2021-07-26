@@ -16,7 +16,9 @@ void BlockOutline::render(Player* player, Camera& camera){
 	m_shader.bind();
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	m_shader.loadUniform("view", camera.getViewMatrix());
-	m_shader.loadUniform("blockPosition", player->visibleBlocks.breakableBlock); //We send the position of the block to the vertex shader which will get added to the vertices and form a face
+	math::ivec3 bb = player->visibleBlocks.breakableBlock; // Getting the breakable block
+	math::vec3 float_bb(bb.x, bb.y, bb.z); // Calculating the floating point version of the breakable block
+	m_shader.loadUniform("blockPosition", float_bb); // We send the position of the block to the vertex shader which will get added to the vertices and form a face
 
 	m_assets->getCube().render(blockFace, 1);
 

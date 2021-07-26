@@ -15,7 +15,6 @@ public:
 	void destroy();
 
 	void loadUniform(const std::string& name, const math::vec3& vec);
-	void loadUniform(const std::string& name, const math::ivec3& vec);
 	void loadUniform(const std::string& name, const math::mat4& matrix);
 	void loadUniform(const std::string& name, float f);
 	void loadUniform(const std::string& name, int i);
