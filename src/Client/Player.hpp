@@ -6,6 +6,7 @@
 #include "Hotbar.hpp"
 #include "AABBox.hpp"
 #include "NetworkManager.hpp"
+#include "GameMode.hpp"
 #include <SFML/Network.hpp>
 
 struct VisibleBlocks {
@@ -14,6 +15,8 @@ struct VisibleBlocks {
 	bool lookingAtBlock = false;
 	bool isInsideBlock = false;
 };
+
+
 
 class Player {
 public:
@@ -41,6 +44,7 @@ private:
 	unsigned int m_reachDistance = 0;
 	math::vec3 m_velocity;
 	bool m_canJump = false;
-
+	GameMode m_gamemode=GameMode::SPECTATOR;
+	float m_health;
 
 };
