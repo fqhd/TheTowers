@@ -10,6 +10,7 @@ void PacketHandler::init(NetworkManager* _manager, World* _world, ParticleHandle
 
 void PacketHandler::handlePackets(){
 	sf::Packet packet;
+	// Receiving the TCP packets
 	while(m_networkManager->receiveGameUpdatePacket(packet) == sf::Socket::Status::Done){
 		// Getting packet operation code
 		uint8_t code;
@@ -30,8 +31,19 @@ void PacketHandler::handlePackets(){
 				m_particleHandler->placeParticlesAroundBlock(x, y, z);
 			}
 			m_world->setBlock(x, y, z, b);
+		} else if (code == 3) { // Load map
+			uint8_t mapType;
+			packet >> mapType;
+			if(mapType == 0){ // load the lobby map
+				m_world->loadWorldFromFile("lobby.dat");
+			} else if (mapType == 1){ // Load the game map
+				m_world->loadWorldFromFile("map.dat");
+			}
+
 		}
 	}
+
+	// Receiving the UDP packets
 	while(m_networkManager->receiveEntityUpdatePacket(packet) == sf::Socket::Status::Done){
 		math::vec3 position;
 		float pitch, yaw;

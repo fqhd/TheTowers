@@ -1,8 +1,6 @@
 #include "World.hpp"
 #include <iostream>
 
-const std::string WORLDDATA_FILE = "world.dat";
-
 void World::init(BlockTextureHandler* _textureHandler, Config* _c){
 	m_textureHandler = _textureHandler;
 	m_config = _c;
@@ -31,8 +29,8 @@ void World::init(BlockTextureHandler* _textureHandler, Config* _c){
 			}
 		}
 	}
-	
-	loadWorldData();
+
+	loadWorldFromFile("lobby.dat");
 
 	// Initializing the m_chunks
 	m_chunks = new Chunk[ww * wl * wh];
@@ -107,10 +105,10 @@ void World::destroy(){
 	free(m_data);
 }
 
-void World::loadWorldData() {
-	std::ifstream file(WORLDDATA_FILE, std::ios::in | std::ios::binary);
+void World::loadWorldFromFile(const std::string& path) {
+	std::ifstream file(path, std::ios::in | std::ios::binary);
 	if (!file.good()) {
-		std::cerr << "could not open " << WORLDDATA_FILE << " file for reading" << std::endl;
+		std::cerr << "could not open " << path << " file for reading" << std::endl;
 		return;
 	}
 	for (int i = 0; i < m_data_length; i++) {
@@ -123,10 +121,10 @@ void World::loadWorldData() {
   	}
 }
 
-void World::saveWorldData() {
-	std::ofstream file(WORLDDATA_FILE, std::ios::out | std::ios::binary);
+void World::saveWorldToFile(const std::string& path) {
+	std::ofstream file(path, std::ios::out | std::ios::binary);
 	if (!file.good()) {
-		std::cerr << "could not open " << WORLDDATA_FILE << " file for writing" << std::endl;
+		std::cerr << "could not open " << path << " file for writing" << std::endl;
 		return;
 	}
 	for (int i = 0; i < m_data_length; i++) {

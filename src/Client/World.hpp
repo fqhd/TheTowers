@@ -17,6 +17,9 @@ public:
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
 	void destroy();
 
+	void loadWorldFromFile(const std::string& path);
+	void saveWorldToFile(const std::string& path);
+
 private:
 
 	// Utility functions
@@ -24,8 +27,6 @@ private:
 	GLuint packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex);
 	void addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType);
 	bool isBlockInLocalWorld(int _x, int _y, int _z);
-	void saveWorldData();
-	void loadWorldData();
 
 	
 	// Mesh generation functions
