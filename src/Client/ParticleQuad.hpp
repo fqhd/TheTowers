@@ -13,7 +13,7 @@ public:
 	void destroy();
 
 	void pushMatrices(const std::vector<math::mat4>& _matrices);
-	void pushUVs(const std::vector<math::vec2>& _uvs);
+	void pushUVQuads(const std::vector<math::vec4>& _uvs);
 
 private:
 

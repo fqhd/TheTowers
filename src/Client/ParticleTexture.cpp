@@ -34,6 +34,18 @@ void ParticleTexture::destroy(){
 	glDeleteTextures(1, &m_textureID);
 }
 
+math::vec4 indexToQuad(float x, float y){
+	math::vec4 v;
+	v.x = 1 + x * 4 + (x);
+	v.y = 1 + y * 4 + (y);
+	v.z = 4;
+	v.w = 4;
+	return v;
+}
+
 math::vec4 ParticleTexture::getUVQuad(unsigned int _particleID){
-	return math::vec4(0, 0, 2, 2) / IMG_WIDTH;
+	if(_particleID == 1 || _particleID == 2 || _particleID == 3){
+		return indexToQuad(0, 0) / IMG_WIDTH;
+	}
+	return indexToQuad(1, 0) / IMG_WIDTH;
 }

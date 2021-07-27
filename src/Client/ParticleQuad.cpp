@@ -38,7 +38,7 @@ void ParticleQuad::init(){
 	glGenBuffers(1, &m_uvboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvboID);
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, sizeof(math::vec2), 0);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(math::vec4), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glVertexAttribDivisor(1, 0);
@@ -46,7 +46,7 @@ void ParticleQuad::init(){
 	glVertexAttribDivisor(2, 1);
 	glVertexAttribDivisor(3, 1);
 	glVertexAttribDivisor(4, 1);
-	glVertexAttribDivisor(5, 0);
+	glVertexAttribDivisor(5, 1);
 
 	glBindVertexArray(0);
 }
@@ -57,7 +57,7 @@ void ParticleQuad::pushMatrices(const std::vector<math::mat4>& matrices){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ParticleQuad::pushUVs(const std::vector<math::vec2>& _uvs){
+void ParticleQuad::pushUVQuads(const std::vector<math::vec4>& _uvs){
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvboID);
 	glBufferData(GL_ARRAY_BUFFER, _uvs.size() * sizeof(_uvs[0]), _uvs.data(), GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

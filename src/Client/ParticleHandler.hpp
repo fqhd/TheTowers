@@ -16,15 +16,13 @@ public:
 	void render(Camera& camera);
 	void destroy();
 
-	void placeParticlesAroundBlock(int x, int y, int z);
+	void placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID);
 
 
 private:
 
-	void addUVQuadToUVList(std::vector<math::vec2>& _uvs, const math::vec4& quad);
-
 	std::vector<math::mat4> m_matrices;
-	std::vector<math::vec2> m_uvs;
+	std::vector<math::vec4> m_uvQuads;
 	std::vector<Particle> m_particles;
 	ParticleQuad m_quad;
 	Shader m_shader;

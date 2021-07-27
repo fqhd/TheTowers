@@ -28,7 +28,7 @@ void PacketHandler::handlePackets(){
 			uint8_t b = 0;
 			packet >> x >> y >> z >> b;
 			if (!b) {
-				m_particleHandler->placeParticlesAroundBlock(x, y, z);
+				m_particleHandler->placeParticlesAroundBlock(x, y, z, m_world->getBlock(x, y, z));
 			}
 			m_world->setBlock(x, y, z, b);
 		} else if (code == 3) { // Load map
