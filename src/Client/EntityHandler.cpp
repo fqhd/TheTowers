@@ -40,7 +40,7 @@ void EntityHandler::render(Camera& camera) {
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	for(auto it = m_entities.begin(); it != m_entities.end(); it++){
 		m_shader.loadUniform("model", it->second.transform.getMatrix());
-		m_assets->getCube().render(0, 6);
+		m_assets->getCube().render(); // Change to actual model
 	}
 	m_shader.unbind();
 }

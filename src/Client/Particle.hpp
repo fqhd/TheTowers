@@ -5,7 +5,7 @@
 class Particle {
 public:
 
-	Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale);
+	Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, unsigned int _particleID);
 
 	bool update(float deltaTime);
 
@@ -14,6 +14,7 @@ public:
 	float getScale() const;
 	float getLifeLength() const;
 	float getElapsedTime() const;
+	unsigned int getParticleID();
 
 
 
@@ -25,6 +26,7 @@ private:
 	float m_rotation = 0.0f;
 	float m_scale = 0.0f;
 	float m_elapsedTime = 0.0f;
+	unsigned int m_particleID;
 
 };
 

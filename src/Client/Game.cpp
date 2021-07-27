@@ -13,7 +13,7 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer*
 	m_world.init(_textureHandler, _config);
 	m_assets.init();
 	player.init(_config->getReachDistance());
-	m_cubeMap.init(&m_assets);
+	m_skybox.init(&m_assets);
 	m_particleHandler.init();
 	m_camera.init(_iManager);
 	m_vignette.init();
@@ -41,11 +41,11 @@ void Game::update(GameStates& _state, float _deltaTime) {
 
 void Game::render() {
 	// Rendering gameplay
+	m_skybox.render(m_camera.getProjectionMatrix(), m_camera.getViewMatrix());
 	m_world.render(m_camera);
 	if(m_settings->renderOutline) m_blockOutline.render(&player, m_camera);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
-	m_cubeMap.render(m_camera.getProjectionMatrix(), m_camera.getViewMatrix());
 	if(m_settings->isVignetteToggled) m_vignette.render();
 	m_hud.render(m_guiRenderer, m_config);
 	if(m_settings->isDebugToggled) m_debugMenu.render(m_guiRenderer, m_frameCounter, player);
@@ -56,7 +56,7 @@ void Game::destroy() {
 	m_vignette.destroy();
 	m_entityHandler.destroy();
 	m_world.destroy();
-	m_cubeMap.destroy();
+	m_skybox.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
 }

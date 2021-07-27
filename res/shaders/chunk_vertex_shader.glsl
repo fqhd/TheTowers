@@ -48,7 +48,7 @@ void main(){
 
 	vec3 worldPosition = vec3(x, y, z) + chunkPosition;
 	gl_Position = projection * view * vec4(worldPosition, 1.0);
-	textureData = vec3(texCoords[coordIndex], float(arrayIndex));
+	textureData = vec3(texCoords[coordIndex], arrayIndex);
 
 	// Calculating AO and Fog
 	float d = distance(worldPosition, cameraPosition);

@@ -4,25 +4,23 @@
 #include <vector>
 #include "Vertex.hpp"
 
+
 class ParticleQuad {
 public:
 
 	void init();
-	void bind();
-	void unbind();
-	void render();
+	void render(unsigned int _numInstances);
 	void destroy();
 
-	void pushMatrices(const std::vector<math::mat4>& matrices);
-
-
+	void pushMatrices(const std::vector<math::mat4>& _matrices);
+	void pushUVs(const std::vector<math::vec2>& _uvs);
 
 private:
 
 	GLuint m_vaoID = 0;
 	GLuint m_vboID = 0;
-	GLuint m_ivboID = 0;
-	GLuint m_colorsVBOID = 0;
+	GLuint m_mvboID = 0; // Matrices buffer
+	GLuint m_uvboID = 0; // UVs buffer
 
 
 };

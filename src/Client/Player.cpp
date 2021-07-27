@@ -50,7 +50,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (_iManager->isKeyDown(sf::Keyboard::W)) {
+	if (_iManager->isKeyDown(sf::Keyboard::Z)) {
 		m_velocity += forward * SPEED * deltaTime;
 	}
 
@@ -58,7 +58,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 		m_velocity -= forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::A)) {
+	if (_iManager->isKeyDown(sf::Keyboard::Q)) {
 		m_velocity -= side * SPEED * deltaTime;
 	}
 
@@ -74,7 +74,7 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	}
 
 	if (GameModeCanFly(m_gamemode)) {
-		if (_iManager->isKeyDown(sf::Keyboard::LControl)) {
+		if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
 			m_velocity.y -= 0.375f*deltaTime;
 		}
 	}
@@ -124,7 +124,7 @@ void Player::placeBlock(World* world) {
 void Player::breakBlock(ParticleHandler& handler, World* world) {
 	// uint8_t blockID = world->getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 	world->setBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, 0);
-	// handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
+	handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 }
 
 math::ivec3 Player::vecToBlock(const math::vec3& vec) {

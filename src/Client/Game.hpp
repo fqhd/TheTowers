@@ -6,7 +6,7 @@
 #include "InputManager.hpp"
 #include "NetworkManager.hpp"
 #include "World.hpp"
-#include "CubeMap.hpp"
+#include "Skybox.hpp"
 #include "ParticleHandler.hpp"
 #include "GameStates.hpp"
 #include "Camera.hpp"
@@ -37,7 +37,7 @@ private:
 	//Engine Variables
 	Camera m_camera;
 	FrameCounter m_frameCounter;
-	CubeMap m_cubeMap;
+	Skybox m_skybox;
 	ParticleHandler m_particleHandler;
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;

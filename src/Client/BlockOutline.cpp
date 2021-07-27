@@ -20,7 +20,7 @@ void BlockOutline::render(Player* player, Camera& camera){
 	math::vec3 float_bb(bb.x, bb.y, bb.z); // Calculating the floating point version of the breakable block
 	m_shader.loadUniform("blockPosition", float_bb); // We send the position of the block to the vertex shader which will get added to the vertices and form a face
 
-	m_assets->getCube().render(blockFace, 1);
+	m_assets->getOutline().render(blockFace, 1);
 
 	m_shader.unbind();
 }

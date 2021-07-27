@@ -44,7 +44,7 @@ private:
 	unsigned int m_reachDistance = 0;
 	math::vec3 m_velocity;
 	bool m_canJump = false;
-	GameMode m_gamemode=GameMode::SPECTATOR;
+	GameMode m_gamemode = GameMode::CREATIVE;
 	float m_health;
 
 };

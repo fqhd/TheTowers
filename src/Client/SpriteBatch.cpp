@@ -91,16 +91,17 @@ void SpriteBatch::draw(const math::vec4& destRect, const math::vec4& uvRect, GLu
 }
 
 void SpriteBatch::render() {
-	glBindVertexArray(m_vao);
 	glDisable(GL_CULL_FACE);
+	glBindVertexArray(m_vao);
 
 	for (size_t i = 0; i < m_renderBatches.size(); i++) {
 		glBindTexture(GL_TEXTURE_2D, m_renderBatches[i].texture);
 		glDrawArrays(GL_TRIANGLES, m_renderBatches[i].offset, m_renderBatches[i].numVertices);
 	}
 
-	glEnable(GL_CULL_FACE);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
+	glEnable(GL_CULL_FACE);
 }
 
 void SpriteBatch::createRenderBatches() {

@@ -3,7 +3,7 @@
 #include "Assets.hpp"
 #include "Shader.hpp"
 
-class CubeMap {
+class Skybox {
 public:
 
 	void init(Assets* _assets);
