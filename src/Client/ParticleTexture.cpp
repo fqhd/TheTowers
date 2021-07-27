@@ -1,6 +1,9 @@
 #include "ParticleTexture.hpp"
 #include "Image.hpp"
 
+// These values must match the resolution of the particle texture
+const unsigned int IMG_WIDTH = 128;
+
 void ParticleTexture::loadFromFile(const std::string& path){
 	// Creating the texture
 	glGenTextures(1, &m_textureID);
@@ -32,5 +35,5 @@ void ParticleTexture::destroy(){
 }
 
 math::vec4 ParticleTexture::getUVQuad(unsigned int _particleID){
-	return math::vec4(0, 0, 1, 1);
+	return math::vec4(0, 0, 2, 2) / IMG_WIDTH;
 }

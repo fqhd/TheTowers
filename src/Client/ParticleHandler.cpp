@@ -1,6 +1,6 @@
 #include "ParticleHandler.hpp"
 
-const unsigned int NUM_PARTICLES = 200;
+const unsigned int NUM_PARTICLES = 50;
 
 void ParticleHandler::init(){
 	m_quad.init();
@@ -50,7 +50,9 @@ void ParticleHandler::render(Camera& camera){
 
 	m_particleTexture.bind();
 
+	glDisable(GL_CULL_FACE);
 	m_quad.render(matrices.size());
+	glEnable(GL_CULL_FACE);
 
 	m_particleTexture.unbind();
 
@@ -59,7 +61,9 @@ void ParticleHandler::render(Camera& camera){
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z){
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
-		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, 1.25f, 0.0f, 0.125f, 0);
+		float time = 0.5f + (rand() % 100) / 200.0f;
+		float scale = 0.125f + (rand() % 100) / 800.0f;
+		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, time, 0.0f, scale, 0);
 	}
 }
 
