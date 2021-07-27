@@ -1,6 +1,6 @@
 #include "ParticleHandler.hpp"
 
-const unsigned int NUM_PARTICLES = 50;
+const unsigned int NUM_PARTICLES = 50000;
 
 void ParticleHandler::init(){
 	m_quad.init();
@@ -18,9 +18,9 @@ void ParticleHandler::update(float deltaTime){
 }
 
 void ParticleHandler::render(Camera& camera){
-	std::vector<math::mat4> matrices;
-	std::vector<math::vec2> uvs;
-
+	m_matrices.resize(0);
+	m_uvs.resize(0);
+	
 	for(auto& i : m_particles){
 		math::mat4 matrix;
 		matrix.setIdentity();
@@ -37,12 +37,12 @@ void ParticleHandler::render(Camera& camera){
 		math::rotate(i.getRotation(), math::vec3(0, 0, 1), matrix, matrix);
 		math::scale(math::vec3(i.getScale()), matrix, matrix);
 
-		matrices.push_back(matrix);
-		addUVQuadToUVList(uvs, m_particleTexture.getUVQuad(i.getParticleID()));
+		m_matrices.push_back(matrix);
+		addUVQuadToUVList(m_uvs, m_particleTexture.getUVQuad(i.getParticleID()));
 	}
 
-	m_quad.pushMatrices(matrices);
-	m_quad.pushUVs(uvs);
+	m_quad.pushMatrices(m_matrices);
+	m_quad.pushUVs(m_uvs);
 
 	m_shader.bind();
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
@@ -51,7 +51,7 @@ void ParticleHandler::render(Camera& camera){
 	m_particleTexture.bind();
 
 	glDisable(GL_CULL_FACE);
-	m_quad.render(matrices.size());
+	m_quad.render(m_matrices.size());
 	glEnable(GL_CULL_FACE);
 
 	m_particleTexture.unbind();

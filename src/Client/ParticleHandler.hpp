@@ -23,6 +23,8 @@ private:
 
 	void addUVQuadToUVList(std::vector<math::vec2>& _uvs, const math::vec4& quad);
 
+	std::vector<math::mat4> m_matrices;
+	std::vector<math::vec2> m_uvs;
 	std::vector<Particle> m_particles;
 	ParticleQuad m_quad;
 	Shader m_shader;
