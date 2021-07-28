@@ -39,7 +39,6 @@ void PacketHandler::handlePackets(){
 			} else if (mapType == 1){ // Load the game map
 				m_world->loadWorldFromFile("map.dat");
 			}
-
 		}
 	}
 

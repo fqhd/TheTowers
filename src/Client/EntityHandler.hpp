@@ -29,7 +29,6 @@ private:
 	//Data Structures
 	std::unordered_map<uint8_t, Entity> m_entities;
 
-	Transform t;
 	Assets* m_assets = nullptr;
 	Shader m_shader;
 

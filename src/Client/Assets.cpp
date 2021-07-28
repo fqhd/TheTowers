@@ -21,4 +21,6 @@ const Model& Assets::getModel() const {
 
 void Assets::destroy(){
 	m_cube.destroy();
+	m_outline.destroy();
+	m_entityModel.destroy();
 }

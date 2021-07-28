@@ -38,15 +38,13 @@ void Transform::move(const math::vec3& _delta){
 	m_position += _delta;
 }
 
-const math::mat4& Transform::getMatrix() {
-	if(m_needsUpdate){
-		m_matrix.setIdentity();
-		math::translate(m_position, m_matrix, m_matrix);
-		math::rotate(math::toRadians(m_rotation.x), math::vec3(1, 0, 0), m_matrix, m_matrix);
-		math::rotate(math::toRadians(m_rotation.y), math::vec3(0, 1, 0), m_matrix, m_matrix);
-		math::rotate(math::toRadians(m_rotation.z), math::vec3(0, 0, 1), m_matrix, m_matrix);
-		math::scale(m_scale, m_matrix, m_matrix);
-		return m_matrix;
-	}
-	return m_matrix;
+math::mat4 Transform::getMatrix() const {
+	math::mat4 matrix;
+	matrix.setIdentity();
+	math::translate(m_position, matrix, matrix);
+	math::rotate(math::toRadians(m_rotation.x), math::vec3(1, 0, 0), matrix, matrix);
+	math::rotate(math::toRadians(m_rotation.y), math::vec3(0, 1, 0), matrix, matrix);
+	math::rotate(math::toRadians(m_rotation.z), math::vec3(0, 0, 1), matrix, matrix);
+	math::scale(m_scale, matrix, matrix);
+	return matrix;
 }

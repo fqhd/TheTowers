@@ -1,5 +1,7 @@
 #include "Model.hpp"
 
+#include <iostream>
+
 void Model::init(const std::string& path){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
@@ -24,13 +26,14 @@ void Model::init(const std::string& path){
 			model.texCoords[i]
 		);
 	}
+	std::cout << "size of mode: " << vertices.size() << std::endl;
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), vertices.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 	glGenBuffers(1, &m_eboID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), model.indices.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

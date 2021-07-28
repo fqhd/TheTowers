@@ -41,7 +41,7 @@ void Server::tcpThread(){
 					case 2: // Block Update
 						updateWorldWithBlockUpdatePacket(receivedPacket);
 						addCodeToBlockUpdatePacket(receivedPacket);
-						sendPacketToOtherClients(receivedPacket, senderIndex);
+						sendPacketToOtherClients(receivedPacket, m_clients[senderIndex].id);
 					break;
 				}
 			}
@@ -59,8 +59,6 @@ void Server::udpThread(){
 	//Initializing variables
 	socket.bind(m_config.getServerPort());
 	socket.setBlocking(false);
-
-	receivedPacket << (uint8_t)100 << 5.0f << 48.0f << 10.0f << 0.0f << 0.0f;
 
 	while(!m_isDone){
 		while(socket.receive(receivedPacket, remoteIp, remotePort) == sf::Socket::Done){

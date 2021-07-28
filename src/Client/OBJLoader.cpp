@@ -50,7 +50,7 @@ OBJModel::OBJModel(const std::string& fileName)
     }
     else
     {
-        std::cerr << "Unable to load mesh: " << fileName << std::endl;
+		std::cout << "OBJLoader: Unable to load mesh: " << fileName << std::endl;
     }
 }
 

@@ -17,7 +17,7 @@ public:
 
 	void move(const math::vec3& _delta);
 
-	const math::mat4& getMatrix();
+	math::mat4 getMatrix() const;
 
 private:
 
