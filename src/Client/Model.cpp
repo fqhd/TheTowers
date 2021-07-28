@@ -37,7 +37,7 @@ void Model::init(const std::string& path){
 	m_numVertices = model.indices.size();
 }
 
-void Model::render(){
+void Model::render() const {
 	glBindVertexArray(m_vaoID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_eboID);
 	glDrawElements(GL_TRIANGLES, m_numVertices, GL_UNSIGNED_INT, 0);

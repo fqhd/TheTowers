@@ -78,6 +78,10 @@ namespace math {
 		base_vec4<T> operator/(const T& other) const {
 			return base_vec4<T>(x/other, y/other, z/other, w/other);
 		}
+
+		bool operator==(const base_vec4<T>& other){
+			return x == other.x && y == other.y && z == other.z && w == other.w;
+		}
 	};
 
 	typedef base_vec4<float> vec4;

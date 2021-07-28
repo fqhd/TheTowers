@@ -20,7 +20,6 @@ void ParticleHandler::update(float deltaTime){
 void ParticleHandler::render(Camera& camera){
 	m_matrices.resize(0);
 	m_uvQuads.resize(0);
-	
 
 	for(unsigned int i = 0; i < m_particles.size(); i++){
 		math::mat4 matrix;

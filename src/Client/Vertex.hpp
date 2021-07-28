@@ -3,6 +3,17 @@
 #include "Math.hpp"
 #include "ColorRGBA8.hpp"
 
+struct ModelVertex {
+	ModelVertex(const math::vec3& _position, const math::vec3& _normal, const math::vec2& _uv){
+		position = _position;
+		normal = _normal;
+		uv = _uv;
+	}
+	math::vec3 position;
+	math::vec3 normal;
+	math::vec2 uv;
+};
+
 struct GUITextVertex {
 	GUITextVertex(const math::vec2& p, const math::vec2& u){
 		position = p;

@@ -4,6 +4,7 @@
 void Assets::init(){
 	m_cube.init();
 	m_outline.init();
+	m_entityModel.init("res/models/monkey.obj");
 }
 
 const Cube& Assets::getCube() const {
@@ -12,6 +13,10 @@ const Cube& Assets::getCube() const {
 
 const Outline& Assets::getOutline() const {
 	return m_outline;
+}
+
+const Model& Assets::getModel() const {
+	return m_entityModel;
 }
 
 void Assets::destroy(){

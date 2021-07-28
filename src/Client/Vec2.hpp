@@ -73,6 +73,10 @@ namespace math {
 		base_vec2<T> operator/(const T& other) const {
 			return base_vec2<T>(x/other, y/other);
 		}
+
+		bool operator==(const base_vec2<T>& other){
+			return x == other.x && y == other.y;
+		}
 	};
 
 

@@ -17,7 +17,7 @@ public:
 
 	void move(const math::vec3& _delta);
 
-	math::mat4 getMatrix() const;
+	const math::mat4& getMatrix();
 
 private:
 
@@ -25,5 +25,6 @@ private:
 	math::vec3 m_position;
 	math::vec3 m_rotation;
 	math::vec3 m_scale;
+	math::mat4 m_matrix;
 
 };
