@@ -18,16 +18,16 @@ void GUICheckbox::init(const math::vec4& destRect, bool _checked) {
 
 void GUICheckbox::update(InputManager* _manager, float deltaTime) {
 	ColorRGBA8 color = m_isChecked ? m_onColor : m_offColor;
-	math::ivec2 mousePos = _manager->getMousePosition();
+	math::ivec2 mousePos = math::floor(_manager->getMousePosition());
 
 	m_currentColor = color;
 	if (Utils::isInside(mousePos, m_destRect)) { // Mouse is inside of checkbox
 		m_targetRect = math::vec4(m_originalRect.x - 10, m_originalRect.y - 10, m_originalRect.z + 20, m_originalRect.w + 20);
 		m_currentColor = ColorRGBA8(color.r * 0.6f, color.g * 0.6f, color.b * 0.6f, color.a);
-		if (_manager->isButtonDown(sf::Mouse::Left)) {
+		if (_manager->isKeyDown(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_targetRect = m_originalRect + math::vec4(-4, -4, 8, 8);
 			m_currentColor = ColorRGBA8(color.r * 0.3f, color.g * 0.3f, color.b * 0.3f, color.a);
-		} else if (_manager->isButtonReleased(sf::Mouse::Left)) {
+		} else if (_manager->isKeyReleased(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_isChecked = !m_isChecked;
 		}
 	}else{ // Mouse is outside of checkbox

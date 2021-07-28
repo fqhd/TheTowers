@@ -32,10 +32,10 @@ void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World*
 	if (!visibleBlocks.lookingAtBlock) return;
 	if (visibleBlocks.isInsideBlock) return;
 
-	if (_iManager->isButtonPressed(sf::Mouse::Left) && m_gamemode != GameMode::ADVENTURE) {
+	if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && m_gamemode != GameMode::ADVENTURE) {
 		breakBlock(handler, world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
-	} else if (_iManager->isButtonPressed(sf::Mouse::Right) && m_gamemode != GameMode::ADVENTURE) {
+	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && m_gamemode != GameMode::ADVENTURE) {
 		placeBlock(world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
 	}
@@ -50,33 +50,33 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (_iManager->isKeyDown(sf::Keyboard::Z)) {
+	if (_iManager->isKeyDown(GLFW_KEY_W)) {
 		m_velocity += forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::S)) {
+	if (_iManager->isKeyDown(GLFW_KEY_S)) {
 		m_velocity -= forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::Q)) {
+	if (_iManager->isKeyDown(GLFW_KEY_A)) {
 		m_velocity -= side * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::D)) {
+	if (_iManager->isKeyDown(GLFW_KEY_D)) {
 		m_velocity += side * SPEED * deltaTime;
 	}
 	
-	if (_iManager->isKeyDown(sf::Keyboard::Space)) {
+	if (_iManager->isKeyDown(GLFW_KEY_SPACE)) {
 			m_velocity.y += 0.375f*deltaTime;
 	}
 
-	if (_iManager->isKeyDown(sf::Keyboard::LShift)) {
+	if (_iManager->isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
 		m_velocity.y -= 0.375f*deltaTime;
 	}
 
 	// Gravity
-		m_velocity.y -=  GRAVITY * deltaTime;
-		m_velocity.y *= 0.95;
+	m_velocity.y -=  GRAVITY * deltaTime;
+	m_velocity.y *= 0.95;
 	m_velocity.x *= HORIZONTAL_DRAG;
 	m_velocity.z *= HORIZONTAL_DRAG;
 	m_velocity.y *= VERTICAL_DRAG;

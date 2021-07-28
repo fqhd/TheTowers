@@ -15,7 +15,7 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer*
 	player.init(_config->getReachDistance());
 	m_skybox.init(&m_assets);
 	m_particleHandler.init();
-	m_camera.init(_iManager);
+	m_camera.init(_iManager, _config);
 	m_vignette.init();
 	m_entityHandler.init(&m_assets);
 	m_blockOutline.init(&m_assets);
@@ -25,8 +25,8 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer*
 
 void Game::update(GameStates& _state, float _deltaTime) {
 	// Switch state if key has been pressed
-	if (m_inputManager->isKeyPressed(sf::Keyboard::Escape) || !m_inputManager->hasFocus()) {
-		m_inputManager->setMouseVisible(true);
+	if (m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE) || !m_inputManager->hasFocus()) {
+		m_inputManager->setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
 	m_frameCounter.tick(_deltaTime);

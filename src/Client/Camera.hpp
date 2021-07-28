@@ -3,12 +3,13 @@
 #include "Chunk.hpp"
 #include "InputManager.hpp"
 #include "Math.hpp"
+#include "Config.hpp"
 
 
 class Camera {
 public:
 
-	void init(InputManager* _manager);
+	void init(InputManager* _manager, const Config* _config);
 	void update();
 	void updateProjectionMatrix();
 

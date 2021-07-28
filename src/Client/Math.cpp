@@ -98,6 +98,19 @@ namespace math {
 		return (int)v;
 	}
 
+	ivec2 floor(const math::vec2& vec){
+		return ivec2(floor(vec.x), floor(vec.y));
+	}
+
+	ivec3 floor(const math::vec3& vec){
+		return ivec3(floor(vec.x), floor(vec.y), floor(vec.z));
+	}
+
+	ivec4 floor(const math::vec4& vec){
+		return ivec4(floor(vec.x), floor(vec.y), floor(vec.z), floor(vec.w));
+	}
+
+
 	math::vec3 fabs(const math::vec3& v){
 		return math::vec3(fabs(v.x), fabs(v.y), fabs(v.z));
 	}

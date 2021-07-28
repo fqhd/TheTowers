@@ -5,16 +5,14 @@ const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 90.0f;
 
-void Camera::init(InputManager* _manager) {
+void Camera::init(InputManager* _manager, const Config* _config) {
 	m_position = math::vec3(64.0f, 32.0f, 128.0f);
 	m_manager = _manager;
+	m_projectionMatrix = math::perspective(math::toRadians(FOV), _config->getWindowWidth() / (float)_config->getWindowHeight(), NEAR_DIST, FAR_DIST);
 	updateViewMatrix();
-	updateProjectionMatrix();
 }
 
 void Camera::updateProjectionMatrix() {
-	math::uvec2 size = m_manager->getWindowSize();
-	m_projectionMatrix = math::perspective(math::toRadians(FOV), size.x / (float)size.y, NEAR_DIST, FAR_DIST);
 }
 
 void Camera::update() {
@@ -23,14 +21,13 @@ void Camera::update() {
 }
 
 void Camera::calculateCameraVectors(float sensibility) {
-	math::ivec2 previousMousePos = m_manager->getMousePosition();
-	m_manager->centerMouse();
-	math::ivec2 currentMousePos = m_manager->getMousePosition();
+	math::vec2 previousMousePos = m_manager->getPreviousMousePosition();
+	math::vec2 currentMousePos = m_manager->getMousePosition();
 
-	math::ivec2 deltaMousePos = previousMousePos - currentMousePos;
+	math::vec2 deltaMousePos = previousMousePos - currentMousePos;
 
-	m_pitch += deltaMousePos.y * sensibility;
-	m_yaw += deltaMousePos.x * sensibility;
+	m_pitch -= deltaMousePos.y * sensibility;
+	m_yaw -= deltaMousePos.x * sensibility;
 
 	if (m_pitch >= 89.0f) {
 		m_pitch = 89.0f;

@@ -9,8 +9,8 @@ void GUIInput::init(const math::vec4& destRect) {
 }
 
 void GUIInput::update(InputManager* _manager) {
-	math::ivec2 mousePos = _manager->getMousePosition();
-	if (_manager->isButtonPressed(sf::Mouse::Left)) {
+	math::ivec2 mousePos = math::floor(_manager->getMousePosition());
+	if (_manager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		if (Utils::isInside(mousePos, m_destRect)) {
 			m_onFocus = m_onFocus ? false : true;
 		}

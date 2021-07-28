@@ -17,15 +17,15 @@ void GUIButton::init(const math::vec4& destRect) {
 void GUIButton::update(InputManager* _manager, float deltaTime) {
 	m_currentColor = m_baseColor;
 	m_isPressed = false;
-	math::ivec2 mousePos = _manager->getMousePosition();
+	math::ivec2 mousePos = math::floor(_manager->getMousePosition());
 
 	if (Utils::isInside(mousePos, m_destRect)) { // Mouse is inside the button
 		m_targetRect = math::vec4(m_originalRect.x - 10, m_originalRect.y - 10, m_originalRect.z + 20, m_originalRect.w + 20);
 		m_currentColor = ColorRGBA8(m_baseColor.r * 0.8f, m_baseColor.g * 0.8f, m_baseColor.b * 0.8f, m_baseColor.a);
-		if (_manager->isButtonDown(sf::Mouse::Left)) {
+		if (_manager->isKeyDown(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_targetRect = m_originalRect + math::vec4(-4, -4, 8, 8);
 			m_currentColor = ColorRGBA8(m_baseColor.r * 0.6f, m_baseColor.g * 0.6f, m_baseColor.b * 0.6f, m_baseColor.a);
-		} else if (_manager->isButtonReleased(sf::Mouse::Left)) {
+		} else if (_manager->isKeyReleased(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_isPressed = true;
 		}
 	}else{ // Mouse is not inside the button

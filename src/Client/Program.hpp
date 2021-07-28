@@ -7,6 +7,7 @@
 #include "DebugMenu.hpp"
 #include "GUIRenderer.hpp"
 #include "BlockTextureHandler.hpp"
+#include "Window.hpp"
 #include <SFML/OpenGL.hpp>
 
 
@@ -28,12 +29,12 @@ private:
 	NetworkManager m_networkManager;
 	Game m_game;
 	PauseMenu m_pause;
-	GameStates m_state = GameStates::PLAY;
+	GameStates m_state = GameStates::PAUSE;
 	InputManager m_inputManager;
 	Config m_config;
 	Settings m_settings;
+	Window m_window;
 
-	sf::Window m_window;
 	sf::Clock m_clock;
 
 };

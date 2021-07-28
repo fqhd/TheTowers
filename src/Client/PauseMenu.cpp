@@ -13,9 +13,8 @@ void PauseMenu::init(InputManager* _manager, Settings* _settings, Config* _confi
 
 void PauseMenu::update(GameStates& _state, float deltaTime){
 	// Change state back to game if the user presses on escape
-	if(m_inputManager->isKeyPressed(sf::Keyboard::Escape)){
-		m_inputManager->setMouseVisible(false);
-		m_inputManager->centerMouse();
+	if(m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)){
+		m_inputManager->setMouseGrabbed(true);
 		_state = GameStates::PLAY;
 	}
 	updateGUI(deltaTime);

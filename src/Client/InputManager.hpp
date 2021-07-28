@@ -1,5 +1,6 @@
 #pragma once
-#include <SFML/Window.hpp>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include <unordered_map>
 #include <vector>
 #include "Math.hpp"
@@ -8,49 +9,27 @@
 class InputManager {
 public:
 
-	void init(sf::Window* _window);
+	void init(GLFWwindow* _window, unsigned int _windowHeight);
 	bool processInput();
 
 	bool isKeyPressed(int _keyID);
 	bool isKeyReleased(int _keyID);
 	bool isKeyDown(int _keyID);
 	bool wasKeyDown(int _keyID);
+	char getLastKeyPressed() const;
+	bool hasFocus() const;
 
-	bool isButtonPressed(int _buttonID);
-	bool isButtonReleased(int _buttonID);
-	bool isButtonDown(int _buttonID);
-	bool wasButtonDown(int _buttonID);
-	bool hasFocus();
-
+	void setMouseGrabbed(bool _grabbed);
 	void setVerticalSync(bool _sync);
-	void setMouseVisible(bool _visible);
-	void centerMouse();
-	math::uvec2 getWindowSize();
-	math::ivec2 getMousePosition();
-	math::ivec2 getPreviousMousePosition();
-	char getLastKeyPressed();
+	float getDeltaMouseWheel();
+	math::vec2 getMousePosition();
+	math::vec2 getPreviousMousePosition();
 
 private:
 
-	// Private functions
-	void keyPressed(unsigned int _keyID);
-	void keyReleased(unsigned int _keyID);
-	void buttonPressed(unsigned int _buttonID);
-	void buttonReleased(unsigned int _buttonID);
+	std::unordered_map<int, bool> m_previousKeymap;
+	math::vec2 m_previousMousePosition;
 
-	std::unordered_map<unsigned int, bool> m_keymap;
-	std::unordered_map<unsigned int, bool> m_previousKeymap;
-	std::unordered_map<unsigned int, bool> m_buttonmap;
-	std::unordered_map<unsigned int, bool> m_previousButtonmap;
-	math::uvec2 m_windowSize;
-	math::ivec2 m_mousePosition;
-	math::ivec2 m_previousMousePosition;
-	sf::Window* m_window = nullptr;
-	sf::Event m_event;
-	bool m_hasFocus = true;
-	char m_lastKeyPressed = 0;
-
-
+	GLFWwindow* m_window = nullptr;
 
 };
-

@@ -10,59 +10,20 @@ void Program::run(sf::IpAddress& ip){
 void Program::initSystems(sf::IpAddress& _ip){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
-	createWindow();
+	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, false);
+	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
 	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
-	m_inputManager.init(&m_window);
 	m_networkManager.connectToServer(_ip, &m_config);
 	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureHandler, &m_config, &m_settings);
 	m_pause.init(&m_inputManager, &m_settings, &m_config, &m_guiRenderer);
 }
 
-void Program::createWindow(){
-	// A few opengl window context settings
-	sf::ContextSettings cSettings;
-	cSettings.majorVersion = 3;
-	cSettings.minorVersion = 3;
-	cSettings.depthBits = 24;
-	cSettings.antialiasingLevel = 4;
-	cSettings.stencilBits = 8;
-	cSettings.attributeFlags = sf::ContextSettings::Attribute::Core;
-
-	// Creating the widnow
-	m_window.create(sf::VideoMode(m_config.getWindowWidth(), m_config.getWindowHeight()), "TheTowers", sf::Style::Titlebar | sf::Style::Close, cSettings);
-	if(glewInit() != GLEW_OK){
-		std::cout << "Failed to initialize glew" << std::endl;
-		return;
-	}
-
-	//Enabling transparency
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	//Enabling depth
-	glEnable(GL_DEPTH_TEST);
-	glClearDepth(1.0);
-
-	//Enabling back face culling
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	// Ready for game settings
-	m_window.setVerticalSyncEnabled(true);
-	m_window.setMouseCursorGrabbed(true);
-	m_window.setMouseCursorVisible(false);
-
-	// Centering the window
-	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	m_window.setPosition(sf::Vector2i(desktop.width/2 - m_window.getSize().x/2, desktop.height/2 - m_window.getSize().y/2));
-}
-
 void Program::gameloop(){
 	while(m_state != GameStates::EXIT){
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		m_window.clear();
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
-		glViewport(0, 0, m_inputManager.getWindowSize().x, m_inputManager.getWindowSize().y);
+		glViewport(0, 0, m_config.getWindowWidth(), m_config.getWindowHeight());
 
 		float deltaTime = m_clock.restart().asSeconds();
 
@@ -78,7 +39,7 @@ void Program::gameloop(){
 		m_guiRenderer.end();
 		m_guiRenderer.render();
 
-		m_window.display();
+		m_window.update();
 	}
 }
 
