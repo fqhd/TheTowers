@@ -69,7 +69,6 @@ void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _bl
 }
 
 void ParticleHandler::destroy(){
-	m_particles.clear();
 	m_quad.destroy();
 	m_shader.destroy();
 	m_particleTexture.destroy();

@@ -1,7 +1,7 @@
 #include "GUIRenderer.hpp"
 
 void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
-	assets.init();
+	assets.init(); // GUIAssets
 	m_guiBatch.init();
 	m_textBatch.init();
 
@@ -60,5 +60,5 @@ void GUIRenderer::destroy(){
 	m_textBatch.destroy();
 	m_shader.destroy();
 	m_spriteFont.destroy();
-	assets.destroy();
+	assets.destroy(); // GUI Assets
 }
