@@ -4,14 +4,12 @@
 #include "ColorRGBA8.hpp"
 
 struct ModelVertex {
-	ModelVertex(const math::vec3& _position, const math::vec3& _normal, const math::vec2& _uv){
+	ModelVertex(const math::vec3& _position, const math::vec3& _normal){
 		position = _position;
 		normal = _normal;
-		uv = _uv;
 	}
 	math::vec3 position;
 	math::vec3 normal;
-	math::vec2 uv;
 };
 
 struct GUITextVertex {

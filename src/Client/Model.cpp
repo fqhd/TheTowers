@@ -13,8 +13,6 @@ void Model::init(const std::string& path){
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, position));
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, normal));
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(ModelVertex), (void*)offsetof(ModelVertex, uv));
 
 	// Loading the data and sending it to the GPU
 	IndexedModel model = OBJModel(path).ToIndexedModel();
@@ -22,8 +20,7 @@ void Model::init(const std::string& path){
 	for(unsigned int i = 0; i < model.positions.size(); i++){
 		vertices.emplace_back(
 			model.positions[i],
-			model.normals[i],
-			model.texCoords[i]
+			model.normals[i]
 		);
 	}
 	std::cout << "size of mode: " << vertices.size() << std::endl;

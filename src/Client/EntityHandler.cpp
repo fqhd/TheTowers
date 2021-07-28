@@ -38,7 +38,9 @@ void EntityHandler::render(Camera& camera) {
 	m_shader.bind();
 	m_shader.loadUniform("view", camera.getViewMatrix());
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
+	m_shader.loadUniform("camPos", camera.getPosition());
 	for(auto it = m_entities.begin(); it != m_entities.end(); it++){
+		m_shader.loadUniform("isBlueTeam", it->second.isBlueTeam());
 		m_shader.loadUniform("model", it->second.transform.getMatrix());
 		m_assets->getModel().render(); // Change to actual model
 	}
