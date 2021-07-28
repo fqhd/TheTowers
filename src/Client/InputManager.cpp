@@ -7,6 +7,7 @@ math::vec2 mousePosition;
 std::unordered_map<int, bool> keymap;
 bool isFocused = true;
 unsigned int windowHeight = 0;
+char lastKeyPressed = -1;
 
 void keyPressed(int _keyID){
 	keymap[_keyID] = true;
@@ -22,9 +23,18 @@ void focusChanged(GLFWwindow* window, int focused){
 
 void keyPressed(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
 	if(_action == GLFW_PRESS){
+		if(_key == 259){ // 259 is the keycode for the backspace. If we pressed on backspace we want to set lastKeyPressed to -2 to let anyone calling char getLastKeyPressed() know that the last key pressed was a backspace and not a normal char
+			lastKeyPressed = -2;
+		}
 		keyPressed(_key);
 	}else if(_action == GLFW_RELEASE){
 		keyReleased(_key);
+	}
+}
+
+void keyTyped(GLFWwindow* window, unsigned int codepoint){
+	if(codepoint >= 32 && codepoint <= 127){
+		lastKeyPressed = codepoint;
 	}
 }
 
@@ -47,6 +57,7 @@ void InputManager::init(GLFWwindow* _window, unsigned int _windowHeight) {
 	glfwSetMouseButtonCallback(_window, buttonPressed);
 	glfwSetCursorPosCallback(_window, mouseMoved);
 	glfwSetWindowFocusCallback(_window, focusChanged);
+	glfwSetCharCallback(_window, keyTyped);
 
 	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved.
 	double x, y;
@@ -59,12 +70,13 @@ bool InputManager::hasFocus() const {
 }
 
 char InputManager::getLastKeyPressed() const {
-	return -1;
+	return lastKeyPressed;
 }
 
 bool InputManager::processInput() {
 	m_previousMousePosition = mousePosition;
 	m_previousKeymap = keymap;
+	lastKeyPressed = -1; // char getLastKeyPressed() returns -1 if no key was pressed
 
 	glfwPollEvents();
 	if(glfwWindowShouldClose(m_window)){

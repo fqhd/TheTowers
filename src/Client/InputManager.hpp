@@ -16,7 +16,7 @@ public:
 	bool isKeyReleased(int _keyID);
 	bool isKeyDown(int _keyID);
 	bool wasKeyDown(int _keyID);
-	char getLastKeyPressed() const;
+	char getLastKeyPressed() const; // A function which returns the last key pressed(-1 if no key was pressed and -2 if the backspace was pressed)
 	bool hasFocus() const;
 
 	void setMouseGrabbed(bool _grabbed);
