@@ -89,6 +89,10 @@ namespace math {
 		bool operator==(const base_vec3<T>& other){
 			return x == other.x && y == other.y && z == other.z;
 		}
+
+		bool operator!=(const base_vec3<T>& other){
+			return x != other.x || y != other.y || z != other.z;
+		}
 	};
 
 
