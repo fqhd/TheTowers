@@ -20,6 +20,7 @@ void ParticleTexture::loadFromFile(const std::string& path){
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
 	image.free();
 	glBindTexture(GL_TEXTURE_2D, 0);
+	populateUVQuadArray();
 }
 
 void ParticleTexture::bind(){
@@ -43,9 +44,12 @@ math::vec4 indexToQuad(float x, float y){
 	return v;
 }
 
-math::vec4 ParticleTexture::getUVQuad(unsigned int _particleID){
-	if(_particleID == 1 || _particleID == 2 || _particleID == 3){
-		return indexToQuad(0, 0) / IMG_WIDTH;
-	}
-	return indexToQuad(1, 0) / IMG_WIDTH;
+math::vec4 ParticleTexture::getUVQuad(ParticleID _particleID) {
+	return m_uvQuads[(unsigned int)_particleID];
+}
+
+void ParticleTexture::populateUVQuadArray(){
+	unsigned int i = 0;
+	m_uvQuads[i++] = indexToQuad(0, 0) / IMG_WIDTH; // DIRT
+	m_uvQuads[i++] = indexToQuad(1, 0) / IMG_WIDTH; // STONE
 }

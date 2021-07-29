@@ -2,7 +2,7 @@
 
 const float GRAVITY = 12.0f;
 
-Particle::Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, unsigned int _particleID) {
+Particle::Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, ParticleID _particleID) {
 	m_position = position;
 	m_velocity = velocity;
 	m_lifeLength = lifelength;
@@ -38,6 +38,6 @@ bool Particle::update(float deltaTime) {
 	return m_elapsedTime > m_lifeLength;
 }
 
-unsigned int Particle::getParticleID(){
+ParticleID Particle::getParticleID(){
 	return m_particleID;
 }

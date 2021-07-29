@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 #include "Math.hpp"
 #include "ParticleTexture.hpp"
+#include "ParticleID.hpp"
 
 class ParticleTexture {
 public:
@@ -13,11 +14,12 @@ public:
 	void bind();
 	void unbind();
 	void destroy();
-	math::vec4 getUVQuad(unsigned int _particleID);
+	math::vec4 getUVQuad(ParticleID _particleID);
 
 private:
 
+	void populateUVQuadArray();
 	GLuint m_textureID = 0;
-
+	math::vec4 m_uvQuads[128];
 
 };
