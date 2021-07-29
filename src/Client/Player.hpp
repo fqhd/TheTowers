@@ -31,6 +31,7 @@ public:
 
 	VisibleBlocks visibleBlocks;
 	Hotbar hotbar;
+	GameMode gamemode = SPECTATOR;
 
 private:
 
@@ -42,9 +43,7 @@ private:
 	static bool compareDistance(AABB a, AABB b);
 
 	unsigned int m_reachDistance = 0;
-	math::vec3 m_velocity;
 	bool m_canJump = false;
-	GameMode m_gamemode = GameMode::CREATIVE;
-	float m_health;
+	float m_yVelocity = 0.0f;
 
 };

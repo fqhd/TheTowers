@@ -3,8 +3,7 @@
 enum GameMode : uint8_t {
 	SURVIVAL,
 	CREATIVE,
-	SPECTATOR,
-	ADVENTURE
+	SPECTATOR
 };
 
 inline bool GameModeCanFly(GameMode gmode) {

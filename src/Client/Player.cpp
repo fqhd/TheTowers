@@ -3,26 +3,22 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 1.25f;
+const float SPEED = 5.0f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
-const float VERTICAL_DRAG = 0.98f;
-const float HORIZONTAL_DRAG = 0.8f;
-const float GRAVITY = 0.4f;
-const float START_HEALTH = 10.0f;
+const float GRAVITY = 32.8f;
 
 math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
 
 void Player::init(unsigned int _reachDistance) {
 	m_reachDistance = _reachDistance;
-	position = math::vec3(32, 32, 32);
-	m_velocity = math::vec3(0, 0, 0);
-	m_health = START_HEALTH;
+	position = math::vec3(36, 32, 32);
+	gamemode = SURVIVAL;
 }
 
 void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
 	kbHandler(camera, world, _iManager, deltaTime);
-	if (m_gamemode != GameMode::SPECTATOR) collideWithWorld(world);
+	if (gamemode != GameMode::SPECTATOR) collideWithWorld(world);
 	mouseHandler(camera, handler, world, _nManager, _iManager);
 }
 
@@ -32,10 +28,10 @@ void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World*
 	if (!visibleBlocks.lookingAtBlock) return;
 	if (visibleBlocks.isInsideBlock) return;
 
-	if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && m_gamemode != GameMode::ADVENTURE) {
+	if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && gamemode != GameMode::SPECTATOR) {
 		breakBlock(handler, world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
-	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && m_gamemode != GameMode::ADVENTURE) {
+	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
 		placeBlock(world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
 	}
@@ -51,37 +47,40 @@ void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManag
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
 	if (_iManager->isKeyDown(GLFW_KEY_W)) {
-		m_velocity += forward * SPEED * deltaTime;
+		position += forward * SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(GLFW_KEY_S)) {
-		m_velocity -= forward * SPEED * deltaTime;
+		position -= forward * SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(GLFW_KEY_A)) {
-		m_velocity -= side * SPEED * deltaTime;
+		position -= side * SPEED * deltaTime;
 	}
 
 	if (_iManager->isKeyDown(GLFW_KEY_D)) {
-		m_velocity += side * SPEED * deltaTime;
+		position += side * SPEED * deltaTime;
+	}
+
+	if(GameModeCanFly(gamemode)){
+		if(_iManager->isKeyDown(GLFW_KEY_SPACE)){
+			position.y += SPEED * deltaTime;
+		}
+		if(_iManager->isKeyDown(GLFW_KEY_LEFT_SHIFT)){
+			position.y -= SPEED * deltaTime;
+		}
+	}else{
+		if(_iManager->isKeyDown(GLFW_KEY_SPACE) && m_canJump){
+			m_yVelocity = 10.5f;
+			m_canJump = false;
+		}
+		m_yVelocity -= GRAVITY * deltaTime;
+		// Calculating the maximum velocity
+		float maxVelocity = (PLAYER_WIDTH/2 - 0.1) / deltaTime; // subtract 0.1 as a small bias because if we move at PLAYER_WIDTH/2 per frame, it could glitch through the collision detection. The reason why we do PLAYER_WIDTH and not PLAYER_HEIGHT is because if it was indeed PLAYER_HEIGHT the AABB collision detection would think it is a X or Z axis collision and push the player on those sides.
+		if(m_yVelocity < -maxVelocity) m_yVelocity = -maxVelocity; // Capping the yvelocity
+		position.y += m_yVelocity * deltaTime;
 	}
 	
-	if (_iManager->isKeyDown(GLFW_KEY_SPACE)) {
-			m_velocity.y += 0.375f*deltaTime;
-	}
-
-	if (_iManager->isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
-		m_velocity.y -= 0.375f*deltaTime;
-	}
-
-	// Gravity
-	m_velocity.y -=  GRAVITY * deltaTime;
-	m_velocity.y *= 0.95;
-	m_velocity.x *= HORIZONTAL_DRAG;
-	m_velocity.z *= HORIZONTAL_DRAG;
-	m_velocity.y *= VERTICAL_DRAG;
-
-	position += m_velocity;
 }
 
 math::vec3 Player::getEyePos() const {
@@ -150,10 +149,9 @@ void Player::collideWithWorld(World* _world){
 		if(Utils::collideBoxes(playerBox, i) == Y_AXIS){
 			if(i.position.y < position.y){
 				m_canJump = true;
-				m_velocity.y = 0.0f;
+				m_yVelocity = 0.0f;
 			}
 		}
-
 		position = playerBox.position;
 	}
 }

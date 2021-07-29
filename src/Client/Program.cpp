@@ -12,6 +12,7 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_settings.loadFromFile();
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, false);
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
+	m_inputManager.setVerticalSync(true);
 	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
 	m_networkManager.connectToServer(_ip, &m_config);
