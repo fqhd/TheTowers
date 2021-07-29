@@ -10,6 +10,10 @@
 #include "Math.hpp"
 #include "AABBox.hpp"
 
+enum CollisionType {
+	NONE, X_AXIS, Y_AXIS, Z_AXIS
+};
+
 namespace Utils {
 
 	uint8_t* readFileToBuffer(const std::string& filePath);

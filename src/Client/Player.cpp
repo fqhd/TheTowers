@@ -171,5 +171,7 @@ bool Player::compareDistance(AABB a, AABB b){
 }
 
 bool Player::canPlaceBlock(){
-	return math::floor(position) != visibleBlocks.placeableBlock;
+	AABB player(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
+	AABB box(math::vec3(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z), math::vec3(1));
+	return !Utils::collideBoxes(player, box);
 }
