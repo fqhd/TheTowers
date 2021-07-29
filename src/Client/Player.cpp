@@ -3,10 +3,10 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
-const float SPEED = 5.0f;
+const float SPEED = 4.0f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
-const float GRAVITY = 32.8f;
+const float GRAVITY = 36.0f;
 
 math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
 
@@ -149,7 +149,7 @@ void Player::collideWithWorld(World* _world){
 	for(auto& i : blocksToCollideWith){
 		AABB playerBox(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 		if(Utils::collideBoxes(playerBox, i) == Y_AXIS){
-			if(i.position.y < position.y){
+			if(i.position.y < position.y && m_yVelocity < 0){
 				m_canJump = true;
 				m_yVelocity = 0.0f;
 			}
