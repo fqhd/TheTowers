@@ -49,6 +49,7 @@ math::vec4 ParticleTexture::getUVQuad(ParticleID _particleID) {
 }
 
 void ParticleTexture::populateUVQuadArray(){
+	// This function fills the m_uvQuads Array with math::vec4s of UV quads in the same order their particle IDs are defined in ParticleID.hpp
 	unsigned int i = 0;
 	m_uvQuads[i++] = indexToQuad(0, 0) / IMG_WIDTH; // DIRT
 	m_uvQuads[i++] = indexToQuad(1, 0) / IMG_WIDTH; // STONE

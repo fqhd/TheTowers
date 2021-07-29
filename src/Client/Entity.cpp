@@ -20,7 +20,7 @@ void Entity::setForward(float pitch, float yaw) {
 }
 
 void Entity::updateRotation() {
-	transform.setRotation(math::vec3(math::toRadians(-m_currentPitch), math::toRadians(-(m_currentYaw - 90)), 0));
+	transform.setRotation(math::vec3(-m_currentPitch, -(m_currentYaw - 90), 0));
 }
 
 bool Entity::isBlueTeam(){
