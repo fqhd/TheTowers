@@ -32,8 +32,10 @@ void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World*
 		breakBlock(handler, world);
 		_nManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
 	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
-		placeBlock(world);
-		_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
+		if(canPlaceBlock()){
+			placeBlock(world);
+			_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
+		}
 	}
 
 	//We get the visible blocks again to update them after a block has been pressed
@@ -166,4 +168,8 @@ bool Player::compareDistance(AABB a, AABB b){
 	float distance2 = math::length(math::fabs(centerBlockPos2 - centerPlayerPos));
 
 	return distance1 < distance2;
+}
+
+bool Player::canPlaceBlock(){
+	return math::floor(position) != visibleBlocks.placeableBlock;
 }

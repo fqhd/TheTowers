@@ -41,6 +41,7 @@ private:
 	math::ivec3 vecToBlock(const math::vec3& vec);
 	void collideWithWorld(World* _world);
 	static bool compareDistance(AABB a, AABB b);
+	bool canPlaceBlock();
 
 	unsigned int m_reachDistance = 0;
 	bool m_canJump = false;
