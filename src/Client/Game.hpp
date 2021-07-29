@@ -19,6 +19,7 @@
 #include "PacketHandler.hpp"
 #include "BlockTextureHandler.hpp"
 #include "DebugMenu.hpp"
+#include "Timer.hpp"
 
 class Game {
 public:
@@ -33,6 +34,7 @@ public:
 private:
 
 	void renderGUI();
+	void sendPositionDataToServer();
 
 	//Engine Variables
 	Camera m_camera;
@@ -47,6 +49,7 @@ private:
 	World m_world;
 	PacketHandler m_packetHandler;
 	DebugMenu m_debugMenu;
+	Timer m_dataFrequencyTimer;
 
 	// Pointers
 	Settings* m_settings = nullptr;

@@ -26,7 +26,8 @@ void Program::gameloop(){
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;
 		glViewport(0, 0, m_config.getWindowWidth(), m_config.getWindowHeight());
 
-		float deltaTime = m_clock.restart().asSeconds();
+		float deltaTime = m_deltaTimer.getElapsedTime();
+		m_deltaTimer.restart();
 
 		m_guiRenderer.begin();
 		if(m_state == GameStates::PLAY){

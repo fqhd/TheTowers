@@ -30,7 +30,6 @@ private:
 	GUICheckbox vignette;
 	GUICheckbox debug;
 	GUICheckbox outline;
-	GUIInput input;
 	// Pointers
 	GUIRenderer* m_guiRenderer = nullptr;
 	InputManager* m_inputManager = nullptr;

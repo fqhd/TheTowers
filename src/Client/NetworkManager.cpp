@@ -37,19 +37,13 @@ sf::Socket::Status NetworkManager::receiveEntityUpdatePacket(sf::Packet& _packet
 
 
 void NetworkManager::sendPositionDataToServer(Camera& _camera){
-	float timeBetweenPackets = 1.0f / m_config->getPacketTransmissionFrequency();
-	if (m_dataFrequencyTimer.getElapsedTime().asSeconds() >= timeBetweenPackets) {
-		m_dataFrequencyTimer.restart();
-
-		// We execute this code only a few times per second
-		// This code sends the position and camera angles to the server
-		// Which will in turn send it to other connected clients except ourselves
-		sf::Packet packet;
-		packet.clear();
-		math::vec3 p = _camera.getPosition(); // Camera Position
-		packet << m_id << p.x << p.y << p.z << _camera.getPitch() << _camera.getYaw();
-		m_udpSocket.send(packet, m_serverIp, m_config->getServerPort());
-	}
+	// We execute this code only a few times per second
+	// This code sends the position and camera angles to the server
+	// Which will in turn send it to other connected clients except ourselves
+	sf::Packet packet;
+	math::vec3 p = _camera.getPosition(); // Camera Position
+	packet << m_id << p.x << p.y << p.z << _camera.getPitch() << _camera.getYaw();
+	m_udpSocket.send(packet, m_serverIp, m_config->getServerPort());
 }
 
 void NetworkManager::sendBlockUpdatePacket(const math::ivec3& _blockPosition, uint8_t _blockType){

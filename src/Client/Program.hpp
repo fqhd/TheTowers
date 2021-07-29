@@ -8,6 +8,7 @@
 #include "GUIRenderer.hpp"
 #include "BlockTextureHandler.hpp"
 #include "Window.hpp"
+#include "Timer.hpp"
 #include <SFML/OpenGL.hpp>
 
 
@@ -34,7 +35,7 @@ private:
 	Config m_config;
 	Settings m_settings;
 	Window m_window;
+	Timer m_deltaTimer;
 
-	sf::Clock m_clock;
 
 };

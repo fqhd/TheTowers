@@ -36,7 +36,15 @@ void Game::update(GameStates& _state, float _deltaTime) {
 	player.update(m_camera, m_particleHandler, &m_world, m_networkManager, m_inputManager, _deltaTime);
 	m_camera.setPosition(player.getEyePos());
 	m_particleHandler.update(_deltaTime);
-	m_networkManager->sendPositionDataToServer(m_camera);
+	sendPositionDataToServer();
+}
+
+void Game::sendPositionDataToServer(){
+	float timeBetweenPackets = 1.0 / m_config->getPacketTransmissionFrequency();
+	if (m_dataFrequencyTimer.getElapsedTime() >= timeBetweenPackets) {
+		m_dataFrequencyTimer.restart();
+		m_networkManager->sendPositionDataToServer(m_camera);
+	}
 }
 
 void Game::render() {

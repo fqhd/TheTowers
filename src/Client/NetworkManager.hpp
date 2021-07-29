@@ -16,7 +16,6 @@ public:
 
 private:
 
-	sf::Clock m_dataFrequencyTimer;
 	sf::IpAddress m_serverIp;
 	sf::TcpSocket m_tcpSocket;
 	sf::UdpSocket m_udpSocket;
