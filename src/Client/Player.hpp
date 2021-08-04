@@ -8,6 +8,7 @@
 #include "NetworkManager.hpp"
 #include "GameMode.hpp"
 #include <SFML/Network.hpp>
+#include "Item.hpp"
 
 struct VisibleBlocks {
 	math::ivec3 breakableBlock; // The block that the player is looking at
