@@ -97,11 +97,3 @@ CollisionType Utils::collideBoxes(AABB& a, const AABB& b){
 	}
 	return collision;
 }
-
-math::vec2 Utils::mapPoint(const math::vec2& d, float ox, float oy, float tx, float ty){
-	return math::vec2((d.x/ox) * tx, (d.y/oy) * ty);
-}
-
-math::vec4 Utils::mapDestRect(const math::vec4& d, float ox, float oy, float tx, float ty){
-	return math::vec4((d.x/ox) * tx, (d.y/oy) * ty, (d.z/ox) * tx, (d.w/oy) * ty);
-}

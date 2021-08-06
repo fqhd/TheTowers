@@ -7,11 +7,11 @@
 class HUD {
 public:
 
-	void render(GUIRenderer* _renderer, Config* _config);
+	void render(GUIRenderer* _renderer);
 
 private:
 
-	void renderHotbar(GUIRenderer* _renderer, Config* _config);
+	void renderHotbar(GUIRenderer* _renderer);
 
 
 };

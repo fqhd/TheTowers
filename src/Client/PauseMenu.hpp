@@ -13,7 +13,7 @@
 class PauseMenu {
 public:
 
-	void init(InputManager* _manager, Settings* _settings, Config* _config, GUIRenderer* _guiRenderer);
+	void init(InputManager* _manager, Settings* _settings, GUIRenderer* _guiRenderer);
 	void update(GameStates& _state, float deltaTime);
 	void render();
 
@@ -34,6 +34,5 @@ private:
 	GUIRenderer* m_guiRenderer = nullptr;
 	InputManager* m_inputManager = nullptr;
 	Settings* m_settings = nullptr;
-	Config* m_config = nullptr;
 
 };

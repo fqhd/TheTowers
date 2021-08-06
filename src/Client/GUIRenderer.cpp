@@ -5,14 +5,7 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
 	m_guiBatch.init();
 	m_textBatch.init();
 
-	// Calculating the font size based on window size
-	float fontSize = (windowHeight / 1080.0f) * 64.0f;
-	// Caping the font size
-	if(fontSize > 64.0f){
-		fontSize = 64.0f;
-	}
-
-	m_spriteFont.init("res/fonts/minecraft_font.ttf", fontSize, 512, 512);
+	m_spriteFont.init("res/fonts/minecraft_font.ttf", 40, 512, 512);
 
 	math::mat4 ortho = math::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 

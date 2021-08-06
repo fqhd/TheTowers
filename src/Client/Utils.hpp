@@ -22,8 +22,6 @@ namespace Utils {
 	bool isInside(const math::ivec2& mousePos, const math::vec4& destRect);
 	bool isInRange(const math::vec3& a, const math::vec3& b, float range);
 	CollisionType collideBoxes(AABB& a, const AABB& b);
-	math::vec2 mapPoint(const math::vec2& d, float ox, float oy, float tx, float ty); // Maps a point from original windowSize to target windowSize
-	math::vec4 mapDestRect(const math::vec4& destRect, float ox, float oy, float tx, float ty); // Maps a dest rect from original windowSize to target windowSize
 
 }
 

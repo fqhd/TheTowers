@@ -1,8 +1,7 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, Settings* _settings, Config* _config, GUIRenderer* _guiRenderer){
-	m_config = _config;
+void PauseMenu::init(InputManager* _manager, Settings* _settings, GUIRenderer* _guiRenderer){
 	m_guiRenderer = _guiRenderer;
 	m_settings = _settings;
 	m_inputManager = _manager;
@@ -22,18 +21,15 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 }
 
 void PauseMenu::render(){
-	unsigned int ww = m_config->getWindowWidth();
-	unsigned int wh = m_config->getWindowHeight();
-
-	// Background, 1920, 1080, ww, wh)
-	m_guiRenderer->drawRect(Utils::mapDestRect(math::vec4(258, 138, 1404, 804), 1920, 1080, ww, wh), math::vec4(0, 0, 1, 1), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8());
-	m_guiRenderer->drawRect(Utils::mapDestRect(math::vec4(260, 140, 1400, 800), 1920, 1080, ww, wh), math::vec4(0, 0, 10, 7), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8(34, 40, 50, 255));
+	// Background
+	m_guiRenderer->drawRect(math::vec4(138, 58, 1004, 604), math::vec4(0, 0, 1, 1), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8());
+	m_guiRenderer->drawRect(math::vec4(140, 60, 1000, 600), math::vec4(0, 0, 10, 7), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8(34, 40, 50, 255));
 
 	// Text
-	m_guiRenderer->drawText("Fog: ", Utils::mapPoint(math::vec2(325, 850), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
-	m_guiRenderer->drawText("Vignette: ", Utils::mapPoint(math::vec2(325, 750), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
-	m_guiRenderer->drawText("Debug Mode: ", Utils::mapPoint(math::vec2(325, 650), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
-	m_guiRenderer->drawText("Block Outline: ", Utils::mapPoint(math::vec2(325, 550), 1920, 1080, ww, wh), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Fog: ", math::vec2(175, 600), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Vignette: ", math::vec2(175, 525), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Debug Mode: ", math::vec2(175, 450), math::vec2(1, 1), ColorRGBA8());
+	m_guiRenderer->drawText("Block Outline: ", math::vec2(175, 375), math::vec2(1, 1), ColorRGBA8());
 
 	renderGUI();
 }
@@ -49,14 +45,11 @@ void PauseMenu::syncSettingsWithGUI(){
 }
 
 void PauseMenu::initGUI(){
-	unsigned int ww = m_config->getWindowWidth();
-	unsigned int wh = m_config->getWindowHeight();
-	
-	save.init(Utils::mapDestRect(math::vec4(760, 175, 400, 50), 1920, 1080, ww, wh));
-	fog.init(Utils::mapDestRect(math::vec4(800, 850, 48, 48), 1920, 1080, ww, wh), m_settings->isFogToggled);
-	vignette.init(Utils::mapDestRect(math::vec4(800, 750, 48, 48), 1920, 1080, ww, wh), m_settings->isVignetteToggled);
-	debug.init(Utils::mapDestRect(math::vec4(800, 650, 48, 48), 1920, 1080, ww, wh), m_settings->isDebugToggled);
-	outline.init(Utils::mapDestRect(math::vec4(800, 550, 48, 48), 1920, 1080, ww, wh), m_settings->renderOutline);
+	save.init(math::vec4(440, 80, 400, 50));
+	fog.init(math::vec4(600, 600, 48, 48), m_settings->isFogToggled);
+	vignette.init(math::vec4(600, 525, 48, 48), m_settings->isVignetteToggled);
+	debug.init(math::vec4(600, 450, 48, 48), m_settings->isDebugToggled);
+	outline.init(math::vec4(600, 375, 48, 48), m_settings->renderOutline);
 }
 
 void PauseMenu::updateGUI(float deltaTime){

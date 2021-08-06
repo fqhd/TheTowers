@@ -17,7 +17,7 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
 	m_networkManager.connectToServer(_ip, &m_config);
 	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureHandler, &m_config, &m_settings);
-	m_pause.init(&m_inputManager, &m_settings, &m_config, &m_guiRenderer);
+	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
 }
 
 void Program::gameloop(){
