@@ -1,32 +1,22 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <unordered_map>
 #include "Image.hpp"
+#include <string>
 
 class GUIAssets {
 public:
 
-	void init();
-	void destroy();
+	GLuint getTexture(const std::string& _name);
 
-	GLuint getCrosshairTexture();
-	GLuint getHotbarTexture();
-	GLuint getSelectorTexture();
-	GLuint getBlankTexture();
-	GLuint getGrassTexture();
+	void destroy();
 
 private:
 
 	GLuint loadTexture(const std::string& _path);
 
-	GLuint m_crosshair = 0;
-	GLuint m_hotbar = 0;
-	GLuint m_selector = 0;
-	GLuint m_blank = 0;
-	GLuint m_grass = 0;
-	
-
-
+	std::unordered_map<std::string, GLuint> m_textureMap;
 
 
 };

@@ -9,6 +9,7 @@
 #include "GameMode.hpp"
 #include <SFML/Network.hpp>
 #include "Item.hpp"
+#include "Hotbar.hpp"
 
 struct VisibleBlocks {
 	math::ivec3 breakableBlock; // The block that the player is looking at
@@ -27,8 +28,6 @@ public:
 	void mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
 	void kbHandler(const Camera& camera, World* world, InputManager* _iManager, float deltaTime);
 	math::vec3 getEyePos() const;
-
-	uint8_t selectedBlock = 1;
 
 	VisibleBlocks visibleBlocks;
 	Hotbar hotbar;

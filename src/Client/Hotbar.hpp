@@ -1,9 +1,12 @@
 #pragma once
 
 #include <cstdint>
+#include "Item.hpp"
 
-class Hotbar {
-public:
-
-    uint8_t items[9];
+struct Hotbar {
+	uint8_t selectedItem = 0;
+	Item items[9];
+	uint8_t getSelectedBlockID(){
+		return (uint8_t)items[selectedItem].id;
+	}
 };

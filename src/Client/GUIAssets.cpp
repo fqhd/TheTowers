@@ -1,19 +1,5 @@
 #include "GUIAssets.hpp"
 
-void GUIAssets::init(){
-	m_crosshair = loadTexture("res/textures/gui/crosshair.png");
-	m_hotbar = loadTexture("res/textures/gui/hotbar.png");
-	m_selector = loadTexture("res/textures/gui/selector.png");
-	m_blank = loadTexture("res/textures/gui/blank.png");
-	m_grass = loadTexture("res/textures/gui/grass.png");
-}
-
-void GUIAssets::destroy(){
-	glDeleteTextures(1, &m_crosshair);
-	glDeleteTextures(1, &m_hotbar);
-	glDeleteTextures(1, &m_selector);
-	glDeleteTextures(1, &m_blank);
-}
 
 GLuint GUIAssets::loadTexture(const std::string& _path){
 	Image image;
@@ -37,24 +23,14 @@ GLuint GUIAssets::loadTexture(const std::string& _path){
 	return tID;
 }
 
-
-// Texture Getters
-GLuint GUIAssets::getCrosshairTexture(){
-	return m_crosshair;
-}
-
-GLuint GUIAssets::getHotbarTexture(){
-	return m_hotbar;
-}
-
-GLuint GUIAssets::getSelectorTexture(){
-	return m_selector;
-}
-
-GLuint GUIAssets::getBlankTexture(){
-	return m_blank;
-}
-
-GLuint GUIAssets::getGrassTexture(){
-	return m_grass;
+GLuint GUIAssets::getTexture(const std::string& _name){
+	auto it = m_textureMap.find(_name);
+	if(it != m_textureMap.end()){
+		// Got the texture
+		return it->second;
+	}
+	// Did not find the texture, must load it
+	GLuint id = loadTexture("res/textures/gui/" + _name + ".png");
+	m_textureMap[_name] = id;
+	return id;
 }
