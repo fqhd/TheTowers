@@ -32,7 +32,7 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 		m_targetRect = m_originalRect;
 	}
 
-	// Calculating animation delta
+	// Animation
 	m_destRect += (m_targetRect - m_destRect) * 24.0f * deltaTime;
 
 	// Updating shadow position

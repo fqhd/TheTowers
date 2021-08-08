@@ -21,6 +21,7 @@ void Program::initSystems(sf::IpAddress& _ip){
 }
 
 void Program::gameloop(){
+	m_deltaTimer.restart();
 	while(m_state != GameStates::EXIT){
 		m_window.clear();
 		if(m_inputManager.processInput()) m_state = GameStates::EXIT;

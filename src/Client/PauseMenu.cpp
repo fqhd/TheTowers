@@ -46,10 +46,10 @@ void PauseMenu::syncSettingsWithGUI(){
 
 void PauseMenu::initGUI(){
 	save.init(math::vec4(440, 80, 400, 50));
-	fog.init(math::vec4(600, 600, 48, 48), m_settings->isFogToggled);
-	vignette.init(math::vec4(600, 525, 48, 48), m_settings->isVignetteToggled);
-	debug.init(math::vec4(600, 450, 48, 48), m_settings->isDebugToggled);
-	outline.init(math::vec4(600, 375, 48, 48), m_settings->renderOutline);
+	fog.init(math::vec4(600, 600, 32, 32), m_settings->isFogToggled);
+	vignette.init(math::vec4(600, 525, 32, 32), m_settings->isVignetteToggled);
+	debug.init(math::vec4(600, 450, 32, 32), m_settings->isDebugToggled);
+	outline.init(math::vec4(600, 375, 32, 32), m_settings->renderOutline);
 }
 
 void PauseMenu::updateGUI(float deltaTime){

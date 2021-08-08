@@ -34,7 +34,7 @@ void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World*
 	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
 		if(canPlaceBlock()){
 			placeBlock(world);
-			_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, selectedBlock);
+			_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, hotbar.getSelectedBlockID());
 		}
 	}
 
@@ -111,7 +111,7 @@ void Player::getVisibleBlocks(const Camera& camera, World* world) {
 }
 
 void Player::placeBlock(World* world) {
-	world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, selectedBlock);
+	world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, hotbar.getSelectedBlockID());
 }
 
 void Player::breakBlock(ParticleHandler& handler, World* world) {
@@ -173,5 +173,5 @@ bool Player::compareDistance(AABB a, AABB b){
 bool Player::canPlaceBlock(){
 	AABB player(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 	AABB box(math::vec3(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z), math::vec3(1));
-	return !Utils::collideBoxes(player, box);
+	return !Utils::collideBoxes(player, box) * hotbar.getSelectedBlockID();
 }
