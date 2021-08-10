@@ -9,7 +9,6 @@
 #include "BlockTextureHandler.hpp"
 #include "Window.hpp"
 #include "Timer.hpp"
-#include <SFML/OpenGL.hpp>
 
 
 class Program {

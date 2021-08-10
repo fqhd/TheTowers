@@ -22,8 +22,8 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 
 void PauseMenu::render(){
 	// Background
-	m_guiRenderer->drawRect(math::vec4(138, 58, 1004, 604), math::vec4(0, 0, 1, 1), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8());
-	m_guiRenderer->drawRect(math::vec4(140, 60, 1000, 600), math::vec4(0, 0, 10, 7), m_guiRenderer->assets.getGrassTexture(), ColorRGBA8(34, 40, 50, 255));
+	m_guiRenderer->drawRect(math::vec4(138, 58, 1004, 604), math::vec4(0, 0, 1, 1), m_guiRenderer->assets.getTexture("grass"), ColorRGBA8());
+	m_guiRenderer->drawRect(math::vec4(140, 60, 1000, 600), math::vec4(0, 0, 10, 7), m_guiRenderer->assets.getTexture("grass"), ColorRGBA8(34, 40, 50, 255));
 
 	// Text
 	m_guiRenderer->drawText("Fog: ", math::vec2(175, 600), math::vec2(1, 1), ColorRGBA8());

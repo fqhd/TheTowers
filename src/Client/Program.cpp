@@ -10,7 +10,7 @@ void Program::run(sf::IpAddress& ip){
 void Program::initSystems(sf::IpAddress& _ip){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
-	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, false);
+	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
 	m_inputManager.setVerticalSync(true);
 	m_textureHandler.init();

@@ -30,8 +30,8 @@ void GUIInput::update(InputManager* _manager) {
 }
 
 void GUIInput::render(GUIRenderer* _renderer) {
-	_renderer->drawRect(m_outlineRect, math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), 
+	_renderer->drawRect(m_outlineRect, math::vec4(0, 0, 1, 1), _renderer->assets.getTexture("blank"), 
 	m_onFocus ? ColorRGBA8() : ColorRGBA8(200, 200, 200, 255));
-	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _renderer->assets.getBlankTexture(), ColorRGBA8(150, 150, 150, 255));
+	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _renderer->assets.getTexture("blank"), ColorRGBA8(150, 150, 150, 255));
 	_renderer->drawText(m_input, math::vec2(m_destRect.x + 3, m_destRect.y + 5), math::vec2(0.75, 0.75), ColorRGBA8());
 }

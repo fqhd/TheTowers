@@ -55,7 +55,7 @@ void Game::render() {
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	if(m_settings->isVignetteToggled) m_vignette.render();
-	m_hud.render(m_guiRenderer);
+	m_hud.render(m_guiRenderer, player.hotbar);
 	if(m_settings->isDebugToggled) m_debugMenu.render(m_guiRenderer, m_frameCounter, player);
 }
 
