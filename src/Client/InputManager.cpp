@@ -8,6 +8,7 @@ std::unordered_map<int, bool> keymap;
 bool isFocused = true;
 unsigned int windowHeight = 0;
 char lastKeyPressed = -1;
+float mouseWheelDelta = 0;
 
 void keyPressed(int _keyID){
 	keymap[_keyID] = true;
@@ -50,6 +51,10 @@ void mouseMoved(GLFWwindow* window, double _xpos, double _ypos){
 	mousePosition = math::vec2((float)_xpos, windowHeight - (float)_ypos);
 }
 
+void wheelScrolled(GLFWwindow* window, double xoffset, double yoffset) {
+	mouseWheelDelta = yoffset;
+}
+
 void InputManager::init(GLFWwindow* _window, unsigned int _windowHeight) {
 	windowHeight = _windowHeight;
 	m_window = _window;
@@ -58,11 +63,30 @@ void InputManager::init(GLFWwindow* _window, unsigned int _windowHeight) {
 	glfwSetCursorPosCallback(_window, mouseMoved);
 	glfwSetWindowFocusCallback(_window, focusChanged);
 	glfwSetCharCallback(_window, keyTyped);
+	glfwSetScrollCallback(_window, wheelScrolled);
 
 	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved.
 	double x, y;
 	glfwGetCursorPos(_window, &x, &y);
 	mousePosition = math::vec2(x, y);
+}
+
+bool InputManager::processInput() {
+	m_previousMousePosition = mousePosition;
+	m_previousKeymap = keymap;
+	lastKeyPressed = -1; // char getLastKeyPressed() returns -1 if no key was pressed
+	mouseWheelDelta = 0.0f;
+
+	glfwPollEvents();
+	if(glfwWindowShouldClose(m_window)){
+		return true;
+	}
+
+	return false;
+}
+
+float InputManager::getDeltaMouseWheel(){
+	return mouseWheelDelta;
 }
 
 bool InputManager::hasFocus() const {
@@ -71,19 +95,6 @@ bool InputManager::hasFocus() const {
 
 char InputManager::getLastKeyPressed() const {
 	return lastKeyPressed;
-}
-
-bool InputManager::processInput() {
-	m_previousMousePosition = mousePosition;
-	m_previousKeymap = keymap;
-	lastKeyPressed = -1; // char getLastKeyPressed() returns -1 if no key was pressed
-
-	glfwPollEvents();
-	if(glfwWindowShouldClose(m_window)){
-		return true;
-	}
-
-	return false;
 }
 
 void InputManager::setMouseGrabbed(bool _grabbed){

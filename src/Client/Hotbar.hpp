@@ -2,11 +2,18 @@
 
 #include <cstdint>
 #include "Item.hpp"
+#include "InputManager.hpp"
 
-struct Hotbar {
-	uint8_t selectedItem = 3;
-	Item items[9];
-	uint8_t getSelectedBlockID(){
-		return (uint8_t)items[selectedItem].id;
-	}
+class Hotbar {
+public:
+
+	Hotbar();
+	void update(InputManager* _iManager);
+
+	int getSelectorLocation();
+	uint8_t getSelectedBlockID();
+
+private:
+	int m_selectorLocation;
+	Item m_items[11];
 };

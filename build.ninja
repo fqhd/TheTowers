@@ -14,6 +14,7 @@ build obj/clientConfig.o: cc src/Client/Config.cpp
 build obj/blockoutline.o: cc src/Client/BlockOutline.cpp
 build obj/entity.o: cc src/Client/Entity.cpp
 build obj/framecounter.o : cc src/Client/FrameCounter.cpp
+build obj/hotbar.o: cc src/Client/Hotbar.cpp
 build obj/debugmenu.o: cc src/Client/DebugMenu.cpp
 build obj/vignette.o: cc src/Client/Vignette.cpp
 build obj/settings.o: cc src/Client/Settings.cpp
@@ -23,7 +24,6 @@ build obj/game.o: cc src/Client/Game.cpp
 build obj/network.o: cc src/Client/NetworkManager.cpp
 build obj/entityhandler.o: cc src/Client/EntityHandler.cpp
 build obj/hud.o: cc src/Client/HUD.cpp
-build obj/hotbar.o: cc src/Client/Hotbar.cpp
 build obj/blocktexturehandler.o: cc src/Client/BlockTextureHandler.cpp
 build obj/assets.o: cc src/Client/Assets.cpp
 build obj/guiassets.o: cc src/Client/GUIAssets.cpp

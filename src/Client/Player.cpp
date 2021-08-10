@@ -17,6 +17,8 @@ void Player::init(unsigned int _reachDistance) {
 }
 
 void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
+	hotbar.update(_iManager);
+
 	kbHandler(camera, world, _iManager, deltaTime);
 	if (gamemode != GameMode::SPECTATOR) collideWithWorld(world);
 	mouseHandler(camera, handler, world, _nManager, _iManager);
