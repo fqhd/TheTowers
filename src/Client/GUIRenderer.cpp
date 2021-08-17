@@ -12,6 +12,8 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
 	m_shader.bind();
 	m_shader.loadUniform("matrix", ortho);
 	m_shader.unbind();
+
+	assets.init();
 }
 
 void GUIRenderer::begin(){
@@ -48,6 +50,7 @@ void GUIRenderer::render(){
 }
 
 void GUIRenderer::destroy(){
+	assets.destroy();
 	m_guiBatch.destroy();
 	m_textBatch.destroy();
 	m_shader.destroy();

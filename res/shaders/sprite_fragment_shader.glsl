@@ -13,6 +13,6 @@ void main() {
 	    float a = texture(ourTexture, pass_uv).r;
 		out_color = vec4(pass_color.rgb, pass_color.a * a);
 	}else{
-	    out_color = pass_color * texture(ourTexture, pass_uv);
+	    out_color = pass_color * texture(ourTexture, vec2(pass_uv.x, 1.0 - pass_uv.y));
 	}
 }

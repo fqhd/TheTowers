@@ -9,6 +9,7 @@
 #include <chrono>
 #include "Math.hpp"
 #include "AABBox.hpp"
+#include <GL/glew.h>
 
 enum CollisionType {
 	NONE, X_AXIS, Y_AXIS, Z_AXIS
@@ -22,6 +23,7 @@ namespace Utils {
 	bool isInside(const math::ivec2& mousePos, const math::vec4& destRect);
 	bool isInRange(const math::vec3& a, const math::vec3& b, float range);
 	CollisionType collideBoxes(AABB& a, const AABB& b);
+	GLuint loadTexture(const std::string& _path);
 
 }
 

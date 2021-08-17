@@ -1,26 +1,8 @@
 #include "GUIAssets.hpp"
+#include "Utils.hpp"
 
-
-GLuint GUIAssets::loadTexture(const std::string& _path){
-	Image image;
-	image.loadFromFile(_path);
-
-	GLuint tID;
-	glGenTextures(1, &tID);
-	glBindTexture(GL_TEXTURE_2D, tID);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	image.free();
-
-	return tID;
+void GUIAssets::init(){
+	m_itemTexture.init();
 }
 
 GLuint GUIAssets::getTexture(const std::string& _name){
@@ -30,7 +12,18 @@ GLuint GUIAssets::getTexture(const std::string& _name){
 		return it->second;
 	}
 	// Did not find the texture, must load it
-	GLuint id = loadTexture("res/textures/gui/" + _name + ".png");
+	GLuint id = Utils::loadTexture("res/textures/gui/" + _name + ".png");
 	m_textureMap[_name] = id;
 	return id;
+}
+
+const ItemTexture& GUIAssets::getItemTexture(){
+	return m_itemTexture;
+}
+
+void GUIAssets::destroy(){
+	for(auto it = m_textureMap.begin(); it != m_textureMap.end(); it++){
+		glDeleteTextures(1, &it->second);
+	}
+	m_itemTexture.destroy();
 }

@@ -1,8 +1,13 @@
 #include "Math.hpp"
 #include <cmath>
 #include <string>
+#include <glm/glm.hpp>
 
 #include "Mat4.hpp"
+
+glm::vec3 calcRoll(float roll, float yaw){
+	return glm::vec3(cos(glm::radians(roll)), sin(glm::radians(roll)), sin(glm::radians(yaw)));
+}
 
 namespace math {
 

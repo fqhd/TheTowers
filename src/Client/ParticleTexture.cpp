@@ -20,7 +20,7 @@ void ParticleTexture::loadFromFile(const std::string& path){
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
 	image.free();
 	glBindTexture(GL_TEXTURE_2D, 0);
-	populateUVQuadArray();
+	populateUVQuadsArray();
 }
 
 void ParticleTexture::bind(){
@@ -48,7 +48,7 @@ math::vec4 ParticleTexture::getUVQuad(ParticleID _particleID) {
 	return m_uvQuads[(unsigned int)_particleID];
 }
 
-void ParticleTexture::populateUVQuadArray(){
+void ParticleTexture::populateUVQuadsArray(){
 	// This function fills the m_uvQuads Array with math::vec4s of UV quads in the same order their particle IDs are defined in ParticleID.hpp
 	unsigned int i = 0;
 	m_uvQuads[i++] = indexToQuad(0, 0) / IMG_WIDTH; // DIRT

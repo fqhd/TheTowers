@@ -11,9 +11,9 @@ public:
 	void update(InputManager* _iManager);
 
 	int getSelectorLocation();
-	uint8_t getSelectedBlockID();
+	const Item& getSelectedItem();
+	Item items[11];
 
 private:
 	int m_selectorLocation;
-	Item m_items[11];
 };

@@ -5,7 +5,7 @@ Hotbar::Hotbar() {
 }
 
 void Hotbar::update(InputManager* _iManager){
-	m_selectorLocation += _iManager->getDeltaMouseWheel();
+	m_selectorLocation -= _iManager->getDeltaMouseWheel();
 	if(m_selectorLocation > 10){
 		m_selectorLocation = 0;
 	}else if(m_selectorLocation < 0){
@@ -17,6 +17,6 @@ int Hotbar::getSelectorLocation(){
 	return m_selectorLocation;
 }
 
-uint8_t Hotbar::getSelectedBlockID(){
-	return (unsigned int)m_items[m_selectorLocation].id;
+const Item& Hotbar::getSelectedItem(){
+	return items[m_selectorLocation];
 }
