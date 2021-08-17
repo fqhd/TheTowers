@@ -9,20 +9,22 @@
 #include "BlockTextureHandler.hpp"
 #include "Window.hpp"
 #include "Timer.hpp"
-
+#include "StartMenu.hpp"
 
 class Program {
 public:
 
-	void run(sf::IpAddress& ip);
+	void run();
 
 
 private:
 
-	void initSystems(sf::IpAddress& ip);
+	void initSystems();
+	void initGame();
 	void gameloop();
 	void cleanUp();
 	void createWindow();
+	void startMenuLoop();
 
 	BlockTextureHandler m_textureHandler;
 	GUIRenderer m_guiRenderer;

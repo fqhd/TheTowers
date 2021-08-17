@@ -8,7 +8,7 @@
 class NetworkManager {
 public:
 
-	void connectToServer(sf::IpAddress& _ip, Config* _c);
+	void connectToServer(const sf::IpAddress& _ip, Config* _c);
 	sf::Socket::Status receiveGameUpdatePacket(sf::Packet& _packet);
 	sf::Socket::Status receiveEntityUpdatePacket(sf::Packet& _packet);
 	void sendPositionDataToServer(Camera& _camera);

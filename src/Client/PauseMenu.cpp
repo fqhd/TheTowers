@@ -6,7 +6,6 @@ void PauseMenu::init(InputManager* _manager, Settings* _settings, GUIRenderer* _
 	m_settings = _settings;
 	m_inputManager = _manager;
 	m_guiRenderer = _guiRenderer;
-
 	initGUI();
 }
 

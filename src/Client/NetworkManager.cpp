@@ -1,7 +1,7 @@
 #include "NetworkManager.hpp"
 #include <iostream>
 
-void NetworkManager::connectToServer(sf::IpAddress& _ip, Config* _c){
+void NetworkManager::connectToServer(const sf::IpAddress& _ip, Config* _c){
 	m_config = _c;
 	m_serverIp = _ip;
 	m_udpSocket.bind(m_config->getClientPort());

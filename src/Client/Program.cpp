@@ -1,13 +1,17 @@
 #include "Program.hpp"
 #include <iostream>
 
-void Program::run(sf::IpAddress& ip){
-	initSystems(ip);
+const sf::IpAddress DEFAULT_IP = "tt.ilfez.club";
+
+void Program::run(){
+	initSystems();
+	startMenuLoop();
+	initGame();
 	gameloop();
 	cleanUp();
 }
 
-void Program::initSystems(sf::IpAddress& _ip){
+void Program::initSystems(){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
@@ -15,9 +19,25 @@ void Program::initSystems(sf::IpAddress& _ip){
 	m_inputManager.setVerticalSync(true);
 	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
-	m_networkManager.connectToServer(_ip, &m_config);
+
+
+}
+
+void Program::initGame() {
+	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
 	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureHandler, &m_config, &m_settings);
 	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
+}
+
+void Program::startMenuLoop() {
+	StartMenu *startMenu = new StartMenu;
+	startMenu->init(&m_inputManager,
+					&m_window,
+					&m_guiRenderer,
+					&m_config,
+					&m_deltaTimer);
+	startMenu->loop();
+	delete startMenu;
 }
 
 void Program::gameloop(){
