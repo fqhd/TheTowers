@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "Utils.hpp"
+#include "Converter.hpp"
 #include <iostream>
 
 const unsigned int PRECISION = 50;
@@ -38,7 +39,7 @@ void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World*
 	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
 		if(canPlaceBlock()){
 			placeBlock(world);
-			_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, (uint8_t)hotbar.getSelectedItem().id);
+			_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, itemIDtoBlockID(hotbar.getSelectedItem().id));
 		}
 	}
 
@@ -115,7 +116,7 @@ void Player::getVisibleBlocks(const Camera& camera, World* world) {
 }
 
 void Player::placeBlock(World* world) {
-	world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, (uint8_t)hotbar.getSelectedItem().id);
+	world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, itemIDtoBlockID(hotbar.getSelectedItem().id));
 }
 
 void Player::breakBlock(ParticleHandler& handler, World* world) {
@@ -177,5 +178,5 @@ bool Player::compareDistance(AABB a, AABB b){
 bool Player::canPlaceBlock(){
 	AABB player(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 	AABB box(math::vec3(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z), math::vec3(1));
-	return !Utils::collideBoxes(player, box) * (uint8_t)hotbar.getSelectedItem().id;
+	return !Utils::collideBoxes(player, box) * itemIDtoBlockID(hotbar.getSelectedItem().id);
 }
