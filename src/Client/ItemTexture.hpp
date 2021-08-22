@@ -15,7 +15,6 @@ public:
 private:
 
 	void populateUVQuadsArray();
-	math::vec4 m_uvQuads[128];
 	GLuint m_textureID = 0;
 
 };
