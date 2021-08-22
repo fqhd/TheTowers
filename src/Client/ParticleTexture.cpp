@@ -20,6 +20,14 @@ void ParticleTexture::loadFromFile(const std::string& path){
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getData());
 	image.free();
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	populateUVQuadsArray();
+}
+
+void ParticleTexture::populateUVQuadsArray(){
+	for(unsigned int i = 0; i < 128; i++){
+		m_uvQuads[i] = calcUVQuad((ParticleID)i);
+	}
 }
 
 void ParticleTexture::bind(){
@@ -34,7 +42,11 @@ void ParticleTexture::destroy(){
 	glDeleteTextures(1, &m_textureID);
 }
 
-math::vec4 ParticleTexture::getUVQuad(ParticleID _particleID) {
+const math::vec4& ParticleTexture::getUVQuad(ParticleID _particleID) const {
+	return m_uvQuads[(uint8_t)_particleID];
+}
+
+math::vec4 ParticleTexture::calcUVQuad(ParticleID _particleID) {
 	uint8_t offset = (uint8_t)_particleID * PARTICLE_WIDTH;
 	return math::vec4(1 + (uint8_t)_particleID + offset, 1 + offset/IMG_WIDTH, 4, 4) / IMG_WIDTH;
 }

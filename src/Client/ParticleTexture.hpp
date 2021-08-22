@@ -14,10 +14,13 @@ public:
 	void bind();
 	void unbind();
 	void destroy();
-	math::vec4 getUVQuad(ParticleID _particleID);
+	const math::vec4& getUVQuad(ParticleID _particleID) const;
 
 private:
 
+	void populateUVQuadsArray();
+	math::vec4 calcUVQuad(ParticleID _particleID);
+	math::vec4 m_uvQuads[128];
 	GLuint m_textureID = 0;
 
 };
