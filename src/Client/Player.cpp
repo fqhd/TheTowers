@@ -15,8 +15,15 @@ void Player::init(unsigned int _reachDistance) {
 	m_reachDistance = _reachDistance;
 	position = math::vec3(36, 32, 32);
 	gamemode = SURVIVAL;
-	hotbar.items[0].id = ItemID::GRASS;
-	hotbar.items[1].id = ItemID::STONE;
+	hotbar.items[0].id = ItemID::Grass;
+	hotbar.items[1].id = ItemID::Stone;
+	hotbar.items[2].id = ItemID::Snow;
+	hotbar.items[3].id = ItemID::Cobble;
+	hotbar.items[4].id = ItemID::Leaves;
+	hotbar.items[5].id = ItemID::Wood;
+	hotbar.items[6].id = ItemID::Cactus;
+	hotbar.items[7].id = ItemID::Cobble;
+	hotbar.items[7].id = ItemID::Diamond;
 }
 
 void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {

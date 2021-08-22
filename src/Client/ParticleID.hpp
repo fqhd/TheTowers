@@ -3,6 +3,14 @@
 #include <cstdint>
 
 enum class ParticleID : uint8_t {
-	DIRT,
-	STONE
+	Grass,
+	Snow,
+	Dirt,
+	Sand,
+	Stone,
+	Wood,
+	Leaves,
+	Cactus,
+	Cobble,
+	Diamond
 };
