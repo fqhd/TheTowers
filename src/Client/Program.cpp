@@ -19,8 +19,6 @@ void Program::initSystems(){
 	m_inputManager.setVerticalSync(true);
 	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
-
-
 }
 
 void Program::initGame() {

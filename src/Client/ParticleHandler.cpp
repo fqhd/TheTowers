@@ -64,7 +64,7 @@ void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _bl
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
 		float time = 0.5f + (rand() % 100) / 200.0f;
 		float scale = 0.125f + (rand() % 100) / 800.0f;
-		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, time, 0.0f, scale, blockIDtoParticleID(_blockID));
+		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, time, 0.0f, scale, (ParticleID)_blockID);
 	}
 }
 

@@ -57,7 +57,6 @@ build obj/objloader.o: cc src/Client/OBJLoader.cpp
 build obj/model.o: cc src/Client/Model.cpp
 build obj/window.o: cc src/Client/Window.cpp
 build obj/timer.o: cc src/Client/Timer.cpp
-build obj/particleid.o: cc src/Client/ParticleID.cpp
 build obj/startmenu.o: cc src/Client/StartMenu.cpp
 
 # Server
