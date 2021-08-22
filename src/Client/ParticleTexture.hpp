@@ -7,6 +7,8 @@
 #include "ParticleTexture.hpp"
 #include "ParticleID.hpp"
 
+const unsigned int NUM_PARTICLE_UVS = 128;
+
 class ParticleTexture {
 public:
 
@@ -19,8 +21,7 @@ public:
 private:
 
 	void populateUVQuadsArray();
-	math::vec4 calcUVQuad(ParticleID _particleID);
-	math::vec4 m_uvQuads[128];
+	math::vec4 m_uvQuads[NUM_PARTICLE_UVS];
 	GLuint m_textureID = 0;
 
 };

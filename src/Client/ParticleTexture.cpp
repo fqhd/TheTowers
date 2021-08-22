@@ -25,8 +25,8 @@ void ParticleTexture::loadFromFile(const std::string& path){
 }
 
 void ParticleTexture::populateUVQuadsArray(){
-	for(unsigned int i = 0; i < 128; i++){
-		m_uvQuads[i] = calcUVQuad((ParticleID)i);
+	for(unsigned int i = 0; i < NUM_PARTICLE_UVS; i++){
+		m_uvQuads[i] = math::vec4(1 + i + i * PARTICLE_WIDTH, 1 + i * PARTICLE_WIDTH/IMG_WIDTH, 4, 4) / IMG_WIDTH;
 	}
 }
 
@@ -46,7 +46,3 @@ const math::vec4& ParticleTexture::getUVQuad(ParticleID _particleID) const {
 	return m_uvQuads[(uint8_t)_particleID];
 }
 
-math::vec4 ParticleTexture::calcUVQuad(ParticleID _particleID) {
-	uint8_t offset = (uint8_t)_particleID * PARTICLE_WIDTH;
-	return math::vec4(1 + (uint8_t)_particleID + offset, 1 + offset/IMG_WIDTH, 4, 4) / IMG_WIDTH;
-}
