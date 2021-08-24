@@ -11,7 +11,12 @@ void StartMenu::init(InputManager *inputManager,
     m_guiRenderer = guiRenderer;
     m_config = config;
     m_deltaTimer = deltaTimer;
-    m_input.init(math::vec4(100, 100, 200,  50));
+	
+	int input_w = 200;
+	int input_h = 50;
+	int input_x = (int)(m_config->getWindowWidth() / 2 - input_w / 2);
+	int input_y = (int)(m_config->getWindowHeight() / 2 - input_h / 2);
+    m_ipinput.init(math::vec4(input_x, input_y, input_w, input_h));
 }
 
 void StartMenu::loop() {
@@ -42,9 +47,9 @@ void StartMenu::loop() {
 }
 
 void StartMenu::renderGUI() {
-    m_input.render(m_guiRenderer);
+    m_ipinput.render(m_guiRenderer);
 }
 
 void StartMenu::updateGUI() {
-    m_input.update(m_inputManager);
+    m_ipinput.update(m_inputManager);
 }

@@ -4,6 +4,7 @@
 const sf::IpAddress DEFAULT_IP = "tt.ilfez.club";
 
 void Program::run(){
+	m_ip = DEFAULT_IP;
 	initSystems();
 	startMenuLoop();
 	initGame();
@@ -22,7 +23,7 @@ void Program::initSystems(){
 }
 
 void Program::initGame() {
-	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
+	m_networkManager.connectToServer(m_ip, &m_config);
 	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureHandler, &m_config, &m_settings);
 	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
 }

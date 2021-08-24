@@ -27,5 +27,5 @@ private:
     Timer *m_deltaTimer;
     Config *m_config;
     InputManager *m_inputManager;
-    GUIInput m_input;
+    GUIInput m_ipinput;
 };
