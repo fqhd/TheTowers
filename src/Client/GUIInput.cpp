@@ -35,11 +35,19 @@ void GUIInput::update(InputManager* _manager) {
 			m_input.push_back(ascii_key);
 		}
 	}
-	if (_manager->isKeyPressed(GLFW_KEY_ENTER)) m_wasSubmitted = true;
+	m_wasSubmitted = m_onFocus && _manager->isKeyPressed(GLFW_KEY_ENTER);
 }
 
 bool GUIInput::wasSubmitted() {
 	return m_wasSubmitted;
+}
+
+std::string GUIInput::getText() {
+	return m_input;
+}
+
+void GUIInput::focus() {
+	m_onFocus = true;
 }
 
 void GUIInput::render(GUIRenderer* _renderer) {

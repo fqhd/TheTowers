@@ -36,6 +36,7 @@ void Program::startMenuLoop() {
 					&m_config,
 					&m_deltaTimer);
 	startMenu->loop();
+	m_ip = startMenu->getIp();
 	delete startMenu;
 }
 

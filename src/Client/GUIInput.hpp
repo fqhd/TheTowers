@@ -16,6 +16,8 @@ public:
 	void update(InputManager* _manager);
 	void render(GUIRenderer* _renderer);
 	bool wasSubmitted();
+	std::string getText();
+	void focus();
 private:
 	math::vec4 m_destRect;
 	math::vec4 m_outlineRect;
