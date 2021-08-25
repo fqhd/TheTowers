@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include <vector>
 
 #include "Math.hpp"

@@ -2,7 +2,7 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include "Math.hpp"
 #include <iostream>
 
@@ -15,7 +15,7 @@ public:
 	void close();
 	GLFWwindow* getWindowPtr();
 
-	
+
 
 private:
 
