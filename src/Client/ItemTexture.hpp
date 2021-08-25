@@ -2,7 +2,7 @@
 
 #include "Vec4.hpp"
 #include "ItemID.hpp"
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 const unsigned int NUM_ITEM_UVS = 128;
 

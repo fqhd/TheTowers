@@ -37,11 +37,6 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 
 	// Create GL context
 	glfwMakeContextCurrent(m_window);
-	
-	// Initializing GLEW
-	if(glewInit() != GLEW_OK){
-		std::cout << "Failed to initialize GLEW" << std::endl;
-	}
 
 	//Enabling transparency
 	glEnable(GL_BLEND);

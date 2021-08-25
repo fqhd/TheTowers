@@ -20,8 +20,8 @@ private:
 	bool m_isDone = false;
 	
 	//private functions
-	uint8_t createUniqueID();
-	bool doesIDExist(uint8_t id);
+	uint64_t createUniqueID();
+	bool doesIDExist(uint64_t id);
 	void addClient(sf::TcpListener& listener, sf::SocketSelector& selector);
 	void udpThread();
 	void tcpThread();

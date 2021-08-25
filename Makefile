@@ -1,5 +1,5 @@
-INCLUDES = $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags glew)
-LIBS = $$(pkg-config --libs sfml-all) $$(pkg-config --libs glew)
+INCLUDES = $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags epoxy)
+LIBS = $$(pkg-config --libs sfml-all) $$(pkg-config --libs epoxy)
 
 CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror
 LFLAGS = -pthread ${LIBS}

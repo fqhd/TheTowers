@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 class Pixel {
 public:

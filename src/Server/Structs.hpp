@@ -9,7 +9,7 @@ public:
 		socket = new sf::TcpSocket();
 	}
 	sf::TcpSocket* socket = nullptr;
-	uint8_t id = 0;
+	uint64_t id = 0;
 };
 
 struct CompressionSegment {

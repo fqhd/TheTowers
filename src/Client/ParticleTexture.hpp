@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 #include <string>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include "Math.hpp"
 #include "ParticleTexture.hpp"
 #include "ParticleID.hpp"
