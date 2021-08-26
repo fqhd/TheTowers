@@ -1,7 +1,7 @@
 # The Towers
 ---
 
-![Markdown Logo](https://i.imgur.com/lDl7Pab.png)  
+![Markdown Logo](https://i.imgur.com/lDl7Pab.png)
 ![Markdown Logo](https://img.shields.io/badge/build-stable-brightgreen)
 ![Markdown Logo](https://img.shields.io/badge/version-1.1.0-blue)
 
@@ -9,13 +9,13 @@
 ---
 ### Dependencies
 - sfml
-- glew
+- epoxy
 - clang
 - pkg-config
 - ninja
 ---
 ### Mac OS X
-1. `brew install clang sfml glew pkg-config ninja` (This will install the dependencies)
+1. `brew install clang sfml libepoxy pkg-config ninja` (This will install the dependencies)
 1. Clone the repository `git clone https://github.com/fqhd/TheTowers.git`
 1. Add -framework OpenGL to the lflags in build.ninja
 1. CD into the project and run `ninja` , this will build the project
@@ -25,14 +25,14 @@
 ### Linux
 
 #### Arch
-1. `sudo pacman -S clang sfml glew pkg-config ninja` (This will install the dependencies)
+1. `sudo pacman -S clang sfml libepoxy pkg-config ninja` (This will install the dependencies)
 1. Clone the repository `git clone https://github.com/fqhd/TheTowers.git`
 1. CD into the project and run `ninja` , this will build the project
 - The client binary file should be under ./client
 - The server binary file should be under ./server
 
 #### Debian
-1. `sudo apt install clang libsfml-dev libglew-dev pkg-config ninja-build` (This will install the dependencies)
+1. `sudo apt install clang libsfml-dev libepoxy-dev pkg-config ninja-build` (This will install the dependencies)
 1. Clone the repository `git clone https://github.com/fqhd/TheTowers.git`
 1. CD into the project and run `ninja` , this will build the project
 - The client binary file should be under ./client

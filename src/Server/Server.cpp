@@ -105,17 +105,28 @@ void Server::generateWorld(){
 	}
 }
 
-uint8_t Server::createUniqueID(){
-	uint8_t id = rand()%255 + 1;
-	if(!doesIDExist(id)){
-		return id;
-	}
-	return createUniqueID();
+uint64_t Server::createUniqueID() {
+	static uint64_t uid;
+	return ++uid;
 }
 
-bool Server::doesIDExist(uint8_t id){
-	for(auto& i : m_clients){
-		if(i.id == id) return true;
+bool Server::doesIDExist(uint64_t id){
+	/* Client ids are allocated serially so are always in order; we can use a
+         * binary search here
+         */
+
+        size_t l = 0;
+        size_t r = m_clients.size();
+
+        while (l <= r) {
+		size_t m = l + (r - l) / 2;
+
+		if (m_clients[m].id == id)
+    			return true;
+		else if (m_clients[m].id > id)
+    			r = m - 1;
+		else
+    			l = m + 1;
 	}
 	return false;
 }
@@ -130,10 +141,12 @@ void Server::addClient(sf::TcpListener& listener, sf::SocketSelector& selector) 
 
 	// Sending chosen ID to client
 	sf::Packet packet;
-	packet << client.id;
+	for (uint8_t i = 0; i < 64; i += 8)
+		packet << (uint8_t)(client.id >> i & 0xff);
+
 	client.socket->send(packet);
 	packet.clear();
-	std::cout << "New client connected with ID: " << (unsigned int)client.id << std::endl;
+	std::cout << "New client connected with ID: " << client.id << std::endl;
 }
 
 void Server::freeWorldData(){
@@ -162,7 +175,11 @@ uint8_t Server::getReceivedPacket(sf::SocketSelector& selector, sf::Packet& pack
 void Server::disconnectPlayer(sf::SocketSelector& _selector, unsigned int _playerID){
 	sf::Packet packet;
 	packet.clear();
-	packet << (uint8_t)1 << m_clients[_playerID].id; // We send the keycode 1 because that is the code for a disconnection
+	packet << (uint8_t)1; // We send the keycode 1 because that is the code for a disconnection
+
+	for (uint8_t i = 0; i < 64; i += 8)
+		packet << (uint8_t)(m_clients[_playerID].id >> i & 0xff);
+
 	sendPacketToAllClients(packet);
 	std::cout << "Client Disconnected with ID: " << (unsigned int)m_clients[_playerID].id << std::endl;
 	_selector.remove(*m_clients[_playerID].socket);

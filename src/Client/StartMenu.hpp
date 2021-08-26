@@ -6,6 +6,7 @@
 #include "Config.hpp"
 #include "GUIRenderer.hpp"
 #include "GUIInput.hpp"
+#include <SFML/Network/IpAddress.hpp>
 
 class StartMenu  {
 public:
@@ -16,6 +17,7 @@ public:
               Config *config,
               Timer *deltaTimer);
     void loop();
+	sf::IpAddress getIp();
 private:
 
     void updateGUI();
@@ -27,5 +29,6 @@ private:
     Timer *m_deltaTimer;
     Config *m_config;
     InputManager *m_inputManager;
-    GUIInput m_input;
+    GUIInput m_ipinput;
+	sf::IpAddress m_ip;
 };

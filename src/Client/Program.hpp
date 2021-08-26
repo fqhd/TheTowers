@@ -42,6 +42,6 @@ private:
 	Settings m_settings;
 	Window m_window;
 	Timer m_deltaTimer;
-
+	sf::IpAddress m_ip;
 
 };
