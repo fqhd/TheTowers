@@ -7,8 +7,8 @@
 class Hotbar {
 public:
 
-	Hotbar();
-	void update(InputManager* _iManager);
+	void init(InputManager* _manager);
+	void update();
 
 	int getSelectorLocation();
 	const Item& getSelectedItem();
@@ -16,4 +16,7 @@ public:
 
 private:
 	int m_selectorLocation;
+
+	InputManager* m_inputManager = nullptr;
+
 };

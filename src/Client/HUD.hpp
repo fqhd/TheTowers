@@ -4,15 +4,23 @@
 #include "Config.hpp"
 #include "Utils.hpp"
 #include "Hotbar.hpp"
+#include "ItemRenderer.hpp"
+#include "Converter.hpp"
+
 
 class HUD {
 public:
 
-	void render(GUIRenderer* _renderer, Hotbar& _hotbar);
+	void init(GUIRenderer* _guiRenderer, Converter* _converter, ItemRenderer* _itemRenderer, Hotbar* _hotbar);
+	void render();
 
 private:
 
-	void renderHotbar(GUIRenderer* _renderer, Hotbar& _hotbar);
+	void renderHotbar();
 
+	ItemRenderer* m_itemRenderer = nullptr;
+	GUIRenderer* m_guiRenderer = nullptr;
+	Hotbar* m_hotbar = nullptr;
+	Converter* m_converter = nullptr;
 
 };

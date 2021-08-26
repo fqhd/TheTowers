@@ -17,14 +17,18 @@
 #include "HUD.hpp"
 #include "World.hpp"
 #include "PacketHandler.hpp"
-#include "BlockTextureHandler.hpp"
+#include "TextureArray.hpp"
 #include "DebugMenu.hpp"
 #include "Timer.hpp"
+#include "TextureArray.hpp"
+#include "Converter.hpp"
+#include "ItemRenderer.hpp"
+
 
 class Game {
 public:
 
-	void init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, BlockTextureHandler* _textureHandler, Config* _config, Settings* _settings);
+	void init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _array, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
@@ -52,6 +56,7 @@ private:
 	Timer m_dataFrequencyTimer;
 
 	// Pointers
+	TextureArray* m_textureArray = nullptr;
 	Settings* m_settings = nullptr;
 	Config* m_config = nullptr;
 	GUIRenderer* m_guiRenderer = nullptr;

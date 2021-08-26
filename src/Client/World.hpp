@@ -11,7 +11,7 @@
 class World {
 public:
 
-	void init(BlockTextureHandler* _textureHandler, Config* _c);
+	void init(TextureArray* _array, Config* _c);
 	void render(Camera& _camera);
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
@@ -41,9 +41,10 @@ private:
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
 	std::vector<GLuint> m_vertices;
 	Shader m_shader;
+	BlockTextureHandler m_textureHandler;
 	unsigned int m_data_length = 0;
 
-	BlockTextureHandler* m_textureHandler = nullptr;
+	TextureArray* m_textureArray = nullptr;
 	Chunk* m_chunks = nullptr;
 	Config* m_config = nullptr;
 	uint8_t* m_data = nullptr;

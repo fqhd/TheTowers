@@ -1,5 +1,17 @@
-#include "ParticleID.hpp"
-#include "ItemID.hpp"
+#pragma once
 
-uint8_t itemIDtoBlockID(ItemID _id);
-ParticleID blockIDtoParticleID(uint8_t _blockID); 
+#include "ItemID.hpp"
+#include "TextureIndex.hpp"
+
+#include <unordered_map>
+
+class Converter {
+public:
+	void init();
+	uint8_t itemIDToBlockID(ItemID _id);
+	TextureIndex itemIDToTextureID(ItemID _id);
+
+private:
+	void populateTextureIndexMap();
+	std::unordered_map<ItemID, TextureIndex> m_textureIndexMap;
+};

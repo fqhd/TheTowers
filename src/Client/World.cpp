@@ -1,8 +1,8 @@
 #include "World.hpp"
 #include <iostream>
 
-void World::init(BlockTextureHandler* _textureHandler, Config* _c){
-	m_textureHandler = _textureHandler;
+void World::init(TextureArray* _array, Config* _c){
+	m_textureArray = _array;
 	m_config = _c;
 	unsigned int ww = _c->getWorldWidth();
 	unsigned int wl = _c->getWorldLength();
@@ -31,6 +31,7 @@ void World::init(BlockTextureHandler* _textureHandler, Config* _c){
 	}
 
 	loadWorldFromFile("lobby.dat");
+	m_textureHandler.loadBlockTexturesFromFile();
 
 	// Initializing the m_chunks
 	m_chunks = new Chunk[ww * wl * wh];
@@ -54,7 +55,7 @@ GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint
 void World::render(Camera& _camera){
 	m_shader.bind();
 
-	m_textureHandler->bind();
+	m_textureArray->bind();
 
 	m_shader.loadUniform("projection", _camera.getProjectionMatrix());
 	m_shader.loadUniform("view", _camera.getViewMatrix());
@@ -83,7 +84,7 @@ void World::render(Camera& _camera){
 		}
 	}
 
-	m_textureHandler->unbind();
+	m_textureArray->unbind();
 
 	m_shader.unbind();
 }
@@ -232,7 +233,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 }
 
 void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
-	BlockTexture blockTexture = m_textureHandler->getTextureFromBlockID(_blockType);
+	BlockTexture blockTexture = m_textureHandler.getTextureFromBlockID(_blockType);
 
 	addTopFace(_c, _x, _y, _z, blockTexture.top);
 	addBottomFace(_c, _x, _y, _z, blockTexture.bot);

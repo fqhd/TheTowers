@@ -5,8 +5,8 @@ const unsigned int ITEM_WIDTH = 32;
 void ItemRenderer::init(){
 	glGenVertexArrays(1, &m_vaoID);
 	glBindVertexArray(m_vaoID);
-	glEnableVertexAttribPointer(0);
-	glEnableVertexAttribPointer(1);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(ItemVertex), (void*)offsetof(ItemVertex, position));
 	glVertexAttribPointer(1, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(ItemVertex), (void*)offsetof(ItemVertex, uv));
 	glBindVertexArray(0);
@@ -19,13 +19,13 @@ void ItemRenderer::begin(){
 }
 
 void ItemRenderer::draw(const math::vec2& _area, unsigned int _uv){
-	m_vertices.emplace_back(glm::vec2(_area.x, _area.y), _uv);
-	m_vertices.emplace_back(glm::vec2(_area.x, _area.y + ITEM_WIDTH), _uv);
-	m_vertices.emplace_back(glm::vec2(_area.x + ITEM_WIDTH, _area.y + ITEM_WIDTH), _uv);
+	m_vertices.emplace_back(math::vec2(_area.x, _area.y), _uv);
+	m_vertices.emplace_back(math::vec2(_area.x, _area.y + ITEM_WIDTH), _uv);
+	m_vertices.emplace_back(math::vec2(_area.x + ITEM_WIDTH, _area.y + ITEM_WIDTH), _uv);
 
-	m_vertices.emplace_back(glm::vec2(_area.x, _area.y), _uv);
-	m_vertices.emplace_back(glm::vec2(_area.x + ITEM_WIDTH, _area.y + ITEM_WIDTH), _uv);
-	m_vertices.emplace_back(glm::vec2(_area.x + ITEM_WIDTH, _area.y), _uv);
+	m_vertices.emplace_back(math::vec2(_area.x, _area.y), _uv);
+	m_vertices.emplace_back(math::vec2(_area.x + ITEM_WIDTH, _area.y + ITEM_WIDTH), _uv);
+	m_vertices.emplace_back(math::vec2(_area.x + ITEM_WIDTH, _area.y), _uv);
 }
 
 void ItemRenderer::end(){

@@ -3,6 +3,6 @@
 #include "ItemID.hpp"
 
 struct Item {
-	ItemID id = ItemID::NONE;
-	uint8_t amount = 0;
+	ItemID id;
+	uint8_t count = 0;
 };

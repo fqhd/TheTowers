@@ -10,23 +10,22 @@
 #include <SFML/Network.hpp>
 #include "Item.hpp"
 #include "Hotbar.hpp"
+#include "Converter.hpp"
 
 struct VisibleBlocks {
 	math::ivec3 breakableBlock; // The block that the player is looking at
 	math::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
 	bool lookingAtBlock = false;
-	bool isInsideBlock = false;
 };
-
 
 
 class Player {
 public:
 
-	void init(unsigned int _reachDistance);
-	void update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime);
-	void mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager);
-	void kbHandler(const Camera& camera, World* world, InputManager* _iManager, float deltaTime);
+	void init(Camera* _camera, ParticleHandler* _handler, World* _world, NetworkManager* _nMangaer, InputManager* _iManager, Converter* _converter);
+	void update(float deltaTime);
+	void placeAndBreakBlocks();
+	void movement(float deltaTime);
 	math::vec3 getEyePos() const;
 
 	VisibleBlocks visibleBlocks;
@@ -35,16 +34,21 @@ public:
 
 private:
 
-	void getVisibleBlocks(const Camera& camera, World* world);
-	void placeBlock(World* world);
-	void breakBlock(ParticleHandler& handler, World* world);
-	math::ivec3 vecToBlock(const math::vec3& vec);
-	void collideWithWorld(World* _world);
+	void getVisibleBlocks();
+	void placeBlock();
+	void breakBlock();
+	void collideWithWorld();
 	static bool compareDistance(AABB a, AABB b);
 	bool canPlaceBlock();
 
-	unsigned int m_reachDistance = 0;
 	bool m_canJump = false;
 	float m_yVelocity = 0.0f;
 
+	// Pointers
+	InputManager* m_inputManager = nullptr;
+	NetworkManager* m_networkManager = nullptr;
+	ParticleHandler* m_particleHandler = nullptr;
+	World* m_world = nullptr;
+	Camera* m_camera = nullptr;
+	Converter* m_converter = nullptr;
 };

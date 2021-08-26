@@ -4,14 +4,14 @@
 #include "Shader.hpp"
 #include "Particle.hpp"
 #include "Camera.hpp"
-#include "ParticleTexture.hpp"
+#include "TextureArray.hpp"
 #include <vector>
 
 class ParticleHandler {
 public:
 
 
-	void init();
+	void init(TextureArray* _array);
 	void update(float deltaTime);
 	void render(Camera& camera);
 	void destroy();
@@ -25,8 +25,8 @@ private:
 	std::vector<math::vec4> m_uvQuads;
 	std::vector<Particle> m_particles;
 	ParticleQuad m_quad;
+	TextureArray* m_textureArray = nullptr;
 	Shader m_shader;
-	ParticleTexture m_particleTexture;
 
 };
 

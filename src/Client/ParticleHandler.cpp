@@ -3,10 +3,10 @@
 
 const unsigned int NUM_PARTICLES = 50;
 
-void ParticleHandler::init(){
+void ParticleHandler::init(TextureArray* _array){
+	m_textureArray = _array;
 	m_quad.init();
 	m_shader.load("res/shaders/particle_vertex_shader.glsl", "res/shaders/particle_fragment_shader.glsl");
-	m_particleTexture.loadFromFile("res/textures/particle_texture.png");
 }
 
 void ParticleHandler::update(float deltaTime){
@@ -39,7 +39,7 @@ void ParticleHandler::render(Camera& camera){
 		math::scale(math::vec3(m_particles[i].getScale()), matrix, matrix);
 
 		m_matrices.push_back(matrix);
-		m_uvQuads.push_back(m_particleTexture.getUVQuad(m_particles[i].getParticleID()));
+		m_uvQuads.push_back(math::vec4(0, 0, 1, 1));
 	}
 
 	m_quad.pushMatrices(m_matrices);
@@ -49,13 +49,13 @@ void ParticleHandler::render(Camera& camera){
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	m_shader.loadUniform("view", camera.getViewMatrix());
 
-	m_particleTexture.bind();
+	m_textureArray->bind();
 
 	glDisable(GL_CULL_FACE);
 	m_quad.render(m_matrices.size());
 	glEnable(GL_CULL_FACE);
 
-	m_particleTexture.unbind();
+	m_textureArray->unbind();
 
 	m_shader.unbind();
 }
@@ -64,12 +64,11 @@ void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _bl
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
 		float time = 0.5f + (rand() % 100) / 200.0f;
 		float scale = 0.125f + (rand() % 100) / 800.0f;
-		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, time, 0.0f, scale, blockIDtoParticleID(_blockID));
+		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, time, 0.0f, scale, TextureIndex::GRASS_TOP);
 	}
 }
 
 void ParticleHandler::destroy(){
 	m_quad.destroy();
 	m_shader.destroy();
-	m_particleTexture.destroy();
 }

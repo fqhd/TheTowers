@@ -3,6 +3,7 @@
 #include "Game.hpp"
 #include "PauseMenu.hpp"
 #include "Config.hpp"
+#include "ItemRenderer.hpp"
 #include "Settings.hpp"
 #include "DebugMenu.hpp"
 #include "GUIRenderer.hpp"
@@ -10,6 +11,8 @@
 #include "Window.hpp"
 #include "Timer.hpp"
 #include "StartMenu.hpp"
+#include "TextureArray.hpp"
+#include "Converter.hpp"
 
 class Program {
 public:
@@ -26,7 +29,9 @@ private:
 	void createWindow();
 	void startMenuLoop();
 
-	BlockTextureHandler m_textureHandler;
+	ItemRenderer m_itemRenderer;
+	Converter m_converter;
+	TextureArray m_textureArray;
 	GUIRenderer m_guiRenderer;
 	NetworkManager m_networkManager;
 	Game m_game;

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Vertex.hpp"
-#include "ParticleID.hpp"
+#include "TextureIndex.hpp"
 
 class Particle {
 public:
 
-	Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, ParticleID _particleID);
+	Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, TextureIndex _index);
 
 	bool update(float deltaTime);
 
@@ -15,7 +15,7 @@ public:
 	float getScale() const;
 	float getLifeLength() const;
 	float getElapsedTime() const;
-	ParticleID getParticleID();
+	TextureIndex getTextureIndex();
 
 
 
@@ -27,7 +27,7 @@ private:
 	float m_rotation = 0.0f;
 	float m_scale = 0.0f;
 	float m_elapsedTime = 0.0f;
-	ParticleID m_particleID;
+	TextureIndex m_index;
 
 };
 

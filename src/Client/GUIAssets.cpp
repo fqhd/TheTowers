@@ -1,10 +1,6 @@
 #include "GUIAssets.hpp"
 #include "Utils.hpp"
 
-void GUIAssets::init(){
-	m_itemTexture.init();
-}
-
 GLuint GUIAssets::getTexture(const std::string& _name){
 	auto it = m_textureMap.find(_name);
 	if(it != m_textureMap.end()){
@@ -17,13 +13,8 @@ GLuint GUIAssets::getTexture(const std::string& _name){
 	return id;
 }
 
-const ItemTexture& GUIAssets::getItemTexture(){
-	return m_itemTexture;
-}
-
 void GUIAssets::destroy(){
 	for(auto it = m_textureMap.begin(); it != m_textureMap.end(); it++){
 		glDeleteTextures(1, &it->second);
 	}
-	m_itemTexture.destroy();
 }

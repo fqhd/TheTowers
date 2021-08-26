@@ -3,24 +3,26 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, BlockTextureHandler* _textureHandler, Config* _config, Settings* _settings) {
+void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer) {
 	m_settings = _settings;
 	m_config = _config;
 	m_guiRenderer = _guiRenderer;
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
+	m_textureArray = _textureArray;
 
-	m_world.init(_textureHandler, _config);
+	m_world.init(_textureArray, _config);
 	m_assets.init();
-	player.init(_config->getReachDistance());
+	player.init(&m_camera, &m_particleHandler, &m_world, _nManager, _iManager, _converter);
 	m_skybox.init(&m_assets);
-	m_particleHandler.init();
+	m_particleHandler.init(_textureArray);
 	m_camera.init(_iManager, _config);
 	m_vignette.init();
 	m_entityHandler.init(&m_assets);
 	m_blockOutline.init(&m_assets);
 	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
+	m_hud.init(_guiRenderer, _converter, _itemRenderer, &player.hotbar);
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -33,7 +35,7 @@ void Game::update(GameStates& _state, float _deltaTime) {
 	m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
 	m_camera.update();
-	player.update(m_camera, m_particleHandler, &m_world, m_networkManager, m_inputManager, _deltaTime);
+	player.update(_deltaTime);
 	m_camera.setPosition(player.getEyePos());
 	m_particleHandler.update(_deltaTime);
 	sendPositionDataToServer();
@@ -55,7 +57,7 @@ void Game::render() {
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	if(m_settings->isVignetteToggled) m_vignette.render();
-	m_hud.render(m_guiRenderer, player.hotbar);
+	m_hud.render();
 	if(m_settings->isDebugToggled) m_debugMenu.render(m_guiRenderer, m_frameCounter, player);
 }
 

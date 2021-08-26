@@ -40,3 +40,12 @@ struct GUIVertex {
 	math::vec2 uv;
 	ColorRGBA8 color;
 };
+
+struct ItemVertex {
+	ItemVertex(const math::vec2& _pos, unsigned int _uv){
+		position = _pos;
+		uv = _uv;
+	}
+	math::vec2 position;
+	unsigned int uv;
+};

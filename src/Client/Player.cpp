@@ -4,6 +4,7 @@
 #include <iostream>
 
 const unsigned int PRECISION = 50;
+const unsigned int REACH_DISTANCE = 5;
 const float SPEED = 4.0f;
 const float PLAYER_WIDTH = 1.0f;
 const float PLAYER_HEIGHT = 2.0f;
@@ -11,80 +12,86 @@ const float GRAVITY = 36.0f;
 
 math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
 
-void Player::init(unsigned int _reachDistance) {
-	m_reachDistance = _reachDistance;
+void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, NetworkManager* _nManager, InputManager* _iManager, Converter* _converter) {
+	m_camera = _camera;
+	m_world = _world;
+	m_particleHandler = _handler;
+	m_networkManager = _nManager;
+	m_inputManager = _iManager;
+	m_converter = _converter;
+
+	hotbar.init(_iManager);
 	position = math::vec3(36, 32, 32);
 	gamemode = SURVIVAL;
-	hotbar.items[0].id = ItemID::Grass;
-	hotbar.items[1].id = ItemID::Stone;
-	hotbar.items[2].id = ItemID::Snow;
-	hotbar.items[3].id = ItemID::Cobble;
-	hotbar.items[4].id = ItemID::Leaves;
-	hotbar.items[5].id = ItemID::Wood;
-	hotbar.items[6].id = ItemID::Cactus;
-	hotbar.items[7].id = ItemID::Cobble;
-	hotbar.items[7].id = ItemID::Diamond;
+	hotbar.items[0].id = ItemID::GRASS;
+	hotbar.items[1].id = ItemID::STONE;
+	hotbar.items[2].id = ItemID::SNOW;
+	hotbar.items[3].id = ItemID::COBBLE;
+	hotbar.items[4].id = ItemID::LEAVES;
+	hotbar.items[5].id = ItemID::WOOD;
+	hotbar.items[6].id = ItemID::CACTUS;
+	hotbar.items[7].id = ItemID::COBBLE;
+	hotbar.items[7].id = ItemID::DIAMOND;
 }
 
-void Player::update(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager, float deltaTime) {
-	hotbar.update(_iManager);
+void Player::update(float deltaTime) {
+	hotbar.update();
 
-	kbHandler(camera, world, _iManager, deltaTime);
-	if (gamemode != GameMode::SPECTATOR) collideWithWorld(world);
-	mouseHandler(camera, handler, world, _nManager, _iManager);
+	movement(deltaTime);
+	if (gamemode != GameMode::SPECTATOR) collideWithWorld();
+	placeAndBreakBlocks();
 }
 
-void Player::mouseHandler(const Camera& camera, ParticleHandler& handler, World* world, NetworkManager* _nManager, InputManager* _iManager) {
-	getVisibleBlocks(camera, world);
+void Player::placeAndBreakBlocks() {
+	getVisibleBlocks();
 
 	if (!visibleBlocks.lookingAtBlock) return;
-	if (visibleBlocks.isInsideBlock) return;
 
-	if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && gamemode != GameMode::SPECTATOR) {
-		breakBlock(handler, world);
-		_nManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
-	} else if (_iManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
+	if (m_inputManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && gamemode != GameMode::SPECTATOR) {
+		breakBlock();
+		m_networkManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
+	} else if (m_inputManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
 		if(canPlaceBlock()){
-			placeBlock(world);
-			_nManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, itemIDtoBlockID(hotbar.getSelectedItem().id));
+			placeBlock();
+			m_networkManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, m_converter->itemIDToBlockID(hotbar.getSelectedItem().id));
 		}
 	}
 
 	//We get the visible blocks again to update them after a block has been pressed
-	getVisibleBlocks(camera, world);
+	getVisibleBlocks();
 }
 
 
-void Player::kbHandler(const Camera& camera, World* world, InputManager* _iManager, float deltaTime) {
-	math::vec3 camForward = camera.getForward();
+void Player::movement(float deltaTime) {
+	math::vec3 camForward = m_camera->getForward();
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (_iManager->isKeyDown(GLFW_KEY_W)) {
+	if (m_inputManager->isKeyDown(GLFW_KEY_W)) {
 		position += forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(GLFW_KEY_S)) {
+	if (m_inputManager->isKeyDown(GLFW_KEY_S)) {
 		position -= forward * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(GLFW_KEY_A)) {
+	if (m_inputManager->isKeyDown(GLFW_KEY_A)) {
 		position -= side * SPEED * deltaTime;
 	}
 
-	if (_iManager->isKeyDown(GLFW_KEY_D)) {
+	if (m_inputManager->isKeyDown(GLFW_KEY_D)) {
 		position += side * SPEED * deltaTime;
 	}
 
 	if(GameModeCanFly(gamemode)){
-		if(_iManager->isKeyDown(GLFW_KEY_SPACE)){
+		if(m_inputManager->isKeyDown(GLFW_KEY_SPACE)){
 			position.y += SPEED * deltaTime;
 		}
-		if(_iManager->isKeyDown(GLFW_KEY_LEFT_SHIFT)){
+		if(m_inputManager->isKeyDown(GLFW_KEY_LEFT_SHIFT)){
 			position.y -= SPEED * deltaTime;
 		}
 	}else{
-		if(_iManager->isKeyDown(GLFW_KEY_SPACE) && m_canJump){
+		if(m_inputManager->isKeyDown(GLFW_KEY_SPACE) && m_canJump){
 			m_yVelocity = 10.5f;
 			m_canJump = false;
 		}
@@ -101,42 +108,43 @@ math::vec3 Player::getEyePos() const {
 	return math::vec3(position.x + 0.5f, position.y + 1.5f, position.z + 0.5f);
 }
 
-void Player::getVisibleBlocks(const Camera& camera, World* world) {
-	math::ivec3 pos = vecToBlock(camera.getPosition());
-	visibleBlocks.lookingAtBlock = false;
-	visibleBlocks.isInsideBlock = world->getBlock(pos.x, pos.y, pos.z) ? true : false;
+math::ivec3 vecToBlock(const math::vec3& vec) {
+	return math::ivec3(math::floor(vec.x), math::floor(vec.y), math::floor(vec.z));
+}
 
-	math::vec3 rayPosition = camera.getPosition();
+void Player::getVisibleBlocks() {
+	math::ivec3 pos = vecToBlock(m_camera->getPosition());
+	visibleBlocks.lookingAtBlock = false;
+
+	math::vec3 rayPosition = m_camera->getPosition();
 	for (unsigned int i = 0; i < PRECISION; i++) {
-		rayPosition += camera.getForward() * m_reachDistance / (float)PRECISION;
+		rayPosition += m_camera->getForward() * REACH_DISTANCE / (float)PRECISION;
 
 		visibleBlocks.breakableBlock = vecToBlock(rayPosition);
-		uint8_t blockID = world->getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
+		uint8_t blockID = m_world->getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
 
 		if (blockID) {
 			visibleBlocks.lookingAtBlock = true;
-			rayPosition -= camera.getForward() * m_reachDistance / (float)PRECISION;
+			rayPosition -= m_camera->getForward() * REACH_DISTANCE / (float)PRECISION;
 			visibleBlocks.placeableBlock = vecToBlock(rayPosition);
 			break;
 		}
 	}
 }
 
-void Player::placeBlock(World* world) {
-	world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, itemIDtoBlockID(hotbar.getSelectedItem().id));
+void Player::placeBlock() {
+	m_world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, m_converter->itemIDToBlockID(hotbar.getSelectedItem().id));
 }
 
-void Player::breakBlock(ParticleHandler& handler, World* world) {
-	uint8_t blockID = world->getBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z);
-	world->setBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, 0);
-	handler.placeParticlesAroundBlock(visibleBlocks.breakableBlock.x, visibleBlocks.breakableBlock.y, visibleBlocks.breakableBlock.z, blockID);
+void Player::breakBlock() {
+	math::ivec3 vb = visibleBlocks.breakableBlock;
+
+	uint8_t blockID = m_world->getBlock(vb.x, vb.y, vb.z);
+	m_world->setBlock(vb.x, vb.y, vb.z, 0);
+	m_particleHandler->placeParticlesAroundBlock(vb.x, vb.y, vb.z, blockID);
 }
 
-math::ivec3 Player::vecToBlock(const math::vec3& vec) {
-	return math::ivec3(math::floor(vec.x), math::floor(vec.y), math::floor(vec.z));
-}
-
-void Player::collideWithWorld(World* _world){
+void Player::collideWithWorld(){
 	math::ivec3 playerCenterBlock = vecToBlock(position);
 	std::vector<AABB> blocksToCollideWith;
 	m_canJump = false;
@@ -146,7 +154,7 @@ void Player::collideWithWorld(World* _world){
 			for(int z = -1; z < 2; z++){
 				math::ivec3 iBlockPos = playerCenterBlock + math::ivec3(x, y, z);
 
-				if(_world->getBlock(iBlockPos.x, iBlockPos.y, iBlockPos.z)){
+				if(m_world->getBlock(iBlockPos.x, iBlockPos.y, iBlockPos.z)){
 					math::vec3 blockPos = math::vec3(iBlockPos.x, iBlockPos.y, iBlockPos.z);
 					AABB blockBox(blockPos, math::vec3(1, 1, 1));
 					blocksToCollideWith.push_back(blockBox);
@@ -158,6 +166,7 @@ void Player::collideWithWorld(World* _world){
 	// Sort blocks
 	std::stable_sort(blocksToCollideWith.begin(), blocksToCollideWith.end(), compareDistance);
 
+	// Collision detection & response
 	for(auto& i : blocksToCollideWith){
 		AABB playerBox(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 		if(Utils::collideBoxes(playerBox, i) == Y_AXIS){
@@ -185,5 +194,5 @@ bool Player::compareDistance(AABB a, AABB b){
 bool Player::canPlaceBlock(){
 	AABB player(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 	AABB box(math::vec3(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z), math::vec3(1));
-	return !Utils::collideBoxes(player, box) * itemIDtoBlockID(hotbar.getSelectedItem().id);
+	return !Utils::collideBoxes(player, box) * m_converter->itemIDToBlockID(hotbar.getSelectedItem().id);
 }

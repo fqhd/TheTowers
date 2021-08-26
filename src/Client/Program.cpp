@@ -12,18 +12,20 @@ void Program::run(){
 }
 
 void Program::initSystems(){
+	m_converter.init();
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
 	m_inputManager.setVerticalSync(true);
-	m_textureHandler.init();
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
+	m_itemRenderer.init();
+	m_textureArray.init("res/textures/sprite_sheet.png", 512);
 }
 
 void Program::initGame() {
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
-	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureHandler, &m_config, &m_settings);
+	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_itemRenderer);
 	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
 }
 
@@ -65,7 +67,8 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
-	m_textureHandler.destroy();
+	m_itemRenderer.destroy();
+	m_textureArray.destroy();
 	m_guiRenderer.destroy();
 	m_game.destroy();
 	m_window.close();

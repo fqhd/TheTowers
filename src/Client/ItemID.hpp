@@ -2,17 +2,17 @@
 
 #include <cstdint>
 
-// Items must be defined in the same order as their are retreived from ItemTexture.cpp
+// Items must match the items defined in TextureArrangement
 enum class ItemID : uint8_t {
-	NONE,
-	Grass,
-	Snow,
-	Dirt,
-	Sand,
-	Stone,
-	Wood,
-	Leaves,
-	Cactus,
-	Cobble,
-	Diamond
+	GRASS,
+	SNOW,
+	DIRT,
+	SAND,
+	STONE,
+	WOOD,
+	LEAVES,
+	CACTUS,
+	COBBLE,
+	DIAMOND,
+	PICK
 };

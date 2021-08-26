@@ -1,6 +1,5 @@
 #pragma once
 
-#include "TextureArray.hpp"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -26,19 +25,12 @@ struct BlockTexture {
 class BlockTextureHandler {
 public:
 
-	void init();
-	void bind();
-	void unbind();
-	void destroy();
+	void loadBlockTexturesFromFile();
 	BlockTexture getTextureFromBlockID(uint8_t _blockID);
 
 private:
 
-	// Private functions
-	void loadBlockTexturesFromFile();
-
 	// Private variables
-	TextureArray m_texturePack;
 	BlockTexture m_blockTextures[255];
 
 };

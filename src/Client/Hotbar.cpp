@@ -1,11 +1,12 @@
 #include "Hotbar.hpp"
 
-Hotbar::Hotbar() {
+void Hotbar::init(InputManager* _manager) {
+	m_inputManager = _manager;
 	m_selectorLocation = 0;
 }
 
-void Hotbar::update(InputManager* _iManager){
-	m_selectorLocation -= _iManager->getDeltaMouseWheel();
+void Hotbar::update(){
+	m_selectorLocation -= m_inputManager->getDeltaMouseWheel();
 	if(m_selectorLocation > 10){
 		m_selectorLocation = 0;
 	}else if(m_selectorLocation < 0){
