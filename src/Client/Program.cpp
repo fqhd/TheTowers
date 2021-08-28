@@ -25,13 +25,8 @@ void Program::initSystems(){
 }
 
 void Program::initGame() {
-<<<<<<< HEAD
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
 	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_itemRenderer);
-=======
-	m_networkManager.connectToServer(m_ip, &m_config);
-	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureHandler, &m_config, &m_settings);
->>>>>>> 1ed0a8eb54018898a86a2ee4e6fe105fbef0d566
 	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
 }
 

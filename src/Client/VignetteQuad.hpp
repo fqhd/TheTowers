@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vertex.hpp"
-#include <epoxy/gl.h>
+#include <GL/glew.h>
 
 class VignetteQuad {
 public:

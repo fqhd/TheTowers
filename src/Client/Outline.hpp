@@ -1,6 +1,7 @@
 #pragma once
 
-#include <epoxy/gl.h>
+#include <iostream>
+#include <GL/glew.h>
 
 class Outline {
 public:

@@ -1,5 +1,5 @@
 #pragma once
-#include <epoxy/gl.h>
+#include <GL/glew.h>
 #include "Math.hpp"
 #include "ColorRGBA8.hpp"
 

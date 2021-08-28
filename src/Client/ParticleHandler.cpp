@@ -20,7 +20,6 @@ void ParticleHandler::update(float deltaTime){
 
 void ParticleHandler::render(Camera& camera){
 	m_matrices.resize(0);
-	m_uvQuads.resize(0);
 
 	for(unsigned int i = 0; i < m_particles.size(); i++){
 		math::mat4 matrix;
@@ -39,11 +38,9 @@ void ParticleHandler::render(Camera& camera){
 		math::scale(math::vec3(m_particles[i].getScale()), matrix, matrix);
 
 		m_matrices.push_back(matrix);
-		m_uvQuads.push_back(math::vec4(0, 0, 1, 1));
 	}
 
 	m_quad.pushMatrices(m_matrices);
-	m_quad.pushUVQuads(m_uvQuads);
 
 	m_shader.bind();
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());

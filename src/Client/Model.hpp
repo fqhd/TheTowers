@@ -2,7 +2,7 @@
 
 #include "OBJLoader.hpp"
 #include "Vertex.hpp"
-#include <epoxy/gl.h>
+#include <GL/glew.h>
 
 class Model {
 public:

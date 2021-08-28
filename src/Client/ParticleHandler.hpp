@@ -22,7 +22,6 @@ public:
 private:
 
 	std::vector<math::mat4> m_matrices;
-	std::vector<math::vec4> m_uvQuads;
 	std::vector<Particle> m_particles;
 	ParticleQuad m_quad;
 	TextureArray* m_textureArray = nullptr;

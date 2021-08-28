@@ -1,6 +1,6 @@
 #pragma once
 
-#include <epoxy/gl.h>
+#include <GL/glew.h>
 #include <unordered_map>
 #include "Image.hpp"
 #include <string>
