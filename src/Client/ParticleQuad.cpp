@@ -3,12 +3,12 @@
 void ParticleQuad::init(){
 	
 	float vertices[] = {
-		-0.5f, -0.5f,
-		-0.5f, 0.5f,
-		0.5f, 0.5f,
-		-0.5f, -0.5f,
-		0.5f, 0.5f,
-		0.5f, -0.5f
+	  0.0f, 0.0f,
+	  0.0f, 1.0f,
+	  1.0f, 1.0f,
+	  0.0f, 0.0f,
+	  1.0f, 1.0f,
+	  1.0f, 0.0f
 	};
 
 	// Sending position data to vbo
@@ -34,14 +34,14 @@ void ParticleQuad::init(){
 	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(math::mat4), (void*)(3 * sizeof(math::vec4)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// Generating the UVs buffer
+	// Generating the texture indices buffer
 	glGenBuffers(1, &m_uvboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvboID);
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(math::vec4), 0);
+	glVertexAttribPointer(5, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(unsigned int), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glVertexAttribDivisor(1, 0);
+	glVertexAttribDivisor(0, 0);
 	glVertexAttribDivisor(1, 1);
 	glVertexAttribDivisor(2, 1);
 	glVertexAttribDivisor(3, 1);
@@ -51,15 +51,16 @@ void ParticleQuad::init(){
 	glBindVertexArray(0);
 }
 
-void ParticleQuad::pushMatrices(const std::vector<math::mat4>& matrices){
+void ParticleQuad::pushMatrices(const void* _data, unsigned int _size){
 	glBindBuffer(GL_ARRAY_BUFFER, m_mvboID);
-	glBufferData(GL_ARRAY_BUFFER, matrices.size() * sizeof(matrices[0]), matrices.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _size * sizeof(math::mat4), _data, GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ParticleQuad::pushUVQuads(const std::vector<math::vec4>& _uvs){
+void ParticleQuad::pushTextureIndices(const void* _data, unsigned int _size){
+	if(!_data)return;
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvboID);
-	glBufferData(GL_ARRAY_BUFFER, _uvs.size() * sizeof(_uvs[0]), _uvs.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _size * sizeof(unsigned int), _data, GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

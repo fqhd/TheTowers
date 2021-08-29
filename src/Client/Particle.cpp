@@ -2,13 +2,13 @@
 
 const float GRAVITY = 12.0f;
 
-Particle::Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, TextureIndex _index) {
+Particle::Particle(const math::vec3& position, const math::vec3& velocity, float lifelength, float rotation, float scale, unsigned int _index) {
 	m_position = position;
 	m_velocity = velocity;
 	m_lifeLength = lifelength;
 	m_rotation = rotation;
 	m_scale = scale;
-	_index = m_index;
+	m_index = _index;
 }
 
 const math::vec3& Particle::getPosition() const {
@@ -38,6 +38,6 @@ bool Particle::update(float deltaTime) {
 	return m_elapsedTime > m_lifeLength;
 }
 
-TextureIndex Particle::getTextureIndex(){
+unsigned int Particle::getTextureIndex(){
 	return m_index;
 }

@@ -17,11 +17,8 @@ void Program::initSystems(){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
-	printf("hi\n");	
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
-	printf("hi\n");	
 	m_inputManager.setVerticalSync(true);
-	printf("hi\n");	
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
 
 	m_itemRenderer.init();

@@ -12,8 +12,8 @@ public:
 	void render(unsigned int _numInstances);
 	void destroy();
 
-	void pushMatrices(const std::vector<math::mat4>& _matrices);
-	void pushUVQuads(const std::vector<math::vec4>& _uvs);
+	void pushMatrices(const void* _data, unsigned int _size);
+	void pushTextureIndices(const void* _data, unsigned int _size);
 
 private:
 

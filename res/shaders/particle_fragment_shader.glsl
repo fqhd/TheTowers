@@ -1,11 +1,11 @@
 #version 330 core
 
-in vec2 pass_uv;
+in vec3 pass_uv;
 
 out vec4 out_color;
 
-uniform sampler2D ourTexture;
+uniform sampler2DArray ourTexture;
 
 void main(){
-	out_color = texture(ourTexture, vec2(pass_uv.x, (1.0 - pass_uv.y)));
+	out_color = texture(ourTexture, pass_uv);
 }

@@ -20,7 +20,7 @@ void ParticleHandler::update(float deltaTime){
 
 void ParticleHandler::render(Camera& camera){
 	m_matrices.resize(0);
-
+	m_textureIndices.resize(0);
 	for(unsigned int i = 0; i < m_particles.size(); i++){
 		math::mat4 matrix;
 		matrix.setIdentity();
@@ -38,9 +38,11 @@ void ParticleHandler::render(Camera& camera){
 		math::scale(math::vec3(m_particles[i].getScale()), matrix, matrix);
 
 		m_matrices.push_back(matrix);
+		m_textureIndices.push_back(m_particles[i].getTextureIndex());
 	}
 
-	m_quad.pushMatrices(m_matrices);
+	m_quad.pushMatrices(m_matrices.data(), m_matrices.size());
+	m_quad.pushTextureIndices(m_textureIndices.data(), m_textureIndices.size());
 
 	m_shader.bind();
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
@@ -59,9 +61,9 @@ void ParticleHandler::render(Camera& camera){
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
-		float time = 0.5f + (rand() % 100) / 200.0f;
-		float scale = 0.125f + (rand() % 100) / 800.0f;
-		m_particles.emplace_back(math::vec3(x, y, z) + math::vec3((rand()%11) / 10.0f, (rand()%11)/10.0f, (rand()%11)/10.0f), math::vec3((rand()%10) - 5, 10, (rand()%10) - 5) * 0.20f, time, 0.0f, scale, TextureIndex::GRASS_TOP);
+		math::vec3 pos(x, y, z);
+		math::vec3 velocity(0, 1, 0);
+		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, 1.0f, 0));
 	}
 }
 
