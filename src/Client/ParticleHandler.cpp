@@ -20,31 +20,16 @@ void ParticleHandler::update(float deltaTime){
 }
 
 void ParticleHandler::render(Camera& camera){
-	m_matrices.resize(0);
-	m_textureIndices.resize(0);
-	for(unsigned int i = 0; i < m_particles.size(); i++){
-		math::mat4 matrix;
-		matrix.setIdentity();
-		math::translate(m_particles[i].getPosition(), matrix, matrix);
-		matrix.m[0][0] = camera.getViewMatrix().m[0][0];
-		matrix.m[0][1] = camera.getViewMatrix().m[1][0];
-		matrix.m[0][2] = camera.getViewMatrix().m[2][0];
-		matrix.m[1][0] = camera.getViewMatrix().m[0][1];
-		matrix.m[1][1] = camera.getViewMatrix().m[1][1];
-		matrix.m[1][2] = camera.getViewMatrix().m[2][1];
-		matrix.m[2][0] = camera.getViewMatrix().m[0][2];
-		matrix.m[2][1] = camera.getViewMatrix().m[1][2];
-		matrix.m[2][2] = camera.getViewMatrix().m[2][2];
-		math::rotate(m_particles[i].getRotation(), math::vec3(0, 0, 1), matrix, matrix);
-		math::scale(math::vec3(m_particles[i].getScale()), matrix, matrix);
-
-		m_matrices.push_back(matrix);
-		m_textureIndices.push_back(m_particles[i].getTextureIndex());
+	// Gathering particle data and sending it to GPU
+	m_particleStructs.resize(0);
+	for(auto& i : m_particles){
+		m_particleStructs.emplace_back(i.getPosition(), i.getTextureIndex());
 	}
+	m_quad.pushData(m_particleStructs.data(), m_particleStructs.size());
 
-	m_quad.pushMatrices(m_matrices.data(), m_matrices.size());
-	m_quad.pushTextureIndices(m_textureIndices.data(), m_textureIndices.size());
 
+
+	// Rendering particles
 	m_shader.bind();
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	m_shader.loadUniform("view", camera.getViewMatrix());
@@ -52,7 +37,7 @@ void ParticleHandler::render(Camera& camera){
 	m_textureArray->bind();
 
 	glDisable(GL_CULL_FACE);
-	m_quad.render(m_matrices.size());
+	m_quad.render(m_particleStructs.size());
 	glEnable(GL_CULL_FACE);
 
 	m_textureArray->unbind();

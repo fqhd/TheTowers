@@ -22,8 +22,7 @@ public:
 
 private:
 
-	std::vector<math::mat4> m_matrices;
-	std::vector<unsigned int> m_textureIndices;
+	std::vector<ParticleInstance> m_particleStructs;
 	std::vector<Particle> m_particles;
 	ParticleQuad m_quad;
 	TextureArray* m_textureArray = nullptr;
