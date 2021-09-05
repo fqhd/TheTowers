@@ -23,7 +23,6 @@ void ParticleQuad::pushData(const void* _data, unsigned int _size){
 
 void ParticleQuad::render(unsigned int _numInstances){
 	glBindVertexArray(m_vaoID);
-	glPointSize(10.0f);
 	glDrawArrays(GL_POINTS, 0, _numInstances);
 	glBindVertexArray(0);
 }

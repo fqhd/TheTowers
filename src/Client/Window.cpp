@@ -57,6 +57,9 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 	//Enabling MSAA
 	glEnable(GL_MULTISAMPLE);
 
+	// Enabling point size
+	glEnable(GL_PROGRAM_POINT_SIZE);
+
 }
 
 GLFWwindow* Window::getWindowPtr(){

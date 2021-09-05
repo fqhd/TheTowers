@@ -1,7 +1,7 @@
 #include "ParticleHandler.hpp"
 #include "Converter.hpp"
 
-const unsigned int NUM_PARTICLES = 50;
+const unsigned int NUM_PARTICLES = 500000;
 
 void ParticleHandler::init(TextureArray* _array, BlockTextureHandler* _textureHandler){
 	m_blockTextureHandler = _textureHandler;
