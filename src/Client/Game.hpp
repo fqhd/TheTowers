@@ -28,7 +28,7 @@
 class Game {
 public:
 
-	void init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _array, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer);
+	void init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _array, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer, BlockTextureHandler* _textureHandler);
 	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();

@@ -5,13 +5,14 @@
 #include "Particle.hpp"
 #include "Camera.hpp"
 #include "TextureArray.hpp"
+#include "BlockTextureHandler.hpp"
 #include <vector>
 
 class ParticleHandler {
 public:
 
 
-	void init(TextureArray* _array);
+	void init(TextureArray* _array, BlockTextureHandler* _textureHandler);
 	void update(float deltaTime);
 	void render(Camera& camera);
 	void destroy();
@@ -26,6 +27,7 @@ private:
 	std::vector<Particle> m_particles;
 	ParticleQuad m_quad;
 	TextureArray* m_textureArray = nullptr;
+	BlockTextureHandler* m_blockTextureHandler = nullptr;
 	Shader m_shader;
 
 };

@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer) {
+void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer, BlockTextureHandler* _textureHandler) {
 	m_settings = _settings;
 	m_config = _config;
 	m_guiRenderer = _guiRenderer;
@@ -11,11 +11,11 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer*
 	m_inputManager = _iManager;
 	m_textureArray = _textureArray;
 
-	m_world.init(_textureArray, _config);
+	m_world.init(_textureArray, _config, _textureHandler);
 	m_assets.init();
 	player.init(&m_camera, &m_particleHandler, &m_world, _nManager, _iManager, _converter);
 	m_skybox.init(&m_assets);
-	m_particleHandler.init(_textureArray);
+	m_particleHandler.init(_textureArray, _textureHandler);
 	m_camera.init(_iManager, _config);
 	m_vignette.init();
 	m_entityHandler.init(&m_assets);

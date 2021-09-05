@@ -1,7 +1,8 @@
 #include "World.hpp"
 #include <iostream>
 
-void World::init(TextureArray* _array, Config* _c){
+void World::init(TextureArray* _array, Config* _c, BlockTextureHandler* _textureHandler){
+	m_blockTextureHandler = _textureHandler;
 	m_textureArray = _array;
 	m_config = _c;
 	unsigned int ww = _c->getWorldWidth();
@@ -31,7 +32,6 @@ void World::init(TextureArray* _array, Config* _c){
 	}
 
 	loadWorldFromFile("lobby.dat");
-	m_textureHandler.loadBlockTexturesFromFile();
 
 	// Initializing the m_chunks
 	m_chunks = new Chunk[ww * wl * wh];
@@ -233,7 +233,7 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 }
 
 void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
-	BlockTexture blockTexture = m_textureHandler.getTextureFromBlockID(_blockType);
+	BlockTexture blockTexture = m_blockTextureHandler->getTextureFromBlockID(_blockType);
 
 	addTopFace(_c, _x, _y, _z, blockTexture.top);
 	addBottomFace(_c, _x, _y, _z, blockTexture.bot);

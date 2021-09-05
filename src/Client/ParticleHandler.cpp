@@ -3,7 +3,8 @@
 
 const unsigned int NUM_PARTICLES = 50;
 
-void ParticleHandler::init(TextureArray* _array){
+void ParticleHandler::init(TextureArray* _array, BlockTextureHandler* _textureHandler){
+	m_blockTextureHandler = _textureHandler;
 	m_textureArray = _array;
 	m_quad.init();
 	m_shader.load("res/shaders/particle_vertex_shader.glsl", "res/shaders/particle_fragment_shader.glsl");
@@ -59,11 +60,22 @@ void ParticleHandler::render(Camera& camera){
 	m_shader.unbind();
 }
 
+unsigned int getRandom(uint16_t a, uint16_t b, uint16_t c){
+	int r = rand()%3;
+	if(r == 2){
+		return a;
+	}else if(r == 1){
+		return b;
+	}
+	return c;
+}
+
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
 		math::vec3 pos(x, y, z);
 		math::vec3 velocity(0, 1, 0);
-		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, 1.0f, 1));
+		BlockTexture b = m_blockTextureHandler->getTextureFromBlockID(_blockID);
+		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, 1.0f, getRandom(b.top, b.side, b.bot)));
 	}
 }
 

@@ -29,6 +29,7 @@ private:
 	void createWindow();
 	void startMenuLoop();
 
+	BlockTextureHandler m_blockTextureHandler;
 	ItemRenderer m_itemRenderer;
 	Converter m_converter;
 	TextureArray m_textureArray;

@@ -20,6 +20,7 @@ void Program::initSystems(){
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
 	m_inputManager.setVerticalSync(true);
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
+	m_blockTextureHandler.loadBlockTexturesFromFile();
 
 	m_itemRenderer.init();
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);
@@ -27,7 +28,7 @@ void Program::initSystems(){
 
 void Program::initGame() {
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
-	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_itemRenderer);
+	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_itemRenderer, &m_blockTextureHandler);
 	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
 }
 
