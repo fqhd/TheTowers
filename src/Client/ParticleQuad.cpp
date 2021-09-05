@@ -38,7 +38,7 @@ void ParticleQuad::init(){
 	glGenBuffers(1, &m_uvboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_uvboID);
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(unsigned int), 0);
+	glVertexAttribIPointer(5, 1, GL_UNSIGNED_INT, sizeof(unsigned int), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glVertexAttribDivisor(0, 0);

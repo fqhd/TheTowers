@@ -63,7 +63,7 @@ void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _bl
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
 		math::vec3 pos(x, y, z);
 		math::vec3 velocity(0, 1, 0);
-		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, 1.0f, 0));
+		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, 1.0f, 1));
 	}
 }
 
