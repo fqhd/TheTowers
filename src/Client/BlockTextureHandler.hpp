@@ -7,19 +7,19 @@
 
 struct BlockTexture {
 	BlockTexture(){}
-	BlockTexture(uint16_t _t){
+	BlockTexture(uint8_t _t){
 		top = _t;
 		side = _t;
 		bot = _t;
 	}
-	BlockTexture(uint16_t _top, uint16_t _side, uint16_t _bot){
+	BlockTexture(uint8_t _top, uint8_t _side, uint8_t _bot){
 		top = _top;
 		side = _side;
 		bot = _bot;
 	}
-	uint16_t top = 0;
-	uint16_t side = 0;
-	uint16_t bot = 0;
+	uint8_t top = 0;
+	uint8_t side = 0;
+	uint8_t bot = 0;
 };
 
 class BlockTextureHandler {

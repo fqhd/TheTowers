@@ -1,4 +1,4 @@
-cflags = -std=c++17 -O3 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror
+cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror
 lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -pthread
 
 rule cc
@@ -45,7 +45,6 @@ build obj/skybox.o: cc src/Client/Skybox.cpp
 build obj/cube.o: cc src/Client/Cube.cpp
 build obj/outline.o: cc src/Client/Outline.cpp
 build obj/particlehandler.o: cc src/Client/ParticleHandler.cpp
-build obj/particle.o: cc src/Client/Particle.cpp
 build obj/particlequad.o: cc src/Client/ParticleQuad.cpp
 build obj/image.o: cc src/Client/Image.cpp
 build obj/vignettequad.o: cc src/Client/VignetteQuad.cpp
@@ -66,4 +65,4 @@ build obj/server.o: cc src/Server/Server.cpp
 
 build server: lnk obj/serverMain.o obj/serverConfig.o obj/server.o
 
-build client: lnk obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/game.o obj/camera.o obj/world.o obj/skybox.o obj/outline.o obj/cube.o obj/particlehandler.o obj/particle.o obj/particlequad.o obj/pausemenu.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutline.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/vignettequad.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o obj/transform.o obj/assets.o obj/packethandler.o obj/objloader.o obj/model.o obj/window.o obj/timer.o obj/startmenu.o obj/converter.o obj/itemrenderer.o
+build client: lnk obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/game.o obj/camera.o obj/world.o obj/skybox.o obj/outline.o obj/cube.o obj/particlehandler.o obj/particlequad.o obj/pausemenu.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutline.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/vignettequad.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o obj/transform.o obj/assets.o obj/packethandler.o obj/objloader.o obj/model.o obj/window.o obj/timer.o obj/startmenu.o obj/converter.o obj/itemrenderer.o

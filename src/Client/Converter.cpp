@@ -15,7 +15,7 @@ uint8_t Converter::itemIDToBlockID(ItemID _id) {
 	return 0;
 }
 
-unsigned int Converter::itemIDToTextureID(ItemID _id) {
+uint8_t Converter::itemIDToTextureID(ItemID _id) {
 	return itemTextures[(uint8_t)_id];
 }
 

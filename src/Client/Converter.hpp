@@ -7,12 +7,13 @@
 class Converter {
 public:
 	void init();
+	
 	uint8_t itemIDToBlockID(ItemID _id);
-	unsigned int itemIDToTextureID(ItemID _id);
+	uint8_t itemIDToTextureID(ItemID _id);
 
 private:
 
 	void populateTextureIndexMap();
-	unsigned int itemTextures[256];
+	uint8_t itemTextures[256];
 
 };
