@@ -72,10 +72,11 @@ unsigned int getRandom(uint16_t a, uint16_t b, uint16_t c){
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){
 	for(unsigned int j = 0; j < NUM_PARTICLES; j++){
-		math::vec3 pos(x, y, z);
-		math::vec3 velocity(0, 1, 0);
+		math::vec3 pos(x + math::random(), y + math::random(), z + math::random());
+		math::vec3 velocity((math::random() - 0.5f) * 3.0f, math::random() * 5, (math::random() - 0.5f) * 3.0f);
+		float scale = 0.1f + math::random() * 0.1;
 		BlockTexture b = m_blockTextureHandler->getTextureFromBlockID(_blockID);
-		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, 1.0f, getRandom(b.top, b.side, b.bot)));
+		m_particles.push_back(Particle(pos, velocity, 1.0f, 0.0f, scale, getRandom(b.top, b.side, b.bot)));
 	}
 }
 

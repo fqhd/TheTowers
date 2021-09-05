@@ -97,6 +97,10 @@ namespace math {
 		return (int)v;
 	}
 
+	float random(){
+		return (rand() % 1000000000) / 999999999.0f;
+	}
+
 	ivec2 floor(const math::vec2& vec){
 		return ivec2(floor(vec.x), floor(vec.y));
 	}
