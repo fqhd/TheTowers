@@ -51,11 +51,8 @@ void GUIInput::focus() {
 }
 
 void GUIInput::render(GUIRenderer* _renderer) {
-
 	ColorRGBA8 outlineColor = m_onFocus ? m_activeOutlineColor : m_outlineColor;
 	_renderer->drawRect(m_outlineRect, math::vec4(0, 0, 1, 1), _renderer->assets.getTexture("blank"), outlineColor);
-
 	_renderer->drawRect(m_destRect, math::vec4(0, 0, 1, 1), _renderer->assets.getTexture("blank"), m_backgroundColor);
-	_renderer->drawText(m_input, math::vec2(m_destRect.x + 3, m_destRect.y + 5), math::vec2(0.75, 0.75), ColorRGBA8());
-	
+	_renderer->drawText(m_input, math::vec2(m_destRect.x + 3, m_destRect.y + 5), math::vec2(0.75, 0.75), ColorRGBA8());	
 }

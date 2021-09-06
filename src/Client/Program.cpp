@@ -21,27 +21,17 @@ void Program::initSystems(){
 	m_inputManager.setVerticalSync(true);
 	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
 	m_blockTextureHandler.loadBlockTexturesFromFile();
-
-	m_itemRenderer.init();
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);
 }
 
 void Program::initGame() {
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
-	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_itemRenderer, &m_blockTextureHandler);
+	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_blockTextureHandler);
 	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
 }
 
 void Program::startMenuLoop() {
-	StartMenu *startMenu = new StartMenu;
-	startMenu->init(&m_inputManager,
-					&m_window,
-					&m_guiRenderer,
-					&m_config,
-					&m_deltaTimer);
-	startMenu->loop();
-	m_ip = startMenu->getIp();
-	delete startMenu;
+	m_ip = DEFAULT_IP;
 }
 
 void Program::gameloop(){
@@ -53,9 +43,11 @@ void Program::gameloop(){
 
 		float deltaTime = m_deltaTimer.getElapsedTime();
 		m_deltaTimer.restart();
-
+		std::cout << "looking good" << std::endl;
 		m_guiRenderer.begin();
+		std::cout << "passed the begin func" << std::endl;
 		if(m_state == GameStates::PLAY){
+			std::cout << "shti doesn't make sense" << std::endl;
 			m_game.update(m_state, deltaTime);
 			m_game.render();
 		}else if(m_state == GameStates::PAUSE){
@@ -71,7 +63,6 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
-	m_itemRenderer.destroy();
 	m_textureArray.destroy();
 	m_guiRenderer.destroy();
 	m_game.destroy();

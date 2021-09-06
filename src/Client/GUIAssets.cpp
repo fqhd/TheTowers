@@ -2,6 +2,7 @@
 #include "Utils.hpp"
 
 GLuint GUIAssets::getTexture(const std::string& _name){
+	std::cout << "Called this function" << std::endl;
 	auto it = m_textureMap.find(_name);
 	if(it != m_textureMap.end()){
 		// Got the texture
