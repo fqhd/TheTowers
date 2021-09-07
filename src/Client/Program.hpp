@@ -3,6 +3,7 @@
 #include "Game.hpp"
 #include "PauseMenu.hpp"
 #include "Config.hpp"
+#include "ItemRenderer.hpp"
 #include "Settings.hpp"
 #include "DebugMenu.hpp"
 #include "GUIRenderer.hpp"
@@ -29,6 +30,7 @@ private:
 	void startMenuLoop();
 
 	BlockTextureHandler m_blockTextureHandler;
+	ItemRenderer m_itemRenderer;
 	Converter m_converter;
 	TextureArray m_textureArray;
 	GUIRenderer m_guiRenderer;

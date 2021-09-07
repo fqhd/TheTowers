@@ -8,6 +8,7 @@
 class GUIAssets {
 public:
 
+	void init();
 	GLuint getTexture(const std::string& _name);
 	void destroy();
 

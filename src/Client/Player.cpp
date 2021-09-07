@@ -24,7 +24,6 @@ void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, Net
 	position = math::vec3(36, 32, 32);
 	gamemode = SURVIVAL;
 	hotbar.items[0].id = ItemID::GRASS;
-	hotbar.items[0].count = 5;
 	hotbar.items[1].id = ItemID::STONE;
 	hotbar.items[2].id = ItemID::SNOW;
 	hotbar.items[3].id = ItemID::COBBLE;

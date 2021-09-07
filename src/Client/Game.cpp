@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, BlockTextureHandler* _textureHandler) {
+void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, ItemRenderer* _itemRenderer, BlockTextureHandler* _textureHandler) {
 	m_settings = _settings;
 	m_config = _config;
 	m_guiRenderer = _guiRenderer;
@@ -22,7 +22,7 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer*
 	m_blockOutline.init(&m_assets);
 	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
-	m_hud.init(_guiRenderer, _converter, &player.hotbar);
+	m_hud.init(_guiRenderer, _converter, _itemRenderer, &player.hotbar);
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {

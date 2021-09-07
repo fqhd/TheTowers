@@ -21,8 +21,10 @@ void StartMenu::init(InputManager *inputManager,
 }
 
 void StartMenu::loop() {
+    
     while (!m_gameShouldStart) {
         m_deltaTimer->restart();
+
 		m_window->clear();
 		if(m_inputManager->processInput()) return;
 		if(m_ipinput.wasSubmitted()) {
@@ -44,6 +46,7 @@ void StartMenu::loop() {
         updateGUI();
 	
     }
+    
 }
 
 void StartMenu::renderGUI() {
