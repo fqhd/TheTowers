@@ -1,6 +1,9 @@
 #include "Hotbar.hpp"
 
 void Hotbar::init(InputManager* _manager) {
+	for(auto& i : items){
+		i.count = 0;
+	}
 	m_inputManager = _manager;
 	m_selectorLocation = 0;
 }

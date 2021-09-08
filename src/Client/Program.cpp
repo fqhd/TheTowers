@@ -11,7 +11,6 @@ void Program::run(){
 }
 
 void Program::initSystems(){
-	m_converter.init();
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);

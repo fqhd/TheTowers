@@ -2,9 +2,9 @@
 #include <fstream>
 #include <iostream>
 
-void Converter::init(){
-	populateTextureIndexMap();
-}
+const unsigned int ITEM_WIDTH = 8;
+const unsigned int IMAGE_WIDTH = 256;
+const unsigned int IMAGE_WIDTH_IN_ITEMS = IMAGE_WIDTH / ITEM_WIDTH;
 
 // Items that are under
 uint8_t Converter::itemIDToBlockID(ItemID _id) {
@@ -15,22 +15,13 @@ uint8_t Converter::itemIDToBlockID(ItemID _id) {
 	return 0;
 }
 
-uint8_t Converter::itemIDToTextureID(ItemID _id) {
-	return itemTextures[(uint8_t)_id];
+math::vec4 Converter::itemIDToTextureUV(ItemID _id) {
+	float x = (uint8_t)_id % IMAGE_WIDTH_IN_ITEMS;
+	float y = (uint8_t)_id / IMAGE_WIDTH_IN_ITEMS;
+
+	return math::vec4(x * ITEM_WIDTH / (float)IMAGE_WIDTH,
+					y * ITEM_WIDTH / (float)IMAGE_WIDTH,
+					ITEM_WIDTH / (float)IMAGE_WIDTH,
+					ITEM_WIDTH / (float)IMAGE_WIDTH);
 }
 
-void Converter::populateTextureIndexMap(){
-	std::ifstream is;
-	is.open("ItemTextureArrangement");
-	if(is.fail()){
-		std::cout << "Failed to load ItemTextureArrangement" << std::endl;
-		return;
-	}
-	unsigned int index = 0;
-	unsigned int posInArray = 0;
-	while(is >> index){
-		itemTextures[posInArray] = index;
-		posInArray++;
-	}
-	is.close();
-}

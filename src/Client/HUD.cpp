@@ -24,7 +24,7 @@ void HUD::renderHotbar(){
 		Item item = m_hotbar->items[i];
 		if(item.count > 0) {
 			// Render the texture using the item renderer
-			m_guiRenderer->drawRect(math::vec4(414 + i * 32 + i * 10, 12, 32, 32), math::vec4(0, 0, 1, 1), 0, ColorRGBA8());
+			m_guiRenderer->drawRect(math::vec4(414 + i * 32 + i * 10, 12, 32, 32), m_converter->itemIDToTextureUV(item.id), m_guiRenderer->assets.getTexture("item_sprite_sheet"), ColorRGBA8());
 		}
 	}
 

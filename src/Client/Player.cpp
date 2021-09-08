@@ -25,9 +25,19 @@ void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, Net
 	gamemode = SURVIVAL;
 	hotbar.items[0].id = ItemID::GRASS;
 	hotbar.items[0].count = 22;
-	std::cout << "Grass item id: " << (unsigned int)ItemID::GRASS << std::endl;
-	hotbar.items[4].id = ItemID::LEAVES;
+	hotbar.items[4].id = ItemID::WOOD;
 	hotbar.items[4].count = 32;
+	hotbar.items[1].id = ItemID::CACTUS;
+	hotbar.items[1].count = 32;
+	hotbar.items[2].id = ItemID::DIAMOND;
+	hotbar.items[2].count = 32;
+	hotbar.items[3].id = ItemID::STONE;
+	hotbar.items[3].count = 32;
+	hotbar.items[5].id = ItemID::SAND;
+	hotbar.items[5].count = 32;
+	hotbar.items[6].id = ItemID::DIRT;
+	hotbar.items[6].count = 10;
+
 }
 
 void Player::update(float deltaTime) {
@@ -188,6 +198,7 @@ bool Player::compareDistance(AABB a, AABB b){
 }
 
 bool Player::canPlaceBlock(){
+	if(hotbar.getSelectedItem().count == 0) return false;
 	AABB player(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 	AABB box(math::vec3(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z), math::vec3(1));
 	return !Utils::collideBoxes(player, box) * m_converter->itemIDToBlockID(hotbar.getSelectedItem().id);
