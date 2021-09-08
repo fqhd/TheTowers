@@ -24,14 +24,10 @@ void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, Net
 	position = math::vec3(36, 32, 32);
 	gamemode = SURVIVAL;
 	hotbar.items[0].id = ItemID::GRASS;
-	hotbar.items[1].id = ItemID::STONE;
-	hotbar.items[2].id = ItemID::SNOW;
-	hotbar.items[3].id = ItemID::COBBLE;
+	hotbar.items[0].count = 22;
+	std::cout << "Grass item id: " << (unsigned int)ItemID::GRASS << std::endl;
 	hotbar.items[4].id = ItemID::LEAVES;
-	hotbar.items[5].id = ItemID::WOOD;
-	hotbar.items[6].id = ItemID::CACTUS;
-	hotbar.items[7].id = ItemID::COBBLE;
-	hotbar.items[7].id = ItemID::DIAMOND;
+	hotbar.items[4].count = 32;
 }
 
 void Player::update(float deltaTime) {

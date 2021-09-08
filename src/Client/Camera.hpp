@@ -11,7 +11,6 @@ public:
 
 	void init(InputManager* _manager, const Config* _config);
 	void update();
-	void updateProjectionMatrix();
 
 	float getPitch() const;
 	float getYaw() const;

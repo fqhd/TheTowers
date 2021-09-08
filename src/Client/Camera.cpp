@@ -12,9 +12,6 @@ void Camera::init(InputManager* _manager, const Config* _config) {
 	updateViewMatrix();
 }
 
-void Camera::updateProjectionMatrix() {
-}
-
 void Camera::update() {
 	calculateCameraVectors(0.3f);
 	updateViewMatrix();

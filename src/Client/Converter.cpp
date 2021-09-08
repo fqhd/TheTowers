@@ -10,7 +10,7 @@ void Converter::init(){
 uint8_t Converter::itemIDToBlockID(ItemID _id) {
 	uint8_t blockID = (uint8_t)_id;
 	if(blockID < (uint8_t)ItemID::PICK){
-		return blockID;
+		return blockID + 1;
 	}
 	return 0;
 }
