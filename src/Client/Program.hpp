@@ -26,7 +26,6 @@ private:
 	BlockTextureHandler m_blockTextureHandler;
 	Converter m_converter;
 	TextureArray m_textureArray;
-	GUIRenderer m_guiRenderer;
 	NetworkManager m_networkManager;
 	Game m_game;
 	PauseMenu m_pause;

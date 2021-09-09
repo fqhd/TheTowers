@@ -14,7 +14,7 @@ public:
 	          const ColorRGBA8& outlineColor=ColorRGBA8(200, 200, 200, 255), 
 			  const ColorRGBA8& activeOutlineColor=ColorRGBA8());
 	void update(InputManager* _manager);
-	void render(GUIRenderer* _renderer);
+	void render();
 	bool wasSubmitted();
 	std::string getText();
 	void focus();

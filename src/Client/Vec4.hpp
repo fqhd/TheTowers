@@ -11,7 +11,7 @@ namespace math {
 		base_vec4(T x, T y, T z, T w) 
 		: x(x), y(y), z(z), w(w) {}
 
-		base_vec4(){}
+		base_vec4(){x = 0; y = 0; z = 0; w = 0;}
 
 		~base_vec4(){}
 

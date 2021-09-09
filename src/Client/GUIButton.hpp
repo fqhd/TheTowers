@@ -10,7 +10,7 @@ public:
 
 	void init(const math::vec4& destRect);
 	void update(InputManager* _manager, float deltaTime);
-	void render(GUIRenderer* _renderer);
+	void render();
 	bool isPressed();
 
 private:

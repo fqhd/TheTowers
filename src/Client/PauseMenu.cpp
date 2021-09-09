@@ -1,11 +1,9 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, Settings* _settings, GUIRenderer* _guiRenderer){
-	m_guiRenderer = _guiRenderer;
+void PauseMenu::init(InputManager* _manager, Settings* _settings){
 	m_settings = _settings;
 	m_inputManager = _manager;
-	m_guiRenderer = _guiRenderer;
 	initGUI();
 }
 
@@ -21,14 +19,14 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 
 void PauseMenu::render(){
 	// Background
-	m_guiRenderer->drawRect(math::vec4(138, 58, 1004, 604), math::vec4(0, 0, 1, 1), m_guiRenderer->assets.getTexture("grass"), ColorRGBA8());
-	m_guiRenderer->drawRect(math::vec4(140, 60, 1000, 600), math::vec4(0, 0, 10, 7), m_guiRenderer->assets.getTexture("grass"), ColorRGBA8(34, 40, 50, 255));
+	GUIRenderer::drawRect(math::vec4(138, 58, 1004, 604), math::vec4(0, 0, 1, 1), ColorRGBA8());
+	GUIRenderer::drawRect(math::vec4(140, 60, 1000, 600), math::vec4(0, 0, 10, 7), ColorRGBA8(34, 40, 50, 255));
 
 	// Text
-	m_guiRenderer->drawText("Fog: ", math::vec2(175, 600), math::vec2(1, 1), ColorRGBA8());
-	m_guiRenderer->drawText("Vignette: ", math::vec2(175, 525), math::vec2(1, 1), ColorRGBA8());
-	m_guiRenderer->drawText("Debug Mode: ", math::vec2(175, 450), math::vec2(1, 1), ColorRGBA8());
-	m_guiRenderer->drawText("Block Outline: ", math::vec2(175, 375), math::vec2(1, 1), ColorRGBA8());
+	GUIRenderer::drawText("Fog: ", math::vec2(175, 600), math::vec2(1, 1), ColorRGBA8());
+	GUIRenderer::drawText("Vignette: ", math::vec2(175, 525), math::vec2(1, 1), ColorRGBA8());
+	GUIRenderer::drawText("Debug Mode: ", math::vec2(175, 450), math::vec2(1, 1), ColorRGBA8());
+	GUIRenderer::drawText("Block Outline: ", math::vec2(175, 375), math::vec2(1, 1), ColorRGBA8());
 
 	renderGUI();
 }
@@ -60,9 +58,9 @@ void PauseMenu::updateGUI(float deltaTime){
 }
 
 void PauseMenu::renderGUI(){
-	save.render(m_guiRenderer);
-	fog.render(m_guiRenderer);
-	vignette.render(m_guiRenderer);
-	debug.render(m_guiRenderer);
-	outline.render(m_guiRenderer);
+	save.render();
+	fog.render();
+	vignette.render();
+	debug.render();
+	outline.render();
 }

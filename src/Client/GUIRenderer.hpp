@@ -9,22 +9,19 @@
 class GUIRenderer {
 public:
 
-	void init(unsigned int windowWidth, unsigned int windowHeight);
-	void begin();
-	void drawRect(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, const ColorRGBA8& color);
-	void drawText(const std::string& s, const math::vec2& position, const math::vec2& scale, const ColorRGBA8& color);
-	void end();
-	void render();
-	void destroy();
-
-	GUIAssets assets;
+	static void init(unsigned int windowWidth, unsigned int windowHeight, GLuint textureID);
+	static void drawRect(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color);
+	static void drawText(const std::string& s, const math::vec2& position, const math::vec2& scale, const ColorRGBA8& color);
+	static void batch();
+	static void render();
+	static void destroy();
 
 private:
 
-	SpriteBatch m_guiBatch;
-	SpriteBatch m_textBatch;
-	SpriteFont m_spriteFont;
-	Shader m_shader;
+	static SpriteBatch m_guiBatch;
+	static SpriteBatch m_textBatch;
+	static SpriteFont m_spriteFont;
+	static Shader m_shader;
 
 
 };

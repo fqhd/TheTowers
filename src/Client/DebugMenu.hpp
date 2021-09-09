@@ -12,7 +12,7 @@ class DebugMenu {
 public:
 
 	void init(Config* _config);
-	void render(GUIRenderer* _renderer, const FrameCounter& _frameCounter, const Player& _player);
+	void render(const FrameCounter& _frameCounter, const Player& _player);
 
 private:
 

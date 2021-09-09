@@ -10,8 +10,7 @@ public:
 
 	void init(const std::string& fontLocation, float pixelHeight, unsigned int w, unsigned int h, unsigned int firstChar = 32, unsigned int numChars = 95);
 	void printFont(SpriteBatch& _batch, const std::string& s, const math::vec2& position, const math::vec2& scale, const ColorRGBA8& color);
-	void bindTexture();
-	void unbindTexture();
+	GLuint getTextureID() const;
 	void destroy();
 
 

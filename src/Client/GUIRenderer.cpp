@@ -1,10 +1,14 @@
 #include "GUIRenderer.hpp"
 
-void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
-	m_guiBatch.init();
-	m_textBatch.init();
+SpriteBatch GUIRenderer::m_guiBatch;
+SpriteBatch GUIRenderer::m_textBatch;
+SpriteFont GUIRenderer::m_spriteFont;
+Shader GUIRenderer::m_shader;
 
+void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight, GLuint textureID){
 	m_spriteFont.init("res/fonts/minecraft_font.ttf", 40, 512, 512);
+	m_guiBatch.init(textureID);
+	m_textBatch.init(m_spriteFont.getTextureID());
 
 	math::mat4 ortho = math::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 
@@ -14,22 +18,17 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight){
 	m_shader.unbind();
 }
 
-void GUIRenderer::begin(){
-	m_guiBatch.begin();
-	m_textBatch.begin();
-}
-
-void GUIRenderer::drawRect(const math::vec4& destRect, const math::vec4& uvRect, GLuint texture, const ColorRGBA8& color){
-	m_guiBatch.draw(destRect, uvRect, texture, color);
+void GUIRenderer::drawRect(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color){
+	m_guiBatch.draw(destRect, uvRect, color);
 }
 
 void GUIRenderer::drawText(const std::string& s, const math::vec2& position, const math::vec2& scale, const ColorRGBA8& color){
 	m_spriteFont.printFont(m_textBatch, s, position, scale, color);
 }
 
-void GUIRenderer::end(){
-	m_guiBatch.end();
-	m_textBatch.end();
+void GUIRenderer::batch(){
+	m_guiBatch.batch();
+	m_textBatch.batch();
 }
 
 void GUIRenderer::render(){
@@ -48,7 +47,6 @@ void GUIRenderer::render(){
 }
 
 void GUIRenderer::destroy(){
-	assets.destroy();
 	m_guiBatch.destroy();
 	m_textBatch.destroy();
 	m_shader.destroy();

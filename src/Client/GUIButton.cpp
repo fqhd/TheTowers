@@ -39,9 +39,9 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 	m_shadowRect = m_destRect + math::vec4(8, -8, 0, 0);
 }
 
-void GUIButton::render(GUIRenderer* _renderer) {
-	_renderer->drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), _renderer->assets.getTexture("blank"), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	_renderer->drawRect(m_destRect, math::vec4(0, 0, 2, 1), _renderer->assets.getTexture("grass"), m_currentColor); // Rendering rect
+void GUIButton::render() {
+	GUIRenderer::drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
+	GUIRenderer::drawRect(m_destRect, math::vec4(0, 0, 2, 1), m_currentColor); // Rendering rect
 }
 
 bool GUIButton::isPressed() {

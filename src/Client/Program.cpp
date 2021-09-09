@@ -16,12 +16,12 @@ void Program::initSystems(){
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
 	m_inputManager.setVerticalSync(true);
-	m_guiRenderer.init(m_config.getWindowWidth(), m_config.getWindowHeight());
+	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
 	m_blockTextureHandler.loadBlockTexturesFromFile();
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
-	m_game.init(&m_inputManager, &m_networkManager, &m_guiRenderer, &m_textureArray, &m_config, &m_settings, &m_converter, &m_blockTextureHandler);
-	m_pause.init(&m_inputManager, &m_settings, &m_guiRenderer);
+	m_game.init(&m_inputManager, &m_networkManager, &m_textureArray, &m_config, &m_settings, &m_converter, &m_blockTextureHandler);
+	m_pause.init(&m_inputManager, &m_settings);
 }
 
 void Program::gameloop(){
@@ -34,7 +34,6 @@ void Program::gameloop(){
 		float deltaTime = m_deltaTimer.getElapsedTime();
 		m_deltaTimer.restart();
 
-		m_guiRenderer.begin();
 		if(m_state == GameStates::PLAY){
 			m_game.update(m_state, deltaTime);
 			m_game.render();
@@ -43,8 +42,8 @@ void Program::gameloop(){
 			m_game.render();
 			m_pause.render();
 		}
-		m_guiRenderer.end();
-		m_guiRenderer.render();
+		GUIRenderer::batch();
+		GUIRenderer::render();
 
 		m_window.update();
 	}
@@ -52,7 +51,7 @@ void Program::gameloop(){
 
 void Program::cleanUp(){
 	m_textureArray.destroy();
-	m_guiRenderer.destroy();
+	GUIRenderer::destroy();
 	m_game.destroy();
 	m_window.close();
 }

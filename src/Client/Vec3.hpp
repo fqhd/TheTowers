@@ -16,7 +16,7 @@ namespace math {
 		{}
 
 		base_vec3()
-		{}
+		{x = 0; y = 0; z = 0;}
 
 		~base_vec3() {}
 

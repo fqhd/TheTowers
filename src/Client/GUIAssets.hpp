@@ -8,13 +8,16 @@
 class GUIAssets {
 public:
 
-	void init();
-	GLuint getTexture(const std::string& _name);
-	void destroy();
+	// Asks for the name of the texture(NOT THE PATH AND WITHOUT THE .PNG EXTENSION)
+	// This function looks for textures in the "res/textures/gui/" directory
+	static GLuint getTexture(const std::string& _name); 
+
+	// Deletes all the textures from the graphics card
+	static void destroy();
 
 private:
 
-	std::unordered_map<std::string, GLuint> m_textureMap;
+	static std::unordered_map<std::string, GLuint> m_textureMap;
 
 
 };

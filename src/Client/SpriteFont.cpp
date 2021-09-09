@@ -32,19 +32,13 @@ void SpriteFont::init(const std::string& fontLocation, float pixelHeight, unsign
 	Utils::freeBuffer(fontData);
 }
 
-void SpriteFont::bindTexture() {
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_textureID);
-}
-
-void SpriteFont::unbindTexture() {
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
-
 void SpriteFont::destroy() {
 	free(m_charData);
 	glDeleteTextures(1, &m_textureID);
+}
+
+GLuint SpriteFont::getTextureID() const {
+	return m_textureID;
 }
 
 void flipQuad(math::vec4& quad, float baseline){
@@ -71,7 +65,7 @@ void SpriteFont::printFont(SpriteBatch& _batch, const std::string& s, const math
 		quad.z *= scale.x;
 		quad.w *= scale.y;
 
-		_batch.draw(quad, math::vec4(q.s0, q.t0 + (q.t1 - q.t0), q.s1 - q.s0, -(q.t1 - q.t0)), m_textureID, color);
+		_batch.draw(quad, math::vec4(q.s0, q.t0 + (q.t1 - q.t0), q.s1 - q.s0, -(q.t1 - q.t0)), color);
 	}
 }
 

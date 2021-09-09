@@ -14,7 +14,7 @@ namespace math {
 		{}
 
 		base_vec2()
-		{}
+		{x = 0; y = 0;}
 
 		~base_vec2() {}
 

@@ -3,10 +3,9 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer* _guiRenderer, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, BlockTextureHandler* _textureHandler) {
+void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, BlockTextureHandler* _textureHandler) {
 	m_settings = _settings;
 	m_config = _config;
-	m_guiRenderer = _guiRenderer;
 	m_networkManager = _nManager;
 	m_inputManager = _iManager;
 	m_textureArray = _textureArray;
@@ -22,7 +21,7 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, GUIRenderer*
 	m_blockOutline.init(&m_assets);
 	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
-	m_hud.init(_guiRenderer, _converter, &player.hotbar);
+	m_hud.init(_converter, &player.hotbar);
 }
 
 void Game::update(GameStates& _state, float _deltaTime) {
@@ -58,7 +57,7 @@ void Game::render() {
 	m_entityHandler.render(m_camera);
 	if(m_settings->isVignetteToggled) m_vignette.render();
 	m_hud.render();
-	if(m_settings->isDebugToggled) m_debugMenu.render(m_guiRenderer, m_frameCounter, player);
+	if(m_settings->isDebugToggled) m_debugMenu.render(m_frameCounter, player);
 }
 
 void Game::destroy() {
