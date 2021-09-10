@@ -1,10 +1,9 @@
 #include "GUIAssets.hpp"
 #include "Utils.hpp"
 
-std::unordered_map<std::string, GLuint> GUIAssets::m_textureMap;
+std::unordered_map<std::string, GLuint> m_textureMap;
 
 GLuint GUIAssets::getTexture(const std::string& _name){
-	return 0;
 	auto it = m_textureMap.find(_name);
 	if(it != m_textureMap.end()){
 		// Got the texture

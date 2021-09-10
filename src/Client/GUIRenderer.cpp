@@ -1,9 +1,9 @@
 #include "GUIRenderer.hpp"
 
-SpriteBatch GUIRenderer::m_guiBatch;
-SpriteBatch GUIRenderer::m_textBatch;
-SpriteFont GUIRenderer::m_spriteFont;
-Shader GUIRenderer::m_shader;
+SpriteBatch m_guiBatch;
+SpriteBatch m_textBatch;
+SpriteFont m_spriteFont;
+Shader m_shader;
 
 void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight, GLuint textureID){
 	m_spriteFont.init("res/fonts/minecraft_font.ttf", 40, 512, 512);

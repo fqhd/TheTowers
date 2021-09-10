@@ -7,7 +7,7 @@
 void Image::loadFromFile(const std::string& path, int desiredChannels){
 	m_imageData = stbi_load(path.c_str(), &m_width, &m_height, &m_numChannels, desiredChannels);
 	if(!m_imageData){
-		std::cout << "Image: Failed to load image" << std::endl;
+		std::cout << "Image: Failed to load image: " << path << std::endl;
 		return;
 	}
 }
@@ -34,7 +34,6 @@ int Image::getHeight(){
 int Image::getNumChannels(){
 	return m_numChannels;
 }
-
 
 unsigned char* Image::getData(){
 	return m_imageData;

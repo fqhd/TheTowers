@@ -3,24 +3,6 @@
 #include <iostream>
 
 
-Glyph::Glyph(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color) {
-	topLeft.color = color;
-	topLeft.setPosition(destRect.x, destRect.y + destRect.w);
-	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
-
-	bottomLeft.color = color;
-	bottomLeft.setPosition(destRect.x, destRect.y);
-	bottomLeft.setUV(uvRect.x, uvRect.y);
-
-	bottomRight.color = color;
-	bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
-	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
-
-	topRight.color = color;
-	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
-}
-
 void SpriteBatch::init(GLuint textureID) {
 	m_textureID = textureID;
 	glGenVertexArrays(1, &m_vao);
@@ -33,26 +15,30 @@ void SpriteBatch::init(GLuint textureID) {
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, position));
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, uv));
-	glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*)offsetof(GUIVertex, color));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), 0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GUIVertex), (void*)8);
+	glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GUIVertex), (void*)16);
 
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
-void SpriteBatch::destroy() {
-	glDeleteVertexArrays(1, &m_vao);
-	glDeleteBuffers(1, &m_vbo);
-}
-
 void SpriteBatch::draw(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color) {
-	m_glyphs.emplace_back(destRect, uvRect, color);
+	m_vertices.emplace_back(destRect.x, destRect.y, uvRect.x, uvRect.y, color);
+	m_vertices.emplace_back(destRect.x, destRect.y + destRect.w, uvRect.x, uvRect.y + uvRect.w, color);
+	m_vertices.emplace_back(destRect.x + destRect.z, destRect.y + destRect.w, uvRect.x + uvRect.z, uvRect.y + uvRect.w, color);
+
+	m_vertices.emplace_back(destRect.x, destRect.y, uvRect.x, uvRect.y, color);
+	m_vertices.emplace_back(destRect.x + destRect.z, destRect.y + destRect.w, uvRect.x + uvRect.z, uvRect.y + uvRect.w, color);
+	m_vertices.emplace_back(destRect.x + destRect.z, destRect.y, uvRect.x + uvRect.z, uvRect.y, color);
 }
 
 void SpriteBatch::batch() {
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, m_glyphs.size() * sizeof(Glyph), m_glyphs.data(), GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(GUIVertex), m_vertices.data(), GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	m_vertexCount = m_vertices.size();
+	m_vertices.resize(0);
 }
 
 void SpriteBatch::render() {
@@ -60,9 +46,14 @@ void SpriteBatch::render() {
 	glBindVertexArray(m_vao);
 
 	glBindTexture(GL_TEXTURE_2D, m_textureID);
-	glDrawArrays(GL_TRIANGLES, 0, m_glyphs.size() * 6);
+	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glBindVertexArray(0);
 	glEnable(GL_CULL_FACE);
+}
+
+void SpriteBatch::destroy() {
+	glDeleteVertexArrays(1, &m_vao);
+	glDeleteBuffers(1, &m_vbo);
 }

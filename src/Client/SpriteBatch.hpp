@@ -5,18 +5,6 @@
 #include "Math.hpp"
 #include "Vertex.hpp"
 
-
-class Glyph {
-public:
-	Glyph() {};
-	Glyph(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color);
-
-	GUIVertex topLeft;
-	GUIVertex bottomLeft;
-	GUIVertex topRight;
-	GUIVertex bottomRight;
-};
-
 class SpriteBatch {
 public:
 
@@ -31,6 +19,7 @@ private:
 	GLuint m_vbo;
 	GLuint m_vao;
 	GLuint m_textureID;
+	GLuint m_vertexCount;
 
-	std::vector<Glyph> m_glyphs;
+	std::vector<GUIVertex> m_vertices;
 };

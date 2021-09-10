@@ -22,22 +22,23 @@ struct GUITextVertex {
 };
 
 struct GUIVertex {
-	GUIVertex(){}
-	GUIVertex(const math::vec2& _position, const ColorRGBA8& _color, const math::vec2& _uv){
-		position = _position;
+	GUIVertex(){
+		x = 0.0f;
+		y = 0.0f;
+		u = 0.0f;
+		v = 0.0f;
+	}
+	GUIVertex(float _x, float _y, float _u, float _v, const ColorRGBA8& _color){
+		x = _x;
+		y = _y;
+		u = _u;
+		v = _v;
 		color = _color;
-		uv = _uv;
 	}
-	void setPosition(float x, float y){
-		position.x = x;
-		position.y = y;
-	}
-	void setUV(float u, float v){
-		uv.x = u;
-		uv.y = v;
-	}
-	math::vec2 position;
-	math::vec2 uv;
+	float x;
+	float y;
+	float u;
+	float v;
 	ColorRGBA8 color;
 };
 
