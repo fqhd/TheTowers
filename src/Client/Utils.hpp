@@ -24,6 +24,8 @@ namespace Utils {
 	bool isInRange(const math::vec3& a, const math::vec3& b, float range);
 	CollisionType collideBoxes(AABB& a, const AABB& b);
 	GLuint loadTexture(const std::string& _path);
+	std::vector<std::string> tokenizeString(const std::string& _str);
+	
 
 }
 

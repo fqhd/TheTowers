@@ -26,6 +26,18 @@ uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
 	return buffer;
 }
 
+std::vector<std::string> tokenizeString(const std::string& _str){
+	std::vector<std::string> tokens;
+	tokens.push_back(std::string());
+	for(unsigned int i = 0; i < _str.size(); i++){
+		if(_str[i] == ' '){
+			tokens.push_back(std::string());
+		}else{
+			tokens.back().push_back(_str[i]);
+		}
+	}
+}
+
 void Utils::freeBuffer(uint8_t* buffer){
 	free(buffer);
 }

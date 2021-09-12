@@ -1,16 +1,5 @@
 #include "BlockTextureHandler.hpp"
-
-void tokenizeString(const std::string& _str, std::vector<std::string>& _tokens){
-	_tokens.clear();
-	_tokens.push_back(std::string());
-	for(unsigned int i = 0; i < _str.size(); i++){
-		if(_str[i] == ' '){
-			_tokens.push_back(std::string());
-		}else{
-			_tokens.back().push_back(_str[i]);
-		}
-	}
-}
+#include "Utils.hpp"
 
 void BlockTextureHandler::loadBlockTexturesFromFile(){
 	std::ifstream is;
@@ -21,10 +10,9 @@ void BlockTextureHandler::loadBlockTexturesFromFile(){
 	}
 
 	std::string line;
-	std::vector<std::string> tokens;
 	unsigned int index = 0;
 	while(std::getline(is, line)){
-		tokenizeString(line, tokens);
+		std::vector<std::string> tokens = Utils::tokenizeString(line);
 		uint16_t top = std::stoi(tokens.at(0));
 		uint16_t side = std::stoi(tokens.at(1));
 		uint16_t bot = std::stoi(tokens.at(2));
