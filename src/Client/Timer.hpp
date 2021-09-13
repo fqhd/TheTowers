@@ -1,6 +1,7 @@
 #pragma once
 
-#include <chrono>
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
 
 class Timer {
 public:
@@ -10,6 +11,6 @@ public:
 
 private:
 
-	std::chrono::_V2::system_clock::time_point m_time;
+	double m_time = 0.0;
 
 };
