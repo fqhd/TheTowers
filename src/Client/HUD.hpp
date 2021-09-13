@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "Hotbar.hpp"
 #include "Converter.hpp"
+#include "GUIUVLoader.hpp"
 
 
 class HUD {

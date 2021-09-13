@@ -14,5 +14,4 @@ namespace GUIRenderer {
 	void render();
 	void destroy();
 
-
 };

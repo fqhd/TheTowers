@@ -11,6 +11,7 @@
 #include "Timer.hpp"
 #include "TextureArray.hpp"
 #include "Converter.hpp"
+#include "GUIUVLoader.hpp"
 
 class Program {
 public:

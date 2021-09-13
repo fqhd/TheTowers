@@ -1,5 +1,5 @@
 #include "GUIInput.hpp"
-
+#include "GUIUVLoader.hpp"
 
 void GUIInput::init(const math::vec4& destRect,
 				   	const ColorRGBA8& backgroundColor, 
@@ -51,9 +51,9 @@ void GUIInput::focus() {
 
 void GUIInput::render() {
 	ColorRGBA8 outlineColor = m_onFocus ? m_activeOutlineColor : m_outlineColor;
-	GUIRenderer::drawRect(m_outlineRect, math::vec4(0, 0, 1, 1), outlineColor);
+	GUIRenderer::drawRect(m_outlineRect, GUIUVLoader::getUV("White"), outlineColor);
 
-	GUIRenderer::drawRect(m_destRect, math::vec4(0, 0, 1, 1), m_backgroundColor);
+	GUIRenderer::drawRect(m_destRect, GUIUVLoader::getUV("White"), m_backgroundColor);
 	GUIRenderer::drawText(m_input, math::vec2(m_destRect.x + 3, m_destRect.y + 5), math::vec2(0.75, 0.75), ColorRGBA8());
 	
 }

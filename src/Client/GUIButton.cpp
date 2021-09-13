@@ -1,6 +1,7 @@
 #include "GUIButton.hpp"
 #include "Utils.hpp"
 #include "Vertex.hpp"
+#include "GUIUVLoader.hpp"
 
 
 void GUIButton::init(const math::vec4& destRect) {
@@ -40,8 +41,8 @@ void GUIButton::update(InputManager* _manager, float deltaTime) {
 }
 
 void GUIButton::render() {
-	GUIRenderer::drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	GUIRenderer::drawRect(m_destRect, math::vec4(0, 0, 2, 1), m_currentColor); // Rendering rect
+	GUIRenderer::drawRect(m_shadowRect, GUIUVLoader::getUV("White"), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
+	GUIRenderer::drawRect(m_destRect, GUIUVLoader::getUV("White"), m_currentColor); // Rendering rect
 }
 
 bool GUIButton::isPressed() {

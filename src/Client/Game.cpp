@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter, BlockTextureHandler* _textureHandler) {
+void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter,
+			BlockTextureHandler* _textureHandler) {
 	m_settings = _settings;
 	m_config = _config;
 	m_networkManager = _nManager;

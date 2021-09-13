@@ -1,6 +1,6 @@
 #include "GUICheckbox.hpp"
 #include <iostream>
-
+#include "GUIUVLoader.hpp"
 
 void GUICheckbox::init(const math::vec4& destRect, bool _checked) {
 	m_onColor = ColorRGBA8(0, 255, 0, 255);
@@ -42,9 +42,9 @@ void GUICheckbox::update(InputManager* _manager, float deltaTime) {
 }
 
 void GUICheckbox::render() {
-	GUIRenderer::drawRect(m_shadowRect, math::vec4(0, 0, 1, 1), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
-	GUIRenderer::drawRect(math::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), math::vec4(0, 0, 1, 1), ColorRGBA8(20, 20, 20, 255)); // Rendering outline
-	GUIRenderer::drawRect(m_destRect, math::vec4(0, 0, 1, 1), m_currentColor); // Rendering on/off rect
+	GUIRenderer::drawRect(m_shadowRect, GUIUVLoader::getUV("White"), ColorRGBA8(0, 0, 0, 128)); // Rendering shadow
+	GUIRenderer::drawRect(math::vec4(m_destRect.x - 1, m_destRect.y - 1, m_destRect.z + 2, m_destRect.w + 2), GUIUVLoader::getUV("White"), ColorRGBA8(20, 20, 20, 255)); // Rendering outline
+	GUIRenderer::drawRect(m_destRect, GUIUVLoader::getUV("White"), m_currentColor); // Rendering on/off rect
 }
 
 bool GUICheckbox::isChecked(){

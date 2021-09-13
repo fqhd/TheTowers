@@ -26,7 +26,21 @@ uint8_t* Utils::readFileToBuffer(const std::string& filePath) {
 	return buffer;
 }
 
-std::vector<std::string> tokenizeString(const std::string& _str){
+/*
+	TODO: this tokenize function doesn't work properly it must be fixed.
+	The goal of this function would be to take a string filled with both
+	letters and spaces and return an array of strings corresponding to the
+	letters/words separated by said spaces e.g:
+
+	Input: "Hello, this is an example string"
+	Output: "Hello", "this", "is", "an", "example", "string"
+
+	The function shoudl also account for multiple spaces as exceptions. For example:
+
+	Input: "   Hey, this     i    s me"
+	Output: "Hey", "this", "i", "s", "me"
+*/
+std::vector<std::string> Utils::tokenizeString(const std::string& _str){
 	std::vector<std::string> tokens;
 	tokens.push_back(std::string());
 	for(unsigned int i = 0; i < _str.size(); i++){
@@ -36,6 +50,7 @@ std::vector<std::string> tokenizeString(const std::string& _str){
 			tokens.back().push_back(_str[i]);
 		}
 	}
+	return tokens;
 }
 
 void Utils::freeBuffer(uint8_t* buffer){

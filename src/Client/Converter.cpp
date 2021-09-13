@@ -3,7 +3,7 @@
 #include <iostream>
 
 const unsigned int ITEM_WIDTH = 8;
-const unsigned int IMAGE_WIDTH = 256;
+const unsigned int IMAGE_WIDTH = 512;
 const unsigned int IMAGE_WIDTH_IN_ITEMS = IMAGE_WIDTH / ITEM_WIDTH;
 
 // Items that are under

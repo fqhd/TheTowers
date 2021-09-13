@@ -8,7 +8,7 @@ void HUD::init(Converter* _converter, Hotbar* _hotbar){
 
 void HUD::render(){
 	// Rendering crosshair
-	GUIRenderer::drawRect(math::vec4(632, 352, 16, 16), math::vec4(0, 0, 1, 1), ColorRGBA8());
+	GUIRenderer::drawRect(math::vec4(632, 352, 16, 16), GUIUVLoader::getUV("Crosshair"), ColorRGBA8());
 
 	// Rendering hotbar
 	renderHotbar();
@@ -16,7 +16,7 @@ void HUD::render(){
 
 void HUD::renderHotbar(){
 	// Rendering the hotbar
-	GUIRenderer::drawRect(math::vec4(404, 2, 472, 52), math::vec4(0, 0, 1, 1), ColorRGBA8());
+	GUIRenderer::drawRect(math::vec4(404, 2, 472, 52), GUIUVLoader::getUV("Hotbar"), ColorRGBA8());
 
 	// Rendering the items on the hotbar
 	for(unsigned int i = 0; i < 11; i++) {
@@ -28,5 +28,5 @@ void HUD::renderHotbar(){
 	}
 
 	// Rendering the selector
-	GUIRenderer::drawRect(math::vec4(409 + m_hotbar->getSelectorLocation() * 42, 7, 42, 42), math::vec4(0, 0, 1, 1), ColorRGBA8());
+	GUIRenderer::drawRect(math::vec4(409 + m_hotbar->getSelectorLocation() * 42, 7, 42, 42), GUIUVLoader::getUV("Selector"), ColorRGBA8());
 }

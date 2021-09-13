@@ -19,14 +19,15 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 
 void PauseMenu::render(){
 	// Background
-	GUIRenderer::drawRect(math::vec4(138, 58, 1004, 604), math::vec4(0, 0, 1, 1), ColorRGBA8());
-	GUIRenderer::drawRect(math::vec4(140, 60, 1000, 600), math::vec4(0, 0, 10, 7), ColorRGBA8(34, 40, 50, 255));
+	GUIRenderer::drawRect(math::vec4(138, 58, 1004, 604), GUIUVLoader::getUV("White"), ColorRGBA8());
+	GUIRenderer::drawRect(math::vec4(140, 60, 1000, 600), GUIUVLoader::getUV("White"), ColorRGBA8(34, 40, 50, 255));
 
 	// Text
 	GUIRenderer::drawText("Fog: ", math::vec2(175, 600), math::vec2(1, 1), ColorRGBA8());
 	GUIRenderer::drawText("Vignette: ", math::vec2(175, 525), math::vec2(1, 1), ColorRGBA8());
 	GUIRenderer::drawText("Debug Mode: ", math::vec2(175, 450), math::vec2(1, 1), ColorRGBA8());
 	GUIRenderer::drawText("Block Outline: ", math::vec2(175, 375), math::vec2(1, 1), ColorRGBA8());
+	GUIRenderer::drawText("Save Settings", math::vec2(500, 95), math::vec2(1, 1), ColorRGBA8());
 
 	renderGUI();
 }

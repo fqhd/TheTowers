@@ -3,7 +3,8 @@
 #include <iostream>
 #include "Utils.hpp"
 
-const float TEXTURE_SIZE = 256.0f;
+const float TEXTURE_SIZE = 512.0f;
+std::unordered_map<std::string, math::vec4> uvMap;
 
 void GUIUVLoader::init(){
 	std::ifstream is;
@@ -21,14 +22,14 @@ void GUIUVLoader::init(){
 		uvRect.y = std::stoi(tokens.at(2)) / TEXTURE_SIZE;
 		uvRect.z = std::stoi(tokens.at(3)) / TEXTURE_SIZE;
 		uvRect.w = std::stoi(tokens.at(4)) / TEXTURE_SIZE;
-		m_uvMap[key] = uvRect;
+		uvMap[key] = uvRect;
 	}
 	is.close();
 }
 
 math::vec4 GUIUVLoader::getUV(const std::string& name){
-	auto it = m_uvMap.find(name);
-	if(it != m_uvMap.end()){
+	auto it = uvMap.find(name);
+	if(it != uvMap.end()){
 		return it->second;
 	}
 	std::cout << "GUIUVLoader: Failed to find " + name + " in UVMap data structure" << std::endl;

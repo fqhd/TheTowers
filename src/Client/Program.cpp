@@ -19,6 +19,7 @@ void Program::initSystems(){
 	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
 	m_blockTextureHandler.loadBlockTexturesFromFile();
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);
+	GUIUVLoader::init();
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
 	m_game.init(&m_inputManager, &m_networkManager, &m_textureArray, &m_config, &m_settings, &m_converter, &m_blockTextureHandler);
 	m_pause.init(&m_inputManager, &m_settings);
