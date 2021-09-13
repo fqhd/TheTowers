@@ -9,9 +9,7 @@ void Settings::loadFromFile(){
 	}
 	std::string type;
 	while(is >> type){
-		if(type == "isFogToggled:"){
-			is >> isFogToggled;
-		}else if(type == "isVignetteToggled:"){
+		if(type == "isVignetteToggled:"){
 			is >> isVignetteToggled;
 		}else if(type == "isDebugToggled:"){
 			is >> isDebugToggled;
@@ -29,7 +27,6 @@ void Settings::writeToFile(){
 		std::cout << "Failed to open settings" << std::endl;
 		return;
 	}
-	os << "isFogToggled: " << isFogToggled << std::endl;
 	os << "isVignetteToggled: " << isVignetteToggled << std::endl;
 	os << "isDebugToggled: " << isDebugToggled << std::endl;
 	os << "renderOutline: " << renderOutline << std::endl;
