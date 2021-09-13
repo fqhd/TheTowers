@@ -1,5 +1,5 @@
 cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror
-lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -pthread -framework OpenGL -framework GLEW
+lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -pthread -framework OpenGL
 
 rule cc
   command = clang++ -c $in -o $out $cflags
