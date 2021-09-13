@@ -6,7 +6,7 @@ void DebugMenu::init(Config* _config){
 
 void DebugMenu::render(const FrameCounter& _frameCounter, const Player& _player){
 	// Drawing FPS
-	GUIRenderer::drawText("FPS: " + std::to_string(_frameCounter.getAverage()), math::vec2(10, 700), math::vec2(0.5f, 0.5f), ColorRGBA8());
+	GUIRenderer::drawText("FPS: " + std::to_string(_frameCounter.getFrameRate()), math::vec2(10, 700), math::vec2(0.5f, 0.5f), ColorRGBA8());
 
 	// Drawing player coordinates
 	math::vec3 coords = _player.getEyePos();
