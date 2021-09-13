@@ -146,7 +146,6 @@ void World::generateMesh(Chunk* _chunk){
 	for(unsigned int y = 0; y < cw; y++){
 		for(unsigned int z = 0; z < cw; z++){
 			for(unsigned int x = 0; x < cw; x++){
-				//May be better to get the surrounding blocks and then check against them rather than get the surrounding blocks every time. Because then, they will be stored in the cache rather than having to go look through the entire array of data for the surrounding blocks in ram which is farther away from the cpu
 				uint8_t block = getBlock(_chunk->x + x, _chunk->y + y, _chunk->z + z);
 
 				if(block){

@@ -26,7 +26,6 @@ private:
 
 	// GUI
 	GUIButton save;
-	GUICheckbox fog;
 	GUICheckbox vignette;
 	GUICheckbox debug;
 	GUICheckbox outline;

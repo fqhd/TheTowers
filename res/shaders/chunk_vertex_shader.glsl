@@ -5,7 +5,6 @@ layout (location = 0) in uint vertexData;
 
 // Outs
 out float pass_AO;
-out float visibility;
 out vec3 textureData;
 
 //Uniforms
@@ -21,8 +20,6 @@ vec2 texCoords[4] = vec2[4](
     vec2(1.0f, 0.0f),
     vec2(1.0f, 1.0f)
 );
-
-
 
 float calcVisibility(float d, float density, float gradient){
 	return clamp(exp(-pow((d*density), gradient)), 0.0, 1.0);
@@ -52,7 +49,6 @@ void main(){
 
 	// Calculating AO and Fog
 	float d = distance(worldPosition, cameraPosition);
-	visibility = calcVisibility(d, 0.002, 20.0);
 	pass_AO = map(basicLight, 0, 3, 0.2, 1.0);
 	pass_AO = calcAO(pass_AO, d);
 
