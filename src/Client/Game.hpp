@@ -29,7 +29,7 @@ public:
 
 	void init(InputManager* _iManager, NetworkManager* _nManager, TextureArray* _array, Config* _config, Settings* _settings, Converter* _converter,
 				BlockTextureHandler* _textureHandler);
-	void update(GameStates& _state, float _deltaTime);
+	void update(GameStates& _state, float _deltaTime, bool _gameUpdate);
 	void render();
 	void destroy();
 

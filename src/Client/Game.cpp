@@ -25,16 +25,16 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray
 	m_hud.init(_converter, &player.hotbar);
 }
 
-void Game::update(GameStates& _state, float _deltaTime) {
+void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
 	// Switch state if key has been pressed
-	if (m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE) || !m_inputManager->hasFocus()) {
+	if ((m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE) || !m_inputManager->hasFocus()) && _gameUpdate) {
 		m_inputManager->setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
 	m_frameCounter.tick(_deltaTime);
 	m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
-	m_camera.update();
+	if(_gameUpdate) m_camera.update();
 	player.update(_deltaTime);
 	m_camera.setPosition(player.getEyePos());
 	m_particleHandler.update(_deltaTime);
