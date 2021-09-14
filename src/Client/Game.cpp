@@ -23,6 +23,9 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray
 	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
 	m_hud.init(_converter, &player.hotbar);
+
+	m_camera.setPosition(player.getEyePos());
+	m_camera.updateViewMatrix();
 }
 
 void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
@@ -34,9 +37,10 @@ void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
 	m_frameCounter.tick(_deltaTime);
 	m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
-	if(_gameUpdate) m_camera.update();
-	player.update(_deltaTime);
 	m_camera.setPosition(player.getEyePos());
+	if(_gameUpdate) m_camera.calculateCameraVectors(0.3f);
+	m_camera.updateViewMatrix();
+	player.update(_deltaTime);
 	m_particleHandler.update(_deltaTime);
 	sendPositionDataToServer();
 }

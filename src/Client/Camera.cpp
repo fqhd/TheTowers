@@ -6,15 +6,9 @@ const float FAR_DIST = 1000.0f;
 const float FOV = 90.0f;
 
 void Camera::init(InputManager* _manager, const Config* _config) {
-	m_position = math::vec3(64.0f, 32.0f, 128.0f);
 	m_manager = _manager;
+	m_forward = math::vec3(1, 0, 0);
 	m_projectionMatrix = math::perspective(math::toRadians(FOV), _config->getWindowWidth() / (float)_config->getWindowHeight(), NEAR_DIST, FAR_DIST);
-	updateViewMatrix();
-}
-
-void Camera::update() {
-	calculateCameraVectors(0.3f);
-	updateViewMatrix();
 }
 
 void Camera::calculateCameraVectors(float sensibility) {

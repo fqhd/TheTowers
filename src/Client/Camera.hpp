@@ -10,8 +10,8 @@ class Camera {
 public:
 
 	void init(InputManager* _manager, const Config* _config);
-	void update();
 
+	void calculateCameraVectors(float deltaTime);
 	float getPitch() const;
 	float getYaw() const;
 	const math::mat4& getProjectionMatrix() const;
@@ -20,14 +20,10 @@ public:
 	const math::vec3& getForward() const;
 	void setForward(const math::vec3&);
 	void setPosition(const math::vec3& vec);
+	void updateViewMatrix();
 
 
 private:
-
-	//Private Functions
-	void calculateCameraVectors(float deltaTime);
-	void movement(float deltaTime);
-	void updateViewMatrix();
 
 	float m_pitch = 0.0f;
 	float m_yaw = 0.0f;
