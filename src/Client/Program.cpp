@@ -16,6 +16,7 @@ void Program::initSystems(){
 	m_window.create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
 	m_inputManager.init(m_window.getWindowPtr(), m_config.getWindowHeight());
 	m_inputManager.setVerticalSync(true);
+	m_inputManager.setMouseGrabbed(true);
 	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
 	m_blockTextureHandler.loadBlockTexturesFromFile();
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);

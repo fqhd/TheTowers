@@ -40,7 +40,7 @@ void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
 	m_camera.setPosition(player.getEyePos());
 	if(_gameUpdate) m_camera.calculateCameraVectors(0.3f);
 	m_camera.updateViewMatrix();
-	player.update(_deltaTime);
+	if(_gameUpdate) player.update(_deltaTime);
 	m_particleHandler.update(_deltaTime);
 	sendPositionDataToServer();
 }

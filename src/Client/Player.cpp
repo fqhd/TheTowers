@@ -35,7 +35,7 @@ void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, Net
 	hotbar.items[3].count = 32;
 	hotbar.items[5].id = ItemID::SAND;
 	hotbar.items[5].count = 32;
-	hotbar.items[6].id = ItemID::DIRT;
+	hotbar.items[6].id = ItemID::LEAVES;
 	hotbar.items[6].count = 10;
 
 }

@@ -30,7 +30,7 @@ private:
 	NetworkManager m_networkManager;
 	Game m_game;
 	PauseMenu m_pause;
-	GameStates m_state = GameStates::PAUSE;
+	GameStates m_state = GameStates::PLAY;
 	InputManager m_inputManager;
 	Config m_config;
 	Settings m_settings;

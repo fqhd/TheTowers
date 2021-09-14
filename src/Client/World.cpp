@@ -260,8 +260,13 @@ unsigned int calcAO(bool side1, bool side2, bool corner){
 	return 3 - (side1 + side2 + corner);
 }
 
+bool isBlockTransparent(uint8_t _blockID){
+	return _blockID == 7 || !_blockID;
+}
+
 void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
-	if(getBlock(c->x + x, c->y + y + 1, c->z + z)) return;
+	uint8_t adjacentBlockID = getBlock(c->x + x, c->y + y + 1, c->z + z);
+	if(!isBlockTransparent(adjacentBlockID)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x, c->y + y + 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z), getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1));
 	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y + 1, c->z + z), getBlock(c->x + x, c->y + y + 1, c->z + z + 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1));
@@ -288,7 +293,8 @@ void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _text
 }
 
 void World::addBottomFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
-	if(getBlock(c->x + x, c->y + y - 1, c->z + z)) return;
+	uint8_t adjacentBlockID = getBlock(c->x + x, c->y + y - 1, c->z + z);
+	if(!isBlockTransparent(adjacentBlockID)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x, c->y + y - 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
 	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x, c->y + y - 1, c->z + z + 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1));
@@ -316,7 +322,8 @@ void World::addBottomFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _t
 }
 
 void World::addRightFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
-	if(getBlock(c->x + x - 1, c->y + y, c->z + z)) return;
+	uint8_t adjacentBlockID = getBlock(c->x + x - 1, c->y + y, c->z + z);
+	if(!isBlockTransparent(adjacentBlockID)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
 	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z), getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1));
@@ -344,7 +351,8 @@ void World::addRightFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _te
 }
 
 void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _textureLayer){
-	if(getBlock(c->x + x + 1, c->y + y, c->z + z)) return;
+	uint8_t adjacentBlockID = getBlock(c->x + x + 1, c->y + y, c->z + z);
+	if(!isBlockTransparent(adjacentBlockID)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x + 1, c->y + y, c->z + z - 1), getBlock(c->x + x + 1, c->y + y - 1, c->z + z), getBlock(c->x + x + 1, c->y + y - 1, c->z + z - 1));
 	unsigned int a01 = calcAO(getBlock(c->x + x + 1, c->y + y, c->z + z - 1), getBlock(c->x + x + 1, c->y + y + 1, c->z + z), getBlock(c->x + x + 1, c->y + y + 1, c->z + z - 1));
@@ -371,7 +379,8 @@ void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _te
 }
 
 void World::addFrontFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
-	if(getBlock(c->x + x, c->y + y, c->z + z - 1)) return;
+	uint8_t adjacentBlockID = getBlock(c->x + x, c->y + y, c->z + z - 1);
+	if(!isBlockTransparent(adjacentBlockID)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x, c->y + y - 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z - 1));
 	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z - 1), getBlock(c->x + x, c->y + y + 1, c->z + z - 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z - 1));
@@ -398,7 +407,8 @@ void World::addFrontFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _te
 }
 
 void World::addBackFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _textureLayer){
-	if(getBlock(c->x + x, c->y + y, c->z + z + 1)) return;
+	uint8_t adjacentBlockID = getBlock(c->x + x, c->y + y, c->z + z + 1);
+	if(!isBlockTransparent(adjacentBlockID)) return;
 
 	unsigned int a00 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z + 1), getBlock(c->x + x, c->y + y - 1, c->z + z + 1), getBlock(c->x + x - 1, c->y + y - 1, c->z + z + 1));
 	unsigned int a01 = calcAO(getBlock(c->x + x - 1, c->y + y, c->z + z + 1), getBlock(c->x + x, c->y + y + 1, c->z + z + 1), getBlock(c->x + x - 1, c->y + y + 1, c->z + z + 1));
