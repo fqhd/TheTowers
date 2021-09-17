@@ -9,9 +9,9 @@
 class Camera {
 public:
 
-	void init(const Config* _config);
+	void init(Config* _config);
 
-	void calculateCameraVectors(float deltaTime);
+	void calculateCameraVectors();
 	float getPitch() const;
 	float getYaw() const;
 	const math::mat4& getProjectionMatrix() const;
@@ -31,7 +31,7 @@ private:
 	math::vec3 m_forward;
 	math::mat4 m_projectionMatrix;
 	math::mat4 m_viewMatrix;
-
+	Config* m_config = nullptr;
 
 };
 

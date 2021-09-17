@@ -7,7 +7,6 @@ public:
 
 	void loadFromFile();
 
-	float getCameraSpeed() const;
 	unsigned int getWorldWidth() const;
 	unsigned int getWorldLength() const;
 	unsigned int getWorldHeight() const;
@@ -17,11 +16,11 @@ public:
 	unsigned int getPacketTransmissionFrequency() const;
 	unsigned int getWindowWidth() const;
 	unsigned int getWindowHeight() const;
-	float getReachDistance() const;
+	float getMouseSensitivity() const;
+
 
 private:
 
-	float m_cameraSpeed = 0.0f;
 	unsigned int m_worldWidth = 0;
 	unsigned int m_worldHeight = 0;
 	unsigned int m_worldLength = 0;
@@ -31,6 +30,6 @@ private:
 	unsigned int m_windowWidth = 0;
 	unsigned int m_windowHeight = 0;
 	unsigned int m_packetTransmissionFrequency = 0;
-	float m_reachDistance = 0.0f;
+	float m_mouseSensitivity = 0.0f;
 
 };

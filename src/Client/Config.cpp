@@ -10,8 +10,8 @@ void Config::loadFromFile() {
 	}
 	std::string type;
 	while(is >> type){
-		if(type == "CAMERA_SPEED:"){
-			is >> m_cameraSpeed;
+		if(type == "MOUSE_SENSITIVITY:"){
+			is >> m_mouseSensitivity;
 		}else if(type == "WORLD_WIDTH:"){
 			is >> m_worldWidth;
 		}else if(type == "WORLD_HEIGHT:"){
@@ -26,8 +26,6 @@ void Config::loadFromFile() {
 			is >> m_serverPort;
 		}else if(type == "PACKET_TRANSMISSION_FRQUENCY:"){
 			is >> m_packetTransmissionFrequency;
-		}else if (type == "REACH_DISTANCE:"){
-			is >> m_reachDistance;
 		}else if (type == "WINDOW_WIDTH:"){
 			is >> m_windowWidth;
 		}else if (type == "WINDOW_HEIGHT:"){
@@ -35,10 +33,6 @@ void Config::loadFromFile() {
 		}
 	}
 	is.close();
-}
-
-float Config::getCameraSpeed() const {
-	return m_cameraSpeed;
 }
 
 unsigned int Config::getWindowWidth() const {
@@ -77,6 +71,6 @@ unsigned int Config::getServerPort() const {
 	return m_serverPort;
 }
 
-float Config::getReachDistance() const {
-	return m_reachDistance;
+float Config::getMouseSensitivity() const {
+	return m_mouseSensitivity;
 }

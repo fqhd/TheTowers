@@ -37,7 +37,7 @@ public:
 private:
 
 	void renderGUI();
-	void sendPositionDataToServer();
+	void networkPositionTick();
 
 	//Engine Variables
 	Camera m_camera;

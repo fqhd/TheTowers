@@ -38,14 +38,14 @@ void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
 	m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
 	m_camera.setPosition(player.getEyePos());
-	if(_gameUpdate) m_camera.calculateCameraVectors(0.3f);
+	if(_gameUpdate) m_camera.calculateCameraVectors();
 	m_camera.updateViewMatrix();
 	if(_gameUpdate) player.update(_deltaTime);
 	m_particleHandler.update(_deltaTime);
-	sendPositionDataToServer();
+	networkPositionTick();
 }
 
-void Game::sendPositionDataToServer(){
+void Game::networkPositionTick(){
 	float timeBetweenPackets = 1.0 / m_config->getPacketTransmissionFrequency();
 	if (m_dataFrequencyTimer.getElapsedTime() >= timeBetweenPackets) {
 		m_dataFrequencyTimer.restart();
