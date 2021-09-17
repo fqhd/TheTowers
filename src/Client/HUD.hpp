@@ -11,7 +11,7 @@
 class HUD {
 public:
 
-	void init(Converter* _converter, Hotbar* _hotbar);
+	void init(Hotbar* _hotbar);
 	void render();
 
 private:
@@ -19,6 +19,5 @@ private:
 	void renderHotbar();
 
 	Hotbar* m_hotbar = nullptr;
-	Converter* m_converter = nullptr;
 
 };

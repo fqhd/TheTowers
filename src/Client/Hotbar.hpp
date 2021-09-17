@@ -7,7 +7,7 @@
 class Hotbar {
 public:
 
-	void init(InputManager* _manager);
+	void init();
 	void update();
 
 	int getSelectorLocation();
@@ -15,8 +15,6 @@ public:
 	Item items[11];
 
 private:
-	int m_selectorLocation;
-
-	InputManager* m_inputManager = nullptr;
+	int m_selectorLocation = 0;
 
 };

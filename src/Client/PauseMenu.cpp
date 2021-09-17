@@ -1,16 +1,15 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
-void PauseMenu::init(InputManager* _manager, Settings* _settings){
+void PauseMenu::init(Settings* _settings){
 	m_settings = _settings;
-	m_inputManager = _manager;
 	initGUI();
 }
 
 void PauseMenu::update(GameStates& _state, float deltaTime){
 	// Change state back to game if the user presses on escape
-	if(m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE)){
-		m_inputManager->setMouseGrabbed(true);
+	if(InputManager::isKeyPressed(GLFW_KEY_ESCAPE)){
+		InputManager::setMouseGrabbed(true);
 		_state = GameStates::PLAY;
 	}
 	updateGUI(deltaTime);
@@ -48,10 +47,10 @@ void PauseMenu::initGUI(){
 }
 
 void PauseMenu::updateGUI(float deltaTime){
-	save.update(m_inputManager, deltaTime);
-	vignette.update(m_inputManager, deltaTime);
-	debug.update(m_inputManager, deltaTime);
-	outline.update(m_inputManager, deltaTime);
+	save.update(deltaTime);
+	vignette.update(deltaTime);
+	debug.update(deltaTime);
+	outline.update(deltaTime);
 }
 
 void PauseMenu::renderGUI(){

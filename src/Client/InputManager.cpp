@@ -10,6 +10,10 @@ unsigned int windowHeight = 0;
 char lastKeyPressed = -1;
 float mouseWheelDelta = 0;
 
+std::unordered_map<int, bool> InputManager::m_previousKeymap;
+math::vec2 InputManager::m_previousMousePosition;
+GLFWwindow* InputManager::m_window = nullptr;
+
 void keyPressed(int _keyID){
 	keymap[_keyID] = true;
 }
@@ -89,11 +93,11 @@ float InputManager::getDeltaMouseWheel(){
 	return mouseWheelDelta;
 }
 
-bool InputManager::hasFocus() const {
+bool InputManager::hasFocus() {
 	return isFocused;
 }
 
-char InputManager::getLastKeyPressed() const {
+char InputManager::getLastKeyPressed() {
 	return lastKeyPressed;
 }
 

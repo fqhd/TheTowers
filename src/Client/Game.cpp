@@ -3,26 +3,26 @@
 #include <iostream>
 
 
-void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray* _textureArray, Config* _config, Settings* _settings, Converter* _converter,
-			BlockTextureHandler* _textureHandler) {
+void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings) {
 	m_settings = _settings;
 	m_config = _config;
 	m_networkManager = _nManager;
-	m_inputManager = _iManager;
-	m_textureArray = _textureArray;
 
-	m_world.init(_textureArray, _config, _textureHandler);
+	m_blockTextureHandler.loadBlockTexturesFromFile();
+	m_textureArray.init("res/textures/sprite_sheet.png", 512);
+
+	m_world.init(&m_textureArray, _config, &m_blockTextureHandler);
 	m_assets.init();
-	player.init(&m_camera, &m_particleHandler, &m_world, _nManager, _iManager, _converter);
+	player.init(&m_camera, &m_particleHandler, &m_world, _nManager);
 	m_skybox.init(&m_assets);
-	m_particleHandler.init(_textureArray, _textureHandler);
-	m_camera.init(_iManager, _config);
+	m_particleHandler.init(&m_textureArray, &m_blockTextureHandler);
+	m_camera.init(_config);
 	m_vignette.init();
 	m_entityHandler.init(&m_assets);
 	m_blockOutline.init(&m_assets);
 	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
-	m_hud.init(_converter, &player.hotbar);
+	m_hud.init(&player.hotbar);
 
 	m_camera.setPosition(player.getEyePos());
 	m_camera.updateViewMatrix();
@@ -30,8 +30,8 @@ void Game::init(InputManager* _iManager, NetworkManager* _nManager, TextureArray
 
 void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
 	// Switch state if key has been pressed
-	if ((m_inputManager->isKeyPressed(GLFW_KEY_ESCAPE) || !m_inputManager->hasFocus()) && _gameUpdate) {
-		m_inputManager->setMouseGrabbed(false);
+	if ((InputManager::isKeyPressed(GLFW_KEY_ESCAPE) || !InputManager::hasFocus()) && _gameUpdate) {
+		InputManager::setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
 	m_frameCounter.tick(_deltaTime);
@@ -66,6 +66,7 @@ void Game::render() {
 }
 
 void Game::destroy() {
+	m_textureArray.destroy();
 	m_assets.destroy();
 	m_vignette.destroy();
 	m_entityHandler.destroy();

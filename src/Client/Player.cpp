@@ -12,15 +12,13 @@ const float GRAVITY = 36.0f;
 
 math::vec3 position; // We declare the player position as a global variable because we want to use it in the AABB sorting function
 
-void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, NetworkManager* _nManager, InputManager* _iManager, Converter* _converter) {
+void Player::init(Camera* _camera, ParticleHandler* _handler, World* _world, NetworkManager* _nManager) {
 	m_camera = _camera;
 	m_world = _world;
 	m_particleHandler = _handler;
 	m_networkManager = _nManager;
-	m_inputManager = _iManager;
-	m_converter = _converter;
 
-	hotbar.init(_iManager);
+	hotbar.init();
 	position = math::vec3(36, 32, 32);
 	gamemode = SURVIVAL;
 	hotbar.items[0].id = ItemID::GRASS;
@@ -53,13 +51,13 @@ void Player::placeAndBreakBlocks() {
 
 	if (!visibleBlocks.lookingAtBlock) return;
 
-	if (m_inputManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && gamemode != GameMode::SPECTATOR) {
+	if (InputManager::isKeyPressed(GLFW_MOUSE_BUTTON_LEFT) && gamemode != GameMode::SPECTATOR) {
 		breakBlock();
 		m_networkManager->sendBlockUpdatePacket(visibleBlocks.breakableBlock, 0);
-	} else if (m_inputManager->isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
+	} else if (InputManager::isKeyPressed(GLFW_MOUSE_BUTTON_RIGHT) && gamemode != GameMode::SPECTATOR) {
 		if(canPlaceBlock()){
 			placeBlock();
-			m_networkManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, m_converter->itemIDToBlockID(hotbar.getSelectedItem().id));
+			m_networkManager->sendBlockUpdatePacket(visibleBlocks.placeableBlock, Converter::itemIDToBlockID(hotbar.getSelectedItem().id));
 		}
 	}
 
@@ -73,31 +71,31 @@ void Player::movement(float deltaTime) {
 	math::vec3 forward = math::normalize(math::vec3(camForward.x, 0.0f, camForward.z));
 	math::vec3 side = math::normalize(math::cross(camForward, math::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (m_inputManager->isKeyDown(GLFW_KEY_W)) {
+	if (InputManager::isKeyDown(GLFW_KEY_W)) {
 		position += forward * SPEED * deltaTime;
 	}
 
-	if (m_inputManager->isKeyDown(GLFW_KEY_S)) {
+	if (InputManager::isKeyDown(GLFW_KEY_S)) {
 		position -= forward * SPEED * deltaTime;
 	}
 
-	if (m_inputManager->isKeyDown(GLFW_KEY_A)) {
+	if (InputManager::isKeyDown(GLFW_KEY_A)) {
 		position -= side * SPEED * deltaTime;
 	}
 
-	if (m_inputManager->isKeyDown(GLFW_KEY_D)) {
+	if (InputManager::isKeyDown(GLFW_KEY_D)) {
 		position += side * SPEED * deltaTime;
 	}
 
 	if(GameModeCanFly(gamemode)){
-		if(m_inputManager->isKeyDown(GLFW_KEY_SPACE)){
+		if(InputManager::isKeyDown(GLFW_KEY_SPACE)){
 			position.y += SPEED * deltaTime;
 		}
-		if(m_inputManager->isKeyDown(GLFW_KEY_LEFT_SHIFT)){
+		if(InputManager::isKeyDown(GLFW_KEY_LEFT_SHIFT)){
 			position.y -= SPEED * deltaTime;
 		}
 	}else{
-		if(m_inputManager->isKeyDown(GLFW_KEY_SPACE) && m_canJump){
+		if(InputManager::isKeyDown(GLFW_KEY_SPACE) && m_canJump){
 			m_yVelocity = 10.5f;
 			m_canJump = false;
 		}
@@ -139,7 +137,7 @@ void Player::getVisibleBlocks() {
 }
 
 void Player::placeBlock() {
-	m_world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, m_converter->itemIDToBlockID(hotbar.getSelectedItem().id));
+	m_world->setBlock(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z, Converter::itemIDToBlockID(hotbar.getSelectedItem().id));
 }
 
 void Player::breakBlock() {
@@ -201,5 +199,5 @@ bool Player::canPlaceBlock(){
 	if(hotbar.getSelectedItem().count == 0) return false;
 	AABB player(position, math::vec3(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH));
 	AABB box(math::vec3(visibleBlocks.placeableBlock.x, visibleBlocks.placeableBlock.y, visibleBlocks.placeableBlock.z), math::vec3(1));
-	return !Utils::collideBoxes(player, box) * m_converter->itemIDToBlockID(hotbar.getSelectedItem().id);
+	return !Utils::collideBoxes(player, box) * Converter::itemIDToBlockID(hotbar.getSelectedItem().id);
 }

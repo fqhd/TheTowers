@@ -9,7 +9,7 @@ class GUIButton {
 public:
 
 	void init(const math::vec4& destRect);
-	void update(InputManager* _manager, float deltaTime);
+	void update(float deltaTime);
 	void render();
 	bool isPressed();
 

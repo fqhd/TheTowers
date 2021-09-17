@@ -7,8 +7,6 @@
 
 class Converter {
 public:
-	
-	uint8_t itemIDToBlockID(ItemID _id);
-	math::vec4 itemIDToTextureUV(ItemID _id);
-
+	static uint8_t itemIDToBlockID(ItemID _id);
+	static math::vec4 itemIDToTextureUV(ItemID _id);
 };

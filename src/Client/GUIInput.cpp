@@ -15,9 +15,9 @@ void GUIInput::init(const math::vec4& destRect,
 	m_activeOutlineColor = activeOutlineColor;
 }
 
-void GUIInput::update(InputManager* _manager) {
-	math::ivec2 mousePos = math::floor(_manager->getMousePosition());
-	if (_manager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+void GUIInput::update(){
+	math::ivec2 mousePos = math::floor(InputManager::getMousePosition());
+	if (InputManager::isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		if (Utils::isInside(mousePos, m_destRect)) {
 			m_onFocus = m_onFocus ? false : true;
 		}
@@ -26,7 +26,7 @@ void GUIInput::update(InputManager* _manager) {
 		}
 	}
 	if (m_onFocus) {
-		char ascii_key = _manager->getLastKeyPressed();
+		char ascii_key = InputManager::getLastKeyPressed();
 		if (ascii_key <= -2 && m_input.length() > 0) {
 			m_input.pop_back();
 		}
@@ -34,7 +34,7 @@ void GUIInput::update(InputManager* _manager) {
 			m_input.push_back(ascii_key);
 		}
 	}
-	m_wasSubmitted = m_onFocus && _manager->isKeyPressed(GLFW_KEY_ENTER);
+	m_wasSubmitted = m_onFocus && InputManager::isKeyPressed(GLFW_KEY_ENTER);
 }
 
 bool GUIInput::wasSubmitted() {
@@ -55,5 +55,4 @@ void GUIInput::render() {
 
 	GUIRenderer::drawRect(m_destRect, GUIUVLoader::getUV("White"), m_backgroundColor);
 	GUIRenderer::drawText(m_input, math::vec2(m_destRect.x + 3, m_destRect.y + 5), math::vec2(0.75, 0.75), ColorRGBA8());
-	
 }

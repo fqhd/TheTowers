@@ -10,7 +10,7 @@ class GUICheckbox {
 public:
 
 	void init(const math::vec4& destRect, bool _checked = false);
-	void update(InputManager* _manager, float deltaTime);
+	void update(float deltaTime);
 	void render();
 	bool isChecked();
 

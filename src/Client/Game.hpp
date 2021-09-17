@@ -27,8 +27,7 @@
 class Game {
 public:
 
-	void init(InputManager* _iManager, NetworkManager* _nManager, TextureArray* _array, Config* _config, Settings* _settings, Converter* _converter,
-				BlockTextureHandler* _textureHandler);
+	void init(NetworkManager* _nManager, Config* _config, Settings* _settings);
 	void update(GameStates& _state, float _deltaTime, bool _gameUpdate);
 	void render();
 	void destroy();
@@ -54,12 +53,12 @@ private:
 	PacketHandler m_packetHandler;
 	DebugMenu m_debugMenu;
 	Timer m_dataFrequencyTimer;
+	BlockTextureHandler m_blockTextureHandler;
+	TextureArray m_textureArray;
 
 	// Pointers
-	TextureArray* m_textureArray = nullptr;
 	Settings* m_settings = nullptr;
 	Config* m_config = nullptr;
 	NetworkManager* m_networkManager = nullptr;
-	InputManager* m_inputManager = nullptr;
 
 };

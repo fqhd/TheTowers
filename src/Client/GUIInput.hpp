@@ -13,7 +13,7 @@ public:
 	          const ColorRGBA8& backgroundColor=ColorRGBA8(150, 150, 150, 255), 
 	          const ColorRGBA8& outlineColor=ColorRGBA8(200, 200, 200, 255), 
 			  const ColorRGBA8& activeOutlineColor=ColorRGBA8());
-	void update(InputManager* _manager);
+	void update();
 	void render();
 	bool wasSubmitted();
 	std::string getText();

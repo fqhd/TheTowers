@@ -23,19 +23,15 @@ private:
 	void initSystems();
 	void gameloop();
 	void cleanUp();
-
-	BlockTextureHandler m_blockTextureHandler;
-	Converter m_converter;
-	TextureArray m_textureArray;
+	
 	NetworkManager m_networkManager;
-	Game m_game;
-	PauseMenu m_pause;
 	GameStates m_state = GameStates::PLAY;
-	InputManager m_inputManager;
 	Config m_config;
 	Settings m_settings;
-	Window m_window;
 	Timer m_deltaTimer;
 	sf::IpAddress m_ip;
-
+	
+	Game m_game;
+	PauseMenu m_pause;
+	
 };

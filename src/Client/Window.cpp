@@ -1,8 +1,9 @@
 #include "Window.hpp"
 #include <iostream>
 
-void Window::create(unsigned int _width, unsigned int _height, const char* _title, bool _resizable, bool _decorated){
+GLFWwindow* Window::m_window;
 
+void Window::create(unsigned int _width, unsigned int _height, const char* _title, bool _resizable, bool _decorated){
 	// Initializing GLFW
 	if(!glfwInit()){
 		std::cout << "Failed to initialize GLFW" << std::endl;
@@ -59,7 +60,6 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 
 	// Enabling point size
 	glEnable(GL_PROGRAM_POINT_SIZE);
-
 }
 
 GLFWwindow* Window::getWindowPtr(){

@@ -22,7 +22,7 @@ struct VisibleBlocks {
 class Player {
 public:
 
-	void init(Camera* _camera, ParticleHandler* _handler, World* _world, NetworkManager* _nMangaer, InputManager* _iManager, Converter* _converter);
+	void init(Camera* _camera, ParticleHandler* _handler, World* _world, NetworkManager* _nMangaer);
 	void update(float deltaTime);
 	void placeAndBreakBlocks();
 	void movement(float deltaTime);
@@ -45,10 +45,9 @@ private:
 	float m_yVelocity = 0.0f;
 
 	// Pointers
-	InputManager* m_inputManager = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	ParticleHandler* m_particleHandler = nullptr;
 	World* m_world = nullptr;
 	Camera* m_camera = nullptr;
-	Converter* m_converter = nullptr;
+	
 };

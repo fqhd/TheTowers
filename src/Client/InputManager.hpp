@@ -9,27 +9,26 @@
 class InputManager {
 public:
 
-	void init(GLFWwindow* _window, unsigned int _windowHeight);
-	bool processInput();
+	static void init(GLFWwindow* _window, unsigned int _windowHeight);
+	static bool processInput();
 
-	bool isKeyPressed(int _keyID);
-	bool isKeyReleased(int _keyID);
-	bool isKeyDown(int _keyID);
-	bool wasKeyDown(int _keyID);
-	char getLastKeyPressed() const; // A function which returns the last key pressed(-1 if no key was pressed and -2 if the backspace was pressed)
-	bool hasFocus() const;
+	static bool isKeyPressed(int _keyID);
+	static bool isKeyReleased(int _keyID);
+	static bool isKeyDown(int _keyID);
+	static bool wasKeyDown(int _keyID);
+	static char getLastKeyPressed(); // A function which returns the last key pressed(-1 if no key was pressed and -2 if the backspace was pressed)
+	static bool hasFocus();
 
-	void setMouseGrabbed(bool _grabbed);
-	void setVerticalSync(bool _sync);
-	float getDeltaMouseWheel();
-	math::vec2 getMousePosition();
-	math::vec2 getPreviousMousePosition();
+	static void setMouseGrabbed(bool _grabbed);
+	static void setVerticalSync(bool _sync);
+	static float getDeltaMouseWheel();
+	static math::vec2 getMousePosition();
+	static math::vec2 getPreviousMousePosition();
 
 private:
 
-	std::unordered_map<int, bool> m_previousKeymap;
-	math::vec2 m_previousMousePosition;
-
-	GLFWwindow* m_window = nullptr;
+	static std::unordered_map<int, bool> m_previousKeymap;
+	static math::vec2 m_previousMousePosition;
+	static GLFWwindow* m_window;
 
 };

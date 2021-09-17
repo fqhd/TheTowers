@@ -9,16 +9,14 @@
 class Window {
 public:
 
-	void create(unsigned int _width, unsigned int _height, const char* _title, bool _resizable = false, bool _decorated = true);
-	void clear();
-	void update();
-	void close();
-	GLFWwindow* getWindowPtr();
-
-
+	static void create(unsigned int _width, unsigned int _height, const char* _title, bool _resizable = false, bool _decorated = true);
+	static void clear();
+	static void update();
+	static void close();
+	static GLFWwindow* getWindowPtr();
 
 private:
 
-	GLFWwindow* m_window = nullptr;
+	static GLFWwindow* m_window;
 
 };

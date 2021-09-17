@@ -5,15 +5,14 @@ const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 90.0f;
 
-void Camera::init(InputManager* _manager, const Config* _config) {
-	m_manager = _manager;
+void Camera::init(const Config* _config) {
 	m_forward = math::vec3(1, 0, 0);
 	m_projectionMatrix = math::perspective(math::toRadians(FOV), _config->getWindowWidth() / (float)_config->getWindowHeight(), NEAR_DIST, FAR_DIST);
 }
 
 void Camera::calculateCameraVectors(float sensibility) {
-	math::vec2 previousMousePos = m_manager->getPreviousMousePosition();
-	math::vec2 currentMousePos = m_manager->getMousePosition();
+	math::vec2 previousMousePos = InputManager::getPreviousMousePosition();
+	math::vec2 currentMousePos = InputManager::getMousePosition();
 
 	math::vec2 deltaMousePos = previousMousePos - currentMousePos;
 
