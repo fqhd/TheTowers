@@ -2,6 +2,7 @@
 ---
 
 ![Markdown Logo](https://i.imgur.com/Z93zZlr.png)
+![Markdown Logo](https://i.imgur.com/o7fQ2NW.png)
 ![Markdown Logo](https://img.shields.io/badge/build-stable-brightgreen)
 ![Markdown Logo](https://img.shields.io/badge/version-1.1.0-blue)
 ![Markdown Logo](https://tokei.rs/b1/github/fqhd/TheTowers)
