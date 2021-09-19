@@ -2,7 +2,7 @@
 #include "Converter.hpp"
 #include <cstring>
 
-const float GRAVITY = 18.0f;
+const float GRAVITY = 38.0f;
 
 
 void ParticleHandler::init(TextureArray* _array, BlockTextureHandler* _textureHandler){
@@ -29,11 +29,9 @@ void ParticleHandler::render(Camera& camera){
 	// Gathering particle data and sending it to GPU
 	m_particleStructs.resize(0);
 	for(unsigned int i = 0; i < m_currNumParticles; i++){
-		m_particleStructs.emplace_back(m_particles[i].position, m_particles[i].textureIndex);
+		m_particleStructs.emplace_back(m_particles[i].position, m_particles[i].textureIndex, m_particles[i].size);
 	}
-	m_quad.pushData(m_particleStructs.data(), m_particleStructs.size());
-
-
+	m_quad.pushData(m_particleStructs.data(), m_particleStructs.size() * sizeof(ParticleInstance));
 
 	// Rendering particles
 	m_shader.bind();
@@ -51,23 +49,26 @@ void ParticleHandler::render(Camera& camera){
 	m_shader.unbind();
 }
 
-unsigned int getRandom(uint8_t a, uint8_t b, uint8_t c){
-	int r = rand()%3;
-	if(r == 2){
-		return a;
-	}else if(r == 1){
-		return b;
-	}
-	return c;
-}
+// unsigned int getRandom(uint8_t a, uint8_t b, uint8_t c){
+// 	int r = rand()%3;
+// 	if(r == 2){
+// 		return a;
+// 	}else if(r == 1){
+// 		return b;
+// 	}
+// 	return c;
+// }
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){
 	if(m_currNumParticles == MAX_PARTICLES) return;
 	BlockTexture b = m_blockTextureHandler->getTextureFromBlockID(_blockID);
 	for(unsigned int i = 0; i < PARTICLES_PER_DROP; i++){
 		math::vec3 pos(x + math::random(), y + math::random(), z + math::random());
-		math::vec3 velocity((math::random() - 0.5f) * 3.0f, math::random() * 5, (math::random() - 0.5f) * 3.0f);
-		m_particles[m_currNumParticles + i] = Particle(pos, velocity, 1.0f, getRandom(b.top, b.side, b.bot));
+		math::vec3 direction = pos - (math::vec3(x, y, z) + math::vec3(0.5f, 0.0f, 0.5f));
+		math::vec3 velocity = math::vec3(direction.x * 3.0f, direction.y * 7.0f, direction.z * 3.0f);
+		//math::vec3 velocity((math::random() - 0.5f) * 3.0f, math::random() * 5, (math::random() - 0.5f) * 3.0f);
+
+		m_particles[m_currNumParticles + i] = Particle(pos, velocity, 1.0f, b.side, 50.0f + math::random() * 50.0f);
 	}
 	m_currNumParticles += PARTICLES_PER_DROP;
 }

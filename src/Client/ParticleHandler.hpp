@@ -17,16 +17,30 @@ struct Particle {
 		velocity = math::vec3(0.0f);
 		position = math::vec3(0.0f);
 	}
-	Particle(const math::vec3& p, const math::vec3& v, float l, float i){
+	Particle(const math::vec3& p, const math::vec3& v, float l, float i, float _size){
 		position = p;
 		velocity = v;
 		lifeLength = l;
 		textureIndex = i;
+		size = _size;
 	}
 	math::vec3 position;
 	math::vec3 velocity;
 	float lifeLength;
+	float size;
 	unsigned int textureIndex;
+};
+
+struct ParticleInstance {
+	ParticleInstance(){}
+	ParticleInstance(const math::vec3& p, unsigned int i, float _size){
+		pos = p;
+		tindex = i;
+		size = _size;
+	}
+	math::vec3 pos;
+	unsigned int tindex;
+	float size;
 };
 
 class ParticleHandler {

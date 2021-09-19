@@ -4,16 +4,6 @@
 #include <vector>
 #include "Vertex.hpp"
 
-struct ParticleInstance {
-	ParticleInstance(){}
-	ParticleInstance(const math::vec3& p, unsigned int i){
-		pos = p;
-		tindex = i;
-	}
-	math::vec3 pos;
-	unsigned int tindex;
-};
-
 class ParticleQuad {
 public:
 
