@@ -34,12 +34,13 @@ void Program::gameloop(){
 		float deltaTime = m_deltaTimer.getElapsedTime();
 		m_deltaTimer.restart();
 
+		m_game.updateEssentials(deltaTime);
+
 		if(m_state == GameStates::PLAY){
-			m_game.update(m_state, deltaTime, true);
+			m_game.update(m_state, deltaTime);
 			m_game.render();
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state, deltaTime);
-			m_game.update(m_state, deltaTime, false);
 			m_game.render();
 			m_pause.render();
 		}

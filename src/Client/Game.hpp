@@ -28,7 +28,8 @@ class Game {
 public:
 
 	void init(NetworkManager* _nManager, Config* _config, Settings* _settings);
-	void update(GameStates& _state, float _deltaTime, bool _gameUpdate);
+	void updateEssentials(float _deltaTime);
+	void update(GameStates& _state, float _deltaTime);
 	void render();
 	void destroy();
 

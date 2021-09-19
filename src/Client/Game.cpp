@@ -28,9 +28,14 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings)
 	m_camera.updateViewMatrix();
 }
 
-void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
+void Game::updateEssentials(float _deltaTime){
+	m_camera.calculateCameraVectors();
+	player.update(_deltaTime);
+}
+
+void Game::update(GameStates& _state, float _deltaTime) {
 	// Switch state if key has been pressed
-	if ((InputManager::isKeyPressed(GLFW_KEY_ESCAPE) || !InputManager::hasFocus()) && _gameUpdate) {
+	if (InputManager::isKeyPressed(GLFW_KEY_ESCAPE) || !InputManager::hasFocus()) {
 		InputManager::setMouseGrabbed(false);
 		_state = GameStates::PAUSE;
 	}
@@ -38,9 +43,7 @@ void Game::update(GameStates& _state, float _deltaTime, bool _gameUpdate) {
 	m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
 	m_camera.setPosition(player.getEyePos());
-	if(_gameUpdate) m_camera.calculateCameraVectors();
 	m_camera.updateViewMatrix();
-	if(_gameUpdate) player.update(_deltaTime);
 	m_particleHandler.update(_deltaTime);
 	networkPositionTick();
 }
