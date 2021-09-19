@@ -2,16 +2,15 @@
 #include "Utils.hpp"
 #include <iostream>
 
-
+math::vec2 windowSize;
 math::vec2 mousePosition;
+math::vec2 previousMousePosition;
 std::unordered_map<int, bool> keymap;
 bool isFocused = true;
-unsigned int windowHeight = 0;
 char lastKeyPressed = -1;
 float mouseWheelDelta = 0;
 
 std::unordered_map<int, bool> InputManager::m_previousKeymap;
-math::vec2 InputManager::m_previousMousePosition;
 GLFWwindow* InputManager::m_window = nullptr;
 
 void keyPressed(int _keyID){
@@ -22,11 +21,21 @@ void keyReleased(int _keyID){
 	keymap[_keyID] = false;
 }
 
-void focusChanged(GLFWwindow* window, int focused){
+void focusChangedCallback(GLFWwindow* window, int focused){
 	isFocused = focused;
 }
 
-void keyPressed(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
+void windowResizedCallback(GLFWwindow* window, int width, int height) {
+	windowSize.x = width;
+	windowSize.y = height;
+	double x, y;
+	glfwGetCursorPos(window, &x, &y);
+	mousePosition.x = x;
+	mousePosition.y = windowSize.y - y;
+	previousMousePosition = mousePosition;
+}
+
+void keyPressedCallback(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
 	if(_action == GLFW_PRESS){
 		if(_key == 259){ // 259 is the keycode for the backspace. If we pressed on backspace we want to set lastKeyPressed to -2 to let anyone calling char getLastKeyPressed() know that the last key pressed was a backspace and not a normal char
 			lastKeyPressed = -2;
@@ -37,13 +46,13 @@ void keyPressed(GLFWwindow* _window, int _key, int _scancode, int _action, int _
 	}
 }
 
-void keyTyped(GLFWwindow* window, unsigned int codepoint){
+void keyTypedCallback(GLFWwindow* window, unsigned int codepoint){
 	if(codepoint >= 32 && codepoint <= 127){
 		lastKeyPressed = codepoint;
 	}
 }
 
-void buttonPressed(GLFWwindow* _window, int _button, int _action, int _mods){
+void buttonPressedCallback(GLFWwindow* _window, int _button, int _action, int _mods){
 	if(_action == GLFW_PRESS){
 		keyPressed(_button);
 	}else if(_action == GLFW_RELEASE){
@@ -51,32 +60,37 @@ void buttonPressed(GLFWwindow* _window, int _button, int _action, int _mods){
 	}
 }
 
-void mouseMoved(GLFWwindow* window, double _xpos, double _ypos){
-	mousePosition = math::vec2((float)_xpos, windowHeight - (float)_ypos);
+void mouseMovedCallback(GLFWwindow* window, double _xpos, double _ypos){
+	mousePosition = math::vec2((float)_xpos, windowSize.y - (float)_ypos);
 }
 
-void wheelScrolled(GLFWwindow* window, double xoffset, double yoffset) {
+void wheelScrolledCallback(GLFWwindow* window, double xoffset, double yoffset) {
 	mouseWheelDelta = yoffset;
 }
 
-void InputManager::init(GLFWwindow* _window, unsigned int _windowHeight) {
-	windowHeight = _windowHeight;
+void InputManager::init(GLFWwindow* _window) {
 	m_window = _window;
-	glfwSetKeyCallback(_window, keyPressed);
-	glfwSetMouseButtonCallback(_window, buttonPressed);
-	glfwSetCursorPosCallback(_window, mouseMoved);
-	glfwSetWindowFocusCallback(_window, focusChanged);
-	glfwSetCharCallback(_window, keyTyped);
-	glfwSetScrollCallback(_window, wheelScrolled);
+	glfwSetKeyCallback(_window, keyPressedCallback);
+	glfwSetMouseButtonCallback(_window, buttonPressedCallback);
+	glfwSetCursorPosCallback(_window, mouseMovedCallback);
+	glfwSetWindowFocusCallback(_window, focusChangedCallback);
+	glfwSetCharCallback(_window, keyTypedCallback);
+	glfwSetScrollCallback(_window, wheelScrolledCallback);
+	glfwSetWindowSizeCallback(_window, windowResizedCallback);
 
-	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved.
+	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved so they are not initialized at the start of the application.
 	double x, y;
 	glfwGetCursorPos(_window, &x, &y);
 	mousePosition = math::vec2(x, y);
+
+	// We must also initalize the window size on init because the windowResized() callback only sets the window is resized so the width and height of the window are uninitialized in the start of the application.
+	int w, h;
+	glfwGetWindowSize(_window, &w, &h);
+	windowSize = math::vec2(w, h);
 }
 
 bool InputManager::processInput() {
-	m_previousMousePosition = mousePosition;
+	previousMousePosition = mousePosition;
 	m_previousKeymap = keymap;
 	lastKeyPressed = -1; // char getLastKeyPressed() returns -1 if no key was pressed
 	mouseWheelDelta = 0.0f;
@@ -114,11 +128,19 @@ void InputManager::setVerticalSync(bool _sync){
 }
 
 math::vec2 InputManager::getPreviousMousePosition(){
-	return m_previousMousePosition;
+	return previousMousePosition;
 }
 
 math::vec2 InputManager::getMousePosition(){
 	return mousePosition;
+}
+
+math::vec2 InputManager::getScaledMousePosition(){
+	return mousePosition / windowSize * math::vec2(1280.0f, 720.0f);
+}
+
+math::vec2 InputManager::getWindowSize(){
+	return windowSize;
 }
 
 bool InputManager::isKeyDown(int _keyID){

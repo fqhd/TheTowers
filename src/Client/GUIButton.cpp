@@ -18,7 +18,7 @@ void GUIButton::init(const math::vec4& destRect) {
 void GUIButton::update(float deltaTime) {
 	m_currentColor = m_baseColor;
 	m_isPressed = false;
-	math::ivec2 mousePos = math::floor(InputManager::getMousePosition());
+	math::ivec2 mousePos = math::floor(InputManager::getScaledMousePosition());
 
 	if (Utils::isInside(mousePos, m_destRect)) { // Mouse is inside the button
 		m_targetRect = math::vec4(m_originalRect.x - 10, m_originalRect.y - 10, m_originalRect.z + 20, m_originalRect.w + 20);

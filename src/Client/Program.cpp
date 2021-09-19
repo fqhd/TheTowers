@@ -14,7 +14,7 @@ void Program::initSystems(){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
 	Window::create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
-	InputManager::init(Window::getWindowPtr(), m_config.getWindowHeight());
+	InputManager::init(Window::getWindowPtr());
 	InputManager::setVerticalSync(true);
 	InputManager::setMouseGrabbed(true);
 	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
@@ -29,11 +29,10 @@ void Program::gameloop(){
 	while(m_state != GameStates::EXIT){
 		Window::clear();
 		if(InputManager::processInput()) m_state = GameStates::EXIT;
-		glViewport(0, 0, m_config.getWindowWidth(), m_config.getWindowHeight());
-
+		math::vec2 ws = InputManager::getWindowSize(); // Window Size
+		glViewport(0, 0, ws.x, ws.y);
 		float deltaTime = m_deltaTimer.getElapsedTime();
 		m_deltaTimer.restart();
-
 		m_game.updateEssentials(deltaTime);
 
 		if(m_state == GameStates::PLAY){

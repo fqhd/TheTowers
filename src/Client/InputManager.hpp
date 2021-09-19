@@ -9,7 +9,7 @@
 class InputManager {
 public:
 
-	static void init(GLFWwindow* _window, unsigned int _windowHeight);
+	static void init(GLFWwindow* _window);
 	static bool processInput();
 
 	static bool isKeyPressed(int _keyID);
@@ -24,11 +24,12 @@ public:
 	static float getDeltaMouseWheel();
 	static math::vec2 getMousePosition();
 	static math::vec2 getPreviousMousePosition();
+	static math::vec2 getWindowSize();
+	static math::vec2 getScaledMousePosition();
 
 private:
 
 	static std::unordered_map<int, bool> m_previousKeymap;
-	static math::vec2 m_previousMousePosition;
 	static GLFWwindow* m_window;
 
 };

@@ -18,7 +18,7 @@ void GUICheckbox::init(const math::vec4& destRect, bool _checked) {
 
 void GUICheckbox::update(float deltaTime) {
 	ColorRGBA8 color = m_isChecked ? m_onColor : m_offColor;
-	math::ivec2 mousePos = math::floor(InputManager::getMousePosition());
+	math::ivec2 mousePos = math::floor(InputManager::getScaledMousePosition());
 
 	m_currentColor = color;
 	if (Utils::isInside(mousePos, m_destRect)) { // Mouse is inside of checkbox
