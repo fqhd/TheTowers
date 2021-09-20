@@ -4,6 +4,7 @@
 #include "Shader.hpp"
 #include "Player.hpp"
 #include "Assets.hpp"
+#include "LegacyOutline.hpp"
 
 enum Face {
 	FACE_0,
@@ -23,10 +24,11 @@ public:
 
 private:
 
-	//Private Utility Functions
+	// Private Utility Functions
 	Face getFace(VisibleBlocks& visibleBlocks);
 
-	//Class objects
+	// Class objects
+	LegacyOutline m_legacyOutline;
 	Assets* m_assets = nullptr;
 	Shader m_shader;
 

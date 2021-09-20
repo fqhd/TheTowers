@@ -60,6 +60,9 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 
 	// Enabling point size
 	glEnable(GL_PROGRAM_POINT_SIZE);
+
+	// Changing the line width(for block outline)
+	glLineWidth(1.0f);	
 }
 
 GLFWwindow* Window::getWindowPtr(){
