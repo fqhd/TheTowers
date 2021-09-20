@@ -1,8 +1,8 @@
 #include "Skybox.hpp"
 #include <iostream>
 
-void Skybox::init(Assets* _assets) {
-	m_assets = _assets;
+void Skybox::init() {
+	m_cube.init();
 	m_shader.load("res/shaders/cubemap_vertex_shader.glsl", "res/shaders/cubemap_fragment_shader.glsl");
 }
 
@@ -17,7 +17,7 @@ void Skybox::render(const math::mat4& _projection, math::mat4 _view) {
 
 	glDepthMask(GL_FALSE);
 	glDisable(GL_CULL_FACE);
-	m_assets->getCube().render();
+	m_cube.render();
 	glEnable(GL_CULL_FACE);
 	glDepthMask(GL_TRUE);
 
@@ -25,5 +25,6 @@ void Skybox::render(const math::mat4& _projection, math::mat4 _view) {
 }
 
 void Skybox::destroy() {
+	m_cube.destroy();
 	m_shader.destroy();
 }

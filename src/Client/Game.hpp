@@ -49,7 +49,6 @@ private:
 	BlockOutline m_blockOutline;
 	Vignette m_vignette;
 	HUD m_hud;
-	Assets m_assets;
 	World m_world;
 	PacketHandler m_packetHandler;
 	DebugMenu m_debugMenu;

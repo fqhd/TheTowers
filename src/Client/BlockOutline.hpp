@@ -3,7 +3,7 @@
 #include "Cube.hpp"
 #include "Shader.hpp"
 #include "Player.hpp"
-#include "Assets.hpp"
+#include "Outline.hpp"
 #include "LegacyOutline.hpp"
 
 enum Face {
@@ -18,7 +18,7 @@ enum Face {
 class BlockOutline {
 public:
 
-	void init(Assets* _assets);
+	void init();
 	void render(Player* player, Camera& camera);
 	void destroy();
 
@@ -29,7 +29,7 @@ private:
 
 	// Class objects
 	LegacyOutline m_legacyOutline;
-	Assets* m_assets = nullptr;
+	Outline m_outline;
 	Shader m_shader;
 
 };

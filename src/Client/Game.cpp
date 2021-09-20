@@ -12,14 +12,13 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings)
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);
 
 	m_world.init(&m_textureArray, _config, &m_blockTextureHandler);
-	m_assets.init();
 	player.init(&m_camera, &m_particleHandler, &m_world, _nManager);
-	m_skybox.init(&m_assets);
+	m_skybox.init();
 	m_particleHandler.init(&m_textureArray, &m_blockTextureHandler);
 	m_camera.init(_config);
 	m_vignette.init();
-	m_entityHandler.init(&m_assets);
-	m_blockOutline.init(&m_assets);
+	m_entityHandler.init();
+	m_blockOutline.init();
 	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
 	m_hud.init(&player.hotbar);
@@ -70,7 +69,6 @@ void Game::render() {
 
 void Game::destroy() {
 	m_textureArray.destroy();
-	m_assets.destroy();
 	m_vignette.destroy();
 	m_entityHandler.destroy();
 	m_world.destroy();

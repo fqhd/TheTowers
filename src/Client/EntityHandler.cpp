@@ -1,8 +1,8 @@
 #include "EntityHandler.hpp"
 
 
-void EntityHandler::init(Assets* _assets) {
-	m_assets = _assets;
+void EntityHandler::init() {
+	m_entityModel.init("res/models/monkey.obj");
 	m_shader.load("res/shaders/entity_vertex_shader.glsl", "res/shaders/entity_fragment_shader.glsl");
 }
 
@@ -42,11 +42,12 @@ void EntityHandler::render(Camera& camera) {
 	for(auto it = m_entities.begin(); it != m_entities.end(); it++){
 		m_shader.loadUniform("isBlueTeam", it->second.isBlueTeam());
 		m_shader.loadUniform("model", it->second.transform.getMatrix());
-		m_assets->getModel().render(); // Change to actual model
+		m_entityModel.render(); // Change to actual model
 	}
 	m_shader.unbind();
 }
 
 void EntityHandler::destroy(){
+	m_entityModel.destroy();
 	m_shader.destroy();
 }
