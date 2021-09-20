@@ -78,15 +78,17 @@ void InputManager::init(GLFWwindow* _window) {
 	glfwSetScrollCallback(_window, wheelScrolledCallback);
 	glfwSetWindowSizeCallback(_window, windowResizedCallback);
 
-	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved so they are not initialized at the start of the application.
-	double x, y;
-	glfwGetCursorPos(_window, &x, &y);
-	mousePosition = math::vec2(x, y);
-
 	// We must also initalize the window size on init because the windowResized() callback only sets the window is resized so the width and height of the window are uninitialized in the start of the application.
 	int w, h;
 	glfwGetWindowSize(_window, &w, &h);
 	windowSize = math::vec2(w, h);
+
+	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved so they are not initialized at the start of the application.
+	double x, y;
+	glfwGetCursorPos(_window, &x, &y);
+	mousePosition = math::vec2(x, h - y);
+	previousMousePosition = mousePosition;
+
 }
 
 bool InputManager::processInput() {

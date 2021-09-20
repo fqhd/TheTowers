@@ -35,6 +35,10 @@ void ParticleHandler::render(Camera& camera){
 
 	// Rendering particles
 	m_shader.bind();
+	// Since we are rendering the particles as GL_POINTS, this uniform variable is necessary 
+	// in order to scale the particles based on the width of the screen. Otherwise the particles
+	// will have a fixed size regardless of screen size.
+	m_shader.loadUniform("screenWidth", InputManager::getWindowSize().x);
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	m_shader.loadUniform("view", camera.getViewMatrix());
 
