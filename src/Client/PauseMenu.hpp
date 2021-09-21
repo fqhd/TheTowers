@@ -25,10 +25,10 @@ private:
 	void initGUI();
 
 	// GUI
-	GUIButton save;
-	GUICheckbox vignette;
-	GUICheckbox debug;
-	GUICheckbox outline;
+	GUIButton saveButton;
+	GUICheckbox toggleVignette;
+	GUICheckbox toggleDebugView;
+	GUICheckbox toggleLegacyOutline;
 	// Pointers
 	Settings* m_settings = nullptr;
 

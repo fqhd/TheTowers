@@ -22,7 +22,7 @@ void GUICheckbox::update(float deltaTime) {
 
 	m_currentColor = color;
 	if (Utils::isInside(mousePos, m_destRect)) { // Mouse is inside of checkbox
-		m_targetRect = math::vec4(m_originalRect.x - 10, m_originalRect.y - 10, m_originalRect.z + 20, m_originalRect.w + 20);
+		m_targetRect = math::vec4(m_originalRect.x - 6, m_originalRect.y - 6, m_originalRect.z + 12, m_originalRect.w + 12);
 		m_currentColor = ColorRGBA8(color.r * 0.6f, color.g * 0.6f, color.b * 0.6f, color.a);
 		if (InputManager::isKeyDown(GLFW_MOUSE_BUTTON_LEFT)) {
 			m_targetRect = m_originalRect + math::vec4(-4, -4, 8, 8);

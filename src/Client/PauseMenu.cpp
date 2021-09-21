@@ -1,9 +1,21 @@
 #include "PauseMenu.hpp"
 #include <iostream>
 
+const float HLP = 600.0f; // Highest label position
+const float SBL = 45.0f; // Space between labels
+
 void PauseMenu::init(Settings* _settings){
 	m_settings = _settings;
 	initGUI();
+}
+
+void PauseMenu::initGUI(){
+	saveButton.init(math::vec4(440, 80, 400, 50));
+
+	float tmp = HLP;
+	toggleVignette.init(math::vec4(320, tmp, 24, 24), m_settings->isVignetteToggled);
+	toggleDebugView.init(math::vec4(365, tmp-=SBL, 24, 24), m_settings->isDebugToggled);
+	toggleLegacyOutline.init(math::vec4(410, tmp-=SBL, 24, 24), m_settings->renderOutline);
 }
 
 void PauseMenu::update(GameStates& _state, float deltaTime){
@@ -21,41 +33,38 @@ void PauseMenu::render(){
 	GUIRenderer::drawRect(math::vec4(138, 58, 1004, 604), GUIUVLoader::getUV("White"), ColorRGBA8());
 	GUIRenderer::drawRect(math::vec4(140, 60, 1000, 600), GUIUVLoader::getUV("White"), ColorRGBA8(34, 40, 50, 255));
 
-	// Text
-	GUIRenderer::drawText("Vignette: ", math::vec2(175, 600), math::vec2(1, 1), ColorRGBA8());
-	GUIRenderer::drawText("Debug Mode: ", math::vec2(175, 525), math::vec2(1, 1), ColorRGBA8());
-	GUIRenderer::drawText("Block Outline: ", math::vec2(175, 450), math::vec2(1, 1), ColorRGBA8());
-	GUIRenderer::drawText("Save Settings", math::vec2(500, 95), math::vec2(1, 1), ColorRGBA8());
+	// Labels
+
+	float tmp = HLP;
+	GUIRenderer::drawText("Vignette: ", math::vec2(175, tmp), math::vec2(0.75f), ColorRGBA8());
+	GUIRenderer::drawText("Debug Mode: ", math::vec2(175, tmp-=SBL), math::vec2(0.75f), ColorRGBA8());
+	GUIRenderer::drawText("Legacy Outline: ", math::vec2(175, tmp-=SBL), math::vec2(0.75f), ColorRGBA8());
+
+	// Buttons
+	GUIRenderer::drawText("Save Settings", math::vec2(500, 95), math::vec2(0.75f), ColorRGBA8());
 
 	renderGUI();
 }
 
 void PauseMenu::syncSettingsWithGUI(){
-	m_settings->isDebugToggled = debug.isChecked();
-	m_settings->isVignetteToggled = vignette.isChecked();
-	m_settings->renderOutline = outline.isChecked();
-	if(save.isPressed()){
+	m_settings->isDebugToggled = toggleDebugView.isChecked();
+	m_settings->isVignetteToggled = toggleVignette.isChecked();
+	m_settings->renderOutline = toggleLegacyOutline.isChecked();
+	if(saveButton.isPressed()){
 		m_settings->writeToFile();
 	}
 }
 
-void PauseMenu::initGUI(){
-	save.init(math::vec4(440, 80, 400, 50));
-	vignette.init(math::vec4(600, 600, 32, 32), m_settings->isVignetteToggled);
-	debug.init(math::vec4(600, 525, 32, 32), m_settings->isDebugToggled);
-	outline.init(math::vec4(600, 450, 32, 32), m_settings->renderOutline);
-}
-
 void PauseMenu::updateGUI(float deltaTime){
-	save.update(deltaTime);
-	vignette.update(deltaTime);
-	debug.update(deltaTime);
-	outline.update(deltaTime);
+	saveButton.update(deltaTime);
+	toggleVignette.update(deltaTime);
+	toggleDebugView.update(deltaTime);
+	toggleLegacyOutline.update(deltaTime);
 }
 
 void PauseMenu::renderGUI(){
-	save.render();
-	vignette.render();
-	debug.render();
-	outline.render();
+	saveButton.render();
+	toggleVignette.render();
+	toggleDebugView.render();
+	toggleLegacyOutline.render();
 }
