@@ -13,8 +13,8 @@ void Settings::loadFromFile(){
 			is >> isVignetteToggled;
 		}else if(type == "isDebugToggled:"){
 			is >> isDebugToggled;
-		}else if(type == "renderOutline:"){
-			is >> renderOutline;
+		}else if(type == "legacyOutline:"){
+			is >> legacyOutline;
 		}
 	}
 	is.close();
@@ -29,6 +29,6 @@ void Settings::writeToFile(){
 	}
 	os << "isVignetteToggled: " << isVignetteToggled << std::endl;
 	os << "isDebugToggled: " << isDebugToggled << std::endl;
-	os << "renderOutline: " << renderOutline << std::endl;
+	os << "legacyOutline: " << legacyOutline << std::endl;
 	os.close();
 }

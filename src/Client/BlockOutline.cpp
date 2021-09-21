@@ -6,12 +6,13 @@ void BlockOutline::init(){
 	m_legacyOutline.init();
 }
 
-void BlockOutline::render(Player* player, Camera& camera){
+void BlockOutline::render(Player* player, Camera& camera, bool _legacyOutline){
 	//Checking if the player is facing a block in order to draw an outline
 	if(!player->visibleBlocks.lookingAtBlock) return;
 
 	//Getting the face of the block that the player is facing
-	// Face blockFace = getFace(player->visibleBlocks);
+	Face blockFace;
+	if(!_legacyOutline) blockFace = getFace(player->visibleBlocks);
 
 	//Binding the shader, loading a couple uniforms and rendering a face based on the position of the block
 	m_shader.bind();
@@ -20,8 +21,13 @@ void BlockOutline::render(Player* player, Camera& camera){
 	math::ivec3 bb = player->visibleBlocks.breakableBlock; // Getting the breakable block
 	math::vec3 float_bb(bb.x, bb.y, bb.z); // Calculating the floating point version of the breakable block
 	m_shader.loadUniform("blockPosition", float_bb); // We send the position of the block to the vertex shader which will get added to the vertices and form a face
-	m_legacyOutline.render();
-	// m_outline.render(blockFace, 1);
+	m_shader.loadUniform("legacyOutline", _legacyOutline);
+	if(_legacyOutline){
+		m_legacyOutline.render();
+	}else{
+		m_outline.render(blockFace, 1);
+	}
+
 
 	m_shader.unbind();
 }

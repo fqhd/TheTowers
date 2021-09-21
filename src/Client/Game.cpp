@@ -71,7 +71,7 @@ void Game::render() {
 	// Rendering gameplay
 	m_skybox.render(m_camera.getProjectionMatrix(), m_camera.getViewMatrix());
 	m_world.render(m_camera);
-	if(m_settings->renderOutline) m_blockOutline.render(&player, m_camera);
+	m_blockOutline.render(&player, m_camera, m_settings->legacyOutline);
 	m_particleHandler.render(m_camera);
 	m_entityHandler.render(m_camera);
 	if(m_settings->isVignetteToggled) m_vignette.render();

@@ -11,7 +11,7 @@ public:
     void writeToFile();
 
     // Variables
-	bool renderOutline = true;
+	bool legacyOutline = true;
     bool isVignetteToggled = true;
 	bool isDebugToggled = true;
 };

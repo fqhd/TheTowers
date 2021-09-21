@@ -19,7 +19,7 @@ class BlockOutline {
 public:
 
 	void init();
-	void render(Player* player, Camera& camera);
+	void render(Player* player, Camera& camera, bool _legacyOutline);
 	void destroy();
 
 private:

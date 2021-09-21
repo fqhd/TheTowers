@@ -79,5 +79,6 @@ void Shader::loadUniform(const std::string& name, int i){
 }
 
 void Shader::loadUniform(const std::string& name, bool b){
-	glUniform1i(getUniformLocation(name), b);
+	int value = (int)b;
+	glUniform1i(getUniformLocation(name), value);
 }
