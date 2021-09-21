@@ -22,14 +22,21 @@
 #include "Timer.hpp"
 #include "TextureArray.hpp"
 #include "Converter.hpp"
+#include <thread>
+
+
+struct WorkerThreadData {
+	World* world;
+	GameStates* state;
+};
 
 
 class Game {
 public:
 
-	void init(NetworkManager* _nManager, Config* _config, Settings* _settings);
+	void init(NetworkManager* _nManager, Config* _config, Settings* _settings, GameStates* _state);
 	void updateEssentials(float _deltaTime);
-	void update(GameStates& _state, float _deltaTime);
+	void update(float _deltaTime);
 	void render();
 	void destroy();
 
@@ -58,7 +65,10 @@ private:
 
 	// Pointers
 	Settings* m_settings = nullptr;
+	std::thread* m_chunkUpdaterThread = nullptr;
 	Config* m_config = nullptr;
 	NetworkManager* m_networkManager = nullptr;
+	GameStates* m_state = nullptr;
+	WorkerThreadData* m_workerThreadData = nullptr;
 
 };

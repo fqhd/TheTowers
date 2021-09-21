@@ -27,13 +27,11 @@ void Chunk::init(int _x, int _y, int _z) {
 
 }
 
-void Chunk::pushData(GLuint* vertices, unsigned int numVertices) {
-	m_numVertices = numVertices;
-
+void Chunk::pushData() {
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint) * numVertices, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+	m_numVertices = vertices.size();
 }
 
 unsigned int Chunk::getNumVertices(){

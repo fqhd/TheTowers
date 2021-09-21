@@ -70,16 +70,14 @@ void World::render(Camera& _camera){
 			for(unsigned int x = 0; x < ww; x++){
 				Chunk* c = getChunk(x, y, z);
 
-				if(c->needsMeshUpdate){ // Generate mesh if chunk needs mesh update
-					generateMesh(c);
-					c->needsMeshUpdate = false;
+				if(c->needsVaoUpdate){ // Generate mesh if chunk needs mesh update
+					c->pushData();
+					c->needsVaoUpdate = false;
 				}
-
 				if(c->getNumVertices()){ // Render only if chunk has vertices
 					m_shader.loadUniform("chunkPosition", math::vec3(c->x, c->y, c->z));
 					c->render();
 				}
-
 			}
 		}
 	}
@@ -129,7 +127,7 @@ void World::saveWorldToFile(const std::string& path) {
 		return;
 	}
 	for (int i = 0; i < m_data_length; i++) {
-		file.write((char*)&m_data[i], sizeof(uint8_t));		
+		file.write((char*)&m_data[i], sizeof(uint8_t));
 	}
 	file.close();
 	if(!file.good()) {
@@ -138,9 +136,28 @@ void World::saveWorldToFile(const std::string& path) {
   	}
 }
 
+void World::updateMeshes(){
+	unsigned int ww = m_config->getWorldWidth();
+	unsigned int wl = m_config->getWorldLength();
+	unsigned int wh = m_config->getWorldHeight();
+
+	for(unsigned int y = 0; y < wh; y++){
+		for(unsigned int z = 0; z < wl; z++){
+			for(unsigned int x = 0; x < ww; x++){
+				Chunk* c = getChunk(x, y, z);
+
+				if(c->needsMeshUpdate){ // Generate mesh if chunk needs mesh update
+					generateMesh(c);
+					c->needsMeshUpdate = false;
+					c->needsVaoUpdate = true;
+				}
+			}
+		}
+	}
+}
+
 void World::generateMesh(Chunk* _chunk){
-	sf::Clock c;
-	m_vertices.resize(0);
+	_chunk->vertices.resize(0);
 	unsigned int cw = m_config->getChunkWidth();
 
 	for(unsigned int y = 0; y < cw; y++){
@@ -154,8 +171,6 @@ void World::generateMesh(Chunk* _chunk){
 			}
 		}
 	}
-
-	_chunk->pushData(m_vertices.data(), m_vertices.size());
 }
 
 bool World::isBlockInLocalWorld(int _x, int _y, int _z){
@@ -276,20 +291,20 @@ void World::addTopFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _text
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		m_vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
 	} else {
 		// Generate flipped quad
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
 	}
 }
 
@@ -304,21 +319,21 @@ void World::addBottomFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _t
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
 
 	} else {
 		// Generate flipped quad
-		m_vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a01, 1, _textureLayer));
 	}
 }
 
@@ -334,20 +349,20 @@ void World::addRightFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _te
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
 	} else {
 		// Generate flipped quad
-		m_vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
 	}
 }
 
@@ -362,20 +377,20 @@ void World::addLeftFace(Chunk* c, uint8_t x, uint8_t  y, uint8_t z, uint16_t _te
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		m_vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
 	} else {
 		// Generate flipped quad
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a00, 0, _textureLayer));
 	}
 }
 
@@ -390,20 +405,20 @@ void World::addFrontFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _te
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
 	} else {
 		// Generate flipped quad
-		m_vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z, a11, 2, _textureLayer));
 	}
 }
 
@@ -418,19 +433,19 @@ void World::addBackFace(Chunk* c, uint8_t x, uint8_t y, uint8_t z, uint16_t _tex
 
 	if(a00 + a11 > a01 + a10) {
 		// Generate normal quad
-		m_vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
 	} else {
 		// Generate a flipped quad
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
-		m_vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
-		m_vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
-		m_vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
+		c->vertices.emplace_back(packData(x, y, z + 1, a00, 0, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y, z + 1, a10, 3, _textureLayer));
+		c->vertices.emplace_back(packData(x + 1, y + 1, z + 1, a11, 2, _textureLayer));
+		c->vertices.emplace_back(packData(x, y + 1, z + 1, a01, 1, _textureLayer));
 	}
 }

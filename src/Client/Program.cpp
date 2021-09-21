@@ -20,7 +20,7 @@ void Program::initSystems(){
 	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
 	GUIUVLoader::init();
 	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
-	m_game.init(&m_networkManager, &m_config, &m_settings);
+	m_game.init(&m_networkManager, &m_config, &m_settings, &m_state);
 	m_pause.init(&m_settings);
 }
 
@@ -36,7 +36,7 @@ void Program::gameloop(){
 		m_game.updateEssentials(deltaTime);
 
 		if(m_state == GameStates::PLAY){
-			m_game.update(m_state, deltaTime);
+			m_game.update(deltaTime);
 			m_game.render();
 		}else if(m_state == GameStates::PAUSE){
 			m_pause.update(m_state, deltaTime);

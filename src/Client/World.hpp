@@ -19,6 +19,7 @@ public:
 
 	void loadWorldFromFile(const std::string& path);
 	void saveWorldToFile(const std::string& path);
+	void updateMeshes();
 
 private:
 
@@ -39,7 +40,6 @@ private:
 	Chunk* getChunk(int x, int y, int z);
 
 	//We keep vertices so we dont have to reallocate memory every time we want to generate a chunk
-	std::vector<GLuint> m_vertices;
 	Shader m_shader;
 	unsigned int m_data_length = 0;
 

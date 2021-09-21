@@ -17,15 +17,17 @@ public:
 
 	// Utility functions
 	void render();
-	void destroy();
-	void pushData(GLuint* vertices, unsigned int numVertices);
+	void pushData();
 	unsigned int getNumVertices();
+	void destroy();
 
 	// Public variables
 	int x = 0;
 	int y = 0;
 	int z = 0;
+	std::vector<GLuint> vertices;
 	bool needsMeshUpdate = true;
+	bool needsVaoUpdate = false;
 
 private:
 

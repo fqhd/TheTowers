@@ -3,14 +3,21 @@
 #include <iostream>
 
 
-void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings) {
+void chunkMeshUpdater(WorkerThreadData* _threadData){
+	while(*_threadData->state != GameStates::EXIT){
+		_threadData->world->updateMeshes();
+		std::this_thread::sleep_for(std::chrono::duration<float>(0.02f));
+	}
+}
+
+void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings, GameStates* _state) {
 	m_settings = _settings;
 	m_config = _config;
 	m_networkManager = _nManager;
+	m_state = _state;
 
 	m_blockTextureHandler.loadBlockTexturesFromFile();
 	m_textureArray.init("res/textures/sprite_sheet.png", 512);
-
 	m_world.init(&m_textureArray, _config, &m_blockTextureHandler);
 	player.init(&m_camera, &m_particleHandler, &m_world, _nManager);
 	m_skybox.init();
@@ -25,6 +32,11 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings)
 
 	m_camera.setPosition(player.getEyePos());
 	m_camera.updateViewMatrix();
+
+	m_workerThreadData = new WorkerThreadData;
+	m_workerThreadData->world = &m_world;
+	m_workerThreadData->state = _state;
+	m_chunkUpdaterThread = new std::thread(chunkMeshUpdater, m_workerThreadData);
 }
 
 void Game::updateEssentials(float _deltaTime){
@@ -37,11 +49,11 @@ void Game::updateEssentials(float _deltaTime){
 	networkPositionTick();
 }
 
-void Game::update(GameStates& _state, float _deltaTime) {
+void Game::update(float _deltaTime) {
 	// Switch state if key has been pressed
 	if (InputManager::isKeyPressed(GLFW_KEY_ESCAPE) || !InputManager::hasFocus()) {
 		InputManager::setMouseGrabbed(false);
-		_state = GameStates::PAUSE;
+		*m_state = GameStates::PAUSE;
 	}
 	m_camera.calculateCameraVectors();
 	player.update(_deltaTime);
@@ -75,4 +87,7 @@ void Game::destroy() {
 	m_skybox.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
+	m_chunkUpdaterThread->join();
+	delete m_chunkUpdaterThread;
+	delete m_workerThreadData;
 }
