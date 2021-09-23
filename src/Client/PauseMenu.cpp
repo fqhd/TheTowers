@@ -15,7 +15,7 @@ void PauseMenu::initGUI(){
 	float tmp = HLP;
 	toggleVignette.init(math::vec4(320, tmp, 24, 24), m_settings->isVignetteToggled);
 	toggleDebugView.init(math::vec4(365, tmp-=SBL, 24, 24), m_settings->isDebugToggled);
-	toggleLegacyOutline.init(math::vec4(410, tmp-=SBL, 24, 24), m_settings->renderOutline);
+	toggleLegacyOutline.init(math::vec4(410, tmp-=SBL, 24, 24), m_settings->legacyOutline);
 }
 
 void PauseMenu::update(GameStates& _state, float deltaTime){
@@ -49,7 +49,7 @@ void PauseMenu::render(){
 void PauseMenu::syncSettingsWithGUI(){
 	m_settings->isDebugToggled = toggleDebugView.isChecked();
 	m_settings->isVignetteToggled = toggleVignette.isChecked();
-	m_settings->renderOutline = toggleLegacyOutline.isChecked();
+	m_settings->legacyOutline = toggleLegacyOutline.isChecked();
 	if(saveButton.isPressed()){
 		m_settings->writeToFile();
 	}
