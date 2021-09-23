@@ -1,4 +1,4 @@
-cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror
+cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror -I./src/Client/Engine -I./src/Client/Game -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math
 lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -pthread -framework OpenGL
 
 rule cc
@@ -9,53 +9,53 @@ rule lnk
 
 # Client
 build obj/clientMain.o: cc src/Client/main.cpp
-build obj/legacyoutline.o: cc src/Client/LegacyOutline.cpp
-build obj/guiuvloader.o: cc src/Client/GUIUVLoader.cpp
-build obj/program.o: cc src/Client/Program.cpp
-build obj/clientConfig.o: cc src/Client/Config.cpp
-build obj/blockoutline.o: cc src/Client/BlockOutline.cpp
-build obj/entity.o: cc src/Client/Entity.cpp
-build obj/framecounter.o : cc src/Client/FrameCounter.cpp
-build obj/hotbar.o: cc src/Client/Hotbar.cpp
-build obj/debugmenu.o: cc src/Client/DebugMenu.cpp
-build obj/vignette.o: cc src/Client/Vignette.cpp
-build obj/settings.o: cc src/Client/Settings.cpp
-build obj/pausemenu.o: cc src/Client/PauseMenu.cpp
-build obj/player.o: cc src/Client/Player.cpp
-build obj/game.o: cc src/Client/Game.cpp
-build obj/network.o: cc src/Client/NetworkManager.cpp
-build obj/entityhandler.o: cc src/Client/EntityHandler.cpp
-build obj/hud.o: cc src/Client/HUD.cpp
-build obj/blocktexturehandler.o: cc src/Client/BlockTextureHandler.cpp
-build obj/guiassets.o: cc src/Client/GUIAssets.cpp
-build obj/guirenderer.o: cc src/Client/GUIRenderer.cpp
-build obj/spritebatch.o: cc src/Client/SpriteBatch.cpp
-build obj/spritefont.o: cc src/Client/SpriteFont.cpp
-build obj/guibutton.o: cc src/Client/GUIButton.cpp
-build obj/checkbox.o: cc src/Client/GUICheckbox.cpp
-build obj/input.o: cc src/Client/GUIInput.cpp
-build obj/inputmanager.o: cc src/Client/InputManager.cpp
-build obj/math.o: cc src/Client/Math.cpp
-build obj/transform.o: cc src/Client/Transform.cpp
-build obj/textureArray.o: cc src/Client/TextureArray.cpp
-build obj/shader.o: cc src/Client/Shader.cpp
-build obj/utils.o: cc src/Client/Utils.cpp
-build obj/camera.o: cc src/Client/Camera.cpp
-build obj/skybox.o: cc src/Client/Skybox.cpp
-build obj/cube.o: cc src/Client/Cube.cpp
-build obj/outline.o: cc src/Client/Outline.cpp
-build obj/particlehandler.o: cc src/Client/ParticleHandler.cpp
-build obj/particlequad.o: cc src/Client/ParticleQuad.cpp
-build obj/image.o: cc src/Client/Image.cpp
-build obj/vignettequad.o: cc src/Client/VignetteQuad.cpp
-build obj/chunk.o: cc src/Client/Chunk.cpp
-build obj/world.o: cc src/Client/World.cpp
-build obj/packethandler.o: cc src/Client/PacketHandler.cpp
-build obj/objloader.o: cc src/Client/OBJLoader.cpp
-build obj/model.o: cc src/Client/Model.cpp
-build obj/window.o: cc src/Client/Window.cpp
-build obj/timer.o: cc src/Client/Timer.cpp
-build obj/converter.o: cc src/Client/Converter.cpp
+build obj/legacyoutline.o: cc src/Client/Engine/LegacyOutline.cpp
+build obj/guiuvloader.o: cc src/Client/GUI/GUIUVLoader.cpp
+build obj/program.o: cc src/Client/Game/Program.cpp
+build obj/clientConfig.o: cc src/Client/Game/Config.cpp
+build obj/blockoutline.o: cc src/Client/Game/BlockOutline.cpp
+build obj/entity.o: cc src/Client/Game/Entity.cpp
+build obj/framecounter.o : cc src/Client/Game/FrameCounter.cpp
+build obj/hotbar.o: cc src/Client/Game/Hotbar.cpp
+build obj/debugmenu.o: cc src/Client/Game/DebugMenu.cpp
+build obj/vignette.o: cc src/Client/Engine/Vignette.cpp
+build obj/settings.o: cc src/Client/Game/Settings.cpp
+build obj/pausemenu.o: cc src/Client/Game/PauseMenu.cpp
+build obj/player.o: cc src/Client/Game/Player.cpp
+build obj/game.o: cc src/Client/Game/Game.cpp
+build obj/network.o: cc src/Client/Engine/NetworkManager.cpp
+build obj/entityhandler.o: cc src/Client/Game/EntityHandler.cpp
+build obj/hud.o: cc src/Client/Game/HUD.cpp
+build obj/blocktexturehandler.o: cc src/Client/Game/BlockTextureHandler.cpp
+build obj/guiassets.o: cc src/Client/GUI/GUIAssets.cpp
+build obj/guirenderer.o: cc src/Client/GUI/GUIRenderer.cpp
+build obj/spritebatch.o: cc src/Client/Engine/SpriteBatch.cpp
+build obj/spritefont.o: cc src/Client/Engine/SpriteFont.cpp
+build obj/guibutton.o: cc src/Client/GUI/GUIButton.cpp
+build obj/checkbox.o: cc src/Client/GUI/GUICheckbox.cpp
+build obj/input.o: cc src/Client/GUI/GUIInput.cpp
+build obj/inputmanager.o: cc src/Client/Input/InputManager.cpp
+build obj/math.o: cc src/Client/Math/Math.cpp
+build obj/transform.o: cc src/Client/Engine/Transform.cpp
+build obj/textureArray.o: cc src/Client/Engine/TextureArray.cpp
+build obj/shader.o: cc src/Client/Engine/Shader.cpp
+build obj/utils.o: cc src/Client/Engine/Utils.cpp
+build obj/camera.o: cc src/Client/Engine/Camera.cpp
+build obj/skybox.o: cc src/Client/Engine/Skybox.cpp
+build obj/cube.o: cc src/Client/Engine/Cube.cpp
+build obj/outline.o: cc src/Client/Engine/Outline.cpp
+build obj/particlehandler.o: cc src/Client/Engine/ParticleHandler.cpp
+build obj/particlequad.o: cc src/Client/Engine/ParticleQuad.cpp
+build obj/image.o: cc src/Client/Engine/Image.cpp
+build obj/vignettequad.o: cc src/Client/Engine/VignetteQuad.cpp
+build obj/chunk.o: cc src/Client/Game/Chunk.cpp
+build obj/world.o: cc src/Client/Game/World.cpp
+build obj/packethandler.o: cc src/Client/Game/PacketHandler.cpp
+build obj/objloader.o: cc src/Client/Engine/OBJLoader.cpp
+build obj/model.o: cc src/Client/Engine/Model.cpp
+build obj/window.o: cc src/Client/Input/Window.cpp
+build obj/timer.o: cc src/Client/Engine/Timer.cpp
+build obj/converter.o: cc src/Client/Game/Converter.cpp
 
 # Server
 build obj/serverMain.o: cc src/Server/main.cpp
