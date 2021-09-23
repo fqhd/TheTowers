@@ -3,7 +3,7 @@
 #include "Cube.hpp"
 #include "Shader.hpp"
 #include "Player.hpp"
-#include "Outline.hpp"
+#include "FaceOutline.hpp"
 #include "LegacyOutline.hpp"
 
 enum Face {
@@ -29,7 +29,7 @@ private:
 
 	// Class objects
 	LegacyOutline m_legacyOutline;
-	Outline m_outline;
+	FaceOutline m_outline;
 	Shader m_shader;
 
 };

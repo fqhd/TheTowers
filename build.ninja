@@ -1,5 +1,5 @@
 cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glew) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -Wall -Werror -I./src/Client/Engine -I./src/Client/Game -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math
-lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -pthread -framework OpenGL
+lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glew) $$(pkg-config --libs glfw3) -pthread
 
 rule cc
   command = clang++ -c $in -o $out $cflags
@@ -43,7 +43,7 @@ build obj/utils.o: cc src/Client/Engine/Utils.cpp
 build obj/camera.o: cc src/Client/Engine/Camera.cpp
 build obj/skybox.o: cc src/Client/Engine/Skybox.cpp
 build obj/cube.o: cc src/Client/Engine/Cube.cpp
-build obj/outline.o: cc src/Client/Engine/Outline.cpp
+build obj/outline.o: cc src/Client/Engine/FaceOutline.cpp
 build obj/particlehandler.o: cc src/Client/Engine/ParticleHandler.cpp
 build obj/particlequad.o: cc src/Client/Engine/ParticleQuad.cpp
 build obj/image.o: cc src/Client/Engine/Image.cpp

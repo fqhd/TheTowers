@@ -1,4 +1,4 @@
-#include "Outline.hpp"
+#include "FaceOutline.hpp"
 #include "Math.hpp"
 
 
