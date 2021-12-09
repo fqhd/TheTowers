@@ -4,3 +4,5 @@
 .vscode/
 vgcore.*
 obj/*
+server
+client
