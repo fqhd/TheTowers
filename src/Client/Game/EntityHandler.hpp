@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include "Camera.hpp"
 #include <vector>
+#include "EntityHandler.hpp"
 #include <unordered_map>
 #include <SFML/Network.hpp>
 #include "NetworkManager.hpp"

@@ -1,5 +1,7 @@
-INCLUDES = -Idependencies/macos/include -Isrc/Client/Engine -Isrc/Client/Game -Isrc/Client/GUI -Isrc/Client/Input -Isrc/Client/Math
-LIBS = -Ldependencies/macos/libs
+PLATFORM = macos_m1 # Must be either macos_m1 macos_intel windows or linux
+
+INCLUDES = -I./deps/${PLATFORM}/include -I./src/Client/Engine -I./src/Client/Game -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math
+LIBS = -L./deps/${PLATFORM}/libs -lglfw -lsfml-network -lsfml-system
 
 CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror
 LFLAGS = -pthread ${LIBS}
