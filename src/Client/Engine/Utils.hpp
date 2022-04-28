@@ -9,7 +9,7 @@
 #include <chrono>
 #include "Math.hpp"
 #include "AABBox.hpp"
-#include <GL/glew.h>
+#include <glad.h>
 
 enum CollisionType {
 	NONE, X_AXIS, Y_AXIS, Z_AXIS

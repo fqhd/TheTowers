@@ -1,8 +1,7 @@
 #pragma once
 
-
 #include <string>
-#include <GL/glew.h>
+#include <glad.h>
 
 class Pixel {
 public:
@@ -32,5 +31,3 @@ private:
 	unsigned char* m_imageData = nullptr;
 
 };
-
-

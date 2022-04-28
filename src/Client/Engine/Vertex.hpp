@@ -1,5 +1,5 @@
 #pragma once
-#include <GL/glew.h>
+#include <glad.h>
 #include "Math.hpp"
 #include "ColorRGBA8.hpp"
 

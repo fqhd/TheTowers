@@ -1,7 +1,7 @@
-INCLUDES = $$(pkg-config --cflags sfml-all) $$(pkg-config --cflags epoxy)
-LIBS = $$(pkg-config --libs sfml-all) $$(pkg-config --libs epoxy)
+INCLUDES = $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glfw3)
+LIBS = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glfw3)
 
-CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror
+CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror -I./src/Client/glad/
 LFLAGS = -pthread ${LIBS}
 CXX = clang++
 
@@ -24,7 +24,6 @@ client: ${CLIENT_OBJS}
 
 server: ${SERVER_OBJS}
 	${CXX} ${LFLAGS} $^ -o server
-
 
 %.o: %.cpp
 	${CXX} ${CFLAGS} -c $^ -o $@
