@@ -7,7 +7,6 @@ Chunk::Chunk() {
 }
 
 void Chunk::init(int _x, int _y, int _z) {
-
 	x = _x;
 	y = _y;
 	z = _z;
@@ -20,7 +19,7 @@ void Chunk::init(int _x, int _y, int _z) {
 
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(0, 1, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

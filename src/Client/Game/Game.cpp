@@ -2,14 +2,6 @@
 #include <cstring>
 #include <iostream>
 
-
-void chunkMeshUpdater(WorkerThreadData* _threadData){
-	while(*_threadData->state != GameStates::EXIT){
-		_threadData->world->updateMeshes();
-		std::this_thread::sleep_for(std::chrono::duration<float>(0.02f));
-	}
-}
-
 void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings, GameStates* _state) {
 	m_settings = _settings;
 	m_config = _config;
@@ -32,17 +24,13 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings,
 
 	m_camera.setPosition(player.getEyePos());
 	m_camera.updateViewMatrix();
-
-	m_workerThreadData = new WorkerThreadData;
-	m_workerThreadData->world = &m_world;
-	m_workerThreadData->state = _state;
-	m_chunkUpdaterThread = new std::thread(chunkMeshUpdater, m_workerThreadData);
 }
 
 void Game::updateEssentials(float _deltaTime){
 	m_frameCounter.tick(_deltaTime);
 	m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
+	m_world.updateMeshes();
 	m_camera.setPosition(player.getEyePos());
 	m_camera.updateViewMatrix();
 	m_particleHandler.update(_deltaTime);
@@ -87,7 +75,4 @@ void Game::destroy() {
 	m_skybox.destroy();
 	m_particleHandler.destroy();
 	m_blockOutline.destroy();
-	m_chunkUpdaterThread->join();
-	delete m_chunkUpdaterThread;
-	delete m_workerThreadData;
 }

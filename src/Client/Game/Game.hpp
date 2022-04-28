@@ -24,13 +24,6 @@
 #include "Converter.hpp"
 #include <thread>
 
-
-struct WorkerThreadData {
-	World* world;
-	GameStates* state;
-};
-
-
 class Game {
 public:
 
@@ -69,6 +62,5 @@ private:
 	Config* m_config = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	GameStates* m_state = nullptr;
-	WorkerThreadData* m_workerThreadData = nullptr;
 
 };
