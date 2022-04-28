@@ -1,0 +1,70 @@
+cflags = -std=c++17 -O0 $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glfw3) -fdiagnostics-color=always -g -m64 -I./src/Client/Engine -I./src/Client/Game -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math -I./src/Client/glad
+lflags = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glfw3) -pthread -framework OpenGL
+
+rule cxx
+  command = clang++ -c $in -o $out $cflags
+rule cc
+  command = clang -c $in -o $out
+
+rule lnk
+  command = clang++ -o $out $in $lflags
+
+# Client
+build obj/clientMain.o: cxx src/Client/main.cpp
+build obj/legacyoutline.o: cxx src/Client/Engine/LegacyOutline.cpp
+build obj/guiuvloader.o: cxx src/Client/GUI/GUIUVLoader.cpp
+build obj/program.o: cxx src/Client/Game/Program.cpp
+build obj/clientConfig.o: cxx src/Client/Game/Config.cpp
+build obj/blockoutline.o: cxx src/Client/Game/BlockOutline.cpp
+build obj/entity.o: cxx src/Client/Game/Entity.cpp
+build obj/framecounter.o : cxx src/Client/Game/FrameCounter.cpp
+build obj/hotbar.o: cxx src/Client/Game/Hotbar.cpp
+build obj/debugmenu.o: cxx src/Client/Game/DebugMenu.cpp
+build obj/vignette.o: cxx src/Client/Engine/Vignette.cpp
+build obj/settings.o: cxx src/Client/Game/Settings.cpp
+build obj/pausemenu.o: cxx src/Client/Game/PauseMenu.cpp
+build obj/player.o: cxx src/Client/Game/Player.cpp
+build obj/game.o: cxx src/Client/Game/Game.cpp
+build obj/network.o: cxx src/Client/Engine/NetworkManager.cpp
+build obj/entityhandler.o: cxx src/Client/Game/EntityHandler.cpp
+build obj/hud.o: cxx src/Client/Game/HUD.cpp
+build obj/blocktexturehandler.o: cxx src/Client/Game/BlockTextureHandler.cpp
+build obj/guiassets.o: cxx src/Client/GUI/GUIAssets.cpp
+build obj/guirenderer.o: cxx src/Client/GUI/GUIRenderer.cpp
+build obj/spritebatch.o: cxx src/Client/Engine/SpriteBatch.cpp
+build obj/spritefont.o: cxx src/Client/Engine/SpriteFont.cpp
+build obj/guibutton.o: cxx src/Client/GUI/GUIButton.cpp
+build obj/checkbox.o: cxx src/Client/GUI/GUICheckbox.cpp
+build obj/input.o: cxx src/Client/GUI/GUIInput.cpp
+build obj/inputmanager.o: cxx src/Client/Input/InputManager.cpp
+build obj/math.o: cxx src/Client/Math/Math.cpp
+build obj/transform.o: cxx src/Client/Engine/Transform.cpp
+build obj/textureArray.o: cxx src/Client/Engine/TextureArray.cpp
+build obj/shader.o: cxx src/Client/Engine/Shader.cpp
+build obj/utils.o: cxx src/Client/Engine/Utils.cpp
+build obj/camera.o: cxx src/Client/Engine/Camera.cpp
+build obj/skybox.o: cxx src/Client/Engine/Skybox.cpp
+build obj/cube.o: cxx src/Client/Engine/Cube.cpp
+build obj/outline.o: cxx src/Client/Engine/FaceOutline.cpp
+build obj/particlehandler.o: cxx src/Client/Engine/ParticleHandler.cpp
+build obj/particlequad.o: cxx src/Client/Engine/ParticleQuad.cpp
+build obj/image.o: cxx src/Client/Engine/Image.cpp
+build obj/vignettequad.o: cxx src/Client/Engine/VignetteQuad.cpp
+build obj/chunk.o: cxx src/Client/Game/Chunk.cpp
+build obj/world.o: cxx src/Client/Game/World.cpp
+build obj/packethandler.o: cxx src/Client/Game/PacketHandler.cpp
+build obj/objloader.o: cxx src/Client/Engine/OBJLoader.cpp
+build obj/model.o: cxx src/Client/Engine/Model.cpp
+build obj/window.o: cxx src/Client/Input/Window.cpp
+build obj/timer.o: cxx src/Client/Engine/Timer.cpp
+build obj/converter.o: cxx src/Client/Game/Converter.cpp
+build obj/glad.o: cc src/Client/glad/glad.c
+
+# Server
+build obj/serverMain.o: cxx src/Server/main.cpp
+build obj/serverConfig.o: cxx src/Server/Config.cpp
+build obj/server.o: cxx src/Server/Server.cpp
+
+build server: lnk obj/serverMain.o obj/serverConfig.o obj/server.o
+
+build client: lnk obj/clientMain.o obj/input.o obj/inputmanager.o obj/player.o obj/chunk.o obj/shader.o obj/utils.o obj/game.o obj/camera.o obj/world.o obj/skybox.o obj/outline.o obj/cube.o obj/particlehandler.o obj/particlequad.o obj/pausemenu.o obj/guibutton.o obj/checkbox.o obj/image.o obj/entityhandler.o obj/entity.o obj/blockoutline.o obj/textureArray.o obj/program.o obj/network.o obj/clientConfig.o obj/settings.o obj/vignettequad.o obj/vignette.o obj/debugmenu.o obj/math.o obj/framecounter.o obj/hotbar.o obj/hud.o obj/spritebatch.o obj/guiassets.o obj/guirenderer.o obj/spritefont.o obj/blocktexturehandler.o obj/transform.o obj/packethandler.o obj/objloader.o obj/model.o obj/window.o obj/timer.o obj/converter.o obj/guiuvloader.o obj/legacyoutline.o obj/glad.o

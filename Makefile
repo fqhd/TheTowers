@@ -1,9 +1,7 @@
-PLATFORM = macos_m1 # Must be either macos_m1 macos_intel windows or linux
+INCLUDES = $$(pkg-config --cflags sfml-system) $$(pkg-config --cflags sfml-network) $$(pkg-config --cflags glfw3)
+LIBS = $$(pkg-config --libs sfml-system) $$(pkg-config --libs sfml-network) $$(pkg-config --libs glfw3)
 
-INCLUDES = -I./deps/include -I./src/Client/Engine -I./src/Client/Game -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math
-LIBS = -L./deps/${PLATFORM}/libs -lglfw -lsfml-network -lsfml-system -lvulkan
-
-CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror
+CFLAGS = -c -std=c++17 -O0 ${INCLUDES} -fdiagnostics-color=always -g -m64 -Wall -Werror -I./src/Client/glad/
 LFLAGS = -pthread ${LIBS}
 CXX = clang++
 
@@ -26,7 +24,6 @@ client: ${CLIENT_OBJS}
 
 server: ${SERVER_OBJS}
 	${CXX} ${LFLAGS} $^ -o server
-
 
 %.o: %.cpp
 	${CXX} ${CFLAGS} -c $^ -o $@

@@ -3,7 +3,6 @@
 
 int main(){
 
-	//Seeding the random function to be completely random each time
 	srand(time(0));
 
 	Program p;

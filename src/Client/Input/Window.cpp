@@ -38,9 +38,8 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 
 	// Create GL context
 	glfwMakeContextCurrent(m_window);
-	if(glewInit() != GLEW_OK){
-	  std::cout << "Failed to initialize glew" << std::endl;
-	  return;
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+		std::cout << "Failed to initialize GLAD" << std::endl;
 	}
 
 	//Enabling transparency
