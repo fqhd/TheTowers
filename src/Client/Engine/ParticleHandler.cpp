@@ -2,7 +2,7 @@
 #include "Converter.hpp"
 #include <cstring>
 
-const float GRAVITY = 38.0f;
+const float GRAVITY = 28.0f;
 
 
 void ParticleHandler::init(TextureArray* _array, BlockTextureHandler* _textureHandler){
@@ -69,10 +69,9 @@ void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _bl
 	for(unsigned int i = 0; i < PARTICLES_PER_DROP; i++){
 		math::vec3 pos(x + math::random(), y + math::random(), z + math::random());
 		math::vec3 direction = pos - (math::vec3(x, y, z) + math::vec3(0.5f, 0.0f, 0.5f));
-		math::vec3 velocity = math::vec3(direction.x * 3.0f, direction.y * 7.0f, direction.z * 3.0f);
-		//math::vec3 velocity((math::random() - 0.5f) * 3.0f, math::random() * 5, (math::random() - 0.5f) * 3.0f);
+		math::vec3 velocity = math::vec3(direction.x * 3.0f, direction.y * 4.0f, direction.z * 3.0f);
 
-		m_particles[m_currNumParticles + i] = Particle(pos, velocity, 1.0f, b.side, 50.0f + math::random() * 50.0f);
+		m_particles[m_currNumParticles + i] = Particle(pos, velocity, 1.0f, b.side, 100.0f + math::random() * 50.0f);
 	}
 	m_currNumParticles += PARTICLES_PER_DROP;
 }

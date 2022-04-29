@@ -7,7 +7,7 @@
 #include "BlockTextureHandler.hpp"
 #include <vector>
 
-const unsigned int MAX_PARTICLES = 10000;
+const unsigned int MAX_PARTICLES = 5000;
 const unsigned int PARTICLES_PER_DROP = 100;
 
 struct Particle {

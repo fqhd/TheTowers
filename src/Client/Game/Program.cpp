@@ -13,7 +13,7 @@ void Program::run(){
 void Program::initSystems(){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
-	Window::create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers", false, true);
+	Window::create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers");
 	InputManager::init(Window::getWindowPtr());
 	InputManager::setVerticalSync(true);
 	InputManager::setMouseGrabbed(true);
@@ -29,8 +29,6 @@ void Program::gameloop(){
 	while(m_state != GameStates::EXIT){
 		Window::clear();
 		if(InputManager::processInput()) m_state = GameStates::EXIT;
-		math::vec2 ws = InputManager::getWindowSize(); // Window Size
-		glViewport(0, 0, ws.x, ws.y);
 		float deltaTime = m_deltaTimer.getElapsedTime();
 		m_deltaTimer.restart();
 		m_game.updateEssentials(deltaTime);

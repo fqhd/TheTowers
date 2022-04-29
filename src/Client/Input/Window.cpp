@@ -3,7 +3,7 @@
 
 GLFWwindow* Window::m_window;
 
-void Window::create(unsigned int _width, unsigned int _height, const char* _title, bool _resizable, bool _decorated){
+void Window::create(unsigned int _width, unsigned int _height, const char* _title){
 	// Initializing GLFW
 	if(!glfwInit()){
 		std::cout << "Failed to initialize GLFW" << std::endl;
@@ -22,8 +22,8 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_RESIZABLE, _resizable ? GLFW_TRUE : GLFW_FALSE);
-	glfwWindowHint(GLFW_DECORATED, _decorated ? GLFW_TRUE : GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+	glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -70,6 +70,9 @@ GLFWwindow* Window::getWindowPtr(){
 
 void Window::clear(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	int w, h;
+	glfwGetFramebufferSize(m_window, &w, &h);
+	glViewport(0, 0, w, h);
 }
 
 void Window::update(){

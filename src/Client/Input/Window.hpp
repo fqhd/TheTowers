@@ -9,7 +9,7 @@
 class Window {
 public:
 
-	static void create(unsigned int _width, unsigned int _height, const char* _title, bool _resizable = false, bool _decorated = true);
+	static void create(unsigned int _width, unsigned int _height, const char* _title);
 	static void clear();
 	static void update();
 	static void close();
