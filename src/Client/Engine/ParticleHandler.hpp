@@ -7,8 +7,7 @@
 #include "BlockTextureHandler.hpp"
 #include <vector>
 
-const unsigned int MAX_PARTICLES = 5000;
-const unsigned int PARTICLES_PER_DROP = 100;
+const unsigned int PARTICLES_PER_DROP = 50;
 
 struct Particle {
 	Particle(){
@@ -46,7 +45,6 @@ struct ParticleInstance {
 class ParticleHandler {
 public:
 
-
 	void init(TextureArray* _array, BlockTextureHandler* _textureHandler);
 	void update(float deltaTime);
 	void render(Camera& camera);
@@ -54,12 +52,10 @@ public:
 
 	void placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID);
 
-
 private:
 
-	unsigned int m_currNumParticles = 0;
-	Particle* m_particles = nullptr;
-	std::vector<ParticleInstance> m_particleStructs;
+	std::vector<Particle> m_particles;
+	std::vector<ParticleInstance> m_particleInstances;
 	ParticleQuad m_quad;
 	TextureArray* m_textureArray = nullptr;
 	BlockTextureHandler* m_blockTextureHandler = nullptr;
