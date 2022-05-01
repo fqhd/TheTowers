@@ -4,7 +4,6 @@
 
 const float GRAVITY = 28.0f;
 
-
 void ParticleHandler::init(TextureArray* _array, BlockTextureHandler* _textureHandler){
 	m_blockTextureHandler = _textureHandler;
 	m_textureArray = _array;
@@ -65,7 +64,7 @@ unsigned int getRandom(uint8_t a, uint8_t b, uint8_t c){
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){
 	BlockTexture b = m_blockTextureHandler->getTextureFromBlockID(_blockID);
-	for(unsigned int i = 0; i < PARTICLES_PER_DROP; i++){
+	for(unsigned int i = 0; i < PARTICLES_PER_DROP; i++) {
 		math::vec3 pos(x + math::random(), y + math::random(), z + math::random());
 		math::vec3 direction = pos - (math::vec3(x, y, z) + math::vec3(0.5f, 0.0f, 0.5f));
 		math::vec3 velocity = math::vec3(direction.x * 3.0f, direction.y * 4.0f, direction.z * 3.0f);
