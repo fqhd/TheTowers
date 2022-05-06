@@ -9,7 +9,7 @@ def getUserOS():
         exit()
     return userOS
 
-def getSourceDirs():
+def getClientSourceDirs():
     sourceDirs = []
     sourceDirs.append('./src/Client/Engine')
     sourceDirs.append('./src/Client/Game')
@@ -18,6 +18,11 @@ def getSourceDirs():
     sourceDirs.append('./src/Client/Input')
     sourceDirs.append('./src/Client/Math')
     sourceDirs.append('./src/Client')
+    return sourceDirs
+
+def getServerSourceDirs():
+    sourceDirs = []
+    sourceDirs.append('./src/Server')
     return sourceDirs
 
 def getCFlags(sourceDirs):
@@ -42,39 +47,52 @@ def getLFlags(userOS):
         pass
     return lFlags
 
-def getODirs(sourceDirs):
-    
-    return oDirs
-
-def createBuildScript(lFlags, cFlags, sourceDirs):
+def createBuildScript(lFlags, cFlags, clientSourceDirs, serverSourceDirs):
     file = open('build.ninja', 'w')
     file.write(cFlags + '\n')
     file.write(lFlags + '\n')
     file.write('rule cxx\n')
     file.write('  command = clang++ -c $in -o $out $cflags\n')
-    file.write('rule cc\n')
-    file.write('  command = clang -c $in -o $out\n')
     file.write('rule lnk\n')
     file.write('  command = clang++ -o $out $in $lflags\n')
-    oDirs = []
-    for d in sourceDirs:
+
+    clientODirs = []
+    serverODirs = []
+
+    for d in clientSourceDirs:
         files = os.listdir(d)
         for f in files:
             if(f[-4:] == '.cpp'):
-                currODir = 'obj/' + f[:-4] + '.o'
-                oDirs.append(currODir)
+                currODir = 'obj/' + d[2:] + '/' + f[:-4] + '.o'
+                clientODirs.append(currODir)
                 file.write('build ' + currODir + ': cxx ' + os.path.join(d, f) + '\n')
+
+    for d in serverSourceDirs:
+        files = os.listdir(d)
+        for f in files:
+            if(f[-4:] == '.cpp'):
+                currODir = 'obj/' + d[2:] + '/' + f[:-4] + '.o'
+                serverODirs.append(currODir)
+                file.write('build ' + currODir + ': cxx ' + os.path.join(d, f) + '\n')
+    
     file.write('build client: lnk')
-    for o in oDirs:
+    for o in clientODirs:
         file.write(' ' + o)
     file.write('\n')
+    
+    file.write('build server: lnk')
+    for o in serverODirs:
+        file.write(' ' + o)
+    file.write('\n')
+
     file.close()
 
 def main():
     userOS = getUserOS()
-    sourceDirs = getSourceDirs()
-    cFlags = getCFlags(sourceDirs)
+    clientSourceDirs = getClientSourceDirs()
+    serverSourceDirs = getServerSourceDirs()
+    cFlags = getCFlags(clientSourceDirs)
     lFlags = getLFlags(userOS)
-    createBuildScript(lFlags, cFlags, sourceDirs)
+    createBuildScript(lFlags, cFlags, clientSourceDirs, serverSourceDirs)
 
 main()

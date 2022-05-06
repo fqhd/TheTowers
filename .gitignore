@@ -3,7 +3,7 @@
 *.o
 .vscode/
 vgcore.*
-obj/*
+obj
 server
 client
 build.ninja
