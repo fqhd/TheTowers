@@ -6,3 +6,5 @@ vgcore.*
 obj/*
 server
 client
+build.ninja
+run.sh
