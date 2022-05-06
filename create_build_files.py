@@ -52,9 +52,9 @@ def createBuildScript(lFlags, cFlags, clientSourceDirs, serverSourceDirs):
     file.write(cFlags + '\n')
     file.write(lFlags + '\n')
     file.write('rule cxx\n')
-    file.write('  command = clang++ -c $in -o $out $cflags\n')
+    file.write('  command = g++ -c $in -o $out $cflags\n')
     file.write('rule lnk\n')
-    file.write('  command = clang++ -o $out $in $lflags\n')
+    file.write('  command = g++ -o $out $in $lflags\n')
 
     clientODirs = []
     serverODirs = []
