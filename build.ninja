@@ -1,4 +1,4 @@
-cflags = -std=c++17 -O0 -I./src/Client/Engine -I./src/Client/Game -I./src/Client/glad -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math -I./deps/include -fdiagnostics-color=always -g -m64
+cflags = -std=c++17 -O0 -fdiagnostics-color=always -g -m64 -I./deps/include -I./src/Client/Engine -I./src/Client/Game -I./src/Client/glad -I./src/Client/GUI -I./src/Client/Input -I./src/Client/Math
 
 lflags = -L./deps/macos -lglfw -lsfml-system -lsfml-network -framework OpenGL
 
@@ -6,7 +6,6 @@ rule cxx
   command = clang++ -c $in -o $out $cflags
 rule cc
   command = clang -c $in -o $out
-
 rule lnk
   command = clang++ -o $out $in $lflags
 
