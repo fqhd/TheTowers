@@ -10,51 +10,22 @@
 ## Build Instructions
 ---
 ### Dependencies
-- sfml
-- glew
-- glfw
-- clang
-- pkg-config
-- ninja
+- GCC
+- python
 ---
-### Mac OS X
-1. Before you begin, make sure you have both homebrew, and the apple command line tools installed
-1. `brew install sfml glew pkg-config ninja glfw` (This will install the dependencies)
-1. Clone the repository `git clone https://github.com/fqhd/TheTowers.git`
-1. Add -framework OpenGL to the lflags in build.ninja
-1. CD into the project and run `ninja` , this will build the project
-- The client binary file should be under ./client
-- The server binary file should be under ./server
----
-### Linux
+### Instructions
+1. Make sure you installed the latest version of python and GCC.
+1. clone the repository `git clone https://github.com/fqhd/TheTowers.git`
+1. cd into the project `cd TheTowers`
+1. run `python create_build_files.py` to create the build.ninja build file. If that doesn't work, try `python3 create_build_files.py`
+1. run `./buildsystem/x/ninja`. Make sure to replace the x with your current operating system. This can be either windows, macos or linux(All lowercase).
+1. run `./client` to run the client
+1. If you would like to host a server, run `./server`
 
-#### Arch
-1. `sudo pacman -S clang sfml glew pkg-config glfw ninja` (This will install the dependencies)
-1. Clone the repository `git clone https://github.com/fqhd/TheTowers.git`
-1. CD into the project and run `ninja` , this will build the project
-- The client binary file should be under ./client
-- The server binary file should be under ./server
-#### Debian
-1. `sudo apt install clang libsfml-dev libglfw3-dev libglew-dev pkg-config ninja-build` (This will install the dependencies)
-1. Clone the repository `git clone https://github.com/fqhd/TheTowers.git`
-1. CD into the project and run `ninja` , this will build the project
-- The client binary file should be under ./client
-- The server binary file should be under ./server
----
-### Windows
-- Create a new project linking the lib files for all the listed dependencies. Make sure all the header files are in a deps folder. Deps folder needs to be structured like this:
-  - deps:
-    - GLFW/
-    - GL/
-    - SFML/
-- After that, you should be able to build and run the project without any difficulties
 ---
 ## In Progress
 - Add clouds underneath the world to mkae it look like the map is floating
 - Chat
 - Sever game loop
-- Add proper settings menu to pause menu
 - Add player inventory state
 - Add instanced block models rendering(for block drops)
-- Legacy Block outline
-- Multithreaded Chunk Mesh Generation
