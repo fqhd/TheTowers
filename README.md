@@ -10,18 +10,22 @@
 ## Build Instructions
 ---
 ### Dependencies
-- GCC
-- python
+- GLFW
+- ASIO
+- GLAD
+- GLM
+- STB
 ---
 ### Instructions
-1. Make sure you installed the latest version of python and GCC.
-1. clone the repository `git clone https://github.com/fqhd/TheTowers.git`
-1. cd into the project `cd TheTowers`
-1. run `python create_build_files.py` to create the build.ninja build file. If that doesn't work, try `python3 create_build_files.py`
-1. run `./buildsystem/x/ninja`. Make sure to replace the x with your current operating system. This can be either windows, macos or linux(All lowercase).
-1. run `./client` to run the client
-1. If you would like to host a server, run `./server`
-
+1. Make sure you installed a recent version of cmake.
+1. Clone the repository `git clone --recursive https://github.com/fqhd/TheTowers.git`
+1. Cd into the project `cd TheTowers`
+1. Create build directory `mkdir build`
+1. CD into build directory `cd build`
+1. Create cmake cache `cmake ..`
+1. Build the project `cmake --build .`
+1. Run the client: `./client`
+1. Optionally, if you'd like to host a server, run `./server`
 ---
 ## In Progress
 - Add clouds underneath the world to mkae it look like the map is floating
