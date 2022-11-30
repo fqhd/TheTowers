@@ -8,3 +8,4 @@ server
 client
 build.ninja
 run.sh
+build/
