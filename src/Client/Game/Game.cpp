@@ -18,7 +18,7 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings,
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
-	m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
+	// m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_debugMenu.init(_config);
 	m_hud.init(&player.hotbar);
 
@@ -28,7 +28,7 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings,
 
 void Game::updateEssentials(float _deltaTime){
 	m_frameCounter.tick(_deltaTime);
-	m_packetHandler.handlePackets();
+	// m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
 	m_world.updateMeshes();
 	m_camera.setPosition(player.getEyePos());
@@ -51,7 +51,7 @@ void Game::networkPositionTick(){
 	float timeBetweenPackets = 1.0 / m_config->getPacketTransmissionFrequency();
 	if (m_dataFrequencyTimer.getElapsedTime() >= timeBetweenPackets) {
 		m_dataFrequencyTimer.restart();
-		m_networkManager->sendPositionDataToServer(m_camera);
+		// m_networkManager->sendPositionDataToServer(m_camera);
 	}
 }
 

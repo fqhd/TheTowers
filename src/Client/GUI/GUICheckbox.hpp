@@ -9,17 +9,17 @@
 class GUICheckbox {
 public:
 
-	void init(const math::vec4& destRect, bool _checked = false);
+	void init(const glm::vec4& destRect, bool _checked = false);
 	void update(float deltaTime);
 	void render();
 	bool isChecked();
 
 private:
 
-	math::vec4 m_originalRect;
-	math::vec4 m_targetRect;
-	math::vec4 m_shadowRect;
-	math::vec4 m_destRect;
+	glm::vec4 m_originalRect;
+	glm::vec4 m_targetRect;
+	glm::vec4 m_shadowRect;
+	glm::vec4 m_destRect;
 	bool m_isChecked = false;
 
 	ColorRGBA8 m_offColor;

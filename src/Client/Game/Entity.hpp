@@ -7,7 +7,7 @@ class Entity {
 public:
 
 	void update(float deltaTime);
-	void setTargetPosition(const math::vec3& position);
+	void setTargetPosition(const glm::vec3& position);
 	void setForward(float pitch, float yaw);
 	bool isBlueTeam();
 
@@ -17,7 +17,7 @@ private:
 
 	void updateRotation();
 
-	math::vec3 m_targetPosition;
+	glm::vec3 m_targetPosition;
 	float m_targetPitch = 0.0f;
 	float m_targetYaw = 0.0f;
 	float m_currentPitch = 0.0f;

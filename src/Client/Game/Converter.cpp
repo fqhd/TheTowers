@@ -15,11 +15,11 @@ uint8_t Converter::itemIDToBlockID(ItemID _id) {
 	return 0;
 }
 
-math::vec4 Converter::itemIDToTextureUV(ItemID _id) {
+glm::vec4 Converter::itemIDToTextureUV(ItemID _id) {
 	float x = (uint8_t)_id % IMAGE_WIDTH_IN_ITEMS;
 	float y = (uint8_t)_id / IMAGE_WIDTH_IN_ITEMS;
 
-	return math::vec4(x * ITEM_WIDTH / (float)IMAGE_WIDTH,
+	return glm::vec4(x * ITEM_WIDTH / (float)IMAGE_WIDTH,
 					y * ITEM_WIDTH / (float)IMAGE_WIDTH,
 					ITEM_WIDTH / (float)IMAGE_WIDTH,
 					ITEM_WIDTH / (float)IMAGE_WIDTH);

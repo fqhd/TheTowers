@@ -2,9 +2,9 @@
 #include "Utils.hpp"
 #include <iostream>
 
-math::vec2 windowSize;
-math::vec2 mousePosition;
-math::vec2 previousMousePosition;
+glm::vec2 windowSize;
+glm::vec2 mousePosition;
+glm::vec2 previousMousePosition;
 std::unordered_map<int, bool> keymap;
 bool isFocused = true;
 char lastKeyPressed = -1;
@@ -61,7 +61,7 @@ void buttonPressedCallback(GLFWwindow* _window, int _button, int _action, int _m
 }
 
 void mouseMovedCallback(GLFWwindow* window, double _xpos, double _ypos){
-	mousePosition = math::vec2((float)_xpos, windowSize.y - (float)_ypos);
+	mousePosition = glm::vec2((float)_xpos, windowSize.y - (float)_ypos);
 }
 
 void wheelScrolledCallback(GLFWwindow* window, double xoffset, double yoffset) {
@@ -81,12 +81,12 @@ void InputManager::init(GLFWwindow* _window) {
 	// We must also initalize the window size on init because the windowResized() callback only sets the window is resized so the width and height of the window are uninitialized in the start of the application.
 	int w, h;
 	glfwGetWindowSize(_window, &w, &h);
-	windowSize = math::vec2(w, h);
+	windowSize = glm::vec2(w, h);
 
 	// We must inialize the mouse position on init because the mouseMoved() callback function only sets the mouse position when the mouse position is moved so they are not initialized at the start of the application.
 	double x, y;
 	glfwGetCursorPos(_window, &x, &y);
-	mousePosition = math::vec2(x, h - y);
+	mousePosition = glm::vec2(x, h - y);
 	previousMousePosition = mousePosition;
 
 }
@@ -129,19 +129,19 @@ void InputManager::setVerticalSync(bool _sync){
 	glfwSwapInterval(_sync);
 }
 
-math::vec2 InputManager::getPreviousMousePosition(){
+glm::vec2 InputManager::getPreviousMousePosition(){
 	return previousMousePosition;
 }
 
-math::vec2 InputManager::getMousePosition(){
+glm::vec2 InputManager::getMousePosition(){
 	return mousePosition;
 }
 
-math::vec2 InputManager::getScaledMousePosition(){
-	return mousePosition / windowSize * math::vec2(1280.0f, 720.0f);
+glm::vec2 InputManager::getScaledMousePosition(){
+	return mousePosition / windowSize * glm::vec2(1280.0f, 720.0f);
 }
 
-math::vec2 InputManager::getWindowSize(){
+glm::vec2 InputManager::getWindowSize(){
 	return windowSize;
 }
 

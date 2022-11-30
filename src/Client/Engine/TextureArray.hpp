@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glad.h>
 #include "Image.hpp"
 
 

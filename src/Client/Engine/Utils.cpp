@@ -98,23 +98,23 @@ std::string Utils::readFileToString(const std::string& shaderName) {
 	return shaderCode;
 }
 
-bool Utils::isInside(const math::ivec2& pos, const math::vec4& destRect){
+bool Utils::isInside(const glm::ivec2& pos, const glm::vec4& destRect){
 	return (pos.x >= destRect.x && pos.x <= destRect.x + destRect.z && pos.y >= destRect.y && pos.y <= destRect.y + destRect.w);
 }
 
-bool Utils::isInRange(const math::vec3& a, const math::vec3& b, float range){
-	return math::fabs(math::length(b - a)) < range;
+bool Utils::isInRange(const glm::vec3& a, const glm::vec3& b, float range){
+	return glm::abs(glm::length(b - a)) < range;
 }
 
 CollisionType Utils::collideBoxes(AABB& a, const AABB& b){
 	CollisionType collision = NONE; // Used to return the axis of the collision, set to NONE if there isn't any collision
-	math::vec3 aCenterPos = a.position + a.size / 2;
-	math::vec3 bCenterPos = b.position + b.size / 2;
-	math::vec3 delta = bCenterPos - aCenterPos;
+	glm::vec3 aCenterPos = a.position + a.size / 2.0f;
+	glm::vec3 bCenterPos = b.position + b.size / 2.0f;
+	glm::vec3 delta = bCenterPos - aCenterPos;
 
-	float intersectX = math::fabs(delta.x) - (b.size.x / 2 + a.size.x / 2);
-	float intersectY = math::fabs(delta.y) - (b.size.y / 2 + a.size.y / 2);
-	float intersectZ = math::fabs(delta.z) - (b.size.z / 2 + a.size.z / 2);
+	float intersectX = glm::abs(delta.x) - (b.size.x / 2 + a.size.x / 2);
+	float intersectY = glm::abs(delta.y) - (b.size.y / 2 + a.size.y / 2);
+	float intersectZ = glm::abs(delta.z) - (b.size.z / 2 + a.size.z / 2);
 
 	if(intersectX < 0.0f && intersectY < 0.0f && intersectZ < 0.0f){ // Got a collision
 		// The following if statements determine the axis with the greatest intersection(which will be the axis we push back on)

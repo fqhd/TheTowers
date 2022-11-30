@@ -1,11 +1,11 @@
 #include "GUIInput.hpp"
 #include "GUIUVLoader.hpp"
 
-void GUIInput::init(const math::vec4& destRect,
+void GUIInput::init(const glm::vec4& destRect,
 				   	const ColorRGBA8& backgroundColor, 
 	          		const ColorRGBA8& outlineColor, 
 			  		const ColorRGBA8& activeOutlineColor) {
-	m_outlineRect = math::vec4(destRect.x-5, destRect.y-5, destRect.z+10, destRect.w+10);
+	m_outlineRect = glm::vec4(destRect.x-5, destRect.y-5, destRect.z+10, destRect.w+10);
 	m_destRect = destRect;
 	m_onFocus = false;
 	m_input = "";
@@ -16,7 +16,7 @@ void GUIInput::init(const math::vec4& destRect,
 }
 
 void GUIInput::update(){
-	math::ivec2 mousePos = math::floor(InputManager::getScaledMousePosition());
+	glm::ivec2 mousePos = glm::floor(InputManager::getScaledMousePosition());
 	if (InputManager::isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		if (Utils::isInside(mousePos, m_destRect)) {
 			m_onFocus = m_onFocus ? false : true;
@@ -54,5 +54,5 @@ void GUIInput::render() {
 	GUIRenderer::drawRect(m_outlineRect, GUIUVLoader::getUV("White"), outlineColor);
 
 	GUIRenderer::drawRect(m_destRect, GUIUVLoader::getUV("White"), m_backgroundColor);
-	GUIRenderer::drawText(m_input, math::vec2(m_destRect.x + 3, m_destRect.y + 5), math::vec2(0.75, 0.75), ColorRGBA8());
+	GUIRenderer::drawText(m_input, glm::vec2(m_destRect.x + 3, m_destRect.y + 5), glm::vec2(0.75, 0.75), ColorRGBA8());
 }

@@ -1,6 +1,7 @@
 #include "NetworkManager.hpp"
 #include <iostream>
 
+/*
 void NetworkManager::connectToServer(const sf::IpAddress& _ip, Config* _c){
 	m_config = _c;
 	m_serverIp = _ip;
@@ -51,3 +52,5 @@ void NetworkManager::sendBlockUpdatePacket(const math::ivec3& _blockPosition, ui
 	packet << (uint8_t)2 << _blockPosition.x << _blockPosition.y << _blockPosition.z << _blockType; // We send the keycode 2 because that is the code for a block update.
 	m_tcpSocket.send(packet);
 }
+
+*/

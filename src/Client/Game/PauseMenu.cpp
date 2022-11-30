@@ -10,12 +10,12 @@ void PauseMenu::init(Settings* _settings){
 }
 
 void PauseMenu::initGUI(){
-	saveButton.init(math::vec4(440, 80, 400, 50));
+	saveButton.init(glm::vec4(440, 80, 400, 50));
 
 	float tmp = HLP;
-	toggleVignette.init(math::vec4(320, tmp, 24, 24), m_settings->isVignetteToggled);
-	toggleDebugView.init(math::vec4(365, tmp-=SBL, 24, 24), m_settings->isDebugToggled);
-	toggleLegacyOutline.init(math::vec4(410, tmp-=SBL, 24, 24), m_settings->legacyOutline);
+	toggleVignette.init(glm::vec4(320, tmp, 24, 24), m_settings->isVignetteToggled);
+	toggleDebugView.init(glm::vec4(365, tmp-=SBL, 24, 24), m_settings->isDebugToggled);
+	toggleLegacyOutline.init(glm::vec4(410, tmp-=SBL, 24, 24), m_settings->legacyOutline);
 }
 
 void PauseMenu::update(GameStates& _state, float deltaTime){
@@ -30,18 +30,18 @@ void PauseMenu::update(GameStates& _state, float deltaTime){
 
 void PauseMenu::render(){
 	// Background
-	GUIRenderer::drawRect(math::vec4(138, 58, 1004, 604), GUIUVLoader::getUV("White"), ColorRGBA8());
-	GUIRenderer::drawRect(math::vec4(140, 60, 1000, 600), GUIUVLoader::getUV("White"), ColorRGBA8(34, 40, 50, 255));
+	GUIRenderer::drawRect(glm::vec4(138, 58, 1004, 604), GUIUVLoader::getUV("White"), ColorRGBA8());
+	GUIRenderer::drawRect(glm::vec4(140, 60, 1000, 600), GUIUVLoader::getUV("White"), ColorRGBA8(34, 40, 50, 255));
 
 	// Labels
 
 	float tmp = HLP;
-	GUIRenderer::drawText("Vignette: ", math::vec2(175, tmp), math::vec2(0.75f), ColorRGBA8());
-	GUIRenderer::drawText("Debug Mode: ", math::vec2(175, tmp-=SBL), math::vec2(0.75f), ColorRGBA8());
-	GUIRenderer::drawText("Legacy Outline: ", math::vec2(175, tmp-=SBL), math::vec2(0.75f), ColorRGBA8());
+	GUIRenderer::drawText("Vignette: ", glm::vec2(175, tmp), glm::vec2(0.75f), ColorRGBA8());
+	GUIRenderer::drawText("Debug Mode: ", glm::vec2(175, tmp-=SBL), glm::vec2(0.75f), ColorRGBA8());
+	GUIRenderer::drawText("Legacy Outline: ", glm::vec2(175, tmp-=SBL), glm::vec2(0.75f), ColorRGBA8());
 
 	// Buttons
-	GUIRenderer::drawText("Save Settings", math::vec2(500, 95), math::vec2(0.75f), ColorRGBA8());
+	GUIRenderer::drawText("Save Settings", glm::vec2(500, 95), glm::vec2(0.75f), ColorRGBA8());
 
 	renderGUI();
 }

@@ -10,7 +10,7 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight, GLui
 	m_guiBatch.init(textureID);
 	m_textBatch.init(m_spriteFont.getTextureID());
 
-	math::mat4 ortho = math::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
+	glm::mat4 ortho = glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 
 	m_shader.load("res/shaders/sprite_vertex_shader.glsl", "res/shaders/sprite_fragment_shader.glsl");
 	m_shader.bind();
@@ -18,11 +18,11 @@ void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight, GLui
 	m_shader.unbind();
 }
 
-void GUIRenderer::drawRect(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color){
+void GUIRenderer::drawRect(const glm::vec4& destRect, const glm::vec4& uvRect, const ColorRGBA8& color){
 	m_guiBatch.draw(destRect, uvRect, color);
 }
 
-void GUIRenderer::drawText(const std::string& s, const math::vec2& position, const math::vec2& scale, const ColorRGBA8& color){
+void GUIRenderer::drawText(const std::string& s, const glm::vec2& position, const glm::vec2& scale, const ColorRGBA8& color){
 	m_spriteFont.printFont(m_textBatch, s, position, scale, color);
 }
 

@@ -6,10 +6,10 @@ void Skybox::init() {
 	m_shader.load("res/shaders/cubemap_vertex_shader.glsl", "res/shaders/cubemap_fragment_shader.glsl");
 }
 
-void Skybox::render(const math::mat4& _projection, math::mat4 _view) {
-	_view.m[3][0] = 0;
-	_view.m[3][1] = 0;
-	_view.m[3][2] = 0;
+void Skybox::render(const glm::mat4& _projection, glm::mat4 _view) {
+	_view[3][0] = 0;
+	_view[3][1] = 0;
+	_view[3][2] = 0;
 
 	m_shader.bind();
 	m_shader.loadUniform("projection", _projection);

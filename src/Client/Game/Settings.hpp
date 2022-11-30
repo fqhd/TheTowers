@@ -15,5 +15,3 @@ public:
     bool isVignetteToggled = true;
 	bool isDebugToggled = true;
 };
-
-

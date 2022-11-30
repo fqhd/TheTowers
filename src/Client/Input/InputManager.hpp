@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <unordered_map>
 #include <vector>
-#include "Math.hpp"
+#include <glm/glm.hpp>
 
 
 class InputManager {
@@ -22,10 +22,10 @@ public:
 	static void setMouseGrabbed(bool _grabbed);
 	static void setVerticalSync(bool _sync);
 	static float getDeltaMouseWheel();
-	static math::vec2 getMousePosition();
-	static math::vec2 getPreviousMousePosition();
-	static math::vec2 getWindowSize();
-	static math::vec2 getScaledMousePosition();
+	static glm::vec2 getMousePosition();
+	static glm::vec2 getPreviousMousePosition();
+	static glm::vec2 getWindowSize();
+	static glm::vec2 getScaledMousePosition();
 
 private:
 

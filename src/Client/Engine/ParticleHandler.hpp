@@ -13,18 +13,18 @@ struct Particle {
 	Particle(){
 		textureIndex = 0;
 		lifeLength = 0.0f;
-		velocity = math::vec3(0.0f);
-		position = math::vec3(0.0f);
+		velocity = glm::vec3(0.0f);
+		position = glm::vec3(0.0f);
 	}
-	Particle(const math::vec3& p, const math::vec3& v, float l, float i, float _size){
+	Particle(const glm::vec3& p, const glm::vec3& v, float l, float i, float _size){
 		position = p;
 		velocity = v;
 		lifeLength = l;
 		textureIndex = i;
 		size = _size;
 	}
-	math::vec3 position;
-	math::vec3 velocity;
+	glm::vec3 position;
+	glm::vec3 velocity;
 	float lifeLength;
 	float size;
 	unsigned int textureIndex;
@@ -32,12 +32,12 @@ struct Particle {
 
 struct ParticleInstance {
 	ParticleInstance(){}
-	ParticleInstance(const math::vec3& p, unsigned int i, float _size){
+	ParticleInstance(const glm::vec3& p, unsigned int i, float _size){
 		pos = p;
 		tindex = i;
 		size = _size;
 	}
-	math::vec3 pos;
+	glm::vec3 pos;
 	unsigned int tindex;
 	float size;
 };

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Math.hpp"
+#include <glm/glm.hpp>
 
 struct AABB {
 	AABB(){}
-	AABB(const math::vec3& _position, const math::vec3& _size){
+	AABB(const glm::vec3& _position, const glm::vec3& _size){
 		position = _position;
 		size = _size;
 	}
-	math::vec3 position;
-	math::vec3 size;
+	glm::vec3 position;
+	glm::vec3 size;
 };

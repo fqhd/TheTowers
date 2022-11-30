@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SFML/Network.hpp>
 #include "EntityHandler.hpp"
 #include "Player.hpp"
 #include "InputManager.hpp"
@@ -44,7 +43,7 @@ private:
 	Camera m_camera;
 	FrameCounter m_frameCounter;
 	Skybox m_skybox;
-	ParticleHandler m_particleHandler;
+	ParticleHandler m_particleHandler;	
 	EntityHandler m_entityHandler;
 	BlockOutline m_blockOutline;
 	Vignette m_vignette;

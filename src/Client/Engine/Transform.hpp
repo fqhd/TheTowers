@@ -1,30 +1,30 @@
 #pragma once
 
-#include "Math.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 class Transform {
 public:
 
 	Transform();
 
-	void setPosition(const math::vec3& _position);
-	void setRotation(const math::vec3& _rotation);
-	void setScale(const math::vec3& _scale);
+	void setPosition(const glm::vec3& _position);
+	void setRotation(const glm::vec3& _rotation);
+	void setScale(const glm::vec3& _scale);
 
-	const math::vec3& getPosition() const;
-	const math::vec3& getRotation() const;
-	const math::vec3& getScale() const;
+	const glm::vec3& getPosition() const;
+	const glm::vec3& getRotation() const;
+	const glm::vec3& getScale() const;
 
-	void move(const math::vec3& _delta);
+	void move(const glm::vec3& _delta);
 
-	math::mat4 getMatrix() const;
+	glm::mat4 getMatrix() const;
 
 private:
 
 	bool m_needsUpdate = true;
-	math::vec3 m_position;
-	math::vec3 m_rotation;
-	math::vec3 m_scale;
-	math::mat4 m_matrix;
+	glm::vec3 m_position;
+	glm::vec3 m_rotation;
+	glm::vec3 m_scale;
+	glm::mat4 m_matrix;
 
 };

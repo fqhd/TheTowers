@@ -1,6 +1,7 @@
 #include "PacketHandler.hpp"
 
 
+/*
 void PacketHandler::init(NetworkManager* _manager, World* _world, ParticleHandler* _pHandler, EntityHandler* _eHandler){
 	m_networkManager = _manager;
 	m_world = _world;
@@ -51,3 +52,4 @@ void PacketHandler::handlePackets(){
 		m_entityHandler->updateEntity(remoteID, position, pitch, yaw);
 	}
 }
+*/

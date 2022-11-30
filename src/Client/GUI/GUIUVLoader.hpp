@@ -2,11 +2,11 @@
 
 #include <unordered_map>
 #include <string>
-#include "Vec4.hpp"
+#include <glm/glm.hpp>
 
 namespace GUIUVLoader {
 
 	void init();
-	math::vec4 getUV(const std::string& uv);
+	glm::vec4 getUV(const std::string& uv);
 
 };

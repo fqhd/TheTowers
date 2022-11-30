@@ -12,7 +12,7 @@ void EntityHandler::update(float _deltaTime) {
 	}
 }
 
-void EntityHandler::addEntity(uint8_t id, const math::vec3& position, float pitch, float yaw) {
+void EntityHandler::addEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw) {
 	Entity entity;
 	entity.transform.setPosition(position);
 	entity.setTargetPosition(position);
@@ -24,7 +24,7 @@ void EntityHandler::removeEntity(uint8_t id) {
 	m_entities.erase(id);
 }
 
-void EntityHandler::updateEntity(uint8_t id, const math::vec3& position, float pitch, float yaw){
+void EntityHandler::updateEntity(uint8_t id, const glm::vec3& position, float pitch, float yaw){
 	auto it = m_entities.find(id);
 	if (it != m_entities.end()) {
 		it->second.setTargetPosition(position);

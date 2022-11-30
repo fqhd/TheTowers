@@ -75,7 +75,7 @@ void World::render(Camera& _camera){
 					c->needsVaoUpdate = false;
 				}
 				if(c->getNumVertices()){ // Render only if chunk has vertices
-					m_shader.loadUniform("chunkPosition", math::vec3(c->x, c->y, c->z));
+					m_shader.loadUniform("chunkPosition", glm::vec3(c->x, c->y, c->z));
 					c->render();
 				}
 			}

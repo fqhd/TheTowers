@@ -62,12 +62,12 @@ GLint Shader::getUniformLocation(const std::string& name){
 	return it->second;
 }
 
-void Shader::loadUniform(const std::string& name, const math::vec3& vec){
+void Shader::loadUniform(const std::string& name, const glm::vec3& vec){
 	glUniform3fv(getUniformLocation(name), 1, &vec.x);
 }
 
-void Shader::loadUniform(const std::string& name, const math::mat4& matrix){
-	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix.m[0][0]);
+void Shader::loadUniform(const std::string& name, const glm::mat4& matrix){
+	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
 }
 
 void Shader::loadUniform(const std::string& name, float f){

@@ -7,14 +7,13 @@
 #include "AABBox.hpp"
 #include "NetworkManager.hpp"
 #include "GameMode.hpp"
-#include <SFML/Network.hpp>
 #include "Item.hpp"
 #include "Hotbar.hpp"
 #include "Converter.hpp"
 
 struct VisibleBlocks {
-	math::ivec3 breakableBlock; // The block that the player is looking at
-	math::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
+	glm::ivec3 breakableBlock; // The block that the player is looking at
+	glm::ivec3 placeableBlock; // The position of the potential block placement. If a player right clicks, a block will be placed at this position
 	bool lookingAtBlock = false;
 };
 
@@ -26,7 +25,7 @@ public:
 	void update(float deltaTime);
 	void placeAndBreakBlocks();
 	void movement(float deltaTime);
-	math::vec3 getEyePos() const;
+	glm::vec3 getEyePos() const;
 
 	VisibleBlocks visibleBlocks;
 	Hotbar hotbar;

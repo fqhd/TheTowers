@@ -1,5 +1,4 @@
 #include "FaceOutline.hpp"
-#include "Math.hpp"
 
 
 void FaceOutline::init() {

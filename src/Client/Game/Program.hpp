@@ -29,7 +29,9 @@ private:
 	Config m_config;
 	Settings m_settings;
 	Timer m_deltaTimer;
+	/*
 	sf::IpAddress m_ip;
+	*/
 	
 	Game m_game;
 	PauseMenu m_pause;

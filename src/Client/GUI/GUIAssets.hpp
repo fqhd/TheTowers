@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glad.h>
+#include <GLAD/glad.h>
 #include <unordered_map>
 #include "Image.hpp"
 #include <string>

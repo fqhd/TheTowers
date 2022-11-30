@@ -1,24 +1,25 @@
 #pragma once
-#include <glad.h>
-#include "Math.hpp"
+
+#include <GLAD/glad.h>
+#include <glm/glm.hpp>
 #include "ColorRGBA8.hpp"
 
 struct ModelVertex {
-	ModelVertex(const math::vec3& _position, const math::vec3& _normal){
+	ModelVertex(const glm::vec3& _position, const glm::vec3& _normal){
 		position = _position;
 		normal = _normal;
 	}
-	math::vec3 position;
-	math::vec3 normal;
+	glm::vec3 position;
+	glm::vec3 normal;
 };
 
 struct GUITextVertex {
-	GUITextVertex(const math::vec2& p, const math::vec2& u){
+	GUITextVertex(const glm::vec2& p, const glm::vec2& u){
 		position = p;
 		uv = u;
 	}
-	math::vec2 position;
-	math::vec2 uv;
+	glm::vec2 position;
+	glm::vec2 uv;
 };
 
 struct GUIVertex {
@@ -43,10 +44,10 @@ struct GUIVertex {
 };
 
 struct ItemVertex {
-	ItemVertex(const math::vec2& _pos, unsigned int _uv){
+	ItemVertex(const glm::vec2& _pos, unsigned int _uv){
 		position = _pos;
 		uv = _uv;
 	}
-	math::vec2 position;
+	glm::vec2 position;
 	unsigned int uv;
 };

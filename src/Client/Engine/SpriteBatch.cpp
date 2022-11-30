@@ -23,7 +23,7 @@ void SpriteBatch::init(GLuint textureID) {
 	glBindVertexArray(0);
 }
 
-void SpriteBatch::draw(const math::vec4& destRect, const math::vec4& uvRect, const ColorRGBA8& color) {
+void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, const ColorRGBA8& color) {
 	m_vertices.emplace_back(destRect.x, destRect.y, uvRect.x, uvRect.y, color);
 	m_vertices.emplace_back(destRect.x, destRect.y + destRect.w, uvRect.x, uvRect.y + uvRect.w, color);
 	m_vertices.emplace_back(destRect.x + destRect.z, destRect.y + destRect.w, uvRect.x + uvRect.z, uvRect.y + uvRect.w, color);

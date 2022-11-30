@@ -1,10 +1,7 @@
 #include "Program.hpp"
 #include <iostream>
 
-const sf::IpAddress DEFAULT_IP = "tt.ilfez.club";
-
 void Program::run(){
-	m_ip = DEFAULT_IP;
 	initSystems();
 	gameloop();
 	cleanUp();
@@ -19,7 +16,7 @@ void Program::initSystems(){
 	InputManager::setMouseGrabbed(true);
 	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
 	GUIUVLoader::init();
-	m_networkManager.connectToServer(DEFAULT_IP, &m_config);
+	// m_networkManager.connectToServer(DEFAULT_IP, &m_config);
 	m_game.init(&m_networkManager, &m_config, &m_settings, &m_state);
 	m_pause.init(&m_settings);
 }

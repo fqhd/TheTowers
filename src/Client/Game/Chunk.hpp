@@ -4,7 +4,6 @@
 #include <cstddef>
 #include "Vertex.hpp"
 #include <iostream>
-#include <SFML/Network.hpp>
 
 const unsigned int CHUNK_WIDTH = 32;
 const unsigned int CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;

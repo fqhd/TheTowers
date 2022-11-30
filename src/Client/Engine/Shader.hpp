@@ -1,10 +1,10 @@
 #pragma once
 
-#include <glad.h>
+#include <GLAD/glad.h>
 #include <string>
 #include <fstream>
 #include <unordered_map>
-#include "Math.hpp"
+#include <glm/glm.hpp>
 
 class Shader {
 public:
@@ -14,8 +14,8 @@ public:
 	void unbind();
 	void destroy();
 
-	void loadUniform(const std::string& name, const math::vec3& vec);
-	void loadUniform(const std::string& name, const math::mat4& matrix);
+	void loadUniform(const std::string& name, const glm::vec3& vec);
+	void loadUniform(const std::string& name, const glm::mat4& matrix);
 	void loadUniform(const std::string& name, float f);
 	void loadUniform(const std::string& name, int i);
 	void loadUniform(const std::string& name, bool b);

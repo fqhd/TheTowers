@@ -62,13 +62,18 @@ unsigned int getRandom(uint8_t a, uint8_t b, uint8_t c){
 	return c;
 }
 
+float random(){
+	return (rand() % 1000000) / 999999.0f;
+}
+
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){
 	BlockTexture b = m_blockTextureHandler->getTextureFromBlockID(_blockID);
+
 	for(unsigned int i = 0; i < PARTICLES_PER_DROP; i++) {
-		math::vec3 pos(x + math::random(), y + math::random(), z + math::random());
-		math::vec3 direction = pos - (math::vec3(x, y, z) + math::vec3(0.5f, 0.0f, 0.5f));
-		math::vec3 velocity = math::vec3(direction.x * 3.0f, direction.y * 4.0f, direction.z * 3.0f);
-		m_particles.emplace_back(Particle(pos, velocity, 1.0f, getRandom(b.bot, b.side, b.top), 100.0f + math::random() * 100.0f));
+		glm::vec3 pos(x + random(), y + random(), z + random());
+		glm::vec3 direction = pos - (glm::vec3(x, y, z) + glm::vec3(0.5f, 0.0f, 0.5f));
+		glm::vec3 velocity = glm::vec3(direction.x * 3.0f, direction.y * 4.0f, direction.z * 3.0f);
+		m_particles.emplace_back(Particle(pos, velocity, 1.0f, getRandom(b.bot, b.side, b.top), 100.0f + random() * 100.0f));
 	}
 }
 

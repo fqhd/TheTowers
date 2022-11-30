@@ -18,8 +18,8 @@ void BlockOutline::render(Player* player, Camera& camera, bool _legacyOutline){
 	m_shader.bind();
 	m_shader.loadUniform("projection", camera.getProjectionMatrix());
 	m_shader.loadUniform("view", camera.getViewMatrix());
-	math::ivec3 bb = player->visibleBlocks.breakableBlock; // Getting the breakable block
-	math::vec3 float_bb(bb.x, bb.y, bb.z); // Calculating the floating point version of the breakable block
+	glm::ivec3 bb = player->visibleBlocks.breakableBlock; // Getting the breakable block
+	glm::vec3 float_bb(bb.x, bb.y, bb.z); // Calculating the floating point version of the breakable block
 	m_shader.loadUniform("blockPosition", float_bb); // We send the position of the block to the vertex shader which will get added to the vertices and form a face
 	m_shader.loadUniform("legacyOutline", _legacyOutline);
 	if(_legacyOutline){
@@ -33,7 +33,7 @@ void BlockOutline::render(Player* player, Camera& camera, bool _legacyOutline){
 }
 
 Face BlockOutline::getFace(VisibleBlocks& visibleBlocks){
-	math::ivec3 deltaBlockFace = visibleBlocks.placeableBlock - visibleBlocks.breakableBlock;
+	glm::ivec3 deltaBlockFace = visibleBlocks.placeableBlock - visibleBlocks.breakableBlock;
 
 	if(deltaBlockFace.x == 1){
 		return FACE_4;

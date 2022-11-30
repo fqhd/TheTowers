@@ -8,8 +8,10 @@
 class PacketHandler {
 public:
 
-	void init(NetworkManager* _manager, World* _world, ParticleHandler* _pHandler, EntityHandler* _eHandler);
-	void handlePackets();
+	/*
+		void init(NetworkManager* _manager, World* _world, ParticleHandler* _pHandler, EntityHandler* _eHandler);
+		void handlePackets();
+	*/
 
 private:
 

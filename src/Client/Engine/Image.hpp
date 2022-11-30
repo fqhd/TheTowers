@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <glad.h>
+#include <GLAD/glad.h>
 
 class Pixel {
 public:

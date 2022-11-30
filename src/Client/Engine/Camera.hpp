@@ -2,8 +2,8 @@
 
 #include "Chunk.hpp"
 #include "InputManager.hpp"
-#include "Math.hpp"
 #include "Config.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 
 class Camera {
@@ -14,12 +14,12 @@ public:
 	void calculateCameraVectors();
 	float getPitch() const;
 	float getYaw() const;
-	const math::mat4& getProjectionMatrix() const;
-	const math::mat4& getViewMatrix() const;
-	const math::vec3& getPosition() const;
-	const math::vec3& getForward() const;
-	void setForward(const math::vec3&);
-	void setPosition(const math::vec3& vec);
+	const glm::mat4& getProjectionMatrix() const;
+	const glm::mat4& getViewMatrix() const;
+	const glm::vec3& getPosition() const;
+	const glm::vec3& getForward() const;
+	void setForward(const glm::vec3&);
+	void setPosition(const glm::vec3& vec);
 	void updateViewMatrix();
 
 
@@ -27,10 +27,10 @@ private:
 
 	float m_pitch = 0.0f;
 	float m_yaw = 0.0f;
-	math::vec3 m_position;
-	math::vec3 m_forward;
-	math::mat4 m_projectionMatrix;
-	math::mat4 m_viewMatrix;
+	glm::vec3 m_position;
+	glm::vec3 m_forward;
+	glm::mat4 m_projectionMatrix;
+	glm::mat4 m_viewMatrix;
 	Config* m_config = nullptr;
 
 };

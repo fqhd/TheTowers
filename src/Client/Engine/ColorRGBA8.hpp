@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GLAD/glad.h>
+
 struct ColorRGBA8 {
 	ColorRGBA8(){}
 	ColorRGBA8(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a){
