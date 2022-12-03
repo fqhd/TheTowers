@@ -1,5 +1,6 @@
 #include "FilePathManager.hpp"
 #include <filesystem>
+#include <fstream>
 
 std::string rootDirectory;
 
@@ -17,7 +18,20 @@ std::string getProjectRootDirectory(){
 }
 
 void FilePathManager::init(){
-    rootDirectory = getProjectRootDirectory();
+	std::ifstream is("RootDirPath.txt");
+	if(is.fail()){
+	    rootDirectory = getProjectRootDirectory();
+		std::ofstream os("RootDirPath.txt");
+		if(os.fail()){
+			std::cout << "FilePathManager:: Couldn't create RootDirPath.txt" << std::endl;
+		}else{
+			os << rootDirectory << std::endl;
+		}
+		os.close();
+	}else{
+		is >> rootDirectory;
+	}
+	is.close();
 }
 
 const std::string& FilePathManager::getRootFolderDirectory(){
