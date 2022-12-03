@@ -21,6 +21,9 @@ void FilePathManager::init(){
 	std::ifstream is("RootDirPath.txt");
 	if(is.fail()){
 	    rootDirectory = getProjectRootDirectory();
+		if(rootDirectory[rootDirectory.size() - 1] != '/' || rootDirectory[rootDirectory.size() - 1] != '\\'){
+			rootDirectory += "/";
+		}
 		std::ofstream os("RootDirPath.txt");
 		if(os.fail()){
 			std::cout << "FilePathManager:: Couldn't create RootDirPath.txt" << std::endl;
