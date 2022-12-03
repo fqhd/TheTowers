@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include <cstring>
 #include <iostream>
+#include "FilePathManager.hpp"
 
 void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings, GameStates* _state) {
 	m_settings = _settings;
@@ -9,7 +10,7 @@ void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings,
 	m_state = _state;
 
 	m_blockTextureHandler.loadBlockTexturesFromFile();
-	m_textureArray.init("res/textures/sprite_sheet.png", 512);
+	m_textureArray.init(FilePathManager::getRootFolderDirectory() + "res/textures/sprite_sheet.png", 512);
 	m_world.init(&m_textureArray, _config, &m_blockTextureHandler);
 	player.init(&m_camera, &m_particleHandler, &m_world, _nManager);
 	m_skybox.init();

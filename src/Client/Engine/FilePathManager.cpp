@@ -9,7 +9,7 @@ std::string getProjectRootDirectory(){
 	std::cin >> path;
 	while(!std::filesystem::is_directory(std::filesystem::path(path))){
 		std::cout << "That is not a valid path, try again: ";
-		std::cin >> path;		
+		std::cin >> path;
 	}
 	return path;
 }

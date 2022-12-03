@@ -2,13 +2,14 @@
 #include <fstream>
 #include <iostream>
 #include "Utils.hpp"
+#include "FilePathManager.hpp"
 
 const float TEXTURE_SIZE = 512.0f;
 std::unordered_map<std::string, glm::vec4> uvMap;
 
 void GUIUVLoader::init(){
 	std::ifstream is;
-	is.open("GUIUVArrangement");
+	is.open(FilePathManager::getRootFolderDirectory() + "GUIUVArrangement");
 	if(is.fail()){
 		std::cout << "GUIUVLoader: Failed to open GUIUVArragnement" << std::endl;
 		return;

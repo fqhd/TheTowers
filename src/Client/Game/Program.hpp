@@ -12,6 +12,7 @@
 #include "TextureArray.hpp"
 #include "Converter.hpp"
 #include "GUIUVLoader.hpp"
+#include "FilePathManager.hpp"
 
 class Program {
 public:

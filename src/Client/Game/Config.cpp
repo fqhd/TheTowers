@@ -5,7 +5,7 @@ void Config::loadFromFile() {
 	std::ifstream is;
 	is.open("Config");
 	if(is.fail()){
-		std::cout << "Failed to open config" << std::endl;
+		std::cout << "Config: Failed to open Config.txt" << std::endl;
 			return;
 	}
 	std::string type;

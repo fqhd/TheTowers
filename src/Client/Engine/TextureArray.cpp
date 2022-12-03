@@ -1,9 +1,9 @@
 #include "TextureArray.hpp"
 
-void TextureArray::init(const char* _path, unsigned int _numLayers) {
+void TextureArray::init(const std::string& path, unsigned int _numLayers) {
 
 	Image image;
-	image.loadFromFile(_path);
+	image.loadFromFile(path);
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, textureID);

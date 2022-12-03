@@ -1,10 +1,11 @@
 #include "Settings.hpp"
+#include "FilePathManager.hpp"
 
 void Settings::loadFromFile(){
 	std::ifstream is;
-	is.open("Settings.txt");
+	is.open(FilePathManager::getRootFolderDirectory() + "Settings.txt");
 	if(is.fail()){
-		std::cout << "Settings: Failed to open settings" << std::endl;
+		std::cout << "Settings: Failed to open Settings.txt" << std::endl;
 		return;
 	}
 	std::string type;
@@ -24,7 +25,7 @@ void Settings::writeToFile(){
 	std::ofstream os;
 	os.open("Settings.txt");
 	if(os.fail()){
-		std::cout << "Failed to open settings" << std::endl;
+		std::cout << "Failed to open Settings.txt" << std::endl;
 		return;
 	}
 	os << "isVignetteToggled: " << isVignetteToggled << std::endl;

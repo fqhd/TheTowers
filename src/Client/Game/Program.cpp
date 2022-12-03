@@ -10,6 +10,7 @@ void Program::run(){
 void Program::initSystems(){
 	m_config.loadFromFile();
 	m_settings.loadFromFile();
+	FilePathManager::init();
 	Window::create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers");
 	InputManager::init(Window::getWindowPtr());
 	InputManager::setVerticalSync(true);

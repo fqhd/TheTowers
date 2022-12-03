@@ -1,9 +1,10 @@
 #include "BlockTextureHandler.hpp"
 #include "Utils.hpp"
+#include "FilePathManager.hpp"
 
 void BlockTextureHandler::loadBlockTexturesFromFile(){
 	std::ifstream is;
-	is.open("TextureArrangement");
+	is.open(FilePathManager::getRootFolderDirectory() + "TextureArrangement");
 	if(is.fail()){
 		std::cout << "Failed to open texture arrangment file, it should be under res/textures/texture_arrangement.txt" << std::endl;
 		return;

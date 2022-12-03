@@ -7,7 +7,7 @@ struct TextureArray {
 
 	TextureArray(){}
 
-	void init(const char* _path, unsigned int _numLayers);
+	void init(const std::string& path, unsigned int _numLayers);
 	void bind();
 	void unbind();
 	void destroy();

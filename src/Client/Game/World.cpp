@@ -1,5 +1,6 @@
 #include "World.hpp"
 #include <iostream>
+#include "FilePathManager.hpp"
 
 void World::init(TextureArray* _array, Config* _c, BlockTextureHandler* _textureHandler){
 	m_blockTextureHandler = _textureHandler;
@@ -31,7 +32,7 @@ void World::init(TextureArray* _array, Config* _c, BlockTextureHandler* _texture
 		}
 	}
 
-	loadWorldFromFile("lobby.dat");
+	loadWorldFromFile(FilePathManager::getRootFolderDirectory() + "lobby.dat");
 
 	// Initializing the m_chunks
 	m_chunks = new Chunk[ww * wl * wh];
@@ -107,17 +108,13 @@ void World::destroy(){
 void World::loadWorldFromFile(const std::string& path) {
 	std::ifstream file(path, std::ios::in | std::ios::binary);
 	if (!file.good()) {
-		std::cerr << "could not open " << path << " file for reading" << std::endl;
+		std::cout << "World: Could not open file: " << path << std::endl;
 		return;
 	}
 	for (int i = 0; i < m_data_length; i++) {
-		file.read((char*)&m_data[i], sizeof(uint8_t));		
+		file.read((char*)&m_data[i], sizeof(uint8_t));
 	}
 	file.close();
-	if(!file.good()) {
-      	std::cerr << "Error occurred at reading time!" << std::endl;
-      	return;
-  	}
 }
 
 void World::saveWorldToFile(const std::string& path) {
