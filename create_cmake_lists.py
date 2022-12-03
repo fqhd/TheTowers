@@ -31,10 +31,10 @@ def createBuildScript(clientSources, serverSources):
         file.write(' ' + f)
     file.write(')\n')
 
-    file.write('target_include_directories(client PUBLIC src/Client/Engine')
-    file.write('target_include_directories(client PUBLIC src/Client/Game')
-    file.write('target_include_directories(client PUBLIC src/Client/GUI')
-    file.write('target_include_directories(client PUBLIC src/Client/Input')
+    file.write('target_include_directories(client PUBLIC src/Client/Engine)\n')
+    file.write('target_include_directories(client PUBLIC src/Client/Game)\n')
+    file.write('target_include_directories(client PUBLIC src/Client/GUI)\n')
+    file.write('target_include_directories(client PUBLIC src/Client/Input)\n')
 
     file.write('target_link_libraries(client PUBLIC asio-cmake)\n')
     file.write('target_link_libraries(client PUBLIC glfw-cmake)\n')
