@@ -1,15 +1,15 @@
 #include "World.hpp"
 #include <iostream>
 #include "FilePathManager.hpp"
+#include "TTConfig.hpp"
 
-void World::init(TextureArray* _array, Config* _c, BlockTextureHandler* _textureHandler){
+void World::init(TextureArray* _array, BlockTextureHandler* _textureHandler){
 	m_blockTextureHandler = _textureHandler;
 	m_textureArray = _array;
-	m_config = _c;
-	unsigned int ww = _c->getWorldWidth();
-	unsigned int wl = _c->getWorldLength();
-	unsigned int wh = _c->getWorldHeight();
-	unsigned int cw = _c->getChunkWidth();
+	unsigned int ww = WORLD_WIDTH;
+	unsigned int wl = WORLD_LENGTH;
+	unsigned int wh = WORLD_HEIGHT;
+	unsigned int cw = CHUNK_WIDTH;
 	
 	m_data_length = ww * wl * wh * cw * cw * cw;
 	m_data = static_cast<uint8_t*>(malloc(m_data_length));
@@ -45,7 +45,7 @@ void World::init(TextureArray* _array, Config* _c, BlockTextureHandler* _texture
 	}
 
 	// Initializing the m_shader
-	m_shader.load("res/shaders/chunk_vertex_shader.glsl", "res/shaders/chunk_fragment_shader.glsl");
+	m_shader.load("chunk");
 }
 
 GLuint World::packData(uint8_t x, uint8_t y, uint8_t z, uint8_t lightLevel, uint8_t textureCoordinateIndex, uint16_t textureArrayIndex) {
@@ -62,9 +62,9 @@ void World::render(Camera& _camera){
 	m_shader.loadUniform("view", _camera.getViewMatrix());
 	m_shader.loadUniform("cameraPosition", _camera.getPosition());
 
-	unsigned int ww = m_config->getWorldWidth();
-	unsigned int wl = m_config->getWorldLength();
-	unsigned int wh = m_config->getWorldHeight();
+	unsigned int ww = WORLD_WIDTH;
+	unsigned int wl = WORLD_LENGTH;
+	unsigned int wh = WORLD_HEIGHT;
 
 	for(unsigned int y = 0; y < wh; y++){
 		for(unsigned int z = 0; z < wl; z++){
@@ -89,9 +89,9 @@ void World::render(Camera& _camera){
 }
 
 void World::destroy(){
-	unsigned int ww = m_config->getWorldWidth();
-	unsigned int wl = m_config->getWorldLength();
-	unsigned int wh = m_config->getWorldHeight();
+	unsigned int ww = WORLD_WIDTH;
+	unsigned int wl = WORLD_LENGTH;
+	unsigned int wh = WORLD_HEIGHT;
 
 	for(unsigned int y = 0; y < wh; y++){
 		for(unsigned int z = 0; z < wl; z++){
@@ -134,9 +134,9 @@ void World::saveWorldToFile(const std::string& path) {
 }
 
 void World::updateMeshes(){
-	unsigned int ww = m_config->getWorldWidth();
-	unsigned int wl = m_config->getWorldLength();
-	unsigned int wh = m_config->getWorldHeight();
+	unsigned int ww = WORLD_WIDTH;
+	unsigned int wl = WORLD_LENGTH;
+	unsigned int wh = WORLD_HEIGHT;
 
 	for(unsigned int y = 0; y < wh; y++){
 		for(unsigned int z = 0; z < wl; z++){
@@ -155,7 +155,7 @@ void World::updateMeshes(){
 
 void World::generateMesh(Chunk* _chunk){
 	_chunk->vertices.resize(0);
-	unsigned int cw = m_config->getChunkWidth();
+	unsigned int cw = CHUNK_WIDTH;
 
 	for(unsigned int y = 0; y < cw; y++){
 		for(unsigned int z = 0; z < cw; z++){
@@ -171,9 +171,9 @@ void World::generateMesh(Chunk* _chunk){
 }
 
 bool World::isBlockInLocalWorld(int _x, int _y, int _z){
-	unsigned int maxW = m_config->getWorldWidth() * m_config->getChunkWidth();
-	unsigned int maxL = m_config->getWorldLength() * m_config->getChunkWidth();
-	unsigned int maxH = m_config->getWorldHeight() * m_config->getChunkWidth();
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
+	unsigned int maxH = WORLD_HEIGHT * CHUNK_WIDTH;
 
 	if(_x < 0 || _x >= maxW || _z < 0 || _z >= maxL || _y < 0 || _y >= maxH) return false;
 	return true;
@@ -184,8 +184,8 @@ uint8_t World::getBlock(int _x, int _y, int _z){
 		return 0;
 	}
 
-	unsigned int maxW = m_config->getWorldWidth() * m_config->getChunkWidth();
-	unsigned int maxL = m_config->getWorldLength() * m_config->getChunkWidth();
+	unsigned int maxW = WORLD_WIDTH * CHUNK_WIDTH;
+	unsigned int maxL = WORLD_LENGTH * CHUNK_WIDTH;
 
 	return m_data[(_y * maxW * maxL) + (_z * maxW) + _x];
 }
@@ -195,10 +195,10 @@ void World::setBlock(int x, int y, int z, uint8_t block) {
 		return;
 	}
 
-	unsigned int ww = m_config->getWorldWidth();
-	unsigned int wl = m_config->getWorldLength();
-	unsigned int wh = m_config->getWorldHeight();
-	unsigned int cw = m_config->getChunkWidth();
+	unsigned int ww = WORLD_WIDTH;
+	unsigned int wl = WORLD_LENGTH;
+	unsigned int wh = WORLD_HEIGHT;
+	unsigned int cw = CHUNK_WIDTH;
 
 	unsigned int maxW = ww * cw;
 	unsigned int maxL = wl * cw;
@@ -255,9 +255,9 @@ void World::addBlock(Chunk* _c, int _x, int _y, int _z, uint8_t _blockType){
 }
 
 Chunk* World::getChunk(int _x, int _y, int _z) {
-	unsigned int ww = m_config->getWorldWidth();
-	unsigned int wl = m_config->getWorldLength();
-	unsigned int wh = m_config->getWorldHeight();
+	unsigned int ww = WORLD_WIDTH;
+	unsigned int wl = WORLD_LENGTH;
+	unsigned int wh = WORLD_HEIGHT;
 
 	if(_y < 0 || _y >= wh || _x < 0 || _x >= ww || _z < 0 || _z >= wl){
 		return nullptr;

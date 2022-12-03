@@ -1,7 +1,11 @@
 #include "Shader.hpp"
 #include "Utils.hpp"
+#include "FilePathManager.hpp"
 
-void Shader::load(const char* vs, const char* fs){
+void Shader::load(const std::string& name){
+	std::string vs = FilePathManager::getRootFolderDirectory() + "res/shaders/" + name + "/vertex_shader.glsl";
+	std::string fs = FilePathManager::getRootFolderDirectory() + "res/shaders/" + name + "/fragment_shader.glsl";
+
 	m_vertexID = glCreateShader(GL_VERTEX_SHADER);
 	m_fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 

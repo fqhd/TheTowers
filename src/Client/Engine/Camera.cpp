@@ -1,14 +1,14 @@
 #include "Camera.hpp"
 #include <cmath>
+#include <TTConfig.hpp>
 
 const float NEAR_DIST = 0.1f;
 const float FAR_DIST = 1000.0f;
 const float FOV = 70.0f;
 
-void Camera::init(Config* _config) {
-	m_config = _config;
+void Camera::init() {
 	m_forward = glm::vec3(1, 0, 0);
-	m_projectionMatrix = glm::perspective(glm::radians(FOV), _config->getWindowWidth() / (float)_config->getWindowHeight(), NEAR_DIST, FAR_DIST);
+	m_projectionMatrix = glm::perspective(glm::radians(FOV), WINDOW_WIDTH / (float)WINDOW_HEIGHT, NEAR_DIST, FAR_DIST);
 }
 
 void Camera::calculateCameraVectors() {
@@ -17,8 +17,8 @@ void Camera::calculateCameraVectors() {
 
 	glm::vec2 deltaMousePos = previousMousePos - currentMousePos;
 
-	m_pitch -= deltaMousePos.y * m_config->getMouseSensitivity();
-	m_yaw -= deltaMousePos.x * m_config->getMouseSensitivity();
+	m_pitch -= deltaMousePos.y * MOUSE_SENSITIVITY;
+	m_yaw -= deltaMousePos.x * MOUSE_SENSITIVITY;
 
 	if (m_pitch >= 89.0f) {
 		m_pitch = 89.0f;

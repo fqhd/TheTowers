@@ -4,14 +4,13 @@
 #include "Camera.hpp"
 #include "Shader.hpp"
 #include "TextureArray.hpp"
-#include "Config.hpp"
 #include "BlockTextureHandler.hpp"
 #include <cstdint>
 
 class World {
 public:
 
-	void init(TextureArray* _array, Config* _c, BlockTextureHandler* _textureHandler);
+	void init(TextureArray* _array, BlockTextureHandler* _textureHandler);
 	void render(Camera& _camera);
 	uint8_t getBlock(int _x, int _y, int _z);
 	void setBlock(int _x, int _y, int _z, uint8_t _block);
@@ -46,7 +45,6 @@ private:
 	TextureArray* m_textureArray = nullptr;
 	BlockTextureHandler* m_blockTextureHandler = nullptr;
 	Chunk* m_chunks = nullptr;
-	Config* m_config = nullptr;
 	uint8_t* m_data = nullptr;
 
 

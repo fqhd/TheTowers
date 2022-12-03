@@ -1,9 +1,10 @@
 #include "EntityHandler.hpp"
+#include "FilePathManager.hpp"
 
 
 void EntityHandler::init() {
-	m_entityModel.init("res/models/monkey.obj");
-	m_shader.load("res/shaders/entity_vertex_shader.glsl", "res/shaders/entity_fragment_shader.glsl");
+	m_entityModel.init(FilePathManager::getRootFolderDirectory() + "res/models/monkey.obj");
+	m_shader.load("entity");
 }
 
 void EntityHandler::update(float _deltaTime) {

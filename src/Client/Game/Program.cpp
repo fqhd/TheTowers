@@ -8,17 +8,16 @@ void Program::run(){
 }
 
 void Program::initSystems(){
-	m_config.loadFromFile();
-	m_settings.loadFromFile();
 	FilePathManager::init();
-	Window::create(m_config.getWindowWidth(), m_config.getWindowHeight(), "TheTowers");
+	m_settings.loadFromFile();
+	Window::create(WINDOW_WIDTH, WINDOW_HEIGHT, "TheTowers");
 	InputManager::init(Window::getWindowPtr());
 	InputManager::setVerticalSync(true);
 	InputManager::setMouseGrabbed(true);
-	GUIRenderer::init(m_config.getWindowWidth(), m_config.getWindowHeight(), GUIAssets::getTexture("gui_sprite_sheet"));
+	GUIRenderer::init(WINDOW_WIDTH, WINDOW_HEIGHT, GUIAssets::getTexture("gui_sprite_sheet"));
 	GUIUVLoader::init();
 	// m_networkManager.connectToServer(DEFAULT_IP, &m_config);
-	m_game.init(&m_networkManager, &m_config, &m_settings, &m_state);
+	m_game.init(&m_networkManager, &m_settings, &m_state);
 	m_pause.init(&m_settings);
 }
 
@@ -47,6 +46,7 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
+	GUIAssets::destroy();
 	GUIRenderer::destroy();
 	m_game.destroy();
 	Window::close();

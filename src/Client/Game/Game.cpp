@@ -3,24 +3,22 @@
 #include <iostream>
 #include "FilePathManager.hpp"
 
-void Game::init(NetworkManager* _nManager, Config* _config, Settings* _settings, GameStates* _state) {
+void Game::init(NetworkManager* _nManager, Settings* _settings, GameStates* _state) {
 	m_settings = _settings;
-	m_config = _config;
 	m_networkManager = _nManager;
 	m_state = _state;
 
 	m_blockTextureHandler.loadBlockTexturesFromFile();
 	m_textureArray.init(FilePathManager::getRootFolderDirectory() + "res/textures/sprite_sheet.png", 512);
-	m_world.init(&m_textureArray, _config, &m_blockTextureHandler);
+	m_world.init(&m_textureArray, &m_blockTextureHandler);
 	player.init(&m_camera, &m_particleHandler, &m_world, _nManager);
 	m_skybox.init();
 	m_particleHandler.init(&m_textureArray, &m_blockTextureHandler);
-	m_camera.init(_config);
+	m_camera.init();
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
 	// m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
-	m_debugMenu.init(_config);
 	m_hud.init(&player.hotbar);
 
 	m_camera.setPosition(player.getEyePos());
@@ -49,7 +47,7 @@ void Game::update(float _deltaTime) {
 }
 
 void Game::networkPositionTick(){
-	float timeBetweenPackets = 1.0 / m_config->getPacketTransmissionFrequency();
+	float timeBetweenPackets = 1.0f / PACKET_TRANSMISSION_FREQUENCY;
 	if (m_dataFrequencyTimer.getElapsedTime() >= timeBetweenPackets) {
 		m_dataFrequencyTimer.restart();
 		// m_networkManager->sendPositionDataToServer(m_camera);

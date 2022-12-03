@@ -10,10 +10,7 @@ out vec2 pass_uv;
 uniform mat4 matrix;
 
 void main() {
-
     gl_Position = matrix * vec4(position, 0.0, 1.0);
-	
-
     pass_color = color;
 	pass_uv = uv;
 }

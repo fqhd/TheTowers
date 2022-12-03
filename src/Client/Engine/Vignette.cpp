@@ -2,7 +2,7 @@
 
 void Vignette::init(){
 	m_quad.init();
-	m_shader.load("res/shaders/vignette_vertex_shader.glsl", "res/shaders/vignette_fragment_shader.glsl");
+	m_shader.load("vignette");
 }
 
 void Vignette::render(){

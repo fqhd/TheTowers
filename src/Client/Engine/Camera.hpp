@@ -2,14 +2,12 @@
 
 #include "Chunk.hpp"
 #include "InputManager.hpp"
-#include "Config.hpp"
 #include <glm/gtc/matrix_transform.hpp>
-
 
 class Camera {
 public:
 
-	void init(Config* _config);
+	void init();
 
 	void calculateCameraVectors();
 	float getPitch() const;
@@ -22,7 +20,6 @@ public:
 	void setPosition(const glm::vec3& vec);
 	void updateViewMatrix();
 
-
 private:
 
 	float m_pitch = 0.0f;
@@ -31,7 +28,6 @@ private:
 	glm::vec3 m_forward;
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
-	Config* m_config = nullptr;
 
 };
 

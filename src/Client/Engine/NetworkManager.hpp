@@ -2,7 +2,7 @@
 
 #include "ParticleHandler.hpp"
 #include "Camera.hpp"
-#include "Config.hpp"
+#include "TTConfig.hpp"
 
 class NetworkManager {
 public:
@@ -23,6 +23,5 @@ private:
 	sf::UdpSocket m_udpSocket;
 	*/
 	uint8_t m_id = 0;
-	Config* m_config = nullptr;
 
 };

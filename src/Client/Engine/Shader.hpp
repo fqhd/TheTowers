@@ -9,7 +9,7 @@
 class Shader {
 public:
 
-	void load(const char* vs, const char* fs);
+	void load(const std::string& name);
 	void bind();
 	void unbind();
 	void destroy();

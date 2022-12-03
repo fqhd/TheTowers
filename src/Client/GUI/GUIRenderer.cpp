@@ -1,4 +1,5 @@
 #include "GUIRenderer.hpp"
+#include "FilePathManager.hpp"
 
 SpriteBatch m_guiBatch;
 SpriteBatch m_textBatch;
@@ -6,13 +7,13 @@ SpriteFont m_spriteFont;
 Shader m_shader;
 
 void GUIRenderer::init(unsigned int windowWidth, unsigned int windowHeight, GLuint textureID){
-	m_spriteFont.init("res/fonts/minecraft_font.ttf", 40, 512, 512);
+	m_spriteFont.init(FilePathManager::getRootFolderDirectory() + "res/fonts/minecraft_font.ttf", 40, 512, 512);
 	m_guiBatch.init(textureID);
 	m_textBatch.init(m_spriteFont.getTextureID());
 
 	glm::mat4 ortho = glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight);
 
-	m_shader.load("res/shaders/sprite_vertex_shader.glsl", "res/shaders/sprite_fragment_shader.glsl");
+	m_shader.load("sprite");
 	m_shader.bind();
 	m_shader.loadUniform("matrix", ortho);
 	m_shader.unbind();

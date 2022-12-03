@@ -1,5 +1,6 @@
 #include "GUIAssets.hpp"
 #include "Utils.hpp"
+#include "FilePathManager.hpp"
 
 std::unordered_map<std::string, GLuint> m_textureMap;
 
@@ -10,7 +11,7 @@ GLuint GUIAssets::getTexture(const std::string& _name){
 		return it->second;
 	}
 	// Did not find the texture, must load it
-	GLuint id = Utils::loadTexture("res/textures/gui/" + _name + ".png");
+	GLuint id = Utils::loadTexture(FilePathManager::getRootFolderDirectory() + "res/textures/gui/" + _name + ".png");
 	m_textureMap[_name] = id;
 	return id;
 }

@@ -85,7 +85,7 @@ std::string Utils::readFileToString(const std::string& shaderName) {
 	std::ifstream is;
 	is.open(shaderName);
 	if(is.fail()){
-		std::cout << "Failed to find file: " << shaderName << std::endl;
+		std::cout << "Utils: Failed to find file: " << shaderName << std::endl;
 		is.close();
 		return shaderCode;
 	}

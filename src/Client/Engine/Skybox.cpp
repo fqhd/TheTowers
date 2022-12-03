@@ -3,7 +3,7 @@
 
 void Skybox::init() {
 	m_cube.init();
-	m_shader.load("res/shaders/cubemap_vertex_shader.glsl", "res/shaders/cubemap_fragment_shader.glsl");
+	m_shader.load("cubemap");
 }
 
 void Skybox::render(const glm::mat4& _projection, glm::mat4 _view) {

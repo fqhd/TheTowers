@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GUIRenderer.hpp"
-#include "Config.hpp"
 #include "Utils.hpp"
 #include "Hotbar.hpp"
 #include "Converter.hpp"

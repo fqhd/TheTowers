@@ -2,7 +2,6 @@
 
 #include "Game.hpp"
 #include "PauseMenu.hpp"
-#include "Config.hpp"
 #include "Settings.hpp"
 #include "DebugMenu.hpp"
 #include "GUIRenderer.hpp"
@@ -27,7 +26,6 @@ private:
 	
 	NetworkManager m_networkManager;
 	GameStates m_state = GameStates::PLAY;
-	Config m_config;
 	Settings m_settings;
 	Clock m_deltaTimer;
 	/*

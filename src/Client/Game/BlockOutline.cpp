@@ -2,7 +2,7 @@
 
 void BlockOutline::init(){
 	m_outline.init();
-	m_shader.load("res/shaders/block_outline_vertex_shader.glsl", "res/shaders/block_outline_fragment_shader.glsl");
+	m_shader.load("block_outline");
 	m_legacyOutline.init();
 }
 

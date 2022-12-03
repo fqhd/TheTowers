@@ -26,7 +26,7 @@
 class Game {
 public:
 
-	void init(NetworkManager* _nManager, Config* _config, Settings* _settings, GameStates* _state);
+	void init(NetworkManager* _nManager, Settings* _settings, GameStates* _state);
 	void updateEssentials(float _deltaTime);
 	void update(float _deltaTime);
 	void render();
@@ -58,7 +58,6 @@ private:
 	// Pointers
 	Settings* m_settings = nullptr;
 	std::thread* m_chunkUpdaterThread = nullptr;
-	Config* m_config = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	GameStates* m_state = nullptr;
 

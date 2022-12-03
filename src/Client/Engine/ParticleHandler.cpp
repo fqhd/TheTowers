@@ -8,7 +8,7 @@ void ParticleHandler::init(TextureArray* _array, BlockTextureHandler* _textureHa
 	m_blockTextureHandler = _textureHandler;
 	m_textureArray = _array;
 	m_quad.init();
-	m_shader.load("res/shaders/particle_vertex_shader.glsl", "res/shaders/particle_fragment_shader.glsl");
+	m_shader.load("particle");
 }
 
 void ParticleHandler::update(float deltaTime){
