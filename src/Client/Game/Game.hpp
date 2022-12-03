@@ -18,7 +18,7 @@
 #include "PacketHandler.hpp"
 #include "TextureArray.hpp"
 #include "DebugMenu.hpp"
-#include "Timer.hpp"
+#include "Clock.hpp"
 #include "TextureArray.hpp"
 #include "Converter.hpp"
 #include <thread>
@@ -51,7 +51,7 @@ private:
 	World m_world;
 	PacketHandler m_packetHandler;
 	DebugMenu m_debugMenu;
-	Timer m_dataFrequencyTimer;
+	Clock m_dataFrequencyTimer;
 	BlockTextureHandler m_blockTextureHandler;
 	TextureArray m_textureArray;
 

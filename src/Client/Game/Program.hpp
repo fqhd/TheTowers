@@ -8,7 +8,7 @@
 #include "GUIRenderer.hpp"
 #include "BlockTextureHandler.hpp"
 #include "Window.hpp"
-#include "Timer.hpp"
+#include "Clock.hpp"
 #include "TextureArray.hpp"
 #include "Converter.hpp"
 #include "GUIUVLoader.hpp"
@@ -28,7 +28,7 @@ private:
 	GameStates m_state = GameStates::PLAY;
 	Config m_config;
 	Settings m_settings;
-	Timer m_deltaTimer;
+	Clock m_deltaTimer;
 	/*
 	sf::IpAddress m_ip;
 	*/

@@ -1,10 +1,10 @@
-#include "Timer.hpp"
+#include "Clock.hpp"
 
-void Timer::restart(){
+void Clock::restart(){
 	m_time = glfwGetTime();
 }
 
-double Timer::getElapsedTime(){
+double Clock::getElapsedTime(){
 	double duration = glfwGetTime() - m_time;
 	return duration;
 }
