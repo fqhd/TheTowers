@@ -6,17 +6,10 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-class Window {
-public:
-
-	static void create(unsigned int _width, unsigned int _height, const char* _title);
-	static void clear();
-	static void update();
-	static void close();
-	static GLFWwindow* getWindowPtr();
-
-private:
-
-	static GLFWwindow* m_window;
-
-};
+namespace Window {
+	void create(unsigned int _width, unsigned int _height, const char* _title);
+	void clear();
+	void update();
+	void close();
+	GLFWwindow* getWindowPtr();
+}

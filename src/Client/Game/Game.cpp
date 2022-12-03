@@ -20,7 +20,6 @@ void Game::init(NetworkManager* _nManager, Settings* _settings, GameStates* _sta
 	m_blockOutline.init();
 	// m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_hud.init(&player.hotbar);
-
 	m_camera.setPosition(player.getEyePos());
 	m_camera.updateViewMatrix();
 }

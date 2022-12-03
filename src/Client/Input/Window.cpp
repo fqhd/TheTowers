@@ -1,12 +1,12 @@
 #include "Window.hpp"
 #include <iostream>
 
-GLFWwindow* Window::m_window;
+GLFWwindow* window;
 
 void Window::create(unsigned int _width, unsigned int _height, const char* _title){
 	// Initializing GLFW
 	if(!glfwInit()){
-		std::cout << "Failed to initialize GLFW" << std::endl;
+		std::cout << "Window: Failed to initialize GLFW" << std::endl;
 		return;
 	}
 
@@ -30,16 +30,16 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 #endif
 
 	// Creating the window
-	m_window = glfwCreateWindow(_width, _height, _title, NULL, NULL);
-	if(!m_window){
-		std::cout << "Failed to create window" << std::endl;
+	window = glfwCreateWindow(_width, _height, _title, NULL, NULL);
+	if(!window){
+		std::cout << "Window: Failed to create window" << std::endl;
 		return;
 	}
 
 	// Create GL context
-	glfwMakeContextCurrent(m_window);
+	glfwMakeContextCurrent(window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
-		std::cout << "Failed to initialize GLAD" << std::endl;
+		std::cout << "Window: Failed to initialize GLAD" << std::endl;
 	}
 
 	//Enabling transparency
@@ -65,21 +65,21 @@ void Window::create(unsigned int _width, unsigned int _height, const char* _titl
 }
 
 GLFWwindow* Window::getWindowPtr(){
-	return m_window;
+	return window;
 }
 
 void Window::clear(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int w, h;
-	glfwGetFramebufferSize(m_window, &w, &h);
+	glfwGetFramebufferSize(window, &w, &h);
 	glViewport(0, 0, w, h);
 }
 
 void Window::update(){
-	glfwSwapBuffers(m_window);
+	glfwSwapBuffers(window);
 }
 
 void Window::close(){
-	glfwDestroyWindow(m_window);
+	glfwDestroyWindow(window);
 	glfwTerminate();
 }

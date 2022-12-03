@@ -21,7 +21,6 @@
 #include "Clock.hpp"
 #include "TextureArray.hpp"
 #include "Converter.hpp"
-#include <thread>
 
 class Game {
 public:
@@ -57,7 +56,6 @@ private:
 
 	// Pointers
 	Settings* m_settings = nullptr;
-	std::thread* m_chunkUpdaterThread = nullptr;
 	NetworkManager* m_networkManager = nullptr;
 	GameStates* m_state = nullptr;
 
