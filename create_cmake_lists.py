@@ -26,6 +26,8 @@ def createBuildScript(clientSources, serverSources, includeDirs):
     file = open('CMakeLists.txt', 'w')
     file.write('cmake_minimum_required(VERSION 3.15.0)\n')
     file.write('project(TheTowers VERSION 1.0.0)\n')
+    file.write('set(CMAKE_CXX_STANDARD 20)\n')
+    file.write('set(CMAKE_CXX_STANDARD_REQUIRED ON)\n')
     file.write('add_subdirectory(deps/asio-cmake)\n')
     file.write('add_subdirectory(deps/glad-cmake)\n')
     file.write('add_subdirectory(deps/glfw)\n')
@@ -46,7 +48,7 @@ def createBuildScript(clientSources, serverSources, includeDirs):
         file.write('target_include_directories(client PUBLIC ' + d + ')\n')
 
     file.write('target_link_libraries(client PUBLIC asio-cmake)\n')
-    file.write('target_link_libraries(client PUBLIC glfw-cmake)\n')
+    file.write('target_link_libraries(client PUBLIC glad-cmake)\n')
     file.write('target_link_libraries(client PUBLIC stb-cmake)\n')
     file.write('target_link_libraries(client PUBLIC glfw)\n')
     file.write('target_link_libraries(client PUBLIC glm)\n')
