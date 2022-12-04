@@ -28,7 +28,7 @@ def createBuildScript(clientSources, serverSources, includeDirs):
     file.write('project(TheTowers VERSION 1.0.0)\n')
     file.write('set(CMAKE_CXX_STANDARD 20)\n')
     file.write('set(CMAKE_CXX_STANDARD_REQUIRED ON)\n')
-    file.write('add_subdirectory(deps/asio-cmake)\n')
+    file.write('add_subdirectory(deps/net-cmake)\n')
     file.write('add_subdirectory(deps/glad-cmake)\n')
     file.write('add_subdirectory(deps/glfw)\n')
     file.write('add_subdirectory(deps/glm)\n')
