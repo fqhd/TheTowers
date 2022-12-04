@@ -1,0 +1,15 @@
+[submodule "deps/asio-cmake"]
+	path = deps/asio-cmake
+	url = https://github.com/fqhd/asio-cmake.git
+[submodule "deps/glad-cmake"]
+	path = deps/glad-cmake
+	url = https://github.com/fqhd/glad-cmake
+[submodule "deps/stb-cmake"]
+	path = deps/stb-cmake
+	url = https://github.com/fqhd/stb-cmake.git
+[submodule "deps/glfw"]
+	path = deps/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "deps/glm"]
+	path = deps/glm
+	url = https://github.com/g-truc/glm.git
