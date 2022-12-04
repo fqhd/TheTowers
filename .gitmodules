@@ -1,6 +1,3 @@
-[submodule "deps/asio-cmake"]
-	path = deps/asio-cmake
-	url = https://github.com/fqhd/asio-cmake.git
 [submodule "deps/glad-cmake"]
 	path = deps/glad-cmake
 	url = https://github.com/fqhd/glad-cmake
@@ -13,3 +10,6 @@
 [submodule "deps/glm"]
 	path = deps/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "deps/net-cmake"]
+	path = deps/net-cmake
+	url = https://github.com/fqhd/net-cmake.git
