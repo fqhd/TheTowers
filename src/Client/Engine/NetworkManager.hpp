@@ -8,7 +8,7 @@
 class NetworkManager : public olc::net::client_interface<GameMsg> {
 public:
 
-	void connectToServer();
+	void connectToServer(const std::string& ip);
 	void update();
 
 private:

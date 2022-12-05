@@ -7,3 +7,4 @@ obj
 build.ninja
 run.sh
 build/
+.vs/

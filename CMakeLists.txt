@@ -1,23 +1,28 @@
 cmake_minimum_required(VERSION 3.15.0)
 project(TheTowers VERSION 1.0.0)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_subdirectory(deps/net-cmake)
 add_subdirectory(deps/glad-cmake)
 add_subdirectory(deps/glfw)
 add_subdirectory(deps/glm)
 add_subdirectory(deps/stb-cmake)
+
 add_executable(client ./src/Client/Engine/Camera.cpp ./src/Client/Engine/Clock.cpp ./src/Client/Engine/Cube.cpp ./src/Client/Engine/FaceOutline.cpp ./src/Client/Engine/FilePathManager.cpp ./src/Client/Engine/Image.cpp ./src/Client/Engine/LegacyOutline.cpp ./src/Client/Engine/Model.cpp ./src/Client/Engine/NetworkManager.cpp ./src/Client/Engine/OBJLoader.cpp ./src/Client/Engine/ParticleHandler.cpp ./src/Client/Engine/ParticleQuad.cpp ./src/Client/Engine/Shader.cpp ./src/Client/Engine/Skybox.cpp ./src/Client/Engine/SpriteBatch.cpp ./src/Client/Engine/SpriteFont.cpp ./src/Client/Engine/TextureArray.cpp ./src/Client/Engine/Transform.cpp ./src/Client/Engine/Utils.cpp ./src/Client/Engine/Vignette.cpp ./src/Client/Engine/VignetteQuad.cpp ./src/Client/Game/BlockOutline.cpp ./src/Client/Game/BlockTextureHandler.cpp ./src/Client/Game/Chunk.cpp ./src/Client/Game/Converter.cpp ./src/Client/Game/DebugMenu.cpp ./src/Client/Game/Entity.cpp ./src/Client/Game/EntityHandler.cpp ./src/Client/Game/FrameCounter.cpp ./src/Client/Game/Game.cpp ./src/Client/Game/Hotbar.cpp ./src/Client/Game/HUD.cpp ./src/Client/Game/PauseMenu.cpp ./src/Client/Game/Player.cpp ./src/Client/Game/Program.cpp ./src/Client/Game/Settings.cpp ./src/Client/Game/World.cpp ./src/Client/GUI/GUIAssets.cpp ./src/Client/GUI/GUIButton.cpp ./src/Client/GUI/GUICheckbox.cpp ./src/Client/GUI/GUIInput.cpp ./src/Client/GUI/GUIRenderer.cpp ./src/Client/GUI/GUIUVLoader.cpp ./src/Client/Input/InputManager.cpp ./src/Client/Input/Window.cpp ./src/Client/main.cpp)
 add_executable(server ./src/Server/main.cpp)
+
+target_include_directories(client PUBLIC ./src)
 target_include_directories(client PUBLIC ./src/Client/GUI)
 target_include_directories(client PUBLIC ./src/Client/Game)
-target_include_directories(client PUBLIC ./src)
 target_include_directories(client PUBLIC ./src/Client/Input)
 target_include_directories(client PUBLIC ./src/Client/Engine)
-target_include_directories(server PUBLIC ./src)
 target_link_libraries(client PUBLIC net-cmake)
 target_link_libraries(client PUBLIC glad-cmake)
 target_link_libraries(client PUBLIC stb-cmake)
 target_link_libraries(client PUBLIC glfw)
 target_link_libraries(client PUBLIC glm)
+
+target_include_directories(server PUBLIC ./src)
 target_link_libraries(server PUBLIC net-cmake)

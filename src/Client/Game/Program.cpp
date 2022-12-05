@@ -16,7 +16,7 @@ void Program::initSystems(){
 	InputManager::setMouseGrabbed(true);
 	GUIRenderer::init(WINDOW_WIDTH, WINDOW_HEIGHT, GUIAssets::getTexture("gui_sprite_sheet"));
 	GUIUVLoader::init();
-	m_networkManager.connectToServer();
+	m_networkManager.connectToServer("127.0.0.1");
 	m_game.init(&m_networkManager, &m_settings, &m_state);
 	m_pause.init(&m_settings);
 }

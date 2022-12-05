@@ -8,6 +8,25 @@ public:
 
     }
 
+	bool OnClientConnect(std::shared_ptr<olc::net::connection<GameMsg>> client) override
+	{
+		// For now we will allow all
+		return true;
+	}
+	
+	void OnClientDisconnect(std::shared_ptr<olc::net::connection<GameMsg>> client) override
+	{
+		std::cout << "Bruh disconnected fr" << std::endl;
+	}
+
+	void OnMessage(std::shared_ptr<olc::net::connection<GameMsg>> client, olc::net::message<GameMsg>& msg) override
+	{
+		std::cout << "Got a message!" << std::endl;
+		olc::net::message<GameMsg> message;
+		message.header.id = GameMsg::Game_UpdatePlayer;
+		message << "George Bush";
+		client->Send(message);
+	}
 };
 
 int main(){

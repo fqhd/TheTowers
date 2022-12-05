@@ -37,6 +37,7 @@ void Game::update(float _deltaTime) {
 		InputManager::setMouseGrabbed(false);
 		*m_state = GameStates::PAUSE;
 	}
+	m_networkManager->update();
 	m_camera.update();
 	player.update(_deltaTime);
 }
