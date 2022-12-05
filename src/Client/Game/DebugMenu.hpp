@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include "FrameCounter.hpp"
 #include "Settings.hpp"
 #include "GUIRenderer.hpp"

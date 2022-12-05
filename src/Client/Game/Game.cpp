@@ -18,7 +18,6 @@ void Game::init(NetworkManager* _nManager, Settings* _settings, GameStates* _sta
 	m_vignette.init();
 	m_entityHandler.init();
 	m_blockOutline.init();
-	// m_packetHandler.init(_nManager, &m_world, &m_particleHandler, &m_entityHandler);
 	m_hud.init(&player.hotbar);
 	m_camera.setPosition(player.getEyePos());
 	m_camera.updateViewMatrix();
@@ -26,7 +25,6 @@ void Game::init(NetworkManager* _nManager, Settings* _settings, GameStates* _sta
 
 void Game::updateEssentials(float _deltaTime){
 	m_frameCounter.tick(_deltaTime);
-	// m_packetHandler.handlePackets();
 	m_entityHandler.update(_deltaTime);
 	m_world.updateMeshes();
 	m_camera.setPosition(player.getEyePos());

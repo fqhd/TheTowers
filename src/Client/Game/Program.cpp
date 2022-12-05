@@ -16,7 +16,7 @@ void Program::initSystems(){
 	InputManager::setMouseGrabbed(true);
 	GUIRenderer::init(WINDOW_WIDTH, WINDOW_HEIGHT, GUIAssets::getTexture("gui_sprite_sheet"));
 	GUIUVLoader::init();
-	// m_networkManager.connectToServer(DEFAULT_IP, &m_config);
+	m_networkManager.connectToServer();
 	m_game.init(&m_networkManager, &m_settings, &m_state);
 	m_pause.init(&m_settings);
 }
@@ -46,6 +46,7 @@ void Program::gameloop(){
 }
 
 void Program::cleanUp(){
+	m_networkManager.Disconnect();
 	GUIAssets::destroy();
 	GUIRenderer::destroy();
 	m_game.destroy();

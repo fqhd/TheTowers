@@ -15,7 +15,6 @@
 #include "FrameCounter.hpp"
 #include "HUD.hpp"
 #include "World.hpp"
-#include "PacketHandler.hpp"
 #include "TextureArray.hpp"
 #include "DebugMenu.hpp"
 #include "Clock.hpp"
@@ -48,7 +47,6 @@ private:
 	Vignette m_vignette;
 	HUD m_hud;
 	World m_world;
-	PacketHandler m_packetHandler;
 	DebugMenu m_debugMenu;
 	Clock m_dataFrequencyTimer;
 	BlockTextureHandler m_blockTextureHandler;
