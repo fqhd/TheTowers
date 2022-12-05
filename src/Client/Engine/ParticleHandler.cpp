@@ -63,7 +63,7 @@ unsigned int getRandom(uint8_t a, uint8_t b, uint8_t c){
 }
 
 float rndm(){
-	return (rand() % 1000000) / 999999.0f;
+	return (rand() % RAND_MAX) / (float)RAND_MAX;
 }
 
 void ParticleHandler::placeParticlesAroundBlock(int x, int y, int z, uint8_t _blockID){

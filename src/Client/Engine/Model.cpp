@@ -23,7 +23,6 @@ void Model::init(const std::string& path){
 			model.normals[i]
 		);
 	}
-	std::cout << "size of mode: " << vertices.size() << std::endl;
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), vertices.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

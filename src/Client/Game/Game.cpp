@@ -20,7 +20,6 @@ void Game::init(NetworkManager* _nManager, Settings* _settings, GameStates* _sta
 	m_blockOutline.init();
 	m_hud.init(&player.hotbar);
 	m_camera.setPosition(player.getEyePos());
-	m_camera.updateViewMatrix();
 }
 
 void Game::updateEssentials(float _deltaTime){
@@ -28,7 +27,6 @@ void Game::updateEssentials(float _deltaTime){
 	m_entityHandler.update(_deltaTime);
 	m_world.updateMeshes();
 	m_camera.setPosition(player.getEyePos());
-	m_camera.updateViewMatrix();
 	m_particleHandler.update(_deltaTime);
 	networkPositionTick();
 }
@@ -39,7 +37,7 @@ void Game::update(float _deltaTime) {
 		InputManager::setMouseGrabbed(false);
 		*m_state = GameStates::PAUSE;
 	}
-	m_camera.calculateCameraVectors();
+	m_camera.update();
 	player.update(_deltaTime);
 }
 

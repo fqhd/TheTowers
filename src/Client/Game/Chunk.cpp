@@ -19,7 +19,7 @@ void Chunk::init(int _x, int _y, int _z) {
 
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(0, 1, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
+	glVertexAttribIPointer(0, 1, GL_UNSIGNED_INT, 0, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

@@ -11,7 +11,7 @@ void Camera::init() {
 	m_projectionMatrix = glm::perspective(glm::radians(FOV), WINDOW_WIDTH / (float)WINDOW_HEIGHT, NEAR_DIST, FAR_DIST);
 }
 
-void Camera::calculateCameraVectors() {
+void Camera::update() {
 	glm::vec2 previousMousePos = InputManager::getPreviousMousePosition();
 	glm::vec2 currentMousePos = InputManager::getMousePosition();
 
@@ -31,6 +31,8 @@ void Camera::calculateCameraVectors() {
 	m_forward.y = sin(glm::radians(m_pitch));
 	m_forward.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
 	m_forward = glm::normalize(m_forward);
+
+	m_viewMatrix = glm::lookAt(m_position, m_position + m_forward, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 const glm::mat4& Camera::getViewMatrix() const {
@@ -55,10 +57,6 @@ const glm::vec3& Camera::getForward() const {
 
 void Camera::setForward(const glm::vec3& forward) {
 	m_forward = forward;
-}
-
-void Camera::updateViewMatrix() {
-	m_viewMatrix = glm::lookAt(m_position, m_forward, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 float Camera::getPitch() const {

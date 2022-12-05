@@ -9,7 +9,7 @@ public:
 
 	void init();
 
-	void calculateCameraVectors();
+	void update();
 	float getPitch() const;
 	float getYaw() const;
 	const glm::mat4& getProjectionMatrix() const;
@@ -18,7 +18,6 @@ public:
 	const glm::vec3& getForward() const;
 	void setForward(const glm::vec3&);
 	void setPosition(const glm::vec3& vec);
-	void updateViewMatrix();
 
 private:
 
