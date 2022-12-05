@@ -47,12 +47,13 @@ def createBuildScript(clientSources, serverSources, includeDirs):
     for d in includeDirs:
         file.write('target_include_directories(client PUBLIC ' + d + ')\n')
 
-    file.write('target_link_libraries(client PUBLIC asio-cmake)\n')
+    file.write('target_include_directories(server PUBLIC ./src)\n')
+    file.write('target_link_libraries(client PUBLIC net-cmake)\n')
     file.write('target_link_libraries(client PUBLIC glad-cmake)\n')
     file.write('target_link_libraries(client PUBLIC stb-cmake)\n')
     file.write('target_link_libraries(client PUBLIC glfw)\n')
     file.write('target_link_libraries(client PUBLIC glm)\n')
-    file.write('target_link_libraries(server PUBLIC asio-cmake)\n')
+    file.write('target_link_libraries(server PUBLIC net-cmake)\n')
 
     file.close()
 
